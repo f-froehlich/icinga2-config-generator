@@ -1,0 +1,79 @@
+#  Icinga2 configuration generator
+#
+#  Icinga2 configuration file generator for hosts, commands, checks, ... in python
+#
+#  Copyright (c) 2020 Fabian Fröhlich <mail@f-froehlich.de> https://f-froehlich.de
+#
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU Affero General Public License as
+#  published by the Free Software Foundation, either version 3 of the
+#  License, or (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU Affero General Public License for more details.
+#
+#  You should have received a copy of the GNU Affero General Public License
+#  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+#  For all license terms see README.md and LICENSE Files in root directory of this Project.
+
+
+class Command:
+
+    def __init__(self, id):
+        self.__id = id
+
+    def get_id(self):
+        return self.__id
+
+    def get_command(self):
+        raise Exception("get_command must return command name")
+
+    def get_arguments(self):
+        raise Exception("get_arguments must return arguments")
+
+    def get_config(self):
+        config = self.get_config_local()
+        config += self.get_config_ssh()
+
+        return config
+
+    def get_config_local(self):
+        config = 'object CheckCommand "' + self.get_id() + '_local" {\n'
+        config += '  command = [ PluginDir + "/' + self.get_command() + '" ]\n'
+        config += '  arguments = ' + self.get_arguments() + '\n'
+        config += '}\n'
+
+        return config
+
+    def get_config_ssh(self):
+        config = 'object CheckCommand "' + self.get_id() + '_ssh" {\n'
+        config += '  vars.realcmd = [ PluginDir + "/' + self.get_command() + '" ]\n'
+        config += '  vars.realargs = ' + self.get_arguments() + '\n'
+
+        # todo hier müssen die parameter per var ausgelesen werden und argumente ergänzt
+        config += """  command = [ PluginDir + "/check_by_ssh"]
+  arguments = {
+    "-i" = "/media/md0/ssh/home-controller/icinga"
+    "-l" = "icinga"
+    "-p" = 10
+    "-H" = "185.228.137.102"
+    "-C" = {{
+      var command = macro("$realcmd$")
+      var arguments = macro("$realargs$")
+      if (typeof(command) == String && !arguments) {
+        return command
+      }
+      var escaped_args = []
+      for (arg in resolve_arguments(command, arguments)) {
+        escaped_args.add(escape_shell_arg(arg))
+      }
+      return escaped_args.join(" ")
+    }}
+  }
+}
+"""
+        return config
