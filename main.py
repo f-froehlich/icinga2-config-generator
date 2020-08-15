@@ -21,8 +21,7 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from ConfigBuilder import ConfigBuilder
-from Servers.Server import Server
-from Utils.Webserver import Webserver
+from Utils.DomainCheck import DomainCheck
 
 #
 # s = Server.create('localhost') \
@@ -34,23 +33,23 @@ from Utils.Webserver import Webserver
 #     .set_ipv4('185.228.137.102') \
 #     .add_check(CheckDisk.create('remote').set_path('/'))
 
-s1 = Server.create('froehlich_1') \
-    .set_ipv4('185.228.137.102')
+# s1 = Server.create('froehlich_1') \
+#     .set_ipv4('185.228.137.102')
 # s2 = Server.create('froehlich_2') \
 #     .set_ipv4('185.228.137.102')
 # s3 = Server.create('froehlich_3') \
 #     .set_ipv4('185.228.137.102')
 
-webserver = Webserver(
-    vhostconfig=[
-        ('f-froehlich.de', '/', []),
-        ('gitlab.dev.f-froehlich.de', '/users/sign_in', []),
-        ('jenkins.dev.f-froehlich.de', '/login', []),
-        ('nexus.dev.f-froehlich.de', '/', [])
-    ],
-    servers=[s1]
+server = DomainCheck(
+    [
+        ('f-froehlich.de', '185.228.137.102', None, True),
+        ('dev.f-froehlich.de', '185.228.137.102', None, True),
+        ('gitlab.dev.f-froehlich.de', '185.228.137.102', None, True),
+        ('nexus.dev.f-froehlich.de', '185.228.137.102', None, True),
+        ('jenkins.dev.f-froehlich.de', '185.228.137.102', None, True),
+    ]
 )
 
-webserver.apply()
+server.apply()
 
 print(ConfigBuilder.get_config())
