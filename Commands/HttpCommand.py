@@ -61,44 +61,12 @@ class HttpCommand(Command):
     "--use-ipv6" = {
       set_if = "$command_http_v6$"
     }
-    "--ssl" = {
+    "-S" = {
       set_if = "$command_http_ssl$"
     }
-    "--ssl=2" = {
-      set_if = "$command_http_sslv2$"
-    }
-    "--ssl=2+" = {
-      set_if = "$command_http_sslv2_greater$"
-    }
-    "--ssl=3" = {
-      set_if = "$command_http_sslv3$"
-    }
-    "--ssl=3+" = {
-      set_if = "$command_http_sslv3_greater$"
-    }
-    "--ssl=1" = {
-      set_if = "$command_http_tlsv1$"
-    }
-    "--ssl=1+" = {
-      set_if = "$command_http_tlsv1_greater$"
-    }
-    "--ssl=1.1" = {
-      set_if = "$command_http_sslv1_1$"
-    }
-    "--ssl=1.1+" = {
-      set_if = "$command_http_sslv1_1_greater$"
-    }
-    "--ssl=1.2" = {
-      set_if = "$command_http_sslv1_2$"
-    }
-    "--ssl=1.2+" = {
-      set_if = "$command_http_sslv1_2_greater$"
-    }
-    "--ssl=1.3" = {
-      set_if = "$command_http_sslv1_3$"
-    }
-    "--ssl=1.3+" = {
-      set_if = "$command_http_sslv1_3_greater$"
+    "--ssl" = {
+      value = "$command_http_ssl_protocol$"
+      set_if = "$command_http_ssl_protocol$"
     }
     "--sni" = {
       set_if = "$command_http_sni$"

@@ -41,9 +41,12 @@ class Command:
 
         return config
 
+    def get_command_definition(self):
+        return '[PluginDir + "/' + self.get_command() + '"]'
+
     def get_config_local(self):
         config = 'object CheckCommand "' + self.get_id() + '_local" {\n'
-        config += '  command = [ PluginDir + "/' + self.get_command() + '" ]\n'
+        config += '  command = ' + self.get_command_definition() + '\n'
         config += '  arguments = ' + self.get_arguments() + '\n'
         config += '}\n'
 
@@ -51,7 +54,7 @@ class Command:
 
     def get_config_ssh(self):
         config = 'object CheckCommand "' + self.get_id() + '_ssh" {\n'
-        config += '  vars.realcmd = [ PluginDir + "/' + self.get_command() + '" ]\n'
+        config += '  vars.realcmd = ' + self.get_command_definition() + '\n'
         config += '  vars.realargs = ' + self.get_arguments() + '\n'
 
         # todo hier müssen die parameter per var ausgelesen werden und argumente ergänzt

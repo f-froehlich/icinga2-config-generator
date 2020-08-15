@@ -36,18 +36,7 @@ class CheckHttp(Check):
         self.__use_ipv4 = False
         self.__use_ipv6 = False
         self.__ssl = False
-        self.__sslv2 = False
-        self.__sslv2_greater = False
-        self.__sslv3 = False
-        self.__sslv3_greater = False
-        self.__tls1 = False
-        self.__tls1_greater = False
-        self.__tls1_1 = False
-        self.__tls1_1_greater = False
-        self.__tls1_2 = False
-        self.__tls1_2_greater = False
-        self.__tls1_3 = False
-        self.__tls1_3_greater = False
+        self.__ssl_protocol = None
         self.__sni = False
         self.__certificate = False
         self.__certificate_warning_days = 29
@@ -55,7 +44,7 @@ class CheckHttp(Check):
         self.__continue_after_certificate = False
         self.__client_cert = None
         self.__client_cert_key = None
-        self.__expect = None
+        self.__expect = 'HTTP/1.1 200 OK'
         self.__expect_header = None
         self.__expect_content = None
         self.__uri = "/"
@@ -104,138 +93,21 @@ class CheckHttp(Check):
     def get_port(self):
         return self.__port
 
-    def disable_ssl(self):
-        self.__ssl = False
-        self.__sslv2 = False
-        self.__sslv2_greater = False
-        self.__sslv3 = False
-        self.__sslv2_greater = False
-        self.__tls1 = False
-        self.__tls1_greater = False
-        self.__tls1_1 = False
-        self.__tls1_1_greater = False
-        self.__tls1_2 = False
-        self.__tls1_2_greater = False
-        self.__tls1_3 = False
-        self.__tls1_3_greater = False
-        return self
-
     def set_ssl(self, enabled):
         ValueChecker.is_bool(enabled)
-        self.disable_ssl()
         self.__ssl = enabled
         return self
 
     def get_ssl(self):
         return self.__ssl
 
-    def set_sslv2(self, enabled):
-        ValueChecker.is_bool(enabled)
-        self.disable_ssl()
-        self.__sslv2 = enabled
+    def set_ssl_protocol(self, protocol):
+        ValueChecker.is_string(protocol)
+        self.__ssl_protocol = protocol
         return self
 
-    def get_sslv2(self):
-        return self.__sslv2
-
-    def set_sslv2_greater(self, enabled):
-        ValueChecker.is_bool(enabled)
-        self.disable_ssl()
-        self.__sslv2_greater = enabled
-        return self
-
-    def get_sslv2_greater(self):
-        return self.__sslv2_greater
-
-    def set_sslv3(self, enabled):
-        ValueChecker.is_bool(enabled)
-        self.disable_ssl()
-        self.__sslv2 = enabled
-        return self
-
-    def get_sslv3(self):
-        return self.__sslv3
-
-    def set_sslv3_greater(self, enabled):
-        ValueChecker.is_bool(enabled)
-        self.disable_ssl()
-        self.__sslv3_greater = enabled
-        return self
-
-    def get_sslv3_greater(self):
-        return self.__sslv3_greater
-
-    def set_tls1(self, enabled):
-        ValueChecker.is_bool(enabled)
-        self.disable_ssl()
-        self.__tls1 = enabled
-        return self
-
-    def get_tls1(self):
-        return self.__tls1
-
-    def set_tls_greater(self, enabled):
-        ValueChecker.is_bool(enabled)
-        self.disable_ssl()
-        self.__tls1_greater = enabled
-        return self
-
-    def get_tls1_greater(self):
-        return self.__tls1_greater
-
-    def set_tls1_1(self, enabled):
-        ValueChecker.is_bool(enabled)
-        self.disable_ssl()
-        self.__tls1_1 = enabled
-        return self
-
-    def get_tls1_1(self):
-        return self.__tls1_1
-
-    def set_tls_1_greater(self, enabled):
-        ValueChecker.is_bool(enabled)
-        self.disable_ssl()
-        self.__tls1_1_greater = enabled
-        return self
-
-    def get_tls1_1_greater(self):
-        return self.__tls1_1_greater
-
-    def set_tls1_2(self, enabled):
-        ValueChecker.is_bool(enabled)
-        self.disable_ssl()
-        self.__tls1_2 = enabled
-        return self
-
-    def get_tls1_2(self):
-        return self.__tls1_2
-
-    def set_tls_2_greater(self, enabled):
-        ValueChecker.is_bool(enabled)
-        self.disable_ssl()
-        self.__tls1_2_greater = enabled
-        return self
-
-    def get_tls1_2_greater(self):
-        return self.__tls1_2_greater
-
-    def set_tls1_3(self, enabled):
-        ValueChecker.is_bool(enabled)
-        self.disable_ssl()
-        self.__tls1_3 = enabled
-        return self
-
-    def get_tls1_3(self):
-        return self.__tls1_3
-
-    def set_tls_3_greater(self, enabled):
-        ValueChecker.is_bool(enabled)
-        self.disable_ssl()
-        self.__tls1_3_greater = enabled
-        return self
-
-    def get_tls1_3_greater(self):
-        return self.__tls1_3_greater
+    def get_ssl_protocol(self):
+        return self.__ssl_protocol
 
     def set_sni(self, enabled):
         ValueChecker.is_bool(enabled)
