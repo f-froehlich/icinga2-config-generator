@@ -6,6 +6,17 @@ Copyright (c) 2020 Fabian Fröhlich <mail@f-froehlich.de>
 
 Full License Information see  [LICENSE](LICENSE) file in root directory of this source code and License section of this File.
 
+# Setup
+## required
+* install nagios plugins
+* install icinga2
+* install python 3.7 (other versions could also working)
+
+
+## dnssec
+Clone [https://github.com/f-froehlich/check_dnssec_expiry](https://github.com/f-froehlich/check_dnssec_expiry) and link `check_dnssec_expiry.sh` into `/usr/lib/nagios/plugins/`
+Be sure you have `dig` installed
+
 # License
 This section contains the additional terms of the AGPLv3 license agreement, a copy of the AGPLv3 is included in the [LICENSE](LICENSE) file.
 

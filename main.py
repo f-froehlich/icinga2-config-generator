@@ -20,16 +20,16 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from Checks.CheckNTPTime import CheckNTPTime
+from Checks.CheckDNSSECExpire import CheckDNSSECExpire
 from ConfigBuilder import ConfigBuilder
 from Servers.Server import Server
 
 s = Server.create('localhost') \
     .set_ipv4('127.0.0.1') \
-    .add_check(CheckNTPTime.create('local'))
+    .add_check(CheckDNSSECExpire.create('local').set_zone('f-froehlich.de'))
 
 s2 = Server.create('froehlich') \
     .set_ipv4('185.228.137.102') \
-    .add_check(CheckNTPTime.create('remote'))
+    .add_check(CheckDNSSECExpire.create('remote').set_zone('jenkins.dev.f-froehlich.de'))
 
 print(ConfigBuilder.get_config())
