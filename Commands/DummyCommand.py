@@ -40,15 +40,11 @@ class DummyCommand(Command):
 
         return command
 
+    def get_command_definition(self):
+        return '[PluginDir + "/' + self.get_command() + '", "$command_dummy_state$", "$command_dummy_text$"]'
+
     def get_command(self):
         return 'check_dummy'
 
     def get_arguments(self):
-        config = """{
-    "" = {
-      value = "$command_dummy_state$ $command_dummy_text$"
-    }
-  }
-"""
-
-        return config
+        return "{}"
