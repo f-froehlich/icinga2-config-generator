@@ -19,38 +19,3 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-
-from ConfigBuilder import ConfigBuilder
-from Servers.Server import Server
-from Utils.Webserver import Webserver
-
-#
-# s = Server.create('localhost') \
-#     .set_ipv4('127.0.0.1') \
-#     .add_check(CheckDisk.create('local').set_path('/'))
-#
-
-# s = Server.create('froehlich') \
-#     .set_ipv4('185.228.137.102') \
-#     .add_check(CheckDisk.create('remote').set_path('/'))
-
-s1 = Server.create('froehlich_1') \
-    .set_ipv4('185.228.137.102')
-# s2 = Server.create('froehlich_2') \
-#     .set_ipv4('185.228.137.102')
-# s3 = Server.create('froehlich_3') \
-#     .set_ipv4('185.228.137.102')
-
-webserver = Webserver(
-    vhostconfig=[
-        ('f-froehlich.de', '/', []),
-        ('gitlab.dev.f-froehlich.de', '/users/sign_in', []),
-        ('jenkins.dev.f-froehlich.de', '/login', []),
-        ('nexus.dev.f-froehlich.de', '/', [])
-    ],
-    servers=[s1]
-)
-
-webserver.apply()
-
-print(ConfigBuilder.get_config())
