@@ -33,10 +33,23 @@ class ConfigBuilder:
     __servicegroups = []
     __usergroups = []
     __ssh_templates = []
+    __time_periods = []
+    __notifications = []
+    __users = []
 
     @staticmethod
     def get_config():
         config = ""
+
+        for period in ConfigBuilder.__time_periods:
+            config += period['instance'].get_config()
+
+        for user in ConfigBuilder.__users:
+            config += user['instance'].get_config()
+
+        for notification in ConfigBuilder.__notifications:
+            config += notification['instance'].get_config()
+
         for template in ConfigBuilder.__templates:
             config += template['instance'].get_config()
 
@@ -241,3 +254,51 @@ class ConfigBuilder:
             raise Exception('SSH Template with id ' + id + ' already exists!')
 
         ConfigBuilder.__ssh_templates.append({'id': id, 'instance': group})
+
+    @staticmethod
+    def get_time_period(id):
+        id = 'time_period_' + id
+        for period in ConfigBuilder.__time_periods:
+            if period['id'] == id:
+                return period['instance']
+
+        return None
+
+    @staticmethod
+    def add_time_period(id, period):
+        if None is not ConfigBuilder.get_time_period(id):
+            raise Exception('Time Period with id ' + id + ' already exists!')
+
+        ConfigBuilder.__time_periods.append({'id': id, 'instance': period})
+
+    @staticmethod
+    def get_notification(id):
+        id = 'notification_' + id
+        for period in ConfigBuilder.__notifications:
+            if period['id'] == id:
+                return period['instance']
+
+        return None
+
+    @staticmethod
+    def add_notification(id, period):
+        if None is not ConfigBuilder.get_notification(id):
+            raise Exception('Notification with id ' + id + ' already exists!')
+
+        ConfigBuilder.__notifications.append({'id': id, 'instance': period})
+
+    @staticmethod
+    def get_user(id):
+        id = 'user_' + id
+        for period in ConfigBuilder.__users:
+            if period['id'] == id:
+                return period['instance']
+
+        return None
+
+    @staticmethod
+    def add_user(id, period):
+        if None is not ConfigBuilder.get_user(id):
+            raise Exception('user with id ' + id + ' already exists!')
+
+        ConfigBuilder.__users.append({'id': id, 'instance': period})
