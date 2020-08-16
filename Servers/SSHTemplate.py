@@ -29,7 +29,10 @@ class SSHTemplate:
 
     def __init__(self, id):
         self.__id = id
-        self.__hostname = None
+        self.__host = None
+        self.__identityfile = None
+        self.__user = 'icinga'
+        self.__port = 22
 
     @staticmethod
     def create(id):
@@ -48,15 +51,39 @@ class SSHTemplate:
 
     def set_hostname(self, hostname):
         ValueChecker.is_string(hostname)
-        self.__hostname = hostname
+        self.__host = hostname
         return self
 
     def get_hostname(self):
-        return self.__hostname
+        return self.__host
+
+    def set_user(self, user):
+        ValueChecker.is_string(user)
+        self.__user = user
+        return self
+
+    def get_user(self):
+        return self.__user
+
+    def set_identity_file(self, identity_file):
+        ValueChecker.is_string(identity_file)
+        self.__identityfile = identity_file
+        return self
+
+    def get_identity_file(self):
+        return self.__identityfile
+
+    def set_port(self, port):
+        ValueChecker.is_number(port)
+        self.__port = port
+        return self
+
+    def get_port(self):
+        return self.__port
 
     def get_config(self):
-        config = 'template Service "' + self.__id + '" {\n'
-        config += ConfigBuilder.get_property_default_config(self, 'SSHTemplate', 'ssh', 'ssh')
+        config = 'template Host "' + self.__id + '" {\n'
+        config += ConfigBuilder.get_property_default_config(self, 'SSHTemplate', 'overssh', 'command')
         config += '}\n'
 
         return config

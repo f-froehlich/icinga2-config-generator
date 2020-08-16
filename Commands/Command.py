@@ -56,14 +56,12 @@ class Command:
         config = 'object CheckCommand "' + self.get_id() + '_ssh" {\n'
         config += '  vars.realcmd = ' + self.get_command_definition() + '\n'
         config += '  vars.realargs = ' + self.get_arguments() + '\n'
-
-        # todo hier müssen die parameter per var ausgelesen werden und argumente ergänzt
         config += """  command = [ PluginDir + "/check_by_ssh"]
   arguments = {
-    "-i" = "/media/md0/ssh/home-controller/icinga"
-    "-l" = "icinga"
-    "-p" = 10
-    "-H" = "185.228.137.102"
+    "-i" = "$command_overssh_identityfile$"
+    "-l" = "$command_overssh_user$"
+    "-p" = "$command_overssh_port$"
+    "-H" = "$command_overssh_host$"
     "-C" = {{
       var command = macro("$realcmd$")
       var arguments = macro("$realargs$")

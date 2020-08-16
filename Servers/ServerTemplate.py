@@ -23,6 +23,7 @@
 from Checks.Check import Check
 from ConfigBuilder import ConfigBuilder
 from Groups.HostGroup import HostGroup
+from Servers.SSHTemplate import SSHTemplate
 from Servers.VHost import VHost
 from ValueChecker import ValueChecker
 
@@ -58,6 +59,7 @@ class ServerTemplate:
         self.__num_services_warning = None
         self.__num_services_unknown = None
         self.__num_services_critical = None
+        self.__ssh_template = None
         self.__checks = []
         self.__vhosts = []
         self.__templates = []
@@ -115,6 +117,21 @@ class ServerTemplate:
 
     def get_description(self):
         return self.__description
+
+    def set_ssh_template(self, ssh_template):
+
+        if isinstance(ssh_template, SSHTemplate):
+            self.__ssh_template = ssh_template.get_id()
+
+        elif isinstance(ssh_template, str):
+            self.__ssh_template = ssh_template
+        else:
+            raise Exception('Can only add Check or id of Check!')
+
+        return self
+
+    def get_ssh_template(self):
+        return self.__ssh_template
 
     def set_state(self, state):
         ValueChecker.check_state(state)
@@ -364,6 +381,9 @@ class ServerTemplate:
 
         for vhost in self.__vhosts:
             config += '  import "' + vhost + '"\n'
+
+        if None is not self.__ssh_template:
+            config += '  import "' + self.__ssh_template + '"\n'
 
         if None is not self.__ipv4:
             config += '  address = "' + self.__ipv4 + '"\n'
