@@ -23,6 +23,7 @@
 from Checks.Check import Check
 from ConfigBuilder import ConfigBuilder
 from Groups.HostGroup import HostGroup
+from Notification.HostNotification import HostNotification
 from Servers.SSHTemplate import SSHTemplate
 from Servers.VHost import VHost
 from ValueChecker import ValueChecker
@@ -65,6 +66,7 @@ class ServerTemplate:
         self.__templates = []
         self.__custom_vars = []
         self.__groups = []
+        self.__notifications = []
 
     @staticmethod
     def create(id):
@@ -132,6 +134,18 @@ class ServerTemplate:
 
     def get_ssh_template(self):
         return self.__ssh_template
+
+    def add_notification(self, notification):
+
+        if isinstance(notification, HostNotification):
+            self.__notifications.append(notification.get_id())
+
+        elif isinstance(notification, str):
+            self.__notifications.append(notification)
+        else:
+            raise Exception('Can only add HostNotification or id of HostNotification!')
+
+        return self
 
     def set_state(self, state):
         ValueChecker.check_state(state)
@@ -381,6 +395,9 @@ class ServerTemplate:
 
         for vhost in self.__vhosts:
             config += '  import "' + vhost + '"\n'
+
+        for notification in self.__notifications:
+            config += '  vars.' + notification + ' = true\n'
 
         if None is not self.__ssh_template:
             config += '  import "' + self.__ssh_template + '"\n'

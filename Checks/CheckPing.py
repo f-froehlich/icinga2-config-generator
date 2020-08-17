@@ -99,9 +99,9 @@ class CheckPing(Check):
 
         for i in ['4', '6']:
             config += 'apply Service "' + self.get_id() + '_' + i + '" {\n'
-            # config += '  import "generic_service"\n'  # TODO hier anpassbar machen
             config += '  check_command = "command_ping_' + self.get_check_type() + '"\n'
             config += self.get_property_default_config()
+            config += self.get_notification_config()
 
             if '4' == i:
                 config += '  vars.command_ping_v4 = true\n'

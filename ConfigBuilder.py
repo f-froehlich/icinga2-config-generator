@@ -34,6 +34,7 @@ class ConfigBuilder:
     __usergroups = []
     __ssh_templates = []
     __time_periods = []
+    __notification_templates = []
     __notifications = []
     __users = []
 
@@ -46,6 +47,9 @@ class ConfigBuilder:
 
         for user in ConfigBuilder.__users:
             config += user['instance'].get_config()
+
+        for notification in ConfigBuilder.__notification_templates:
+            config += notification['instance'].get_config()
 
         for notification in ConfigBuilder.__notifications:
             config += notification['instance'].get_config()
@@ -272,17 +276,33 @@ class ConfigBuilder:
         ConfigBuilder.__time_periods.append({'id': id, 'instance': period})
 
     @staticmethod
-    def get_notification(id):
+    def get_notification_template(id):
         id = 'notification_' + id
-        for period in ConfigBuilder.__notifications:
-            if period['id'] == id:
-                return period['instance']
+        for template in ConfigBuilder.__notification_templates:
+            if template['id'] == id:
+                return template['instance']
 
         return None
 
     @staticmethod
-    def add_notification(id, period):
-        if None is not ConfigBuilder.get_notification(id):
+    def add_notification_template(id, period):
+        if None is not ConfigBuilder.get_notification_template(id):
+            raise Exception('Notification Template with id ' + id + ' already exists!')
+
+        ConfigBuilder.__notification_templates.append({'id': id, 'instance': period})
+
+    @staticmethod
+    def get_notification_(id):
+        id = 'notification_' + id
+        for notification in ConfigBuilder.__notifications:
+            if ['id'] == id:
+                return notification['instance']
+
+        return None
+
+    @staticmethod
+    def add_notification_(id, period):
+        if None is not ConfigBuilder.get_notification_(id):
             raise Exception('Notification with id ' + id + ' already exists!')
 
         ConfigBuilder.__notifications.append({'id': id, 'instance': period})
