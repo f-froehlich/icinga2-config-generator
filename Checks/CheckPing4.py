@@ -25,6 +25,7 @@ from Checks.CheckPing import CheckPing
 from Commands.PingCommand import PingCommand
 from ConfigBuilder import ConfigBuilder
 
+from ValueChecker import ValueChecker
 
 class CheckPing4(CheckPing):
 
@@ -33,7 +34,7 @@ class CheckPing4(CheckPing):
 
     @staticmethod
     def create(id):
-        ConfigBuilder.validate_id(id)
+        ValueChecker.validate_id(id)
         check = ConfigBuilder.get_check(id)
         if None is check:
             id = 'check_' + id

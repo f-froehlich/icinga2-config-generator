@@ -22,6 +22,7 @@
 
 from ConfigBuilder import ConfigBuilder
 from Groups.Group import Group
+from ValueChecker import ValueChecker
 
 
 class ServiceGroup(Group):
@@ -31,7 +32,7 @@ class ServiceGroup(Group):
 
     @staticmethod
     def create(id):
-        ConfigBuilder.validate_id(id)
+        ValueChecker.validate_id(id)
         servicegroup = ConfigBuilder.get_servicegroup(id)
         if None is servicegroup:
             id = 'servicegroup_' + id

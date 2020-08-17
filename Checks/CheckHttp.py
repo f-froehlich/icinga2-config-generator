@@ -206,8 +206,7 @@ class CheckHttp(Check):
         return self.__post_data
 
     def set_method(self, method):
-        ValueChecker.is_string(method)
-        # todo check allowed methods
+        ValueChecker.is_http_method(method)
         self.__method = method
         return self
 
@@ -390,7 +389,7 @@ class CheckHttp(Check):
 
     @staticmethod
     def create(id):
-        ConfigBuilder.validate_id(id)
+        ValueChecker.validate_id(id)
         check = ConfigBuilder.get_check(id)
         if None is check:
             id = 'check_' + id

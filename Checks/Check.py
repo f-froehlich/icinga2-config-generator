@@ -23,6 +23,7 @@
 from ConfigBuilder import ConfigBuilder
 from Groups.ServiceGroup import ServiceGroup
 from Notification.ServiceNotification import ServiceNotification
+from ValueChecker import ValueChecker
 
 
 class Check:
@@ -38,7 +39,7 @@ class Check:
 
     @staticmethod
     def create(id):
-        ConfigBuilder.validate_id(id)
+        ValueChecker.validate_id(id)
         id = 'check_' + id
         check = ConfigBuilder.get_check(id)
         if None is check:

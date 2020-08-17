@@ -22,6 +22,7 @@
 
 from ConfigBuilder import ConfigBuilder
 from Servers.ServerTemplate import ServerTemplate
+from ValueChecker import ValueChecker
 
 
 class Server(ServerTemplate):
@@ -35,7 +36,7 @@ class Server(ServerTemplate):
 
     @staticmethod
     def create(id):
-        ConfigBuilder.validate_id(id)
+        ValueChecker.validate_id(id)
 
         server = ConfigBuilder.get_server(id)
         if None is server:

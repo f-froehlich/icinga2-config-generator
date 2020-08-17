@@ -33,7 +33,7 @@ class TimePeriod:
 
     @staticmethod
     def create(id):
-        ConfigBuilder.validate_id(id)
+        ValueChecker.validate_id(id)
 
         period = ConfigBuilder.get_time_period(id)
         if None is period:

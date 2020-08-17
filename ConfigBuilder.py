@@ -110,12 +110,6 @@ class ConfigBuilder:
         return config
 
     @staticmethod
-    def validate_id(id):
-        # TODO
-
-        return True
-
-    @staticmethod
     def get_server(id):
         id = 'server_' + id
         for server in ConfigBuilder.__servers:
@@ -292,7 +286,7 @@ class ConfigBuilder:
         ConfigBuilder.__notification_templates.append({'id': id, 'instance': period})
 
     @staticmethod
-    def get_notification_(id):
+    def get_notification(id):
         id = 'notification_' + id
         for notification in ConfigBuilder.__notifications:
             if ['id'] == id:
@@ -302,7 +296,7 @@ class ConfigBuilder:
 
     @staticmethod
     def add_notification_(id, period):
-        if None is not ConfigBuilder.get_notification_(id):
+        if None is not ConfigBuilder.get_notification(id):
             raise Exception('Notification with id ' + id + ' already exists!')
 
         ConfigBuilder.__notifications.append({'id': id, 'instance': period})

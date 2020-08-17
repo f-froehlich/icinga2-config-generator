@@ -24,65 +24,47 @@ class ValueChecker:
 
     @staticmethod
     def validate_id(id):
-        # TODO check- template- server-
-        pass
+        prefixes = [
+            'check',
+            'command',
+            'server',
+            'hostgroup',
+            'servicegroup',
+            'usergroup',
+            'notification',
+            'template',
+            'time_period',
+            'vhost',
+        ]
+
+        for prefix in prefixes:
+            if id.startswith(prefix + '_'):
+                raise Exception(prefix + '_ is a reserved Prefix. You can\'t use it!')
+
+        if ''.join(e for e in id if e.isalnum() or e == '_') != id:
+            raise Exception('Id\'s can only contains letters (a-z,A-Z), numbers (0-9) and underscore (_)')
 
     @staticmethod
     def is_bool(id):
-        # TODO check- template- server-
-        pass
+        if not isinstance(id, bool):
+            raise Exception('Given value is not boolean!')
 
     @staticmethod
     def is_number(id):
-        # TODO check- template- server-
-        pass
-
-    @staticmethod
-    def is_duration(id):
-        # TODO check- template- server-
-        pass
+        if not isinstance(id, int) and not isinstance(id, float):
+            raise Exception('Given value is not a number!')
 
     @staticmethod
     def is_string(id):
-        # TODO check- template- server-
-        pass
+        if not isinstance(id, str):
+            raise Exception('Given value is not a string!')
 
     @staticmethod
     def is_array(id):
-        # TODO check- template- server-
-        pass
+        if not isinstance(id, list):
+            raise Exception('Given value is not a list!')
 
     @staticmethod
-    def is_dictionary(id):
-        # TODO check- template- server-
-        pass
-
-    @staticmethod
-    def check_state(id):
-        # TODO check- template- server-
-        pass
-
-    @staticmethod
-    def check_state_id(id):
-        # TODO check- template- server-
-        pass
-
-    @staticmethod
-    def check_state_type(id):
-        # TODO check- template- server-
-        pass
-
-    @staticmethod
-    def check_timestamp(id):
-        # TODO check- template- server-
-        pass
-
-    @staticmethod
-    def check_latency(id):
-        # TODO check- template- server-
-        pass
-
-    @staticmethod
-    def check_perfdata(id):
-        # TODO check- template- server-
-        pass
+    def is_http_method(id):
+        if id not in ['GET', 'PUT', 'POST', 'DELETE', 'HEAD', 'OPTIONS', 'TRACE', 'CONNECT', 'PATCH']:
+            raise Exception('Given value is not a HTTP method!')

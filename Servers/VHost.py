@@ -35,7 +35,7 @@ class VHost:
 
     @staticmethod
     def create(id):
-        ConfigBuilder.validate_id(id)
+        ValueChecker.validate_id(id)
 
         vhost = ConfigBuilder.get_vhost(id)
         if None is vhost:

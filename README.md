@@ -32,7 +32,7 @@ Further license terms must not restrict already existing terms. If they neverthe
 5. You have to place the following link on your Homepage in a suitable place, if you using this software ***not*** only for your own Servers, Applications, ...:
 
     ```html
-    We using monitoring tools from <a href="https://f-froehlich.de">Fabian Fr&ouml;hlich</a>
+    We using monitoring configuration tools from <a href="https://icinga2.confgen.org">Fabian Fr&ouml;hlich</a>
    ```
 
     The wording is decisive here, so another language may be used. Attributes of the link may also be adjusted, but the link must be followable by web crawlers (e.g. Googlebot).

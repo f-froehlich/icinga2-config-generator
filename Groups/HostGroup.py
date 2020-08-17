@@ -22,6 +22,7 @@
 
 from ConfigBuilder import ConfigBuilder
 from Groups.Group import Group
+from ValueChecker import ValueChecker
 
 
 class HostGroup(Group):
@@ -31,7 +32,7 @@ class HostGroup(Group):
 
     @staticmethod
     def create(id):
-        ConfigBuilder.validate_id(id)
+        ValueChecker.validate_id(id)
         hostgroup = ConfigBuilder.get_hostgroup(id)
         if None is hostgroup:
             id = 'hostgroup_' + id

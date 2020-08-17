@@ -38,28 +38,6 @@ class ServerTemplate:
         self.__name = None
         self.__display_name = None
         self.__description = None
-        self.__state = None
-        self.__state_id = None
-        self.__state_type = None
-        self.__check_attempt = None
-        self.__max_check_attempts = None
-        self.__last_state = None
-        self.__last_state_id = None
-        self.__last_state_type = None
-        self.__last_state_change = None
-        self.__downtime_depth = None
-        self.__duration_sec = None
-        self.__latency = None
-        self.__execution_time = None
-        self.__output = None
-        self.__perfdata = None
-        self.__last_check = None
-        self.__check_source = None
-        self.__num_services = None
-        self.__num_services_ok = None
-        self.__num_services_warning = None
-        self.__num_services_unknown = None
-        self.__num_services_critical = None
         self.__ssh_template = None
         self.__checks = []
         self.__vhosts = []
@@ -70,7 +48,7 @@ class ServerTemplate:
 
     @staticmethod
     def create(id):
-        ConfigBuilder.validate_id(id)
+        ValueChecker.validate_id(id)
 
         template = ConfigBuilder.get_template(id)
         if None is template:
@@ -126,6 +104,8 @@ class ServerTemplate:
             self.__ssh_template = ssh_template.get_id()
 
         elif isinstance(ssh_template, str):
+            if None is ConfigBuilder.get_ssh_template(ssh_template):
+                raise Exception('SSHTemplate does not exist yet!')
             self.__ssh_template = ssh_template
         else:
             raise Exception('Can only add Check or id of Check!')
@@ -141,183 +121,17 @@ class ServerTemplate:
             self.__notifications.append(notification.get_id())
 
         elif isinstance(notification, str):
+
+            notification = ConfigBuilder.get_notification(notification)
+            if None is notification:
+                raise Exception('Notification not exist yet!')
+            elif not isinstance(notification, HostNotification):
+                raise Exception('Given Notification is not a HostNotification!')
+
             self.__notifications.append(notification)
         else:
             raise Exception('Can only add HostNotification or id of HostNotification!')
 
-        return self
-
-    def set_state(self, state):
-        ValueChecker.check_state(state)
-        self.__state = state
-        return self
-
-    def get_state(self):
-        return self.__state
-
-    def set_state_id(self, state_id):
-        ValueChecker.check_state_id(state_id)
-        self.__state_id = state_id
-        return self
-
-    def get_state_id(self):
-        return self.__state_id
-
-    def set_state_type(self, state_type):
-        ValueChecker.check_state_id(state_type)
-        self.__state_type = state_type
-        return self
-
-    def get_state_type(self):
-        return self.__state_type
-
-    def set_check_attempt(self, check_attempt):
-        ValueChecker.is_number(check_attempt)
-        self.__check_attempt = check_attempt
-        return self
-
-    def get_check_attempt(self):
-        return self.__check_attempt
-
-    def set_max_check_attempts(self, max_check_attempts):
-        ValueChecker.is_number(max_check_attempts)
-        self.__max_check_attempts = max_check_attempts
-        return self
-
-    def get_max_check_attempts(self):
-        return self.__max_check_attempts
-
-    def set_last_state(self, last_state):
-        ValueChecker.check_state(last_state)
-        self.__last_state = last_state
-        return self
-
-    def get_last_state(self):
-        return self.__last_state
-
-    def set_last_state_id(self, last_state_id):
-        ValueChecker.check_state_id(last_state_id)
-        self.__last_state_id = last_state_id
-        return self
-
-    def get_last_state_id(self):
-        return self.__last_state_id
-
-    def set_last_state_type(self, last_state_type):
-        ValueChecker.check_state_type(last_state_type)
-        self.__last_state_type = last_state_type
-        return self
-
-    def get_last_state_type(self):
-        return self.__last_state_type
-
-    def set_last_state_change(self, last_state_change):
-        ValueChecker.check_timestamp(last_state_change)
-        self.__last_state_change = last_state_change
-        return self
-
-    def get_last_state_change(self):
-        return self.__last_state_change
-
-    def set_downtime_depth(self, downtime_depth):
-        ValueChecker.is_number(downtime_depth)
-        self.__downtime_depth = downtime_depth
-        return self
-
-    def get_downtime_depth(self):
-        return self.__downtime_depth
-
-    def set_duration_sec(self, duration_sec):
-        ValueChecker.is_number(duration_sec)
-        self.__duration_sec = duration_sec
-        return self
-
-    def get_duration_sec(self):
-        return self.__duration_sec
-
-    def set_latency(self, latency):
-        ValueChecker.check_latency(latency)
-        self.__latency = latency
-        return self
-
-    def get_latency(self):
-        return self.__latency
-
-    def set_execution_time(self, execution_time):
-        ValueChecker.is_number(execution_time)
-        self.__execution_time = execution_time
-        return self
-
-    def get_execution_time(self):
-        return self.__execution_time
-
-    def set_output(self, output):
-        ValueChecker.is_string(output)
-        self.__output = output
-        return self
-
-    def get_output(self):
-        return self.__output
-
-    def set_perfdata(self, perfdata):
-        ValueChecker.check_perfdata(perfdata)
-        self.__perfdata = perfdata
-        return self
-
-    def get_perfdata(self):
-        return self.__perfdata
-
-    def set_last_check(self, last_check):
-        ValueChecker.check_timestamp(last_check)
-        self.__last_check = last_check
-        return self
-
-    def get_last_check(self):
-        return self.__last_check
-
-    def set_check_source(self, check_source):
-        ValueChecker.is_string(check_source)  # todo right?
-        self.__check_source = check_source
-        return self
-
-    def get_check_source(self):
-        return self.__check_source
-
-    def set_num_services(self, num_services):
-        ValueChecker.is_number(num_services)
-        self.__num_services = num_services
-        return self
-
-    def get_num_services(self):
-        return self.__num_services
-
-    def set_num_services_ok(self, num_services_ok):
-        ValueChecker.is_number(num_services_ok)
-        self.__num_services_ok = num_services_ok
-        return self
-
-    def get_num_services_ok(self):
-        return self.__num_services_ok
-
-    def set_num_services_warning(self, num_services_warning):
-        ValueChecker.is_number(num_services_warning)
-        self.__num_services_warning = num_services_warning
-        return self
-
-    def get_num_services_warning(self):
-        return self.__num_services_warning
-
-    def set_num_services_unknown(self, num_services_unknown):
-        ValueChecker.is_number(num_services_unknown)
-        self.__num_services_unknown = num_services_unknown
-        return self
-
-    def get_num_services_unknown(self):
-        return self.__num_services_unknown
-
-    def set_num_services_critical(self, num_services_critical):
-        ValueChecker.is_number(num_services_critical)
-        self.__num_services_critical = num_services_critical
         return self
 
     def add_check(self, check):
@@ -325,7 +139,10 @@ class ServerTemplate:
             self.__checks.append(check.get_id())
 
         elif isinstance(check, str):
-            self.__checks.append(check)  # todo check if Check exist
+
+            if None is ConfigBuilder.get_check(check):
+                raise Exception('Check does not exist yet!')
+            self.__checks.append(check)
         else:
             raise Exception('Can only add Check or id of Check!')
 
@@ -340,11 +157,10 @@ class ServerTemplate:
             self.__vhosts.append(vhost.get_id())
 
         elif isinstance(vhost, str):
-            vhost = ConfigBuilder.get_vhost(vhost)
-            if None is vhost:
+            if None is ConfigBuilder.get_vhost(vhost):
                 raise Exception('VHost does not exist yet')
 
-            self.__vhosts.append(vhost.get_id())
+            self.__vhosts.append(vhost)
 
         else:
             raise Exception('Can only add VHost or id of VHost!')
@@ -359,9 +175,11 @@ class ServerTemplate:
         if isinstance(template, ServerTemplate):
             self.__templates.append(template.get_id())
         elif isinstance(template, str):
+            if None is ConfigBuilder.get_template(template):
+                raise Exception('ServerTemplate does not exist yet!')
             self.__templates.append('template_' + template)
         else:
-            raise Exception('Can only add Template or id of Template!')
+            raise Exception('Can only add ServerTemplate or id of ServerTemplate!')
 
         return self
 
@@ -373,6 +191,8 @@ class ServerTemplate:
         if isinstance(group, HostGroup):
             self.__groups.append(group.get_id())
         elif isinstance(group, str):
+            if None is ConfigBuilder.get_hostgroup(group):
+                raise Exception('HostGroup does not exist yet!')
             self.__groups.append('hostgroup_' + group)
         else:
             raise Exception('Can only add Hostgroup or id of Hostgroup!')
@@ -418,66 +238,6 @@ class ServerTemplate:
 
         if None is not self.__description:
             config += '  description = "' + self.__description + '"\n'
-
-        if None is not self.__state_id:
-            config += '  state_id = "' + self.__state_id + '"\n'
-
-        if None is not self.__state_type:
-            config += '  state_type = "' + self.__state_type + '"\n'
-
-        if None is not self.__check_attempt:
-            config += '  check_attempt = "' + self.__check_attempt + '"\n'
-
-        if None is not self.__max_check_attempts:
-            config += '  max_check_attempts = "' + self.__max_check_attempts + '"\n'
-
-        if None is not self.__last_state:
-            config += '  __last_state = "' + self.__last_state + '"\n'
-
-        if None is not self.__last_state_id:
-            config += '  __last_state_id = "' + self.__last_state_id + '"\n'
-
-        if None is not self.__last_state_type:
-            config += '  __last_state_type = "' + self.__last_state_type + '"\n'
-
-        if None is not self.__last_state_change:
-            config += '  __last_state_change = "' + self.__last_state_change + '"\n'
-
-        if None is not self.__duration_sec:
-            config += '  __duration_sec = "' + self.__duration_sec + '"\n'
-
-        if None is not self.__latency:
-            config += '  __latency = "' + self.__latency + '"\n'
-
-        if None is not self.__execution_time:
-            config += '  __execution_time = "' + self.__execution_time + '"\n'
-
-        if None is not self.__output:
-            config += '  __output = "' + self.__output + '"\n'
-
-        if None is not self.__perfdata:
-            config += '  __perfdata = "' + self.__perfdata + '"\n'
-
-        if None is not self.__last_check:
-            config += '  __last_check = "' + self.__last_check + '"\n'
-
-        if None is not self.__check_source:
-            config += '  __check_source = "' + self.__check_source + '"\n'
-
-        if None is not self.__num_services:
-            config += '  __num_services = "' + self.__num_services + '"\n'
-
-        if None is not self.__num_services_ok:
-            config += '  __num_services_ok = "' + self.__num_services_ok + '"\n'
-
-        if None is not self.__num_services_warning:
-            config += '  __num_services_warning = "' + self.__num_services_warning + '"\n'
-
-        if None is not self.__num_services_unknown:
-            config += '  __num_services_unknown = "' + self.__num_services_unknown + '"\n'
-
-        if None is not self.__num_services_critical:
-            config += '  __num_services_critical = "' + self.__num_services_critical + '"\n'
 
         for check in self.__checks:
             config += '  vars.' + check + ' = true\n'

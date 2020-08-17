@@ -22,6 +22,7 @@
 
 from Commands.Command import Command
 from ConfigBuilder import ConfigBuilder
+from ValueChecker import ValueChecker
 
 
 class PingCommand(Command):
@@ -31,7 +32,7 @@ class PingCommand(Command):
 
     @staticmethod
     def create(id):
-        ConfigBuilder.validate_id(id)
+        ValueChecker.validate_id(id)
         command = ConfigBuilder.get_command(id)
         if None is command:
             id = 'command_' + id

@@ -47,7 +47,7 @@ class User:
 
     @staticmethod
     def create(id):
-        ConfigBuilder.validate_id(id)
+        ValueChecker.validate_id(id)
 
         user = ConfigBuilder.get_user(id)
         if None is user:
@@ -110,7 +110,8 @@ class User:
             self.__groups.append(group.get_id())
 
         elif isinstance(group, str):
-            # todo checken
+            if None is ConfigBuilder.get_usergroup(group):
+                raise Exception('UserGroup does not exist yet!')
             self.__groups.append(group)
         else:
             raise Exception('Can only add UserGroup or id of UserGroup!')

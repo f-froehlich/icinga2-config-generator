@@ -19,6 +19,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+from Checks.Check import Check
 from Checks.CheckApt import CheckApt
 from Checks.CheckDNSSECExpire import CheckDNSSECExpire
 from Checks.CheckDenyTlsVersion import CheckDenyTlsVersion
@@ -31,6 +32,7 @@ from Checks.CheckPing import CheckPing
 from Checks.CheckSSH import CheckSSH
 from Checks.CheckSWAP import CheckSWAP
 from Checks.CheckUsers import CheckUsers
+from ConfigBuilder import ConfigBuilder
 from Groups.HostGroup import HostGroup
 from Groups.ServiceGroup import ServiceGroup
 from Servers.VHost import VHost
@@ -335,13 +337,21 @@ class Webserver:
 
             # additional checks
             for check in additional_checks:
-                vhost.add_check(check)
+                if isinstance(check, Check):
+                    vhost.add_check(check)
+
+                elif isinstance(check, str):
+                    check = ConfigBuilder.get_check(check)
+                    if None is check:
+                        raise Exception('Check does not exist yet!')
+                    vhost.add_check(check)
+                else:
+                    raise Exception('You can only add Check or id of Check!')
 
             for server in self.__servers:
                 server.add_vhost(vhost) \
                     .add_hostgroup(HostGroup.create('webserver'))
 
-        # todo other checks
         for server in self.__servers:
 
             if True is self.__check_apt:

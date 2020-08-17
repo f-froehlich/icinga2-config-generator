@@ -23,6 +23,7 @@
 from Checks.Check import Check
 from Commands.SensorsCommand import SensorsCommand
 from ConfigBuilder import ConfigBuilder
+from ValueChecker import ValueChecker
 
 
 class CheckSensors(Check):
@@ -32,7 +33,7 @@ class CheckSensors(Check):
 
     @staticmethod
     def create(id):
-        ConfigBuilder.validate_id(id)
+        ValueChecker.validate_id(id)
         check = ConfigBuilder.get_check(id)
         if None is check:
             id = 'check_' + id

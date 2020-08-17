@@ -20,36 +20,39 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from Checks.CheckDig import CheckDig
 from ConfigBuilder import ConfigBuilder
-from Utils.DomainCheck import DomainCheck
+from Groups.UserGroup import UserGroup
+from Notification.DefaultTimePeriods import DefaultTimePeriods
+from Notification.HostNotification import HostNotification
+from Notification.ServiceNotification import ServiceNotification
+from Servers.Server import Server
+from User.User import User
 
-#
-# s = Server.create('localhost') \
-#     .set_ipv4('127.0.0.1') \
-#     .add_check(CheckDisk.create('local').set_path('/'))
-#
+g1 = UserGroup.create('gr1') \
+    .set_display_name('Gruppe 1')
+g2 = UserGroup.create('gr2') \
+    .set_display_name('Gruppe 2')
 
-# s = Server.create('froehlich') \
-#     .set_ipv4('185.228.137.102') \
-#     .add_check(CheckDisk.create('remote').set_path('/'))
+u = User.create('user1') \
+    .set_display_name('User 1') \
+    .set_email('mail@f-froehlich.de') \
+    .set_phone('0157') \
+    .add_group(g1) \
+    .add_group(g2)
+tp = DefaultTimePeriods.continuously()
+sn = ServiceNotification.create('nt').set_escalation('1m', '2h').set_time_period(tp).add_user(u).add_user_group(g1)
+hn = HostNotification.create('hn').set_escalation('1m', '2h').set_time_period(tp).add_user(u).add_user_group(g1)
 
-# s1 = Server.create('froehlich_1') \
-#     .set_ipv4('185.228.137.102')
-# s2 = Server.create('froehlich_2') \
-#     .set_ipv4('185.228.137.102')
-# s3 = Server.create('froehlich_3') \
-#     .set_ipv4('185.228.137.102')
+ipv4_check = CheckDig.create('ipv4') \
+    .set_record_type('A') \
+    .set_question('gitlab.dev.f-froehlich.de') \
+    .set_expected_address('185.228.137.102') \
+    .add_notification(sn)
 
-server = DomainCheck(
-    [
-        ('f-froehlich.de', '185.228.137.102', None, True),
-        ('dev.f-froehlich.de', '185.228.137.102', None, True),
-        ('gitlab.dev.f-froehlich.de', '185.228.137.102', None, True),
-        ('nexus.dev.f-froehlich.de', '185.228.137.102', None, True),
-        ('jenkins.dev.f-froehlich.de', '185.228.137.102', None, True),
-    ]
-)
-
-server.apply()
+s1 = Server.create('froehlich_1') \
+    .set_ipv4('185.228.137.102') \
+    .add_check(ipv4_check) \
+    .add_notification(hn)
 
 print(ConfigBuilder.get_config())

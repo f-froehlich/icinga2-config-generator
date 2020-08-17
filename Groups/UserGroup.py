@@ -22,6 +22,7 @@
 
 from ConfigBuilder import ConfigBuilder
 from Groups.Group import Group
+from ValueChecker import ValueChecker
 
 
 class UserGroup(Group):
@@ -31,7 +32,7 @@ class UserGroup(Group):
 
     @staticmethod
     def create(id):
-        ConfigBuilder.validate_id(id)
+        ValueChecker.validate_id(id)
         usergroup = ConfigBuilder.get_usergroup(id)
         if None is usergroup:
             id = 'usergroup_' + id

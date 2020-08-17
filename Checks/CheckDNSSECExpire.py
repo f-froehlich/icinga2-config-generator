@@ -87,7 +87,7 @@ class CheckDNSSECExpire(Check):
 
     @staticmethod
     def create(id):
-        ConfigBuilder.validate_id(id)
+        ValueChecker.validate_id(id)
         check = ConfigBuilder.get_check(id)
         if None is check:
             id = 'check_' + id

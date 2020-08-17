@@ -23,8 +23,6 @@
 from ConfigBuilder import ConfigBuilder
 from ValueChecker import ValueChecker
 
-
-# TODO
 class SSHTemplate:
 
     def __init__(self, id):
@@ -36,7 +34,7 @@ class SSHTemplate:
 
     @staticmethod
     def create(id):
-        ConfigBuilder.validate_id(id)
+        ValueChecker.validate_id(id)
 
         template = ConfigBuilder.get_ssh_template(id)
         if None is template:

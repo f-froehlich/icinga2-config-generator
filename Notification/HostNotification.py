@@ -22,6 +22,7 @@
 
 from ConfigBuilder import ConfigBuilder
 from Notification.NotificationTemplate import NotificationTemplate
+from ValueChecker import ValueChecker
 
 
 class HostNotification(NotificationTemplate):
@@ -41,7 +42,7 @@ class HostNotification(NotificationTemplate):
 
     @staticmethod
     def create(id):
-        ConfigBuilder.validate_id(id)
+        ValueChecker.validate_id(id)
 
         notification = ConfigBuilder.get_notification_template(id)
         if None is notification:

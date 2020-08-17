@@ -50,7 +50,7 @@ class NotificationTemplate:
 
     @staticmethod
     def create(id):
-        ConfigBuilder.validate_id(id)
+        ValueChecker.validate_id(id)
 
         notification = ConfigBuilder.get_notification_template(id)
         if None is notification:
@@ -84,6 +84,8 @@ class NotificationTemplate:
             self.__time_period = time_period.get_id()
 
         elif isinstance(time_period, str):
+            if None is ConfigBuilder.get_time_period(time_period):
+                raise Exception('Time Period does not exist yet!')
             self.__time_period = time_period
         else:
             raise Exception('Can only add Time Period or id of Time Period!')
@@ -127,6 +129,9 @@ class NotificationTemplate:
             self.__users.append(user.get_id())
 
         elif isinstance(user, str):
+
+            if None is ConfigBuilder.get_user(user):
+                raise Exception('User does not exist yet!')
             self.__users.append(user)
         else:
             raise Exception('Can only add User or id of User!')
@@ -140,9 +145,12 @@ class NotificationTemplate:
             self.__user_groups.append(user_group.get_id())
 
         elif isinstance(user_group, str):
+
+            if None is ConfigBuilder.get_usergroup(user_group):
+                raise Exception('UserGroup does not exist yet!')
             self.__user_groups.append(user_group)
         else:
-            raise Exception('Can only add user_group or id of user_group!')
+            raise Exception('Can only add UserGroup or id of UserGroup!')
         return self
 
     def get_user_groups(self):
