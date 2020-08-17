@@ -31,8 +31,16 @@ class User:
         self.__id = id
         self.__display_name = None
         self.__enable_notifications = True
-        self.__states = ['OK', 'Warning', 'Critical']
-        self.__types = ['Problem', 'Recovery']
+        self.__states = ['OK', 'Warning', 'Critical', 'Unknown', 'Down']
+        self.__allowed_states = ['OK', 'Warning', 'Critical', 'Unknown', 'Down']
+        self.__types = [
+            'Problem', 'Acknowledgement', 'Recovery', 'Custom', 'FlappingStart',
+            'FlappingEnd', 'DowntimeStart', 'DowntimeEnd', 'DowntimeRemoved'
+        ]
+        self.__allowed_types = [
+            'Problem', 'Acknowledgement', 'Recovery', 'Custom', 'FlappingStart',
+            'FlappingEnd', 'DowntimeStart', 'DowntimeEnd', 'DowntimeRemoved'
+        ]
         self.__phone = None
         self.__email = None
         self.__groups = []
@@ -77,7 +85,9 @@ class User:
         return self.__phone
 
     def set_types(self, types):
-        # todo checken
+        for type in types:
+            if type not in self.__allowed_types:
+                raise Exception('Type ' + type + ' is not allowed')
         self.__types = types
         return self
 
@@ -85,7 +95,9 @@ class User:
         return self.__types
 
     def set_states(self, states):
-        # todo checken
+        for state in states:
+            if state not in self.__allowed_states:
+                raise Exception('State ' + state + ' is not allowed')
         self.__states = states
         return self
 
@@ -131,8 +143,13 @@ class User:
         for group in self.__groups:
             config += '  groups += [ "' + group + '" ]\n'
 
-        # todo states
-        # todo types
+        config += '  states = []\n'
+        for state in self.__states:
+            config += '  states += [ "' + state + '" ]\n'
+
+        config += '  types = []\n'
+        for type in self.__types:
+            config += '  types += [ "' + type + '" ]\n'
 
         config += '}\n'
 
