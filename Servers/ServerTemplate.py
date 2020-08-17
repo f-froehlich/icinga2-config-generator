@@ -22,6 +22,7 @@
 
 from Checks.Check import Check
 from ConfigBuilder import ConfigBuilder
+from Downtimes.ScheduledDowntime import ScheduledDowntime
 from Groups.HostGroup import HostGroup
 from Notification.HostNotification import HostNotification
 from Servers.SSHTemplate import SSHTemplate
@@ -45,6 +46,7 @@ class ServerTemplate:
         self.__custom_vars = []
         self.__groups = []
         self.__notifications = []
+        self.__downtimes = []
 
     @staticmethod
     def create(id):
@@ -109,6 +111,18 @@ class ServerTemplate:
             self.__ssh_template = ssh_template
         else:
             raise Exception('Can only add Check or id of Check!')
+
+        return self
+
+    def add_downtime(self, downtime):
+        if isinstance(downtime, ScheduledDowntime):
+            self.__downtimes.append(downtime.get_id())
+        elif isinstance(downtime, str):
+            if None is ConfigBuilder.get_downtime(downtime):
+                raise Exception('Downtime does not exist yet!')
+            self.__downtimes.append(downtime)
+        else:
+            raise Exception('Can only add Downtime or id of Downtime!')
 
         return self
 
@@ -218,6 +232,9 @@ class ServerTemplate:
 
         for notification in self.__notifications:
             config += '  vars.' + notification + ' = true\n'
+
+        for downtime in self.__downtimes:
+            config += '  vars.' + downtime + ' = true\n'
 
         if None is not self.__ssh_template:
             config += '  import "' + self.__ssh_template + '"\n'

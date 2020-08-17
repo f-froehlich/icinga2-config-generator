@@ -21,6 +21,7 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from ConfigBuilder import ConfigBuilder
+from Downtimes.DefaultScheduledDowntimes import ScheduledDowntime
 from Groups.ServiceGroup import ServiceGroup
 from Notification.ServiceNotification import ServiceNotification
 from ValueChecker import ValueChecker
@@ -35,6 +36,7 @@ class Check:
         self.__service_groups = []
         self.__check_type = "local"
         self.__notifications = []
+        self.__downtimes = []
         self.__allowed_check_types = ["local", "ssh"]
 
     @staticmethod
@@ -52,6 +54,8 @@ class Check:
         if isinstance(group, ServiceGroup):
             self.__service_groups.append(group.get_id())
         elif isinstance(group, str):
+            if None is ConfigBuilder.get_servicegroup(group):
+                raise Exception('ServiceGroup does not exist yet!')
             self.__service_groups.append('servicegroup_' + group)
         else:
             raise Exception('Can only add Servicegroup or id of Servicegroup!')
@@ -62,9 +66,27 @@ class Check:
         if isinstance(notification, ServiceNotification):
             self.__notifications.append(notification.get_id())
         elif isinstance(notification, str):
-            self.__notifications.append(notification)
+            notification = ConfigBuilder.get_notification(notification)
+            if None is notification:
+                raise Exception('Notification does not exist yet!')
+            if False is isinstance(notification, ServiceNotification):
+                raise Exception('Can only add ServiceNotification or id of ServiceNotification!')
+
+            self.__notifications.append(notification.get_id())
         else:
             raise Exception('Can only add ServiceNotification or id of ServiceNotification!')
+
+        return self
+
+    def add_downtime(self, downtime):
+        if isinstance(downtime, ScheduledDowntime):
+            self.__downtimes.append(downtime.get_id())
+        elif isinstance(downtime, str):
+            if None is ConfigBuilder.get_downtime(downtime):
+                raise Exception('Downtime does not exist yet!')
+            self.__downtimes.append(downtime)
+        else:
+            raise Exception('Can only add Downtime or id of Downtime!')
 
         return self
 
@@ -95,6 +117,7 @@ class Check:
         config += self.get_custom_property_config()
         config += self.get_group_config()
         config += self.get_notification_config()
+        config += self.get_downtime_config()
         config += '  assign where host.vars.' + self.get_id() + '\n'
         config += '}\n'
 
@@ -111,6 +134,13 @@ class Check:
         config = ''
         for notification in self.__notifications:
             config += '  vars.' + notification + ' = true\n'
+
+        return config
+
+    def get_downtime_config(self):
+        config = ''
+        for downtime in self.__downtimes:
+            config += '  vars.' + downtime + ' = true\n'
 
         return config
 

@@ -22,6 +22,7 @@
 
 from Checks.CheckDig import CheckDig
 from ConfigBuilder import ConfigBuilder
+from Downtimes.ScheduledDowntime import ScheduledDowntime
 from Groups.UserGroup import UserGroup
 from Notification.DefaultTimePeriods import DefaultTimePeriods
 from Notification.HostNotification import HostNotification
@@ -43,7 +44,8 @@ u = User.create('user1') \
 tp = DefaultTimePeriods.continuously()
 sn = ServiceNotification.create('nt').set_escalation('1m', '2h').set_time_period(tp).add_user(u).add_user_group(g1)
 hn = HostNotification.create('hn').set_escalation('1m', '2h').set_time_period(tp).add_user(u).add_user_group(g1)
-
+d = ScheduledDowntime.create('down1').set_author(u).set_comment('Testweise außer Betrieb').set_duration(
+    '30m').add_period('tuesday', '0:00-10:00').set_fixed(False).set_type('Host')
 ipv4_check = CheckDig.create('ipv4') \
     .set_record_type('A') \
     .set_question('gitlab.dev.f-froehlich.de') \
@@ -53,6 +55,6 @@ ipv4_check = CheckDig.create('ipv4') \
 s1 = Server.create('froehlich_1') \
     .set_ipv4('185.228.137.102') \
     .add_check(ipv4_check) \
-    .add_notification(hn)
+    .add_notification(hn).add_downtime(d)
 
 print(ConfigBuilder.get_config())

@@ -35,6 +35,7 @@ class ValueChecker:
             'template',
             'time_period',
             'vhost',
+            'downtime',
         ]
 
         for prefix in prefixes:

@@ -102,6 +102,7 @@ class CheckPing(Check):
             config += '  check_command = "command_ping_' + self.get_check_type() + '"\n'
             config += self.get_property_default_config()
             config += self.get_notification_config()
+            config += self.get_downtime_config()
 
             if '4' == i:
                 config += '  vars.command_ping_v4 = true\n'

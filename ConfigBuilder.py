@@ -37,6 +37,7 @@ class ConfigBuilder:
     __notification_templates = []
     __notifications = []
     __users = []
+    __downtimes = []
 
     @staticmethod
     def get_config():
@@ -44,6 +45,9 @@ class ConfigBuilder:
 
         for period in ConfigBuilder.__time_periods:
             config += period['instance'].get_config()
+
+        for downtime in ConfigBuilder.__downtimes:
+            config += downtime['instance'].get_config()
 
         for user in ConfigBuilder.__users:
             config += user['instance'].get_config()
@@ -316,3 +320,19 @@ class ConfigBuilder:
             raise Exception('user with id ' + id + ' already exists!')
 
         ConfigBuilder.__users.append({'id': id, 'instance': period})
+
+    @staticmethod
+    def get_downtime(id):
+        id = 'downtime_' + id
+        for period in ConfigBuilder.__downtimes:
+            if period['id'] == id:
+                return period['instance']
+
+        return None
+
+    @staticmethod
+    def add_downtime(id, period):
+        if None is not ConfigBuilder.get_downtime(id):
+            raise Exception('Downtime with id ' + id + ' already exists!')
+
+        ConfigBuilder.__downtimes.append({'id': id, 'instance': period})
