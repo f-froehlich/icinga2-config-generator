@@ -22,6 +22,8 @@
 
 import inspect
 
+from Application.Application import Application
+
 
 class ConfigBuilder:
     __servers = []
@@ -38,10 +40,11 @@ class ConfigBuilder:
     __notifications = []
     __users = []
     __downtimes = []
+    __application = Application.create()
 
     @staticmethod
     def get_config():
-        config = ""
+        config = ConfigBuilder.__application.get_config()
 
         for period in ConfigBuilder.__time_periods:
             config += period['instance'].get_config()
@@ -336,3 +339,13 @@ class ConfigBuilder:
             raise Exception('Downtime with id ' + id + ' already exists!')
 
         ConfigBuilder.__downtimes.append({'id': id, 'instance': period})
+
+    @staticmethod
+    def get_application():
+        return ConfigBuilder.__application
+
+    @staticmethod
+    def set_application(application):
+        if not isinstance(application, Application):
+            raise Exception('Can only set Application')
+        ConfigBuilder.__application = application
