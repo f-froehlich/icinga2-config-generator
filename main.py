@@ -21,6 +21,7 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from Checks.CheckDig import CheckDig
+from Commands.MailNotificationCommand import MailNotificationCommand
 from ConfigBuilder import ConfigBuilder
 from Downtimes.ScheduledDowntime import ScheduledDowntime
 from Groups.UserGroup import UserGroup
@@ -42,8 +43,11 @@ u = User.create('user1') \
     .add_group(g1) \
     .add_group(g2)
 tp = DefaultTimePeriods.continuously()
-sn = ServiceNotification.create('nt').set_escalation('1m', '2h').set_time_period(tp).add_user(u).add_user_group(g1)
-hn = HostNotification.create('hn').set_escalation('1m', '2h').set_time_period(tp).add_user(u).add_user_group(g1)
+mn = MailNotificationCommand.create('mail')
+sn = ServiceNotification.create('nt').set_escalation('1m', '2h').set_time_period(tp).add_user(u).add_user_group(
+    g1).set_command(mn)
+hn = HostNotification.create('hn').set_escalation('1m', '2h').set_time_period(tp).add_user(u).add_user_group(
+    g1).set_command(mn)
 d = ScheduledDowntime.create('down1').set_author(u).set_comment('Testweise außer Betrieb').set_duration(
     '30m').add_period('tuesday', '0:00-10:00').set_fixed(False).set_type('Host')
 ipv4_check = CheckDig.create('ipv4') \

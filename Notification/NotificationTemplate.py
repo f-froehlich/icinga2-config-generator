@@ -20,6 +20,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from Commands.NotificationCommand import NotificationCommand
 from ConfigBuilder import ConfigBuilder
 from Groups.UserGroup import UserGroup
 from Notification.TimePeriod import TimePeriod
@@ -32,7 +33,7 @@ class NotificationTemplate:
     def __init__(self, id):
         self.__id = id
         self.__interval = '30m'
-        self.__command = 'mail-service-notification'
+        self.__command = None
         self.__time_period = None
         self.__escalation = None
         self.__users = []
@@ -72,8 +73,15 @@ class NotificationTemplate:
         return self.__interval
 
     def set_command(self, command):
-        ValueChecker.is_string(command)
-        self.__command = command
+        if isinstance(command, NotificationCommand):
+            self.__command = command.get_id()
+        elif isinstance(command, str):
+            command = ConfigBuilder.get_command(command)
+            if None is command:
+                raise Exception('NotificationCommand does not exist yet!')
+            if not isinstance(command, NotificationCommand):
+                raise Exception('You can only set a NotificationCommand as command for Notification!')
+            self.__command = command.get_id()
         return self
 
     def get_command(self):
@@ -157,6 +165,9 @@ class NotificationTemplate:
         return self.__user_groups
 
     def get_config(self):
+        if None is self.__command:
+            raise Exception('You have to set a Command for Notification!')
+
         config = 'template Notification "' + self.__id + '" {\n'
         config += '  interval = ' + self.__interval + '\n'
         config += '  command = "' + self.__command + '"\n'
