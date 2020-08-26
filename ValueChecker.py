@@ -23,8 +23,9 @@
 class ValueChecker:
 
     @staticmethod
-    def validate_id(id):
-        prefixes = [
+    def get_prefixes():
+
+        return [
             'check',
             'command',
             'server',
@@ -36,7 +37,12 @@ class ValueChecker:
             'time_period',
             'vhost',
             'downtime',
+            'zone'
         ]
+
+    @staticmethod
+    def validate_id(id):
+        prefixes = ValueChecker.get_prefixes()
 
         for prefix in prefixes:
             if id.startswith(prefix + '_'):

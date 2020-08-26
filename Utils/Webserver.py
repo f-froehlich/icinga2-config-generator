@@ -355,38 +355,38 @@ class Webserver:
         for server in self.__servers:
 
             if True is self.__check_apt:
-                check = CheckApt.create(server.get_id() + '_apt') \
+                check = CheckApt.create('apt_' + server.get_id()) \
                     .set_check_type('ssh') \
                     .add_service_group(ServiceGroup.create('apt'))
                 server.add_check(check) \
                     .add_hostgroup(HostGroup.create('apt'))
 
             if True is self.__check_load:
-                check = CheckLoad.create(server.get_id() + '_load') \
+                check = CheckLoad.create('load_' + server.get_id()) \
                     .set_check_type('ssh') \
                     .add_service_group(ServiceGroup.create('load'))
                 server.add_check(check)
 
             if True is self.__check_ntp_time:
-                check = CheckNTPTime.create(server.get_id() + '_ntp_time') \
+                check = CheckNTPTime.create('ntp_time_' + server.get_id()) \
                     .set_check_type('ssh') \
                     .add_service_group(ServiceGroup.create('ntp_time'))
                 server.add_check(check)
 
             if True is self.__check_swap:
-                check = CheckSWAP.create(server.get_id() + '_swap') \
+                check = CheckSWAP.create('swap' + server.get_id()) \
                     .set_check_type('ssh') \
                     .add_service_group(ServiceGroup.create('swap'))
                 server.add_check(check)
 
             if True is self.__check_users:
-                check = CheckUsers.create(server.get_id() + '_users') \
+                check = CheckUsers.create('users_' + server.get_id()) \
                     .set_check_type('ssh') \
                     .add_service_group(ServiceGroup.create('users'))
                 server.add_check(check)
 
             if True is self.__check_ssh:
-                check = CheckSSH.create(server.get_id() + '_ssh') \
+                check = CheckSSH.create('ssh_' + server.get_id()) \
                     .set_hostname(server.get_ipv4() or server.get_ipv6()) \
                     .set_port(10) \
                     .add_service_group(ServiceGroup.create('ssh'))
@@ -394,6 +394,6 @@ class Webserver:
                     .add_hostgroup(HostGroup.create('ssh'))
 
             if True is self.__check_disk:
-                check = CheckDisk.create(server.get_id() + '_disk') \
+                check = CheckDisk.create('disk_' + server.get_id()) \
                     .add_service_group(ServiceGroup.create('disk'))
                 server.add_check(check)

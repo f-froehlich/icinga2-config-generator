@@ -21,53 +21,28 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from ConfigBuilder import ConfigBuilder
-from Servers.ServerTemplate import ServerTemplate
-from Servers.Zone import Zone
 from ValueChecker import ValueChecker
 
 
-class Server(ServerTemplate):
+class Zone:
 
     def __init__(self, id):
-        ServerTemplate.__init__(self, 'template_' + id)
         self.__id = id
-        self.__zone = Zone.create('master')
 
     def get_id(self):
         return self.__id
-
-    def set_zone(self, zone):
-        if isinstance(zone, Zone):
-            self.__zone = zone
-
-        elif isinstance(zone, str):
-            zone = ConfigBuilder.get_zone(zone)
-            if None is zone:
-                raise Exception('Zone does not exist yet!')
-            self.__zone = zone
-        else:
-            raise Exception('Can only add Zone or id of Zone!')
-        return self
-
-    def get_zone(self):
-        return self.__zone
 
     @staticmethod
     def create(id):
         ValueChecker.validate_id(id)
 
-        server = ConfigBuilder.get_server(id)
-        if None is server:
-            id = 'server_' + id
-            server = Server(id)
-            ConfigBuilder.add_server(id, server)
+        zone = ConfigBuilder.get_zone(id)
+        if None is zone:
+            id = 'zone_' + id
+            zone = Zone(id)
+            ConfigBuilder.add_zone(id, zone)
 
-        return server
+        return zone
 
     def get_config(self):
-        config = ServerTemplate.get_config(self)
-        config += 'object Host "' + self.get_id() + '" {\n'
-        config += '  import "' + ServerTemplate.get_id(self) + '"\n'
-        config += '}\n'
-
-        return config
+        return ''

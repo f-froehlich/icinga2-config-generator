@@ -21,8 +21,11 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 import inspect
+import shutil
+from pathlib import Path
 
 from Application.Application import Application
+from ValueChecker import ValueChecker
 
 
 class ConfigBuilder:
@@ -40,52 +43,58 @@ class ConfigBuilder:
     __notifications = []
     __users = []
     __downtimes = []
+    __zones = []
     __application = Application.create()
 
     @staticmethod
+    def replace_prefixes(string):
+
+        for prefix in ValueChecker.get_prefixes():
+            if string.startswith(prefix + '_'):
+                return string.replace(prefix + '_', '', 1)
+        return string
+
+    @staticmethod
     def get_config():
+        shutil.rmtree('zones.d')
         config = ConfigBuilder.__application.get_config()
 
-        for period in ConfigBuilder.__time_periods:
-            config += period['instance'].get_config()
+        global_configs = [
+            {'dir': 'checks', 'config': ConfigBuilder.__checks},
+            {'dir': 'templates', 'config': ConfigBuilder.__templates},
+            {'dir': 'commands', 'config': ConfigBuilder.__commands},
+            {'dir': 'vhosts', 'config': ConfigBuilder.__vhosts},
+            {'dir': 'groups/servicegroups', 'config': ConfigBuilder.__servicegroups},
+            {'dir': 'groups/hostgroups', 'config': ConfigBuilder.__hostgroups},
+            {'dir': 'groups/usergroups', 'config': ConfigBuilder.__usergroups},
+            {'dir': 'users', 'config': ConfigBuilder.__users},
+            {'dir': 'ssh_templates', 'config': ConfigBuilder.__ssh_templates},
+            {'dir': 'time_periods', 'config': ConfigBuilder.__time_periods},
+            {'dir': 'notifications/templates', 'config': ConfigBuilder.__notification_templates},
+            {'dir': 'notifications/notifications', 'config': ConfigBuilder.__notifications},
+            {'dir': 'ssh_templates', 'config': ConfigBuilder.__ssh_templates},
+            {'dir': 'downtimes', 'config': ConfigBuilder.__downtimes},
+        ]
 
-        for downtime in ConfigBuilder.__downtimes:
-            config += downtime['instance'].get_config()
+        for config in global_configs:
+            dirpath = "zones.d/global-templates/" + config['dir']
+            for conf in config['config']:
+                Path(dirpath).mkdir(parents=True, exist_ok=True)
+                with open(dirpath + '/' + ConfigBuilder.replace_prefixes(conf['id']) + '.conf', "w") as file:
+                    file.write(conf['instance'].get_config())
 
-        for user in ConfigBuilder.__users:
-            config += user['instance'].get_config()
+        for conf in ConfigBuilder.__servers:
+            server = conf['instance']
+            zone = server.get_zone()
+            dirpath = 'zones.d/' + ConfigBuilder.replace_prefixes(zone.get_id()) + '/'
 
-        for notification in ConfigBuilder.__notification_templates:
-            config += notification['instance'].get_config()
+            Path(dirpath).mkdir(parents=True, exist_ok=True)
+            with open(dirpath + '/' + ConfigBuilder.replace_prefixes(conf['id']) + '.conf', "w") as file:
+                file.write(server.get_config())
 
-        for notification in ConfigBuilder.__notifications:
-            config += notification['instance'].get_config()
+        with open('zones.d/application.conf', "w") as file:
+            file.write(ConfigBuilder.__application.get_config())
 
-        for template in ConfigBuilder.__templates:
-            config += template['instance'].get_config()
-
-        for command in ConfigBuilder.__commands:
-            config += command['instance'].get_config()
-
-        for check in ConfigBuilder.__checks:
-            config += check['instance'].get_config()
-
-        for vhost in ConfigBuilder.__vhosts:
-            config += vhost['instance'].get_config()
-
-        for server in ConfigBuilder.__servers:
-            config += server['instance'].get_config()
-
-        for group in ConfigBuilder.__hostgroups:
-            config += group['instance'].get_config()
-
-        for group in ConfigBuilder.__servicegroups:
-            config += group['instance'].get_config()
-
-        for group in ConfigBuilder.__usergroups:
-            config += group['instance'].get_config()
-
-        return config
 
     @staticmethod
     def get_property_default_config(instance, class_name, command_name, prefix):
@@ -349,3 +358,19 @@ class ConfigBuilder:
         if not isinstance(application, Application):
             raise Exception('Can only set Application')
         ConfigBuilder.__application = application
+
+    @staticmethod
+    def get_zone(id):
+        id = 'zone_' + id
+        for period in ConfigBuilder.__zones:
+            if period['id'] == id:
+                return period['instance']
+
+        return None
+
+    @staticmethod
+    def add_zone(id, period):
+        if None is not ConfigBuilder.get_zone(id):
+            raise Exception('Zone with id ' + id + ' already exists!')
+
+        ConfigBuilder.__zones.append({'id': id, 'instance': period})

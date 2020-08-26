@@ -32,7 +32,7 @@ class Application:
         self.__enable_host_checks = True
         self.__enable_service_checks = True
         self.__enable_perfdata = True
-        self.__vars = [('int', 1), ('float', 2.2), ('trufe', True), ('faflse', False), ('string', 'foo')]
+        self.__vars = []
         self.__environment = ''
 
     @staticmethod
