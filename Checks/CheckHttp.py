@@ -31,7 +31,7 @@ class CheckHttp(Check):
     def __init__(self, id):
         Check.__init__(self, id, 'CheckHttp', 'http')
         self.__vhost = None
-        # self.__ip = None
+        self.__ip = None
         self.__port = None
         self.__use_ipv4 = False
         self.__use_ipv6 = False
@@ -84,6 +84,15 @@ class CheckHttp(Check):
 
     def get_vhost(self):
         return self.__vhost
+
+    def set_ip(self, ip):
+        ValueChecker.is_string(ip)
+        self.__ip = ip
+
+        return self
+
+    def get_ip(self):
+        return self.__ip
 
     def set_port(self, port):
         ValueChecker.is_number(port)
@@ -383,8 +392,8 @@ class CheckHttp(Check):
 
     def get_custom_definitions(self):
         return [
-            'if (host.address) { vars.command_http_ip = host.address } '
-            'else if (host.address6) { vars.command_http_ip = host.address6}'
+            # 'if (host.address) { vars.command_http_ip = host.address } '
+            # 'else if (host.address6) { vars.command_http_ip = host.address6}'
         ]
 
     @staticmethod

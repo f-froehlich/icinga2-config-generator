@@ -32,6 +32,7 @@ class CheckDenyTlsVersion(Check):
         Check.__init__(self, id, 'CheckDenyTlsVersion', 'deny_tls_version')
         self.__protocol = None
         self.__domain = None
+        self.__address = None
 
     def set_protocol(self, number):
         ValueChecker.is_string(number)
@@ -40,6 +41,14 @@ class CheckDenyTlsVersion(Check):
 
     def get_protocol(self):
         return self.__protocol
+
+    def set_address(self, address):
+        ValueChecker.is_string(address)
+        self.__address = address
+        return self
+
+    def get_address(self):
+        return self.__address
 
     def set_domain(self, number):
         ValueChecker.is_string(number)
@@ -51,8 +60,8 @@ class CheckDenyTlsVersion(Check):
 
     def get_custom_definitions(self):
         return [
-            'if (host.address) { vars.command_deny_tls_version_address = host.address } '
-            'else if (host.address6) { vars.command_deny_tls_version_address = host.address6}'
+            # 'if (host.address) { vars.command_deny_tls_version_address = host.address } '
+            # 'else if (host.address6) { vars.command_deny_tls_version_address = host.address6}'
         ]
 
     @staticmethod

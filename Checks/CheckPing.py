@@ -36,6 +36,7 @@ class CheckPing(Check):
         self.__critical_average_time = 250
         self.__timeout = 10
         self.__packets = 4
+        self.__address = None
 
     @staticmethod
     def create(id):
@@ -92,6 +93,14 @@ class CheckPing(Check):
 
     def get_packets(self):
         return self.__packets
+
+    def set_address(self, address):
+        ValueChecker.is_string(address)
+        self.__address = address
+        return self
+
+    def get_address(self):
+        return self.__address
 
     def get_config(self):
 
