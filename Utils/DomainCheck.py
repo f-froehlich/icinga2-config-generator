@@ -2,7 +2,7 @@
 #
 #  Icinga2 configuration file generator for hosts, commands, checks, ... in python
 #
-#  Copyright (c) 2020 Fabian Fröhlich <mail@f-froehlich.de> https://f-froehlich.de
+#  Copyright (c) 2020 Fabian Fröhlich <mail@icinga2.confgen.org> https://icinga2.confgen.org
 #
 #
 #  This program is free software: you can redistribute it and/or modify
@@ -52,7 +52,8 @@ class DomainCheck:
                     dnssec_check = CheckDNSSECExpire.create(base_id + '_dnssec') \
                         .set_zone(domain) \
                         .add_service_group(ServiceGroup.create('dnssec_check').set_display_name('DNSSEC')) \
-                        .set_display_name('DNSSEC ' + domain)
+                        .set_display_name('DNSSEC ' + domain) \
+                        .set_check_interval('15m')
 
                     checkserver.add_check(dnssec_check)
 
@@ -62,7 +63,8 @@ class DomainCheck:
                         .set_question(domain) \
                         .set_expected_address(ipv4) \
                         .add_service_group(ServiceGroup.create('dns_check').set_display_name('DNS')) \
-                        .set_display_name('DNS A ' + domain)
+                        .set_display_name('DNS A ' + domain) \
+                        .set_check_interval('5m')
 
                     checkserver.add_check(ipv4_check)
 
@@ -72,6 +74,7 @@ class DomainCheck:
                         .set_question(domain) \
                         .set_expected_address(ipv6) \
                         .add_service_group(ServiceGroup.create('dns_check').set_display_name('DNS')) \
-                        .set_display_name('DNS AAAA ' + domain)
+                        .set_display_name('DNS AAAA ' + domain) \
+                        .set_check_interval('5m')
 
                     checkserver.add_check(ipv4_check)

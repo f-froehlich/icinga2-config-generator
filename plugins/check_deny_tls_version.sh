@@ -3,7 +3,7 @@
 #
 #  Icinga2 configuration file generator for hosts, commands, checks, ... in python
 #
-#  Copyright (c) 2020 Fabian Fröhlich <mail@f-froehlich.de> https://f-froehlich.de
+#  Copyright (c) 2020 Fabian Fröhlich <mail@icinga2.confgen.org> https://icinga2.confgen.org
 #
 #
 #  This program is free software: you can redistribute it and/or modify
