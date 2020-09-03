@@ -28,6 +28,7 @@ from Notification.HostNotification import HostNotification
 from Servers.SSHTemplate import SSHTemplate
 from Servers.VHost import VHost
 from ValueChecker import ValueChecker
+from Servers.OS import OS
 
 
 class ServerTemplate:
@@ -40,6 +41,7 @@ class ServerTemplate:
         self.__display_name = None
         self.__description = None
         self.__ssh_template = None
+        self.__os = None
         self.__checks = []
         self.__vhosts = []
         self.__templates = []
@@ -110,7 +112,22 @@ class ServerTemplate:
                 raise Exception('SSHTemplate does not exist yet!')
             self.__ssh_template = ssh_template
         else:
-            raise Exception('Can only add Check or id of Check!')
+            raise Exception('Can only add SSHTemplate or id of SSHTemplate!')
+
+        return self
+    
+    
+    def set_os(self, os):
+
+        if isinstance(os, OS):
+            self.__os = os.get_id()
+
+        elif isinstance(os, str):
+            if None is ConfigBuilder.get_os(os):
+                raise Exception('OS does not exist yet!')
+            self.__os = os
+        else:
+            raise Exception('Can only add OS or id of OS!')
 
         return self
 
@@ -238,6 +255,9 @@ class ServerTemplate:
 
         if None is not self.__ssh_template:
             config += '  import "' + self.__ssh_template + '"\n'
+
+        if None is not self.__os:
+            config += '  import "' + self.__os + '"\n'
 
         if None is not self.__ipv4:
             config += '  address = "' + self.__ipv4 + '"\n'

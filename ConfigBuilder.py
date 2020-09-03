@@ -44,6 +44,7 @@ class ConfigBuilder:
     __users = []
     __downtimes = []
     __zones = []
+    __os = []
     __application = Application.create()
 
     @staticmethod
@@ -74,6 +75,7 @@ class ConfigBuilder:
             {'dir': 'notifications/notifications', 'config': ConfigBuilder.__notifications},
             {'dir': 'ssh_templates', 'config': ConfigBuilder.__ssh_templates},
             {'dir': 'downtimes', 'config': ConfigBuilder.__downtimes},
+            {'dir': 'os', 'config': ConfigBuilder.__os},
         ]
 
         for config in global_configs:
@@ -374,3 +376,18 @@ class ConfigBuilder:
             raise Exception('Zone with id ' + id + ' already exists!')
 
         ConfigBuilder.__zones.append({'id': id, 'instance': period})
+    @staticmethod
+    def get_os(id):
+        id = 'os_' + id
+        for period in ConfigBuilder.__os:
+            if period['id'] == id:
+                return period['instance']
+
+        return None
+
+    @staticmethod
+    def add_os(id, os):
+        if None is not ConfigBuilder.get_os(id):
+            raise Exception('os with id ' + id + ' already exists!')
+
+        ConfigBuilder.__os.append({'id': id, 'instance': os})

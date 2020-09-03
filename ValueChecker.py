@@ -37,7 +37,8 @@ class ValueChecker:
             'time_period',
             'vhost',
             'downtime',
-            'zone'
+            'zone',
+            'os'
         ]
 
     @staticmethod
