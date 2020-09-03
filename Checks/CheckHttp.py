@@ -390,12 +390,6 @@ class CheckHttp(Check):
     def get_timeout(self):
         return self.__timeout
 
-    def get_custom_definitions(self):
-        return [
-            # 'if (host.address) { vars.command_http_ip = host.address } '
-            # 'else if (host.address6) { vars.command_http_ip = host.address6}'
-        ]
-
     @staticmethod
     def create(id):
         ValueChecker.validate_id(id)

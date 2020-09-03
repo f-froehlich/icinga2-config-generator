@@ -32,12 +32,17 @@ class Check:
     def __init__(self, id, class_name, command_name):
         self.__command_name = command_name
         self.__class_name = class_name
+        self.__display_name = None
         self.__id = id
         self.__service_groups = []
         self.__check_type = "local"
         self.__notifications = []
         self.__downtimes = []
         self.__allowed_check_types = ["local", "ssh"]
+        self.__max_check_attempts = 3
+        self.__check_interval = '1m'
+        self.__retry_interval = '15s'
+        self.__enable_perfdata = True
 
     @staticmethod
     def create(id):
@@ -105,6 +110,46 @@ class Check:
 
     def get_check_type(self):
         return self.__check_type
+    
+    def set_max_check_attempts(self, max_check_attempts):
+        ValueChecker.is_number(max_check_attempts)
+        self.__max_check_attempts = max_check_attempts
+        return self
+
+    def get_max_check_attempts(self):
+        return self.__max_check_attempts
+    
+    def set_check_interval(self, check_interval):
+        ValueChecker.is_string(check_interval)
+        self.__check_interval = check_interval
+        return self
+
+    def get_check_interval(self):
+        return self.__check_interval
+
+    def set_retry_interval(self, retry_interval):
+        ValueChecker.is_string(retry_interval)
+        self.__retry_interval = retry_interval
+        return self
+
+    def get_check_interval(self):
+        return self.__check_interval
+
+    def set_enable_perfdata(self, enable_perfdata):
+        ValueChecker.is_bool(enable_perfdata)
+        self.__enable_perfdata = enable_perfdata
+        return self
+
+    def get_retry_interval(self):
+        return self.__retry_interval
+    
+    def set_display_name(self, display_name):
+        ValueChecker.is_string(display_name)
+        self.__display_name = display_name
+        return self
+
+    def get_display_name(self):
+        return self.__display_name
 
     def get_custom_definitions(self):
         return []
@@ -118,6 +163,7 @@ class Check:
         config += self.get_group_config()
         config += self.get_notification_config()
         config += self.get_downtime_config()
+        config += self.get_check_config()
         config += '  assign where host.vars.' + self.get_id() + '\n'
         config += '}\n'
 
@@ -134,6 +180,20 @@ class Check:
         config = ''
         for notification in self.__notifications:
             config += '  vars.' + notification + ' = true\n'
+
+        return config
+
+    def get_check_config(self):
+        config = '  max_check_attempts = ' + str(self.__max_check_attempts) + '\n'
+        config += '  check_interval = ' + self.__check_interval + '\n'
+        config += '  retry_interval = ' + self.__retry_interval + '\n'
+        if True is self.__enable_perfdata:
+            config += '  enable_perfdata = true\n'
+        else:
+            config += '  enable_perfdata = false\n'
+
+        if None is not self.__display_name:
+            config += '  display_name = "' + self.__display_name + '"\n'
 
         return config
 

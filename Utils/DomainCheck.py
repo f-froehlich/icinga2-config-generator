@@ -27,46 +27,51 @@ from Servers.Server import Server
 
 class DomainCheck:
 
-    def __init__(self, domain_configs=[]):
+    def __init__(self, domain_configs=[], checkserver=[]):
         self.__domain_configs = domain_configs
+        self.__checkserver = checkserver
 
     def add_domainconfig(self, config):
         self.__domain_configs.append(config)
 
+    def add_checkserver(self, checkserver):
+        self.__checkserver.append(checkserver)
+
     def apply(self):
 
-        server_dummy = Server.create('domaincheck_dummy') \
-            .set_display_name('Domaincheck server') \
-            .set_ipv4('127.0.0.1')
+        for checkserver in self.__checkserver:
 
-        for config in self.__domain_configs:
-            domain = config[0]
-            ipv4 = config[1]
-            ipv6 = config[2]
-            dnssec = config[3]
-            base_id = ''.join(e for e in domain if e.isalnum())
+            for config in self.__domain_configs:
+                domain = config[0]
+                ipv4 = config[1]
+                ipv6 = config[2]
+                dnssec = config[3]
+                base_id = ''.join(e for e in domain if e.isalnum())
 
-            if True is dnssec:
-                dnssec_check = CheckDNSSECExpire.create(base_id + '_dnssec') \
-                    .set_zone(domain) \
-                    .add_service_group(ServiceGroup.create('dnssec_check'))
+                if True is dnssec:
+                    dnssec_check = CheckDNSSECExpire.create(base_id + '_dnssec') \
+                        .set_zone(domain) \
+                        .add_service_group(ServiceGroup.create('dnssec_check').set_display_name('DNSSEC')) \
+                        .set_display_name('DNSSEC ' + domain)
 
-                server_dummy.add_check(dnssec_check)
+                    checkserver.add_check(dnssec_check)
 
-            if None is not ipv4:
-                ipv4_check = CheckDig.create(base_id + '_ipv4') \
-                    .set_record_type('A') \
-                    .set_question(domain) \
-                    .set_expected_address(ipv4) \
-                    .add_service_group(ServiceGroup.create('dns_check'))
+                if None is not ipv4:
+                    ipv4_check = CheckDig.create(base_id + '_ipv4') \
+                        .set_record_type('A') \
+                        .set_question(domain) \
+                        .set_expected_address(ipv4) \
+                        .add_service_group(ServiceGroup.create('dns_check').set_display_name('DNS')) \
+                        .set_display_name('DNS A ' + domain)
 
-                server_dummy.add_check(ipv4_check)
+                    checkserver.add_check(ipv4_check)
 
-            if None is not ipv6:
-                ipv4_check = CheckDig.create(base_id + '_ipv6') \
-                    .set_record_type('AAAA') \
-                    .set_question(domain) \
-                    .set_expected_address(ipv6) \
-                    .add_service_group(ServiceGroup.create('dns_check'))
+                if None is not ipv6:
+                    ipv4_check = CheckDig.create(base_id + '_ipv6') \
+                        .set_record_type('AAAA') \
+                        .set_question(domain) \
+                        .set_expected_address(ipv6) \
+                        .add_service_group(ServiceGroup.create('dns_check').set_display_name('DNS')) \
+                        .set_display_name('DNS AAAA ' + domain)
 
-                server_dummy.add_check(ipv4_check)
+                    checkserver.add_check(ipv4_check)

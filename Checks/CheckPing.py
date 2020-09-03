@@ -38,20 +38,6 @@ class CheckPing(Check):
         self.__packets = 4
         self.__address = None
 
-    @staticmethod
-    def create(id):
-        ValueChecker.validate_id(id)
-        check = ConfigBuilder.get_check(id)
-        if None is check:
-            id = 'check_' + id
-            check = CheckPing(id)
-            ConfigBuilder.add_check(id, check)
-
-        if None is ConfigBuilder.get_command('ping'):
-            PingCommand.create('ping')
-
-        return check
-
     def set_warning_percent_lost(self, threshold):
         ValueChecker.is_number(threshold)
         self.__warning_percent_lost = threshold
@@ -104,25 +90,4 @@ class CheckPing(Check):
 
     def get_config(self):
 
-        config = ''
-
-        for i in ['4', '6']:
-            config += 'apply Service "' + self.get_id() + '_' + i + '" {\n'
-            config += '  check_command = "command_ping_' + self.get_check_type() + '"\n'
-            config += self.get_property_default_config()
-            config += self.get_notification_config()
-            config += self.get_downtime_config()
-
-            if '4' == i:
-                config += '  vars.command_ping_v4 = true\n'
-                config += '  vars.command_ping_address = host.address\n'
-                config += '  assign where host.vars.' + self.get_id() + ' && host.address\n'
-            else:
-                config += '  vars.command_ping_v6 = true\n'
-                config += '  vars.command_ping_address = host.address6\n'
-                config += '  assign where host.vars.' + self.get_id() + ' && host.address6\n'
-
-            config += self.get_group_config()
-            config += '}\n'
-
-        return config
+        raise Exception('You can\'t use CheckPing for your configuration directly. Please use CheckPing4 or CheckPing6 instead')

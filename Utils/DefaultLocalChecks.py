@@ -94,30 +94,36 @@ class DefaultLocalChecks:
         for server in self.__servers:
             if True is self.__check_apt:
                 check = CheckApt.create('apt') \
-                    .add_service_group(ServiceGroup.create('apt'))
+                    .set_display_name('APT') \
+                    .add_service_group(ServiceGroup.create('apt').set_display_name('APT'))
                 server.add_check(check)
 
             if True is self.__check_load:
                 check = CheckLoad.create('load') \
-                    .add_service_group(ServiceGroup.create('load'))
+                    .set_display_name('Load') \
+                    .add_service_group(ServiceGroup.create('load').set_display_name('Load'))
                 server.add_check(check)
 
             if True is self.__check_ntp_time:
                 check = CheckNTPTime.create('ntp_time') \
-                    .add_service_group(ServiceGroup.create('ntp_time'))
+                    .set_display_name('NTP Time') \
+                    .add_service_group(ServiceGroup.create('ntp_time').set_display_name('NTP Time'))
                 server.add_check(check)
 
             if True is self.__check_swap:
                 check = CheckSWAP.create('swap') \
-                    .add_service_group(ServiceGroup.create('swap'))
+                    .set_display_name('SWAP') \
+                    .add_service_group(ServiceGroup.create('swap').set_display_name('SWAP'))
                 server.add_check(check)
 
             if True is self.__check_users:
                 check = CheckUsers.create('users') \
-                    .add_service_group(ServiceGroup.create('users'))
+                    .set_display_name('Users') \
+                    .add_service_group(ServiceGroup.create('users').set_display_name('Users'))
                 server.add_check(check)
 
             if True is self.__check_disk:
                 check = CheckDisk.create('disk') \
-                    .add_service_group(ServiceGroup.create('disk'))
+                    .set_display_name('Disk') \
+                    .add_service_group(ServiceGroup.create('disk').set_display_name('Disk'))
                 server.add_check(check)

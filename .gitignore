@@ -1,2 +1,3 @@
 .idea
 zones.d
+!zones.d/.gitkeep

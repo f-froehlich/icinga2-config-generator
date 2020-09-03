@@ -144,7 +144,7 @@ class DefaultWebserverChecks:
                     if None is server_ip:
                         server_ip = server.get_ipv6()
 
-                    server.add_hostgroup(HostGroup.create('webserver'))
+                    server.add_hostgroup(HostGroup.create('webserver').set_display_name('Webserver'))
 
                     if True is self.__validate_certificate:
                         certificate_check = CheckHttp.create(base_id + '_certificate') \
@@ -153,11 +153,18 @@ class DefaultWebserverChecks:
                             .set_uri(uri) \
                             .set_ssl(True) \
                             .set_certificate_check(True) \
-                            .add_service_group(ServiceGroup.create('certificate_check')) \
-                            .add_service_group(ServiceGroup.create('https_server'))
+                            .add_service_group(
+                            ServiceGroup.create('certificate_check').set_display_name('Certificate Check')
+                        ) \
+                            .add_service_group(ServiceGroup.create('https').set_display_name('Https')) \
+                            .set_display_name('Certificate expire ' + domain)
+
                         checkserver.add_check(certificate_check)
                     else:
-                        server.add_hostgroup(HostGroup.create('no_certificate_check'))
+                        server.add_hostgroup(
+                            HostGroup.create('no_certificate_check')
+                                .set_display_name('No certificate check Webserver')
+                        )
 
                     if True is self.__validate_http_redirect:
                         redirect_check = CheckHttp.create(base_id + '_http_redirect') \
@@ -167,21 +174,35 @@ class DefaultWebserverChecks:
                             .set_ssl(False) \
                             .set_port(80) \
                             .set_expect('301') \
-                            .add_service_group(ServiceGroup.create('http_redirect_check')) \
-                            .add_service_group(ServiceGroup.create('https_server'))
-
+                            .add_service_group(
+                            ServiceGroup.create('http_redirect_check').set_display_name('Http to https redirect')
+                        ) \
+                            .add_service_group(ServiceGroup.create('https').set_display_name('Https')) \
+                            .set_display_name('Http to https redirect ' + domain)
+                        server.add_hostgroup(
+                            HostGroup.create('http_redirect').set_display_name('Http to https redirect Webserver')
+                        )
                         checkserver.add_check(redirect_check)
                     elif True is self.__warn_no_http_redirect:
                         redirect_check = CheckDummy.create(base_id + '_missing_http_redirect') \
                             .set_state(1) \
                             .set_text('No http redirect setup for ' + domain) \
-                            .add_service_group(ServiceGroup.create('missing_http_redirect_check')) \
-                            .add_service_group(ServiceGroup.create('https_server'))
+                            .add_service_group(
+                            ServiceGroup.create('missing_http_redirect_check')
+                                .set_display_name('Missing http to https redirect check')
+                        ) \
+                            .add_service_group(ServiceGroup.create('http').set_display_name('Http')) \
+                            .set_display_name('Http to https redirect ' + domain)
 
                         checkserver.add_check(redirect_check)
-                        server.add_hostgroup(HostGroup.create('no_http_redirect'))
+                        server.add_hostgroup(
+                            HostGroup.create('no_http_redirect').set_display_name('No http to https redirect Webserver')
+                        )
                     else:
-                        server.add_hostgroup(HostGroup.create('http_redirect_unchecked'))
+                        server.add_hostgroup(
+                            HostGroup.create('http_redirect_unchecked')
+                                .set_display_name('Http to https redirect Webserver unchecked')
+                        )
 
                     if True is self.__validate_allow_tls1:
                         tls1_check = CheckHttp.create(base_id + '_allow_tls1') \
@@ -189,22 +210,36 @@ class DefaultWebserverChecks:
                             .set_vhost(domain) \
                             .set_uri(uri) \
                             .set_ssl_protocol('1.1') \
-                            .add_service_group(ServiceGroup.create('tls_check')) \
-                            .add_service_group(ServiceGroup.create('insecure_https_server'))
+                            .add_service_group(ServiceGroup.create('tls_check').set_display_name('TLS Check')) \
+                            .add_service_group(ServiceGroup.create('tls_1_check').set_display_name('TLS 1.0')) \
+                            .set_display_name('Allow TLS 1.0 ' + domain)
+
                         checkserver.add_check(tls1_check)
-                        server.add_hostgroup(HostGroup.create('insecure_webserver'))
-                        server.add_hostgroup(HostGroup.create('insecure_TLSv1_0_Webserver'))
+                        server.add_hostgroup(
+                            HostGroup.create('insecure_webserver').set_display_name('Insecure Webserver')
+                        )
+                        server.add_hostgroup(
+                            HostGroup.create('insecure_TLSv1_0_Webserver')
+                                .set_display_name('Insecure TLS 1.0 Webserver')
+                        )
                     elif True is self.__validate_deny_tls1:
                         tls1_check = CheckDenyTlsVersion.create(base_id + '_deny_tls1') \
                             .set_address(server_ip) \
                             .set_domain(domain) \
                             .set_protocol('1.0') \
-                            .add_service_group(ServiceGroup.create('tls_check')) \
-                            .add_service_group(ServiceGroup.create('deny_insecure_tls')) \
-                            .add_service_group(ServiceGroup.create('deny_insecure_tls_1_0'))
+                            .add_service_group(ServiceGroup.create('tls_check').set_display_name('TLS Check')) \
+                            .add_service_group(ServiceGroup.create('tls_1_check').set_display_name('TLS 1.0')) \
+                            .set_display_name('Deny TLS 1.0 ' + domain)
+                        server.add_hostgroup(
+                            HostGroup.create('deny_insecure_TLSv1_0_Webserver')
+                                .set_display_name('Deny insecure TLS 1.0 Webserver')
+                        )
                         checkserver.add_check(tls1_check)
                     else:
-                        server.add_hostgroup(HostGroup.create('deny_insecure_TLSv1_0_unchecked'))
+                        server.add_hostgroup(
+                            HostGroup.create('deny_insecure_TLSv1_0_unchecked')
+                                .set_display_name('Deny insecure TLS 1.0 unchecked')
+                        )
 
                     if True is self.__validate_allow_tls1_1:
                         tls1_1_check = CheckHttp.create(base_id + '_allow_tls1_1') \
@@ -212,23 +247,37 @@ class DefaultWebserverChecks:
                             .set_ip(server_ip) \
                             .set_uri(uri) \
                             .set_ssl_protocol('1.1') \
-                            .add_service_group(ServiceGroup.create('tls_check')) \
-                            .add_service_group(ServiceGroup.create('insecure_https_server'))
+                            .add_service_group(ServiceGroup.create('tls_check').set_display_name('TLS Check')) \
+                            .add_service_group(ServiceGroup.create('tls_1_1_check').set_display_name('TLS 1.1')) \
+                            .set_display_name('Allow TLS 1.1 ' + domain)
+
                         checkserver.add_check(tls1_1_check)
-                        server.add_hostgroup(HostGroup.create('insecure_ebserver'))
-                        server.add_hostgroup(HostGroup.create('insecure_TLSv1_1_webserver'))
+                        server.add_hostgroup(
+                            HostGroup.create('insecure_webserver').set_display_name('Insecure Webserver')
+                        )
+                        server.add_hostgroup(
+                            HostGroup.create('insecure_TLSv1_1_webserver')
+                                .set_display_name('Insecure TLS 1.1 Webserver')
+                        )
 
                     elif True is self.__validate_deny_tls1_1:
                         tls1_1_check = CheckDenyTlsVersion.create(base_id + '_deny_tls1_1') \
                             .set_address(server_ip) \
                             .set_domain(domain) \
                             .set_protocol('1.1') \
-                            .add_service_group(ServiceGroup.create('tls_check')) \
-                            .add_service_group(ServiceGroup.create('deny_insecure_tls')) \
-                            .add_service_group(ServiceGroup.create('deny_insecure_tls_1_1'))
+                            .add_service_group(ServiceGroup.create('tls_check').set_display_name('TLS Check')) \
+                            .add_service_group(ServiceGroup.create('tls_1_1_check').set_display_name('TLS 1.1')) \
+                            .set_display_name('Deny TLS 1.1 ' + domain)
+                        server.add_hostgroup(
+                            HostGroup.create('deny_insecure_TLSv1_1_Webserver')
+                                .set_display_name('Deny insecure TLS 1.1 Webserver')
+                        )
                         checkserver.add_check(tls1_1_check)
                     else:
-                        server.add_hostgroup(HostGroup.create('deny_insecure_TLSv1_1_unchecked'))
+                        server.add_hostgroup(
+                            HostGroup.create('deny_insecure_TLSv1_1_unchecked')
+                                .set_display_name('Inecure TLS 1.1 unchecked')
+                        )
 
                     if True is self.__validate_allow_tls1_2:
                         tls1_2_check = CheckHttp.create(base_id + '_allow_tls1_2') \
@@ -236,23 +285,36 @@ class DefaultWebserverChecks:
                             .set_ip(server_ip) \
                             .set_uri(uri) \
                             .set_ssl_protocol('1.2') \
-                            .add_service_group(ServiceGroup.create('tls_check')) \
-                            .add_service_group(ServiceGroup.create('secure_https_server'))
+                            .add_service_group(ServiceGroup.create('tls_check').set_display_name('TLS Check')) \
+                            .add_service_group(ServiceGroup.create('tls_1_2_check').set_display_name('TLS 1.2')) \
+                            .set_display_name('Allow TLS 1.2 ' + domain)
+
                         checkserver.add_check(tls1_2_check)
-                        server.add_hostgroup(HostGroup.create('secure_webserver'))
-                        server.add_hostgroup(HostGroup.create('secure_TLSv1_2_webserver'))
+                        server.add_hostgroup(HostGroup.create('secure_webserver').set_display_name('Secure Webserver'))
+                        server.add_hostgroup(
+                            HostGroup.create('secure_TLSv1_2_webserver').set_display_name('Secure TLS 1.2 Webserver')
+                        )
 
                     elif True is self.__validate_deny_tls1_2:
                         tls1_2_check = CheckDenyTlsVersion.create(base_id + '_deny_tls1_2') \
                             .set_address(server_ip) \
                             .set_domain(domain) \
                             .set_protocol('1.2') \
-                            .add_service_group(ServiceGroup.create('tls_check')) \
-                            .add_service_group(ServiceGroup.create('deny_secure_tls')) \
-                            .add_service_group(ServiceGroup.create('deny_secure_tls_1_2'))
+                            .add_service_group(ServiceGroup.create('tls_check').set_display_name('TLS Check')) \
+                            .add_service_group(ServiceGroup.create('tls_1_2_check').set_display_name('TLS 1.2')) \
+                            .set_display_name('Deny TLS 1.2 ' + domain)
+
+                        server.add_hostgroup(HostGroup.create('insecure_webserver'))
+                        server.add_hostgroup(
+                            HostGroup.create('deny_secure_TLSv1_2_webserver') \
+                                .set_display_name('Deny secure TLS 1.2 Webserver')
+                        )
+
                         checkserver.add_check(tls1_2_check)
                     else:
-                        server.add_hostgroup(HostGroup.create('secure_TLSv1_2_unchecked'))
+                        server.add_hostgroup(
+                            HostGroup.create('secure_TLSv1_2_unchecked').set_display_name('Secure TLS 1.2 unchecked')
+                        )
 
                     if True is self.__validate_allow_tls1_3:
                         tls1_3_check = CheckHttp.create(base_id + '_allow_tls1_3') \
@@ -260,25 +322,33 @@ class DefaultWebserverChecks:
                             .set_vhost(domain) \
                             .set_uri(uri) \
                             .set_ssl_protocol('1.3') \
-                            .add_service_group(ServiceGroup.create('tls_check')) \
-                            .add_service_group(ServiceGroup.create('secure_https_server')) \
-                            .add_service_group(ServiceGroup.create('modern_https_server'))
+                            .add_service_group(ServiceGroup.create('tls_check').set_display_name('TLS Check')) \
+                            .add_service_group(ServiceGroup.create('tls_1_3_check').set_display_name('TLS 1.3')) \
+                            .set_display_name('Allow TLS 1.3 ' + domain)
 
                         checkserver.add_check(tls1_3_check)
-                        server.add_hostgroup(HostGroup.create('secure_webserver'))
-                        server.add_hostgroup(HostGroup.create('secure_TLSv1_3_Webserver'))
+                        server.add_hostgroup(HostGroup.create('secure_webserver').set_display_name('Secure Webserver'))
+                        server.add_hostgroup(
+                            HostGroup.create('secure_TLSv1_3_Webserver').set_display_name('Secure TLS 1.3 Webserver')
+                        )
 
                     elif True is self.__validate_deny_tls1_3:
                         tls1_3_check = CheckDenyTlsVersion.create(base_id + '_deny_tls1_3') \
                             .set_address(server_ip) \
                             .set_domain(domain) \
                             .set_protocol('1.3') \
-                            .add_service_group(ServiceGroup.create('tls_check')) \
-                            .add_service_group(ServiceGroup.create('deny_secure_tls')) \
-                            .add_service_group(ServiceGroup.create('deny_secure_tls_1_3'))
+                            .add_service_group(ServiceGroup.create('tls_check').set_display_name('TLS Check')) \
+                            .add_service_group(ServiceGroup.create('tls_1_3_check').set_display_name('TLS 1.3')) \
+                            .set_display_name('Deny TLS 1.3 ' + domain)
+
                         checkserver.add_check(tls1_3_check)
 
                         server.add_hostgroup(HostGroup.create('insecure_webserver'))
-                        server.add_hostgroup(HostGroup.create('deny_secure_TLSv1_3_webserver'))
+                        server.add_hostgroup(
+                            HostGroup.create('deny_secure_TLSv1_3_webserver') \
+                                .set_display_name('Deny secure TLS 1.3 Webserver')
+                        )
                     else:
-                        server.add_hostgroup(HostGroup.create('secure_TLSv1_3_unchecked'))
+                        server.add_hostgroup(
+                            HostGroup.create('secure_TLSv1_3_unchecked').set_display_name('Secure TLS 1.3 unchecked')
+                        )

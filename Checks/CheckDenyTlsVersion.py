@@ -58,12 +58,6 @@ class CheckDenyTlsVersion(Check):
     def get_domain(self):
         return self.__domain
 
-    def get_custom_definitions(self):
-        return [
-            # 'if (host.address) { vars.command_deny_tls_version_address = host.address } '
-            # 'else if (host.address6) { vars.command_deny_tls_version_address = host.address6}'
-        ]
-
     @staticmethod
     def create(id):
         ValueChecker.validate_id(id)

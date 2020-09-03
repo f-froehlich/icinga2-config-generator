@@ -49,7 +49,6 @@ class CheckPing4(CheckPing):
     def get_custom_definitions(self):
         return [
             'vars.command_ping_v4 = true',
-            'vars.command_ping_address = host.address'
         ]
 
     def get_config(self):
