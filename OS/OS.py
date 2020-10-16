@@ -89,7 +89,7 @@ class OS:
 
     def set_distro(self, distro):
         ValueChecker.is_string(distro)
-        HostGroup.create('hg_distro_' + self.__id).set_display_name(distro.capitalize())
+        HostGroup.create('hg_distro_' + distro).set_display_name(distro.capitalize())
         self.__distro = distro
         return self
 
