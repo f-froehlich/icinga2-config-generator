@@ -20,7 +20,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 from OS.OS import OS
-from PackageManager.PackageManager import *
+from PackageManager.PackageManager import apt
 
 os_ubuntu_4_10 =  OS.create('ubuntu_4_10') .set_distro('ubuntu').set_version('4.10') .set_os('Ubuntu 4.10 STS (Warty Warthog)').set_package_manager(apt)
 os_ubuntu_5_04 =  OS.create('ubuntu_5_04') .set_distro('ubuntu').set_version('5.04') .set_os('Ubuntu 5.04 STS (Hoary Hedgehog)').set_package_manager(apt)

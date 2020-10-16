@@ -67,3 +67,5 @@ class PackageManager:
 apt = PackageManager.create('apt').set_manager('apt')
 yum = PackageManager.create('yum').set_manager('yum')
 apk = PackageManager.create('apk').set_manager('apk')
+rpm = PackageManager.create('rpm').set_manager('rpm')
+dpkg = PackageManager.create('dpkg').set_manager('dpkg')
