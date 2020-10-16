@@ -31,6 +31,8 @@ class SSHTemplate:
         self.__identityfile = None
         self.__user = 'icinga'
         self.__port = 22
+        self.__timeout = 30
+        self.__plugin_dir = '/usr/lib/nagios/plugins/'
 
     @staticmethod
     def create(id):
@@ -53,6 +55,14 @@ class SSHTemplate:
         return self
 
     def get_hostname(self):
+        return self.__host
+
+    def set_plugin_dir(self, plugin_dir):
+        ValueChecker.is_string(plugin_dir)
+        self.__host = plugin_dir
+        return self
+
+    def get_plugin_dir(self):
         return self.__host
 
     def set_user(self, user):

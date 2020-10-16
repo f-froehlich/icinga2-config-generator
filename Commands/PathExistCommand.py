@@ -25,7 +25,7 @@ from ConfigBuilder import ConfigBuilder
 from ValueChecker import ValueChecker
 
 
-class SWAPCommand(Command):
+class PathExistCommand(Command):
 
     def __init__(self, id):
         Command.__init__(self, id)
@@ -36,30 +36,26 @@ class SWAPCommand(Command):
         command = ConfigBuilder.get_command(id)
         if None is command:
             id = 'command_' + id
-            command = SWAPCommand(id)
+            command = PathExistCommand(id)
             ConfigBuilder.add_command(id, command)
 
         return command
 
     def get_command(self):
-        return 'check_swap'
+        return 'check_path_exist.sh'
 
     def get_arguments(self):
         config = """{
-    "--warning" = {
-      value = "$command_swap_warning$%"
+    "-f" = {
+      value = "$command_path_exist_file$"
     }
-    "--critical" = {
-      value = "$command_swap_critical$%"
+    "-d" = {
+      value = "$command_path_exist_dir$"
     }
-    "--allswaps" = {
-      value = "$command_swap_allswaps$"
-      set_if = {{ macro("$command_swap_allswaps$") != false }}
-    }
-    "--no-swap" = {
-      value = "$command_swap_no_swap$"
-      set_if = {{ macro("$command_swap_no_swap$") != false }}
+    "-i" = {
+      set_if = "$command_path_exist_invert$"
     }
   }
 """
+
         return config

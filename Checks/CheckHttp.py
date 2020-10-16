@@ -44,7 +44,7 @@ class CheckHttp(Check):
         self.__continue_after_certificate = False
         self.__client_cert = None
         self.__client_cert_key = None
-        self.__expect = 'HTTP/1.1 200 OK'
+        self.__expect = 'HTTP/1.1 200'
         self.__expect_header = None
         self.__expect_content = None
         self.__uri = "/"

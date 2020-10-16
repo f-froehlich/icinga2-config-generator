@@ -20,48 +20,53 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from Commands.Command import Command
 from ConfigBuilder import ConfigBuilder
 from ValueChecker import ValueChecker
-from Groups.HostGroup import HostGroup
 
-class OS:
+
+class FileAgeCommand(Command):
 
     def __init__(self, id):
-        self.__id = id
-        self.__os = None
+        Command.__init__(self, id)
 
     @staticmethod
     def create(id):
         ValueChecker.validate_id(id)
+        command = ConfigBuilder.get_command(id)
+        if None is command:
+            id = 'command_' + id
+            command = FileAgeCommand(id)
+            ConfigBuilder.add_command(id, command)
 
-        os = ConfigBuilder.get_os(id)
-        if None is os:
-            id = 'os_' + id
-            os = OS(id)
-            ConfigBuilder.add_os(id, os)
+        return command
 
-        return os
+    def get_command(self):
+        return 'check_file_age'
 
-    def get_id(self):
-        return self.__id
-
-    def set_os(self, os):
-        ValueChecker.is_string(os)
-        HostGroup.create('hg_' + self.__id).set_display_name(os)
-        self.__os = os
-        return self
-
-    def get_os(self):
-        return self.__os
-
-
-    def get_config(self):
-        if None is self.__os:
-            raise Exception('You have to specify OS for ' + self.__id)
-        
-        config = 'template Host "' + self.__id + '" {\n'
-        config += '  vars.os = "' + self.__os + '"\n'
-        config += '  vars.hostgroup_hg_' + self.__id + ' = true\n'
-        config += '}\n'
+    def get_arguments(self):
+        config = """{
+    "-f" = {
+      value = "$command_file_age_file$"
+    }
+    "-w" = {
+      value = "$command_file_age_warning_seconds$"
+    }
+    "-c" = {
+      value = "$command_file_age_critical_seconds$"
+    }
+    "-W" = {
+      value = "$command_file_age_warning_size$"
+      set_if = {{ macro("$command_file_age_warning_size$") != false }}
+    }
+    "-C" = {
+      value = "$command_file_age_critical_size$"
+      set_if = {{ macro("$command_file_age_critical_size$") != false }}
+    }
+    "--ignore-missing" = {
+      set_if = "$command_file_age_ignore_missing$"
+    }
+  }
+"""
 
         return config

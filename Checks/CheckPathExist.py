@@ -20,46 +20,55 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from Commands.Command import Command
+from Checks.Check import Check
+from Commands.PathExistCommand import PathExistCommand
 from ConfigBuilder import ConfigBuilder
 from ValueChecker import ValueChecker
 
 
-class SWAPCommand(Command):
+class CheckPathExists(Check):
 
     def __init__(self, id):
-        Command.__init__(self, id)
+        Check.__init__(self, id, 'CheckPathExists', 'path_exist')
+        self.__file = None
+        self.__dir = None
+        self.__invert = False
+
+    def set_file(self, file):
+        ValueChecker.is_string(file)
+        self.__file = file
+        return self
+
+    def get_file(self):
+        return self.__file
+    
+    def set_dir(self, dir):
+        ValueChecker.is_string(dir)
+        self.__dir = dir
+        return self
+
+    def get_dir(self):
+        return self.__dir
+
+    def set_invert(self, invert):
+        ValueChecker.is_bool(invert)
+        self.__invert = invert
+        return self
+
+    def get_invert(self):
+        return self.__invert
+
 
     @staticmethod
     def create(id):
         ValueChecker.validate_id(id)
-        command = ConfigBuilder.get_command(id)
-        if None is command:
-            id = 'command_' + id
-            command = SWAPCommand(id)
-            ConfigBuilder.add_command(id, command)
+        check = ConfigBuilder.get_check(id)
+        if None is check:
+            id = 'check_' + id
+            check = CheckPathExists(id)
+            ConfigBuilder.add_check(id, check)
 
-        return command
+        if None is ConfigBuilder.get_command('path_exist'):
+            PathExistCommand.create('path_exist')
 
-    def get_command(self):
-        return 'check_swap'
-
-    def get_arguments(self):
-        config = """{
-    "--warning" = {
-      value = "$command_swap_warning$%"
-    }
-    "--critical" = {
-      value = "$command_swap_critical$%"
-    }
-    "--allswaps" = {
-      value = "$command_swap_allswaps$"
-      set_if = {{ macro("$command_swap_allswaps$") != false }}
-    }
-    "--no-swap" = {
-      value = "$command_swap_no_swap$"
-      set_if = {{ macro("$command_swap_no_swap$") != false }}
-    }
-  }
-"""
-        return config
+        return check

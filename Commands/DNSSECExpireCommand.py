@@ -57,15 +57,15 @@ class DNSSECExpireCommand(Command):
     }
     "-r" = {
       value = "$command_dnssec_expiry_resolver$"
-      set_if = "$command_dnssec_expiry_resolver$"
+      set_if = {{ macro("$command_dnssec_expiry_resolver$") != false }}
     }
     "-f" = {
       value = "$command_dnssec_expiry_failing_domain$"
-      set_if = "$command_dnssec_expiry_failing_domain$"
+      set_if = {{ macro("$command_dnssec_expiry_failing_domain$") != false }}
     }
     "-t" = {
       value = "$command_dnssec_expiry_record_type$"
-      set_if = "$command_dnssec_expiry_record_type$"
+      set_if = {{ macro("$command_dnssec_expiry_record_type$") != false }}
     }
   }
 """

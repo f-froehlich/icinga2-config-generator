@@ -54,15 +54,15 @@ class SSHCommand(Command):
     }
     "--timeout" = {
       value = "$command_ssh_timeout$"
-      set_if = "$command_ssh_timeout$"
+      set_if = {{ macro("$command_ssh_timeout$") != false }}
     }
     "--remote-version" = {
       value = "$command_ssh_remote_version$"
-      set_if = "$command_ssh_remote_version$"
+      set_if = {{ macro("$command_ssh_remote_version$") != false }}
     }
     "--remote-protocol" = {
       value = "$command_ssh_remote_protocol$"
-      set_if = "$command_ssh_remote_protocol$"
+      set_if = {{ macro("$command_ssh_remote_protocol$") != false }}
     }
     "--use-ipv4" = {
       set_if = "$command_ssh_force_ipv4$"

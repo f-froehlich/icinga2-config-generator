@@ -27,7 +27,8 @@ from Servers.Server import Server
 
 class DomainCheck:
 
-    def __init__(self, domain_configs=[], checkserver=[]):
+    def __init__(self, domain_configs=[], checkserver=[], notifications=[]):
+        self.__notifications = notifications
         self.__domain_configs = domain_configs
         self.__checkserver = checkserver
 
@@ -36,6 +37,10 @@ class DomainCheck:
 
     def add_checkserver(self, checkserver):
         self.__checkserver.append(checkserver)
+
+    def apply_notification_to_check(self, check):
+        for notification in self.__notifications:
+            check.add_notification(notification)
 
     def apply(self):
 
@@ -53,7 +58,8 @@ class DomainCheck:
                         .set_zone(domain) \
                         .add_service_group(ServiceGroup.create('dnssec_check').set_display_name('DNSSEC')) \
                         .set_display_name('DNSSEC ' + domain) \
-                        .set_check_interval('15m')
+                        .set_check_interval('30m')
+                    self.apply_notification_to_check(dnssec_check)
 
                     checkserver.add_check(dnssec_check)
 
@@ -66,15 +72,17 @@ class DomainCheck:
                         .set_display_name('DNS A ' + domain) \
                         .set_check_interval('5m')
 
+                    self.apply_notification_to_check(ipv4_check)
                     checkserver.add_check(ipv4_check)
 
                 if None is not ipv6:
-                    ipv4_check = CheckDig.create(base_id + '_ipv6') \
+                    ipv6_check = CheckDig.create(base_id + '_ipv6') \
                         .set_record_type('AAAA') \
                         .set_question(domain) \
                         .set_expected_address(ipv6) \
                         .add_service_group(ServiceGroup.create('dns_check').set_display_name('DNS')) \
                         .set_display_name('DNS AAAA ' + domain) \
                         .set_check_interval('5m')
+                    self.apply_notification_to_check(ipv6_check)
 
-                    checkserver.add_check(ipv4_check)
+                    checkserver.add_check(ipv6_check)

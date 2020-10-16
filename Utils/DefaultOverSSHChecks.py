@@ -27,13 +27,14 @@ from Checks.CheckNTPTime import CheckNTPTime
 from Checks.CheckSWAP import CheckSWAP
 from Checks.CheckUsers import CheckUsers
 from Groups.ServiceGroup import ServiceGroup
+from Checks.CheckSSH import CheckSSH
 
 
-class DefaultLocalChecks:
+class DefaultOverSSHChecks:
 
     def __init__(self, servers=[], notifications=[]):
-        self.__servers = servers
         self.__notifications = notifications
+        self.__servers = servers
         self.__check_load = True
         self.__check_apt = True
         self.__check_yum = False
@@ -61,6 +62,11 @@ class DefaultLocalChecks:
 
     def check_yum(self, enabled):
         self.__check_yum = enabled
+
+        return self
+
+    def add_partition(self, id, path, warning_percent, critical_percent):
+        self.__check_partitions.append((id, path, warning_percent, critical_percent))
 
         return self
 
@@ -102,24 +108,16 @@ class DefaultLocalChecks:
     def add_server(self, server):
         self.__servers.append(server)
 
-    def add_partition(self, id, path, warning_percent, critical_percent):
-        self.__check_partitions.append((id, path, warning_percent, critical_percent))
-
-        return self
-
-    def add_notification(self, notification):
-        self.__notifications.append(notification)
-        return self
-
     def apply_notification_to_check(self, check):
         for notification in self.__notifications:
             check.add_notification(notification)
-        return self
 
     def apply(self):
         for server in self.__servers:
+
             if True is self.__check_apt:
                 check = CheckApt.create('apt_' + server.get_id()) \
+                    .set_check_type('ssh') \
                     .set_display_name('APT') \
                     .add_service_group(ServiceGroup.create('apt').set_display_name('APT'))
                 self.apply_notification_to_check(check)
@@ -127,6 +125,7 @@ class DefaultLocalChecks:
 
             if True is self.__check_yum:
                 check = CheckYum.create('yum_' + server.get_id()) \
+                    .set_check_type('ssh') \
                     .set_display_name('YUM') \
                     .add_service_group(ServiceGroup.create('yum').set_display_name('YUM'))
                 self.apply_notification_to_check(check)
@@ -134,6 +133,7 @@ class DefaultLocalChecks:
 
             if True is self.__check_load:
                 check = CheckLoad.create('load_' + server.get_id()) \
+                    .set_check_type('ssh') \
                     .set_display_name('Load') \
                     .add_service_group(ServiceGroup.create('load').set_display_name('Load'))
                 self.apply_notification_to_check(check)
@@ -141,6 +141,7 @@ class DefaultLocalChecks:
 
             if True is self.__check_ntp_time:
                 check = CheckNTPTime.create('ntp_time_' + server.get_id()) \
+                    .set_check_type('ssh') \
                     .set_display_name('NTP Time') \
                     .add_service_group(ServiceGroup.create('ntp_time').set_display_name('NTP Time'))
                 self.apply_notification_to_check(check)
@@ -148,6 +149,7 @@ class DefaultLocalChecks:
 
             if True is self.__check_swap:
                 check = CheckSWAP.create('swap_' + server.get_id()) \
+                    .set_check_type('ssh') \
                     .set_display_name('SWAP') \
                     .add_service_group(ServiceGroup.create('swap').set_display_name('SWAP'))
                 self.apply_notification_to_check(check)
@@ -155,25 +157,29 @@ class DefaultLocalChecks:
 
             if True is self.__check_users:
                 check = CheckUsers.create('users_' + server.get_id()) \
+                    .set_check_type('ssh') \
                     .set_display_name('Users') \
                     .add_service_group(ServiceGroup.create('users').set_display_name('Users'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
-            if True is self.__check_disk:
-                if len(self.__check_partitions) == 0:
-                    check = CheckDisk.create('disk_' +  server.get_id()) \
-                        .set_display_name('Disk ') \
+        if True is self.__check_disk:
+            if len(self.__check_partitions) == 0:
+                check = CheckDisk.create('disk_' +  server.get_id()) \
+                    .set_check_type('ssh') \
+                    .set_display_name('Disk ') \
+                    .add_service_group(ServiceGroup.create('disk').set_display_name('Disk'))
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+            else:
+                for config in self.__check_partitions:
+                    check = CheckDisk.create('disk_' + config[0] +  server.get_id()) \
+                        .set_check_type('ssh') \
+                        .set_display_name('Disk ' + config[0]) \
+                        .set_partition(config[1]) \
+                        .set_warning_percent(config[2]) \
+                        .set_critical_percent(config[3]) \
                         .add_service_group(ServiceGroup.create('disk').set_display_name('Disk'))
                     self.apply_notification_to_check(check)
                     server.add_check(check)
-                else:
-                    for config in self.__check_partitions:
-                        check = CheckDisk.create('disk_' + config[0] +  server.get_id()) \
-                            .set_display_name('Disk ' + config[0]) \
-                            .set_partition(config[1]) \
-                            .set_warning_percent(config[2]) \
-                            .set_critical_percent(config[3]) \
-                            .add_service_group(ServiceGroup.create('disk').set_display_name('Disk'))
-                        self.apply_notification_to_check(check)
-                        server.add_check(check)
+

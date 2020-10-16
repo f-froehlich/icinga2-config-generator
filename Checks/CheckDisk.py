@@ -30,8 +30,8 @@ class CheckDisk(Check):
 
     def __init__(self, id):
         Check.__init__(self, id, 'CheckDisk', 'disk')
-        self.__warning = '75%'
-        self.__critical = '90%'
+        self.__warning = '20%'
+        self.__critical = '10%'
         self.__inode_warning = None
         self.__inode_critical = None
         self.__combined_thresholds = None
@@ -62,6 +62,8 @@ class CheckDisk(Check):
         self.__exclude_type = None
         self.__include_type = None
         self.__newlines = None
+        self.set_check_interval('5m')
+
 
     def set_warning_units(self, number):
         ValueChecker.is_number(number)

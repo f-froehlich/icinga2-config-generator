@@ -25,7 +25,7 @@ from ConfigBuilder import ConfigBuilder
 from ValueChecker import ValueChecker
 
 
-class SWAPCommand(Command):
+class YumCommand(Command):
 
     def __init__(self, id):
         Command.__init__(self, id)
@@ -36,30 +36,48 @@ class SWAPCommand(Command):
         command = ConfigBuilder.get_command(id)
         if None is command:
             id = 'command_' + id
-            command = SWAPCommand(id)
+            command = YumCommand(id)
             ConfigBuilder.add_command(id, command)
 
         return command
 
     def get_command(self):
-        return 'check_swap'
+        return 'check_yum.py'
 
     def get_arguments(self):
         config = """{
-    "--warning" = {
-      value = "$command_swap_warning$%"
+    "--all-updates" = {
+      set_if = "$command_yum_all_updates$"
     }
-    "--critical" = {
-      value = "$command_swap_critical$%"
+    "--warn-on-any-update" = {
+      set_if = "$command_yum_warn_any_update$"
     }
-    "--allswaps" = {
-      value = "$command_swap_allswaps$"
-      set_if = {{ macro("$command_swap_allswaps$") != false }}
+    "--cache-only" = {
+      set_if = "$command_yum_cache_only$"
     }
-    "--no-swap" = {
-      value = "$command_swap_no_swap$"
-      set_if = {{ macro("$command_swap_no_swap$") != false }}
+    "--no-warn-on-lock" = {
+      set_if = "$command_yum_no_warn_on_lock$"
+    }
+    "--config" = {
+      value = "$command_yum_config$"
+      set_if = {{ macro("$command_yum_config$") != false }}
+    }
+    "--enablerepo" = {
+      value = "$command_yum_repo_enabled$"
+      set_if = {{ macro("$command_yum_repo_enabled$") != false }}
+    }
+    "--disablerepo" = {
+      value = "$command_yum_repo_disabled$"
+      set_if = {{ macro("$command_yum_repo_disabled$") != false }}
+    }
+    "--disableplugin" = {
+      value = "$command_yum_plugin_disabled$"
+      set_if = {{ macro("$command_yum_plugin_disabled$") != false }}
+    }
+    "--timeout" = {
+      value = "$command_yum_timeout$"
     }
   }
 """
+
         return config

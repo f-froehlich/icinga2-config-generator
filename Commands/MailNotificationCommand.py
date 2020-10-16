@@ -42,7 +42,7 @@ class MailNotificationCommand(NotificationCommand):
         return command
 
     def get_command_definition(self):
-        return '[ ConfigDir + "/scripts/mail-service-notification.sh" ]'
+        return '[ "/etc/icinga2/scripts/mail-service-notification.sh" ]'
 
     def get_arguments(self):
         config = """{

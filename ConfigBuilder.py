@@ -23,9 +23,9 @@
 import inspect
 import shutil
 from pathlib import Path
-
 from Application.Application import Application
 from ValueChecker import ValueChecker
+from tqdm import tqdm
 
 
 class ConfigBuilder:
@@ -45,6 +45,7 @@ class ConfigBuilder:
     __downtimes = []
     __zones = []
     __os = []
+    __package_manager = []
     __application = Application.create()
 
     @staticmethod
@@ -73,10 +74,16 @@ class ConfigBuilder:
             {'dir': 'time_periods', 'config': ConfigBuilder.__time_periods},
             {'dir': 'notifications/templates', 'config': ConfigBuilder.__notification_templates},
             {'dir': 'notifications/notifications', 'config': ConfigBuilder.__notifications},
-            {'dir': 'ssh_templates', 'config': ConfigBuilder.__ssh_templates},
             {'dir': 'downtimes', 'config': ConfigBuilder.__downtimes},
             {'dir': 'os', 'config': ConfigBuilder.__os},
+            {'dir': 'package_manager', 'config': ConfigBuilder.__package_manager},
         ]
+
+        total = len(ConfigBuilder.__servers)
+        for config in global_configs:
+            total += len(config['config'])
+
+        pbar = tqdm(total=total, desc="Writing config", unit=' Configs')
 
         for config in global_configs:
             dirpath = "zones.d/global-templates/" + config['dir']
@@ -84,6 +91,7 @@ class ConfigBuilder:
                 Path(dirpath).mkdir(parents=True, exist_ok=True)
                 with open(dirpath + '/' + ConfigBuilder.replace_prefixes(conf['id']) + '.conf', "w") as file:
                     file.write(conf['instance'].get_config())
+                pbar.update(1)
 
         for conf in ConfigBuilder.__servers:
             server = conf['instance']
@@ -93,6 +101,7 @@ class ConfigBuilder:
             Path(dirpath).mkdir(parents=True, exist_ok=True)
             with open(dirpath + '/' + ConfigBuilder.replace_prefixes(conf['id']) + '.conf', "w") as file:
                 file.write(server.get_config())
+            pbar.update(1)
 
         with open('zones.d/application.conf', "w") as file:
             file.write(ConfigBuilder.__application.get_config())
@@ -126,6 +135,36 @@ class ConfigBuilder:
                                                           command_name + '_') + ' = ' + arr + '\n'
 
         return config
+
+    @staticmethod
+    def get_instance(type):
+
+        config = {
+            'server': ConfigBuilder.__servers,
+            'checks': ConfigBuilder.__checks,
+            'templates': ConfigBuilder.__templates,
+            'commands': ConfigBuilder.__commands,
+            'vhosts': ConfigBuilder.__vhosts,
+            'servicegroups': ConfigBuilder.__servicegroups,
+            'hostgroups': ConfigBuilder.__hostgroups,
+            'usergroups': ConfigBuilder.__usergroups,
+            'users': ConfigBuilder.__users,
+            'ssh_templates': ConfigBuilder.__ssh_templates,
+            'time_periods': ConfigBuilder.__time_periods,
+            'notification_templates': ConfigBuilder.__notification_templates,
+            'notifications': ConfigBuilder.__notifications,
+            'downtimes': ConfigBuilder.__downtimes,
+            'os': ConfigBuilder.__os,
+            'package_manager': ConfigBuilder.__package_manager
+        }
+
+        instances_config = config[type]
+        instances = []
+
+        for config in instances_config:
+            instances.append(config['instance'])
+
+        return instances
 
     @staticmethod
     def get_server(id):
@@ -329,11 +368,11 @@ class ConfigBuilder:
         return None
 
     @staticmethod
-    def add_user(id, period):
+    def add_user(id, user):
         if None is not ConfigBuilder.get_user(id):
             raise Exception('user with id ' + id + ' already exists!')
 
-        ConfigBuilder.__users.append({'id': id, 'instance': period})
+        ConfigBuilder.__users.append({'id': id, 'instance': user})
 
     @staticmethod
     def get_downtime(id):
@@ -376,6 +415,7 @@ class ConfigBuilder:
             raise Exception('Zone with id ' + id + ' already exists!')
 
         ConfigBuilder.__zones.append({'id': id, 'instance': period})
+        
     @staticmethod
     def get_os(id):
         id = 'os_' + id
@@ -391,3 +431,19 @@ class ConfigBuilder:
             raise Exception('os with id ' + id + ' already exists!')
 
         ConfigBuilder.__os.append({'id': id, 'instance': os})
+
+    @staticmethod
+    def get_package_manager(id):
+        id = 'package_manager_' + id
+        for period in ConfigBuilder.__package_manager:
+            if period['id'] == id:
+                return period['instance']
+
+        return None
+
+    @staticmethod
+    def add_package_manager(id, package_manager):
+        if None is not ConfigBuilder.get_package_manager(id):
+            raise Exception('package_manager with id ' + id + ' already exists!')
+
+        ConfigBuilder.__package_manager.append({'id': id, 'instance': package_manager})

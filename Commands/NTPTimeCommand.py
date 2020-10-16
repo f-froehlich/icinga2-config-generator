@@ -48,18 +48,18 @@ class NTPTimeCommand(Command):
         config = """{
     "--use-ipv4" = {
       value = "$command_ntp_time_force_ipv4$"
-      set_if = "$command_ntp_time_force_ipv4$"
+      set_if = {{ macro("$command_ntp_time_force_ipv4$") != false }}
     }
     "--use-ipv6" = {
       value = "$command_ntp_time_force_ipv6$"
-      set_if = "$command_ntp_time_force_ipv6$"
+      set_if = {{ macro("$command_ntp_time_force_ipv6$") != false }}
     }
     "--hostname" = {
       value = "$command_ntp_time_ntp_server$"
     }
     "--port" = {
       value = "$command_ntp_time_ntp_server_port$"
-      set_if = "$command_ntp_time_ntp_server_port$"
+      set_if = {{ macro("$command_ntp_time_ntp_server_port$") != false }}
     }
     "--quiet" = {
       set_if = "$command_ntp_time_quiet$"
@@ -72,7 +72,7 @@ class NTPTimeCommand(Command):
     }
     "--time_offset" = {
       value = "$command_ntp_time_time_offset$"
-      set_if = "$command_ntp_time_time_offset$"
+      set_if = {{ macro("$command_ntp_time_time_offset$") != false }}
     }
     "--delay" = {
       value = "$command_ntp_time_delay$"
@@ -80,15 +80,15 @@ class NTPTimeCommand(Command):
     }
     "--stratum-warn" = {
       value = "$command_ntp_time_stratum_warn$"
-      set_if = "$command_ntp_time_stratum_warn$"
+      set_if = {{ macro("$command_ntp_time_stratum_warn$") != false }}
     }
     "--stratum-crit" = {
       value = "$command_ntp_time_stratum_crit$"
-      set_if = "$command_ntp_time_stratum_crit$"
+      set_if = {{ macro("$command_ntp_time_stratum_crit$") != false }}
     }
     "--timeout" = {
       value = "$command_ntp_time_timeout$"
-      set_if = "$command_ntp_time_timeout$"
+      set_if = {{ macro("$command_ntp_time_timeout$") != false }}
     }
   }
 """

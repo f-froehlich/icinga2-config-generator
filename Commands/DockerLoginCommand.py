@@ -25,7 +25,7 @@ from ConfigBuilder import ConfigBuilder
 from ValueChecker import ValueChecker
 
 
-class SWAPCommand(Command):
+class DockerLoginCommand(Command):
 
     def __init__(self, id):
         Command.__init__(self, id)
@@ -36,29 +36,30 @@ class SWAPCommand(Command):
         command = ConfigBuilder.get_command(id)
         if None is command:
             id = 'command_' + id
-            command = SWAPCommand(id)
+            command = DockerLoginCommand(id)
             ConfigBuilder.add_command(id, command)
 
         return command
 
     def get_command(self):
-        return 'check_swap'
+        return 'check_docker_login.sh'
 
     def get_arguments(self):
         config = """{
-    "--warning" = {
-      value = "$command_swap_warning$%"
+    "-u" = {
+      value = "$command_docker_login_user$"
     }
-    "--critical" = {
-      value = "$command_swap_critical$%"
+    "-c" = {
+      value = "$command_docker_login_credentials$"
     }
-    "--allswaps" = {
-      value = "$command_swap_allswaps$"
-      set_if = {{ macro("$command_swap_allswaps$") != false }}
+    "-a" = {
+      value = "$command_docker_login_address$"
     }
-    "--no-swap" = {
-      value = "$command_swap_no_swap$"
-      set_if = {{ macro("$command_swap_no_swap$") != false }}
+    "-p" = {
+      value = "$command_docker_login_port$"
+    }
+    "-s" = {
+      set_if = "$command_docker_login_as_sudo$"
     }
   }
 """

@@ -69,7 +69,7 @@ class DiskCommand(Command):
     }
     "--exclude_device" = {
       value = "$command_disk_exclude_device$"
-      set_if = "$command_disk_exclude_device$"
+      set_if = {{ macro("$command_disk_exclude_device$") != false }}
     }
     "--clear" = {
       set_if = "$command_disk_clear_thresholds$"
@@ -85,7 +85,7 @@ class DiskCommand(Command):
     }
     "--group" = {
       value = "$command_disk_group$"
-      set_if = "$command_disk_group$"
+      set_if = {{ macro("$command_disk_group$") != false }}
     }
     "--local" = {
       set_if = "$command_disk_local$"
@@ -107,51 +107,51 @@ class DiskCommand(Command):
     }
     "--eregi-path" = {
       value = "$command_disk_eregi_path$"
-      set_if = "$command_disk_eregi_path$"
+      set_if = {{ macro("$command_disk_eregi_path$") != false }}
     }
     "--eregi-partition" = {
       value = "$command_disk_eregi_partition$"
-      set_if = "$command_disk_eregi_partition$"
+      set_if = {{ macro("$command_disk_eregi_partition$") != false }}
     }
     "--ignore-eregi-path" = {
       value = "$command_disk_ignore_eregi_path$"
-      set_if = "$command_disk_ignore_eregi_path$"
+      set_if = {{ macro("$command_disk_ignore_eregi_path$") != false }}
     }
     "--ignore-eregi-partition" = {
       value = "$command_disk_ignore_eregi_partition$"
-      set_if = "$command_disk_ignore_eregi_partition$"
+      set_if = {{ macro("$command_disk_ignore_eregi_partition$") != false }}
     }
     "--ereg-path" = {
       value = "$command_disk_ereg_path$"
-      set_if = "$command_disk_ereg_path$"
+      set_if = {{ macro("$command_disk_ereg_path$") != false }}
     }
     "--ereg-partition" = {
       value = "$command_disk_ereg_partition$"
-      set_if = "$command_disk_ereg_partition$"
+      set_if = {{ macro("$command_disk_ereg_partition$") != false }}
     }
     "--ignore-ereg-path" = {
       value = "$command_disk_ignore_ereg_path$"
-      set_if = "$command_disk_ignore_ereg_path$"
+      set_if = {{ macro("$command_disk_ignore_ereg_path$") != false }}
     }
     "--ignore-ereg-partition" = {
       value = "$command_disk_ignore_ereg_partition$"
-      set_if = "$command_disk_ignore_ereg_partition$"
+      set_if = {{ macro("$command_disk_ignore_ereg_partition$") != false }}
     }
     "--timeout" = {
       value = "$command_disk_timeout$"
-      set_if = "$command_disk_timeout$"
+      set_if = {{ macro("$command_disk_timeout$") != false }}
     }
     "--units" = {
       value = "$command_disk_units$"
-      set_if = "$command_disk_units$"
+      set_if = {{ macro("$command_disk_units$") != false }}
     }
     "--exclude-type" = {
       value = "$command_disk_exclude_type$"
-      set_if = "$command_disk_exclude_type$"
+      set_if = {{ macro("$command_disk_exclude_type$") != false }}
     }
     "--include-type" = {
       value = "$command_disk_include_type$"
-      set_if = "$command_disk_include_type$"
+      set_if = {{ macro("$command_disk_include_type$") != false }}
     }
     "--newlines" = {
       set_if = "$command_disk_newlines$"

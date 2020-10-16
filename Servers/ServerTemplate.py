@@ -28,7 +28,7 @@ from Notification.HostNotification import HostNotification
 from Servers.SSHTemplate import SSHTemplate
 from Servers.VHost import VHost
 from ValueChecker import ValueChecker
-from Servers.OS import OS
+from OS.OS import OS
 
 
 class ServerTemplate:
@@ -49,6 +49,11 @@ class ServerTemplate:
         self.__groups = []
         self.__notifications = []
         self.__downtimes = []
+        self.__plugin_dir = '/usr/lib/nagios/plugins/'
+        self.__max_check_attempts = 3
+        self.__check_interval = '1m'
+        self.__retry_interval = '15s'
+        self.__enable_perfdata = True
 
     @staticmethod
     def create(id):
@@ -64,6 +69,46 @@ class ServerTemplate:
 
     def get_id(self):
         return self.__id
+
+    def set_plugindir(self, dir):
+        ValueChecker.is_string(dir)
+        self.__plugin_dir = dir
+        return self
+
+    def get_plugindir(self):
+        return self.__plugin_dir
+
+    def set_max_check_attempts(self, max_check_attempts):
+        ValueChecker.is_number(max_check_attempts)
+        self.__max_check_attempts = max_check_attempts
+        return self
+
+    def get_max_check_attempts(self):
+        return self.__max_check_attempts
+
+    def set_check_interval(self, check_interval):
+        ValueChecker.is_string(check_interval)
+        self.__check_interval = check_interval
+        return self
+
+    def get_check_interval(self):
+        return self.__check_interval
+
+    def set_retry_interval(self, retry_interval):
+        ValueChecker.is_string(retry_interval)
+        self.__retry_interval = retry_interval
+        return self
+
+    def get_retry_interval(self):
+        return self.__retry_interval
+
+    def set_enable_perfdata(self, enable_perfdata):
+        ValueChecker.is_bool(enable_perfdata)
+        self.__enable_perfdata = enable_perfdata
+        return self
+
+    def get_enable_perfdata(self):
+        return self.__enable_perfdata
 
     def set_ipv4(self, ip):
         ValueChecker.is_string(ip)
@@ -235,8 +280,25 @@ class ServerTemplate:
         return self.__groups
 
     def add_custom_var(self, key, value):
+        self.__custom_vars.append({'key': key, 'value': value})
+        return self
 
-        return self.__custom_vars.append({'key': key, 'value': value})
+    def get_custom_var(self, key):
+
+        for var in self.__custom_vars:
+            if var['key'] == key:
+                return var['value']
+
+        last_value = None
+
+        for template_id in self.__templates:
+            template = ConfigBuilder.get_template(template_id.replace('template_', ''))
+            if None is not template:
+                new_value = template.get_custom_var(key)
+                if None is not new_value:
+                    last_value = new_value
+
+        return last_value
 
     def get_config(self):
         config = 'template Host "' + self.__id + '" {\n'
@@ -276,6 +338,16 @@ class ServerTemplate:
         if None is not self.__description:
             config += '  description = "' + self.__description + '"\n'
 
+        config = '  max_check_attempts = ' + str(self.__max_check_attempts) + '\n'
+        config += '  check_interval = ' + self.__check_interval + '\n'
+        config += '  retry_interval = ' + self.__retry_interval + '\n'
+        if True is self.__enable_perfdata:
+            config += '  enable_perfdata = true\n'
+        else:
+            config += '  enable_perfdata = false\n'
+
+        config += '  vars.plugin_dir = "' + self.__plugin_dir + '"\n'
+
         for check in self.__checks:
             config += '  vars.' + check + ' = true\n'
 
@@ -283,7 +355,8 @@ class ServerTemplate:
             config += '  vars.' + group + ' = true\n'
 
         for custom_var in self.__custom_vars:
-            config += '  vars.' + custom_var['key'] + ' = ' + custom_var['value'] + '\n'
+            # todo check for string, int, bool
+            config += '  vars.' + custom_var['key'] + ' = "' + custom_var['value'] + '"\n'
 
         config += '  check_command = "hostalive"\n'
         config += '}\n'

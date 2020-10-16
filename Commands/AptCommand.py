@@ -48,38 +48,38 @@ class AptCommand(Command):
         config = """{
     "--timeout" = {
       value = "$command_apt_timeout$"
-      set_if = "$command_apt_timeout$"
+      set_if = {{ macro("$command_apt_timeout$") != false }}
     }
     "--upgrade" = {
       value = "$command_apt_upgrade$"
-      set_if = "$command_apt_upgrade$"
+      set_if = {{ macro("$command_apt_upgrade$") != false }}
     }
     "--dist-upgrade" = {
       value = "$command_apt_dist_upgrade$"
-      set_if = "$command_apt_dist_upgrade$"
+      set_if = {{ macro("$command_apt_dist_upgrade$") != false }}
     }
     "--include" = {
       value = "$command_apt_include$"
-      set_if = "$command_apt_include$"
+      set_if = {{ macro("$command_apt_include$") != false }}
     }
     "--exclude" = {
       value = "$command_apt_exclude$"
-      set_if = "$command_apt_exclude$"
+      set_if = {{ macro("$command_apt_exclude$") != false }}
     }
     "--critical" = {
       value = "$command_apt_critical$"
-      set_if = "$command_apt_critical$"
+      set_if = {{ macro("$command_apt_critical$") != false }}
     }
     "--only-critical" = {
       set_if = "$command_apt_only_critical$"
     }
     "--packages-warning" = {
       value = "$command_apt_packages_warning$"
-      set_if = "$command_apt_packages_warning$"
+      set_if = {{ macro("$command_apt_packages_warning$") != false }}
     }
     "--update" = {
       value = "$command_apt_update$"
-      set_if = "$command_apt_update$"
+      set_if = {{ macro("$command_apt_update$") != false }}
     }
   }
 """

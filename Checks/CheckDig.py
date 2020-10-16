@@ -32,7 +32,7 @@ class CheckDig(Check):
         Check.__init__(self, id, 'CheckDig', 'dig')
         self.__warning_time = 5
         self.__critical_time = 10
-        self.__dnsserver_hostname = None
+        self.__dnsserver_hostname = '127.0.0.53'
         self.__dnsserver_port = None
         self.__only_ipv4 = False
         self.__only_ipv6 = False

@@ -48,19 +48,19 @@ class DigCommand(Command):
         config = """{
     "--hostname" = {
       value = "$command_dig_dnsserver_hostname$"
-      set_if = "$command_dig_dnsserver_hostname$"
+      set_if = {{ macro("$command_dig_dnsserver_hostname$") != false }}
     }
     "--port" = {
       value = "$command_dig_dnsserver_port$"
-      set_if = "$command_dig_dnsserver_port$"
+      set_if = {{ macro("$command_dig_dnsserver_port$") != false }}
     }
     "--use-ipv4" = {
       value = "$command_dig_only_ipv4$"
-      set_if = "$command_dig_only_ipv4$"
+      set_if = {{ macro("$command_dig_only_ipv4$") != false }}
     }
     "--use-ipv6" = {
       value = "$command_dig_only_ipv6$"
-      set_if = "$command_dig_0nly_ipv6$"
+      set_if = {{ macro("$command_dig_0nly_ipv6$") != false }}
     }
     "--query_address" = {
       value = "$command_dig_question$"
@@ -73,7 +73,7 @@ class DigCommand(Command):
     }
     "--dig-arguments" = {
       value = "$command_dig_question_arguments$"
-      set_if = "$command_dig_question_arguments$"
+      set_if = {{ macro("$command_dig_question_arguments$") != false }}
     }
     "--timeout" = {
       value = "$command_dig_timeout$"

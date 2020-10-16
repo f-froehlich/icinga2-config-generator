@@ -132,17 +132,14 @@ class Check:
         self.__retry_interval = retry_interval
         return self
 
-    def get_check_interval(self):
-        return self.__check_interval
+    def get_retry_interval(self):
+        return self.__retry_interval
 
     def set_enable_perfdata(self, enable_perfdata):
         ValueChecker.is_bool(enable_perfdata)
         self.__enable_perfdata = enable_perfdata
         return self
 
-    def get_retry_interval(self):
-        return self.__retry_interval
-    
     def set_display_name(self, display_name):
         ValueChecker.is_string(display_name)
         self.__display_name = display_name

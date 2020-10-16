@@ -40,6 +40,7 @@ class CheckApt(Check):
         self.__only_critical = None
         self.__packages_warning = None
         self.__update = None
+        self.set_check_interval('15m')
 
     def set_timeout(self, seconds):
         ValueChecker.is_number(seconds)

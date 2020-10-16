@@ -42,7 +42,7 @@ class DummyCommand(Command):
         return command
 
     def get_command_definition(self):
-        return '[PluginDir + "/' + self.get_command() + '", "$command_dummy_state$", "$command_dummy_text$"]'
+        return '[ "$plugin_dir$" + "/' + self.get_command() + '", "$command_dummy_state$", "$command_dummy_text$"]'
 
     def get_command(self):
         return 'check_dummy'

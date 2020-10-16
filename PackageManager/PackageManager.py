@@ -20,46 +20,50 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from Commands.Command import Command
 from ConfigBuilder import ConfigBuilder
 from ValueChecker import ValueChecker
+from Groups.HostGroup import HostGroup
 
-
-class SWAPCommand(Command):
+class PackageManager:
 
     def __init__(self, id):
-        Command.__init__(self, id)
+        self.__id = id
+        self.__manager = None
 
     @staticmethod
     def create(id):
         ValueChecker.validate_id(id)
-        command = ConfigBuilder.get_command(id)
-        if None is command:
-            id = 'command_' + id
-            command = SWAPCommand(id)
-            ConfigBuilder.add_command(id, command)
 
-        return command
+        pm = ConfigBuilder.get_package_manager(id)
+        if None is pm:
+            id = 'package_manager_' + id
+            pm = PackageManager(id)
+            ConfigBuilder.add_package_manager(id, pm)
 
-    def get_command(self):
-        return 'check_swap'
+        return pm
 
-    def get_arguments(self):
-        config = """{
-    "--warning" = {
-      value = "$command_swap_warning$%"
-    }
-    "--critical" = {
-      value = "$command_swap_critical$%"
-    }
-    "--allswaps" = {
-      value = "$command_swap_allswaps$"
-      set_if = {{ macro("$command_swap_allswaps$") != false }}
-    }
-    "--no-swap" = {
-      value = "$command_swap_no_swap$"
-      set_if = {{ macro("$command_swap_no_swap$") != false }}
-    }
-  }
-"""
+    def get_id(self):
+        return self.__id
+
+    def set_manager(self, manager):
+        ValueChecker.is_string(manager)
+        self.__manager = manager
+        return self
+
+    def get_manager(self):
+        return self.__manager
+
+    def get_config(self):
+        if None is self.__manager:
+            raise Exception('You have to specify Manager for ' + self.__id)
+
+        config = 'template Host "' + self.__id + '" {\n'
+        config += '  vars.package_manager = "' + self.__manager + '"\n'
+        config += '}\n'
+
         return config
+
+
+apt = PackageManager.create('apt').set_manager('apt')
+yum = PackageManager.create('yum').set_manager('yum')
+apk = PackageManager.create('apk').set_manager('apk')
