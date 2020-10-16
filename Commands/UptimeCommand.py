@@ -25,7 +25,7 @@ from ConfigBuilder import ConfigBuilder
 from ValueChecker import ValueChecker
 
 
-class WaveCommand(Command):
+class UptimeCommand(Command):
 
     def __init__(self, id):
         Command.__init__(self, id)
@@ -36,26 +36,29 @@ class WaveCommand(Command):
         command = ConfigBuilder.get_command(id)
         if None is command:
             id = 'command_' + id
-            command = WaveCommand(id)
+            command = UptimeCommand(id)
             ConfigBuilder.add_command(id, command)
 
         return command
 
     def get_command(self):
-        return 'wave'
+        return 'uptime'
 
     def get_arguments(self):
         config = """{
-    "-H" = {
-      value = "$command_wave_host$"
+    "--warning" = {
+      value = "$command_uptime_warning$"
     }
-    "-w" = {
-      value = "$command_wave_warning$"
-      set_if = {{ macro("$command_wave_warning$") != false }}
+    "--critical" = {
+      value = "$command_uptime_critical$"
     }
-    "-c" = {
-      value = "$command_wave_critical$"
-      set_if = {{ macro("$command_wave_critical$") != false }}
+    "--for" = {
+      value = "$command_uptime_for$"
+      set_if = {{ macro("$command_uptime_for$") != false }}
+    }
+    "--since" = {
+      value = "$command_uptime_since$"
+      set_if = {{ macro("$command_uptime_since$") != false }}
     }
   }
 """
