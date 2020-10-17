@@ -33,8 +33,8 @@ class CheckMysqlQuery(Check):
         self.__query = None
         self.__warning = None
         self.__critical = None
-        self.__host = None
-        self.__port = None
+        self.__host = '127.0.0.1'
+        self.__port = 3306
         self.__socket = None
         self.__database = None
         self.__file = None

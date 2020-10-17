@@ -30,8 +30,8 @@ class CheckMySQL(Check):
 
     def __init__(self, id):
         Check.__init__(self, id, 'CheckMySQL', 'mysql')
-        self.__host = None
-        self.__port = None
+        self.__host = '127.0.0.1'
+        self.__port = 3306
         self.__ignore_auth = False
         self.__socket = None
         self.__database = None
