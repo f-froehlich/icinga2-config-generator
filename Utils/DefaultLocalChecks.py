@@ -19,6 +19,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+
 from Checks.MonitoringPlugins.CheckApt import CheckApt
 from Checks.NagiosPlugins.CheckYum import CheckYum
 from Checks.MonitoringPlugins.CheckDisk import CheckDisk
@@ -28,12 +29,13 @@ from Checks.MonitoringPlugins.CheckSWAP import CheckSWAP
 from Checks.MonitoringPlugins.CheckProcs import CheckProcs
 from Checks.MonitoringPlugins.CheckUsers import CheckUsers
 from Checks.Icinga2Confgen.CheckSSHDSecurity import CheckSSHDSecurity
+from Checks.Icinga2Confgen.CheckGroupMembers import CheckGroupMembers
 from Groups.ServiceGroup import ServiceGroup
 
 
 class DefaultLocalChecks:
 
-    def __init__(self, servers=[], notifications=[]):
+    def __init__(self, servers=[], notifications=[], sudoers=['fafr']):
         self.__servers = servers
         self.__notifications = notifications
         self.__check_type = 'local'
@@ -54,6 +56,8 @@ class DefaultLocalChecks:
         self.__check_httpd_running = False
         self.__check_php_fpm_running = False
         self.__check_partitions = []
+        self.__check_sudoers = True
+        self.__sudoers = sudoers
 
     def check_load(self, enabled):
         self.__check_load = enabled
@@ -118,7 +122,7 @@ class DefaultLocalChecks:
 
     def is_checking_sshd_security(self):
         return self.__check_sshd_security
-    
+
     def check_sshd_running(self, enabled):
         self.__check_sshd_running = enabled
 
@@ -188,6 +192,19 @@ class DefaultLocalChecks:
 
     def add_partition(self, id, path, warning_percent, critical_percent):
         self.__check_partitions.append((id, path, warning_percent, critical_percent))
+
+        return self
+
+    def check_sudoers(self, enabled):
+        self.__check_sudoers = enabled
+
+        return self
+
+    def is_checking_sudoers(self):
+        return self.__check_php_fpm_running
+
+    def add_sudoers(self, username):
+        self.__sudoers.append(username)
 
         return self
 
@@ -349,6 +366,18 @@ class DefaultLocalChecks:
                     .set_command('php-fpm') \
                     .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
                     .add_service_group(ServiceGroup.create('php_fpm').set_display_name('php_fpm'))
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_sudoers:
+                check = CheckGroupMembers.create('sudoers_' + server.get_id()) \
+                    .set_display_name('Sudoers') \
+                    .set_check_type(self.__check_type) \
+                    .add_service_group(ServiceGroup.create('sudoers').set_display_name('Sudoers')) \
+                    .add_service_group(ServiceGroup.create('group_members').set_display_name('Group Members'))
+                for user in self.__sudoers:
+                    check.append_user(user)
+
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 

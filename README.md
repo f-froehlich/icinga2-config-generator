@@ -30,6 +30,12 @@ Check if a Server denies a TLS Version. It is recommended to check TLSv1.0 and T
 Check if a Dir or File exist
 * link or copy `plugins/check_path_exists.sh` to `plugindir` 
 
+#### Group Members
+Check Members of given group
+* link or copy `plugins/check_path_exists.sh` to `plugindir`
+
+***NOTICE:*** It is recommended to check the sudoers of a server.
+
 #### Path exist
 Check if login into docker registry succeed
 * link or copy `plugins/check_docker_login.sh` to `plugindir`
