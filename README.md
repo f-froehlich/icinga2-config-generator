@@ -12,6 +12,7 @@ Full License Information see  [LICENSE](LICENSE) file in root directory of this 
 * install icinga2
 * install icingaweb2
 * install python 3.7 (other versions may also work)
+* create group `monitorpermissions` and add user `icinga2` to the group (`usermod -aG monitorpermissions icinga2`). Note that the username, who runs icinga2 daemon, may be different.
 
 ## Optional
 
@@ -36,6 +37,28 @@ Check if login into docker registry succeed
 * User of check must have the permission to execute docker commands. You can also run this command as sudo but you should only give the permission to execute `docker` as root.
 
 ***NOTICE:*** Due security reasons, you should only use credentials without any privileges on the registry
+Recommendated configuration for sudo on `docker login`
+```shell script
+# /etc/sudoers.d/monitorpermissions
+
+Cmnd_Alias            DOCKERLOGIN = /usr/bin/docker login
+%monitorpermissions   ALL=NOPASSWD: DOCKERLOGIN
+```
+
+#### SSHD Security
+Check the running configuration from sshd.
+* link or copy `plugins/check_sshd_security.py` to `plugindir`
+* require python3 (other versions may also work, change interpreter in executable)
+* require sshd daemon
+* require root access on `sshd -T`
+
+Recommendated configuration for sudo on `sshd -T`
+```shell script
+# /etc/sudoers.d/monitorpermissions
+
+Cmnd_Alias            SSHDCONFIG = /usr/sbin/sshd -T
+%monitorpermissions   ALL=NOPASSWD: SSHDCONFIG
+```
 
 #### DNSSEC
 Clone [https://github.com/f-froehlich/check_dnssec_expiry](https://github.com/f-froehlich/check_dnssec_expiry) and link `check_dnssec_expiry.sh` into `/usr/lib/nagios/plugins/`

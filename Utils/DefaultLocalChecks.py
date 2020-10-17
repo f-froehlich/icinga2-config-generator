@@ -27,6 +27,7 @@ from Checks.MonitoringPlugins.CheckNTPTime import CheckNTPTime
 from Checks.MonitoringPlugins.CheckSWAP import CheckSWAP
 from Checks.MonitoringPlugins.CheckProcs import CheckProcs
 from Checks.MonitoringPlugins.CheckUsers import CheckUsers
+from Checks.Icinga2Confgen.CheckSSHDSecurity import CheckSSHDSecurity
 from Groups.ServiceGroup import ServiceGroup
 
 
@@ -43,6 +44,7 @@ class DefaultLocalChecks:
         self.__check_swap = True
         self.__check_ntp_time = True
         self.__check_disk = True
+        self.__check_sshd_security = True
         self.__check_sshd_running = True
         self.__check_mysqld_running = True
         self.__check_cron_running = True
@@ -109,6 +111,14 @@ class DefaultLocalChecks:
     def is_checking_disk(self):
         return self.__check_disk
 
+    def check_sshd_security(self, enabled):
+        self.__check_sshd_security = enabled
+
+        return self
+
+    def is_checking_sshd_security(self):
+        return self.__check_sshd_security
+    
     def check_sshd_running(self, enabled):
         self.__check_sshd_running = enabled
 
@@ -243,13 +253,21 @@ class DefaultLocalChecks:
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
-            if True is self.__check_sshd_running:
+            if True is self.__check_sshd_security:
                 check = CheckProcs.create('proc_sshd_' + server.get_id()) \
                     .set_display_name('Running sshd') \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('sshd') \
                     .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
+                    .add_service_group(ServiceGroup.create('sshd').set_display_name('sshd'))
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_sshd_running:
+                check = CheckSSHDSecurity.create('sshd_security_' + server.get_id()) \
+                    .set_display_name('SSHD security') \
+                    .set_check_type(self.__check_type) \
                     .add_service_group(ServiceGroup.create('sshd').set_display_name('sshd'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
