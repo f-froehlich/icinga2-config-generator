@@ -42,7 +42,7 @@ class TCPCommand(Command):
         return command
 
     def get_command(self):
-        return 'tcp'
+        return 'check_tcp'
 
     def get_arguments(self):
         config = """{

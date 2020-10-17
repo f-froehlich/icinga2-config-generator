@@ -42,7 +42,7 @@ class UDPCommand(Command):
         return command
 
     def get_command(self):
-        return 'udp'
+        return 'check_udp'
 
     def get_arguments(self):
         config = """{

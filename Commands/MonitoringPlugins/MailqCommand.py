@@ -42,7 +42,7 @@ class MailqCommand(Command):
         return command
 
     def get_command(self):
-        return 'mailq'
+        return 'check_mailq'
 
     def get_arguments(self):
         config = """{

@@ -42,7 +42,7 @@ class LogCommand(Command):
         return command
 
     def get_command(self):
-        return 'log'
+        return 'check_log'
 
     def get_arguments(self):
         config = """{

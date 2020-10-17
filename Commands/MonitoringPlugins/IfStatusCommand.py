@@ -42,7 +42,7 @@ class IfStatusCommand(Command):
         return command
 
     def get_command(self):
-        return 'ifstatus'
+        return 'check_ifstatus'
 
     def get_arguments(self):
         config = """{

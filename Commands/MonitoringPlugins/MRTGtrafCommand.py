@@ -42,7 +42,7 @@ class MRTGtrafCommand(Command):
         return command
 
     def get_command(self):
-        return 'mrt_gtraf'
+        return 'check_mrt_gtraf'
 
     def get_arguments(self):
         config = """{

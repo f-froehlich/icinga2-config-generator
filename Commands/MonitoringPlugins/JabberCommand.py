@@ -42,7 +42,7 @@ class JabberCommand(Command):
         return command
 
     def get_command(self):
-        return 'jabber'
+        return 'check_jabber'
 
     def get_arguments(self):
         config = """{

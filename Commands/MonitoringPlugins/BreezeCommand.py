@@ -42,7 +42,7 @@ class BreezeCommand(Command):
         return command
 
     def get_command(self):
-        return 'breeze'
+        return 'check_breeze'
 
     def get_arguments(self):
         config = """{

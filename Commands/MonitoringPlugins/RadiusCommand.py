@@ -42,7 +42,7 @@ class RadiusCommand(Command):
         return command
 
     def get_command(self):
-        return 'radius'
+        return 'check_radius'
 
     def get_arguments(self):
         config = """{

@@ -42,7 +42,7 @@ class SPOPCommand(Command):
         return command
 
     def get_command(self):
-        return 'spop'
+        return 'check_spop'
 
     def get_arguments(self):
         config = """{

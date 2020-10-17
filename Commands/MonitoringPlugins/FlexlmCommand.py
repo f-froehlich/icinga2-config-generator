@@ -42,7 +42,7 @@ class FlexlmCommand(Command):
         return command
 
     def get_command(self):
-        return 'flexlm'
+        return 'check_flexlm'
 
     def get_arguments(self):
         config = """{

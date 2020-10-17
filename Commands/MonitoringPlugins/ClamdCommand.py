@@ -42,7 +42,7 @@ class ClamdCommand(Command):
         return command
 
     def get_command(self):
-        return 'clamd'
+        return 'check_clamd'
 
     def get_arguments(self):
         config = """{

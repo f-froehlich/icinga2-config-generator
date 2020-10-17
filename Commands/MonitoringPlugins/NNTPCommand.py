@@ -42,7 +42,7 @@ class NNTPCommand(Command):
         return command
 
     def get_command(self):
-        return 'nntp'
+        return 'check_nntp'
 
     def get_arguments(self):
         config = """{

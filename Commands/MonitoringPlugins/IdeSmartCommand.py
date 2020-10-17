@@ -42,7 +42,7 @@ class IdeSmartCommand(Command):
         return command
 
     def get_command(self):
-        return 'ide_smart'
+        return 'check_ide_smart'
 
     def get_arguments(self):
         config = """{

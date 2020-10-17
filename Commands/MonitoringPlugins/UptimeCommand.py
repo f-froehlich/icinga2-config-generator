@@ -42,7 +42,7 @@ class UptimeCommand(Command):
         return command
 
     def get_command(self):
-        return 'uptime'
+        return 'check_uptime'
 
     def get_arguments(self):
         config = """{

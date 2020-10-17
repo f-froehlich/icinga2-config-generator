@@ -42,7 +42,7 @@ class FTPCommand(Command):
         return command
 
     def get_command(self):
-        return 'ftp'
+        return 'check_ftp'
 
     def get_arguments(self):
         config = """{

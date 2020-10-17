@@ -42,7 +42,7 @@ class MySQLQueryCommand(Command):
         return command
 
     def get_command(self):
-        return 'mysql_query'
+        return 'check_mysql_query'
 
     def get_arguments(self):
         config = """{

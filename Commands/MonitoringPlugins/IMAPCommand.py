@@ -42,7 +42,7 @@ class IMAPCommand(Command):
         return command
 
     def get_command(self):
-        return 'imap'
+        return 'check_imap'
 
     def get_arguments(self):
         config = """{

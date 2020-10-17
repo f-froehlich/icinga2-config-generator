@@ -42,7 +42,7 @@ class SNMPCommand(Command):
         return command
 
     def get_command(self):
-        return 'snmp'
+        return 'check_snmp'
 
     def get_arguments(self):
         config = """{

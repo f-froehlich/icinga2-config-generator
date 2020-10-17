@@ -42,7 +42,7 @@ class MySQLCommand(Command):
         return command
 
     def get_command(self):
-        return 'mysql'
+        return 'check_mysql'
 
     def get_arguments(self):
         config = """{

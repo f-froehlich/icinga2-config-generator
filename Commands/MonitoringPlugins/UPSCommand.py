@@ -42,7 +42,7 @@ class UPSCommand(Command):
         return command
 
     def get_command(self):
-        return 'ups'
+        return 'check_ups'
 
     def get_arguments(self):
         config = """{

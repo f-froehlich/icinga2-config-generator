@@ -42,7 +42,7 @@ class WaveCommand(Command):
         return command
 
     def get_command(self):
-        return 'wave'
+        return 'check_wave'
 
     def get_arguments(self):
         config = """{

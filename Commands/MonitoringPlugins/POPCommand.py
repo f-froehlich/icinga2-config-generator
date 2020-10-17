@@ -42,7 +42,7 @@ class POPCommand(Command):
         return command
 
     def get_command(self):
-        return 'pop'
+        return 'check_pop'
 
     def get_arguments(self):
         config = """{

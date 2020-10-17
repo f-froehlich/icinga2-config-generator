@@ -42,7 +42,7 @@ class ProcsCommand(Command):
         return command
 
     def get_command(self):
-        return 'procs'
+        return 'check_procs'
 
     def get_arguments(self):
         config = """{

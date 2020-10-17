@@ -42,7 +42,7 @@ class HPJDCommand(Command):
         return command
 
     def get_command(self):
-        return 'hpjd'
+        return 'check_hpjd'
 
     def get_arguments(self):
         config = """{

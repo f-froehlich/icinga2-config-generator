@@ -42,7 +42,7 @@ class SIMAPCommand(Command):
         return command
 
     def get_command(self):
-        return 'simap'
+        return 'check_simap'
 
     def get_arguments(self):
         config = """{

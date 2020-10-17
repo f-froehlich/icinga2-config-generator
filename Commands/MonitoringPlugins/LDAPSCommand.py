@@ -42,7 +42,7 @@ class LDAPSCommand(Command):
         return command
 
     def get_command(self):
-        return 'ldaps'
+        return 'check_ldaps'
 
     def get_arguments(self):
         config = """{
