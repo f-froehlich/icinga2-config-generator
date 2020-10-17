@@ -338,7 +338,7 @@ class ServerTemplate:
         if None is not self.__description:
             config += '  description = "' + self.__description + '"\n'
 
-        config = '  max_check_attempts = ' + str(self.__max_check_attempts) + '\n'
+        config += '  max_check_attempts = ' + str(self.__max_check_attempts) + '\n'
         config += '  check_interval = ' + self.__check_interval + '\n'
         config += '  retry_interval = ' + self.__retry_interval + '\n'
         if True is self.__enable_perfdata:

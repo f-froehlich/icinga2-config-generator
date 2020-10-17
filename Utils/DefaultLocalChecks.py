@@ -47,7 +47,7 @@ class DefaultLocalChecks:
         self.__check_mysqld_running = True
         self.__check_cron_running = True
         self.__check_rsyslogd_running = True
-        self.__check_nginx_running = True
+        self.__check_nginx_running = False
         self.__check_apache_running = False
         self.__check_httpd_running = False
         self.__check_php_fpm_running = False
@@ -255,7 +255,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_mysqld_running:
-                check = CheckLoad.create('proc_mysqld_' + server.get_id()) \
+                check = CheckProcs.create('proc_mysqld_' + server.get_id()) \
                     .set_display_name('Running mysqld') \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
@@ -266,7 +266,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_cron_running:
-                check = CheckLoad.create('proc_cron_' + server.get_id()) \
+                check = CheckProcs.create('proc_cron_' + server.get_id()) \
                     .set_display_name('Running cron') \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
@@ -277,7 +277,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_rsyslogd_running:
-                check = CheckLoad.create('proc_rsyslogd_' + server.get_id()) \
+                check = CheckProcs.create('proc_rsyslogd_' + server.get_id()) \
                     .set_display_name('Running rsyslogd') \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
@@ -288,7 +288,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_nginx_running:
-                check = CheckLoad.create('proc_nginx_' + server.get_id()) \
+                check = CheckProcs.create('proc_nginx_' + server.get_id()) \
                     .set_display_name('Running nginx') \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
@@ -300,7 +300,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_apache_running:
-                check = CheckLoad.create('proc_apache_' + server.get_id()) \
+                check = CheckProcs.create('proc_apache_' + server.get_id()) \
                     .set_display_name('Running apache') \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
@@ -312,7 +312,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_httpd_running:
-                check = CheckLoad.create('proc_httpd_' + server.get_id()) \
+                check = CheckProcs.create('proc_httpd_' + server.get_id()) \
                     .set_display_name('Running httpd') \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
@@ -324,7 +324,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_php_fpm_running:
-                check = CheckLoad.create('proc_php_fpm_' + server.get_id()) \
+                check = CheckProcs.create('proc_php_fpm_' + server.get_id()) \
                     .set_display_name('Running php_fpm') \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
