@@ -19,9 +19,9 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-from Checks.CheckDenyTlsVersion import CheckDenyTlsVersion
-from Checks.CheckDummy import CheckDummy
-from Checks.CheckHttp import CheckHttp
+from Checks.Icinga2Confgen.CheckDenyTlsVersion import CheckDenyTlsVersion
+from Checks.MonitoringPlugins.CheckDummy import CheckDummy
+from Checks.MonitoringPlugins.CheckHttp import CheckHttp
 from Groups.HostGroup import HostGroup
 from Groups.ServiceGroup import ServiceGroup
 

@@ -20,7 +20,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from Commands.NotificationCommand import NotificationCommand
+from Commands.MonitoringPlugins.NotificationCommand import NotificationCommand
 from ConfigBuilder import ConfigBuilder
 from Groups.UserGroup import UserGroup
 from Notification.TimePeriod import TimePeriod

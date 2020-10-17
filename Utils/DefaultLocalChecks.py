@@ -19,14 +19,14 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-from Checks.CheckApt import CheckApt
-from Checks.CheckYum import CheckYum
-from Checks.CheckDisk import CheckDisk
-from Checks.CheckLoad import CheckLoad
-from Checks.CheckNTPTime import CheckNTPTime
-from Checks.CheckSWAP import CheckSWAP
-from Checks.CheckProcs import CheckProcs
-from Checks.CheckUsers import CheckUsers
+from Checks.MonitoringPlugins.CheckApt import CheckApt
+from Checks.NagiosPlugins.CheckYum import CheckYum
+from Checks.MonitoringPlugins.CheckDisk import CheckDisk
+from Checks.MonitoringPlugins.CheckLoad import CheckLoad
+from Checks.MonitoringPlugins.CheckNTPTime import CheckNTPTime
+from Checks.MonitoringPlugins.CheckSWAP import CheckSWAP
+from Checks.MonitoringPlugins.CheckProcs import CheckProcs
+from Checks.MonitoringPlugins.CheckUsers import CheckUsers
 from Groups.ServiceGroup import ServiceGroup
 
 

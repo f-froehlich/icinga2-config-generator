@@ -19,10 +19,37 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-from Utils.DefaultLocalChecks import DefaultLocalChecks
 
-class DefaultOverSSHChecks(DefaultLocalChecks):
+from Checks.Check import Check
+from Checks.MonitoringPlugins.CheckPing import CheckPing
+from Commands.MonitoringPlugins.PingCommand import PingCommand
+from ConfigBuilder import ConfigBuilder
+from ValueChecker import ValueChecker
 
-    def __init__(self, servers=[], notifications=[]):
-        DefaultLocalChecks.__init__(self, servers, notifications)
-        DefaultLocalChecks.set_check_type('ssh')
+
+class CheckPing6(CheckPing):
+
+    def __init__(self, id):
+        CheckPing.__init__(self, id)
+
+    @staticmethod
+    def create(id):
+        ValueChecker.validate_id(id)
+        check = ConfigBuilder.get_check(id)
+        if None is check:
+            id = 'check_' + id
+            check = CheckPing6(id)
+            ConfigBuilder.add_check(id, check)
+
+        if None is ConfigBuilder.get_command('ping'):
+            PingCommand.create('ping')
+
+        return check
+
+    def get_custom_definitions(self):
+        return [
+            'vars.command_ping_v6 = true',
+        ]
+
+    def get_config(self):
+        return Check.get_config(self)

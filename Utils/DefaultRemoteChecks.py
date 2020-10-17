@@ -19,13 +19,9 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-from Checks.CheckDenyTlsVersion import CheckDenyTlsVersion
-from Checks.CheckDummy import CheckDummy
-from Checks.CheckHttp import CheckHttp
-from Groups.HostGroup import HostGroup
 from Groups.ServiceGroup import ServiceGroup
-from Checks.CheckPing4 import CheckPing4
-from Checks.CheckPing6 import CheckPing6
+from Checks.MonitoringPlugins.CheckPing4 import CheckPing4
+
 
 class DefaultRemoteChecks:
 

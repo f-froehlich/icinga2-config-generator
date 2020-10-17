@@ -20,9 +20,8 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 from Checks.CheckDNSSECExpire import CheckDNSSECExpire
-from Checks.CheckDig import CheckDig
+from Checks.MonitoringPlugins.CheckDig import CheckDig
 from Groups.ServiceGroup import ServiceGroup
-from Servers.Server import Server
 
 
 class DomainCheck:

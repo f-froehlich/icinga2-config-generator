@@ -19,10 +19,3 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-from Utils.DefaultLocalChecks import DefaultLocalChecks
-
-class DefaultOverSSHChecks(DefaultLocalChecks):
-
-    def __init__(self, servers=[], notifications=[]):
-        DefaultLocalChecks.__init__(self, servers, notifications)
-        DefaultLocalChecks.set_check_type('ssh')

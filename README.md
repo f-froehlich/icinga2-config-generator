@@ -7,19 +7,47 @@ Copyright (c) 2020 Fabian Fröhlich <mail@icinga2.confgen.org> [https://icinga2.
 Full License Information see  [LICENSE](LICENSE) file in root directory of this source code and License section of this File.
 
 # Setup
-## required
-* install nagios plugins
+## Required
+* install check plugins, that you need e.g. [our Plugins](plugins), [Monitoring Plugins](https://www.monitoring-plugins.org) or [Nagios Plugins](https://github.com/harisekhon/nagios-plugins)
 * install icinga2
 * install icingaweb2
-* install python 3.7 (other versions could also working)
+* install python 3.7 (other versions may also work)
+
+## Optional
+
+### Install our Plugins
+Just copy or link the plugins into your `plugindir`. A few plugins need other libaries as `curl` or `dig`. See installation instructions for each check for details or run the plugin and follow instructions.
 
 
-## dnssec
+
+#### Deny TLS Version check
+Check if a Server denies a TLS Version. It is recommended to check TLSv1.0 and TLSv1.1. 
+* require `curl`
+* link or copy `plugins/check_deny_tls_version.sh` to `plugindir` 
+
+#### Path exist
+Check if a Dir or File exist
+* link or copy `plugins/check_path_exists.sh` to `plugindir` 
+
+#### Path exist
+Check if login into docker registry succeed
+* link or copy `plugins/check_docker_login.sh` to `plugindir`
+* require `docker`
+* User of check must have the permission to execute docker commands. You can also run this command as sudo but you should only give the permission to execute `docker` as root.
+
+***NOTICE:*** Due security reasons, you should only use credentials without any privileges on the registry
+
+#### DNSSEC
 Clone [https://github.com/f-froehlich/check_dnssec_expiry](https://github.com/f-froehlich/check_dnssec_expiry) and link `check_dnssec_expiry.sh` into `/usr/lib/nagios/plugins/`
 Be sure you have `dig` installed
 
-## Deny TLS Version check
-* link or copy `plugins/check_deny_tls_version.sh` to `/usr/lib/nagios/plugins` 
+
+# Notice
+Because there are many different check plugin libraries we sort our commands and checks into different modules. Therefore we using the parameter description of the Plugins itself, so you can lookup the documentation of the plugins on there project page.
+
+* [Checks/Icinga2Confgen](https://icinga2.confgen.org)
+* [Checks/MonitoringPlugins](https://www.monitoring-plugins.org)
+* [Checks/NagiosPlugins](https://github.com/harisekhon/nagios-plugins)
 
 # License
 This section contains the additional terms of the AGPLv3 license agreement, a copy of the AGPLv3 is included in the [LICENSE](LICENSE) file.

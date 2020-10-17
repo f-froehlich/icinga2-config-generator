@@ -19,10 +19,28 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-from Utils.DefaultLocalChecks import DefaultLocalChecks
 
-class DefaultOverSSHChecks(DefaultLocalChecks):
+from Checks.Check import Check
+from Commands.MonitoringPlugins.SensorsCommand import SensorsCommand
+from ConfigBuilder import ConfigBuilder
+from ValueChecker import ValueChecker
 
-    def __init__(self, servers=[], notifications=[]):
-        DefaultLocalChecks.__init__(self, servers, notifications)
-        DefaultLocalChecks.set_check_type('ssh')
+
+class CheckSensors(Check):
+
+    def __init__(self, id):
+        Check.__init__(self, id, 'CheckSensors', 'sensors')
+
+    @staticmethod
+    def create(id):
+        ValueChecker.validate_id(id)
+        check = ConfigBuilder.get_check(id)
+        if None is check:
+            id = 'check_' + id
+            check = CheckSensors(id)
+            ConfigBuilder.add_check(id, check)
+
+        if None is ConfigBuilder.get_command('sensors'):
+            SensorsCommand.create('sensors')
+
+        return check

@@ -21,7 +21,7 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from Checks.Check import Check
-from Checks.CheckHttp import CheckHttp
+from Checks.MonitoringPlugins.CheckHttp import CheckHttp
 from ConfigBuilder import ConfigBuilder
 from ValueChecker import ValueChecker
 
