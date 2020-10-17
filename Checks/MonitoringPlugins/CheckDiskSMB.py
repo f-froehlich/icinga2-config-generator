@@ -39,7 +39,7 @@ class CheckDiskSMB(Check):
         self.__user = None
         self.__password = None
         self.__port = 445
-        
+
     def set_host(self, host):
         ValueChecker.is_string(host)
         self.__host = host
@@ -47,7 +47,7 @@ class CheckDiskSMB(Check):
 
     def get_host(self):
         return self.__host
-        
+
     def set_warning(self, warning):
         ValueChecker.is_number(warning)
         self.__warning = warning
@@ -71,6 +71,7 @@ class CheckDiskSMB(Check):
 
     def get_share(self):
         return self.__share
+
     def set_workgroup(self, workgroup):
         ValueChecker.is_string(workgroup)
         self.__workgroup = workgroup
@@ -110,7 +111,6 @@ class CheckDiskSMB(Check):
 
     def get_port(self):
         return self.__port
-
 
     @staticmethod
     def create(id):
