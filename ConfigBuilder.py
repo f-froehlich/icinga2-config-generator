@@ -47,6 +47,7 @@ class ConfigBuilder:
     __os = []
     __package_manager = []
     __application = Application.create()
+    __pbar = tqdm(desc="Configuring", unit=' Configs')
 
     @staticmethod
     def replace_prefixes(string):
@@ -58,6 +59,8 @@ class ConfigBuilder:
 
     @staticmethod
     def get_config():
+        ConfigBuilder.__pbar.close()
+
         shutil.rmtree('zones.d')
         config = ConfigBuilder.__application.get_config()
 
@@ -105,6 +108,9 @@ class ConfigBuilder:
 
         with open('zones.d/application.conf', "w") as file:
             file.write(ConfigBuilder.__application.get_config())
+            pbar.update(1)
+
+        pbar.close()
 
 
     @staticmethod
@@ -181,6 +187,7 @@ class ConfigBuilder:
             raise Exception('Server with id ' + id + ' already exists!')
 
         ConfigBuilder.__servers.append({'id': id, 'instance': server})
+        ConfigBuilder.__pbar.update(1)
 
     @staticmethod
     def get_check(id):
@@ -197,6 +204,7 @@ class ConfigBuilder:
             raise Exception('Check with id ' + id + ' already exists!')
 
         ConfigBuilder.__checks.append({'id': id, 'instance': check})
+        ConfigBuilder.__pbar.update(1)
 
     @staticmethod
     def get_template(id):
@@ -213,6 +221,7 @@ class ConfigBuilder:
             raise Exception('Template with id ' + id + ' already exists!')
 
         ConfigBuilder.__templates.append({'id': id, 'instance': template})
+        ConfigBuilder.__pbar.update(1)
 
     @staticmethod
     def get_command(id):
@@ -229,6 +238,7 @@ class ConfigBuilder:
             raise Exception('Command with id ' + id + ' already exists!')
 
         ConfigBuilder.__commands.append({'id': id, 'instance': command})
+        ConfigBuilder.__pbar.update(1)
 
     @staticmethod
     def get_vhost(id):
@@ -245,6 +255,7 @@ class ConfigBuilder:
             raise Exception('vHost with id ' + id + ' already exists!')
 
         ConfigBuilder.__vhosts.append({'id': id, 'instance': vhost})
+        ConfigBuilder.__pbar.update(1)
 
     @staticmethod
     def get_hostgroup(id):
@@ -261,6 +272,7 @@ class ConfigBuilder:
             raise Exception('Hostgroup with id ' + id + ' already exists!')
 
         ConfigBuilder.__hostgroups.append({'id': id, 'instance': group})
+        ConfigBuilder.__pbar.update(1)
 
     @staticmethod
     def get_usergroup(id):
@@ -277,6 +289,7 @@ class ConfigBuilder:
             raise Exception('Usergroup with id ' + id + ' already exists!')
 
         ConfigBuilder.__usergroups.append({'id': id, 'instance': group})
+        ConfigBuilder.__pbar.update(1)
 
     @staticmethod
     def get_servicegroup(id):
@@ -293,6 +306,7 @@ class ConfigBuilder:
             raise Exception('Servicegroup with id ' + id + ' already exists!')
 
         ConfigBuilder.__servicegroups.append({'id': id, 'instance': group})
+        ConfigBuilder.__pbar.update(1)
 
     @staticmethod
     def get_ssh_template(id):
@@ -309,6 +323,7 @@ class ConfigBuilder:
             raise Exception('SSH Template with id ' + id + ' already exists!')
 
         ConfigBuilder.__ssh_templates.append({'id': id, 'instance': group})
+        ConfigBuilder.__pbar.update(1)
 
     @staticmethod
     def get_time_period(id):
@@ -325,6 +340,7 @@ class ConfigBuilder:
             raise Exception('Time Period with id ' + id + ' already exists!')
 
         ConfigBuilder.__time_periods.append({'id': id, 'instance': period})
+        ConfigBuilder.__pbar.update(1)
 
     @staticmethod
     def get_notification_template(id):
@@ -341,6 +357,7 @@ class ConfigBuilder:
             raise Exception('Notification Template with id ' + id + ' already exists!')
 
         ConfigBuilder.__notification_templates.append({'id': id, 'instance': period})
+        ConfigBuilder.__pbar.update(1)
 
     @staticmethod
     def get_notification(id):
@@ -357,6 +374,7 @@ class ConfigBuilder:
             raise Exception('Notification with id ' + id + ' already exists!')
 
         ConfigBuilder.__notifications.append({'id': id, 'instance': period})
+        ConfigBuilder.__pbar.update(1)
 
     @staticmethod
     def get_user(id):
@@ -373,6 +391,7 @@ class ConfigBuilder:
             raise Exception('user with id ' + id + ' already exists!')
 
         ConfigBuilder.__users.append({'id': id, 'instance': user})
+        ConfigBuilder.__pbar.update(1)
 
     @staticmethod
     def get_downtime(id):
@@ -389,6 +408,7 @@ class ConfigBuilder:
             raise Exception('Downtime with id ' + id + ' already exists!')
 
         ConfigBuilder.__downtimes.append({'id': id, 'instance': period})
+        ConfigBuilder.__pbar.update(1)
 
     @staticmethod
     def get_application():
@@ -398,7 +418,9 @@ class ConfigBuilder:
     def set_application(application):
         if not isinstance(application, Application):
             raise Exception('Can only set Application')
+
         ConfigBuilder.__application = application
+        ConfigBuilder.__pbar.update(1)
 
     @staticmethod
     def get_zone(id):
@@ -415,7 +437,8 @@ class ConfigBuilder:
             raise Exception('Zone with id ' + id + ' already exists!')
 
         ConfigBuilder.__zones.append({'id': id, 'instance': period})
-        
+        ConfigBuilder.__pbar.update(1)
+
     @staticmethod
     def get_os(id):
         id = 'os_' + id
@@ -431,6 +454,7 @@ class ConfigBuilder:
             raise Exception('os with id ' + id + ' already exists!')
 
         ConfigBuilder.__os.append({'id': id, 'instance': os})
+        ConfigBuilder.__pbar.update(1)
 
     @staticmethod
     def get_package_manager(id):
@@ -447,3 +471,4 @@ class ConfigBuilder:
             raise Exception('package_manager with id ' + id + ' already exists!')
 
         ConfigBuilder.__package_manager.append({'id': id, 'instance': package_manager})
+        ConfigBuilder.__pbar.update(1)
