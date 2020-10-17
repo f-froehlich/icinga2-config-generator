@@ -25,6 +25,7 @@ from Checks.CheckDisk import CheckDisk
 from Checks.CheckLoad import CheckLoad
 from Checks.CheckNTPTime import CheckNTPTime
 from Checks.CheckSWAP import CheckSWAP
+from Checks.CheckProcs import CheckProcs
 from Checks.CheckUsers import CheckUsers
 from Groups.ServiceGroup import ServiceGroup
 
@@ -34,6 +35,7 @@ class DefaultLocalChecks:
     def __init__(self, servers=[], notifications=[]):
         self.__servers = servers
         self.__notifications = notifications
+        self.__check_type = 'local'
         self.__check_load = True
         self.__check_apt = True
         self.__check_yum = False
@@ -41,6 +43,14 @@ class DefaultLocalChecks:
         self.__check_swap = True
         self.__check_ntp_time = True
         self.__check_disk = True
+        self.__check_sshd_running = True
+        self.__check_mysqld_running = True
+        self.__check_cron_running = True
+        self.__check_rsyslogd_running = True
+        self.__check_nginx_running = True
+        self.__check_apache_running = False
+        self.__check_httpd_running = False
+        self.__check_php_fpm_running = False
         self.__check_partitions = []
 
     def check_load(self, enabled):
@@ -99,6 +109,70 @@ class DefaultLocalChecks:
     def is_checking_disk(self):
         return self.__check_disk
 
+    def check_sshd_running(self, enabled):
+        self.__check_sshd_running = enabled
+
+        return self
+
+    def is_checking_sshd_running(self):
+        return self.__check_sshd_running
+
+    def check_mysqld_running(self, enabled):
+        self.__check_mysqld_running = enabled
+
+        return self
+
+    def is_checking_mysqld_running(self):
+        return self.__check_mysqld_running
+
+    def check_cron_running(self, enabled):
+        self.__check_cron_running = enabled
+
+        return self
+
+    def is_checking_cron_running(self):
+        return self.__check_cron_running
+
+    def check_rsyslogd_running(self, enabled):
+        self.__check_rsyslogd_running = enabled
+
+        return self
+
+    def is_checking_rsyslogd_running(self):
+        return self.__check_rsyslogd_running
+
+    def check_nginx_running(self, enabled):
+        self.__check_nginx_running = enabled
+
+        return self
+
+    def is_checking_nginx_running(self):
+        return self.__check_nginx_running
+
+    def check_apache_running(self, enabled):
+        self.__check_apache_running = enabled
+
+        return self
+
+    def is_checking_apache_running(self):
+        return self.__check_apache_running
+
+    def check_httpd_running(self, enabled):
+        self.__check_httpd_running = enabled
+
+        return self
+
+    def is_checking_httpd_running(self):
+        return self.__check_httpd_running
+
+    def check_php_fpm_running(self, enabled):
+        self.__check_php_fpm_running = enabled
+
+        return self
+
+    def is_checking_php_fpm_running(self):
+        return self.__check_php_fpm_running
+
     def add_server(self, server):
         self.__servers.append(server)
 
@@ -116,11 +190,15 @@ class DefaultLocalChecks:
             check.add_notification(notification)
         return self
 
+    def set_check_type(self, type):
+        self.__check_type = type
+
     def apply(self):
         for server in self.__servers:
             if True is self.__check_apt:
                 check = CheckApt.create('apt_' + server.get_id()) \
                     .set_display_name('APT') \
+                    .set_check_type(self.__check_type) \
                     .add_service_group(ServiceGroup.create('apt').set_display_name('APT'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
@@ -128,6 +206,7 @@ class DefaultLocalChecks:
             if True is self.__check_yum:
                 check = CheckYum.create('yum_' + server.get_id()) \
                     .set_display_name('YUM') \
+                    .set_check_type(self.__check_type) \
                     .add_service_group(ServiceGroup.create('yum').set_display_name('YUM'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
@@ -135,6 +214,7 @@ class DefaultLocalChecks:
             if True is self.__check_load:
                 check = CheckLoad.create('load_' + server.get_id()) \
                     .set_display_name('Load') \
+                    .set_check_type(self.__check_type) \
                     .add_service_group(ServiceGroup.create('load').set_display_name('Load'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
@@ -142,6 +222,7 @@ class DefaultLocalChecks:
             if True is self.__check_ntp_time:
                 check = CheckNTPTime.create('ntp_time_' + server.get_id()) \
                     .set_display_name('NTP Time') \
+                    .set_check_type(self.__check_type) \
                     .add_service_group(ServiceGroup.create('ntp_time').set_display_name('NTP Time'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
@@ -149,6 +230,7 @@ class DefaultLocalChecks:
             if True is self.__check_swap:
                 check = CheckSWAP.create('swap_' + server.get_id()) \
                     .set_display_name('SWAP') \
+                    .set_check_type(self.__check_type) \
                     .add_service_group(ServiceGroup.create('swap').set_display_name('SWAP'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
@@ -156,21 +238,115 @@ class DefaultLocalChecks:
             if True is self.__check_users:
                 check = CheckUsers.create('users_' + server.get_id()) \
                     .set_display_name('Users') \
+                    .set_check_type(self.__check_type) \
                     .add_service_group(ServiceGroup.create('users').set_display_name('Users'))
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_sshd_running:
+                check = CheckProcs.create('proc_sshd_' + server.get_id()) \
+                    .set_display_name('Running sshd') \
+                    .set_check_type(self.__check_type) \
+                    .set_critical_range('1:') \
+                    .set_command('sshd') \
+                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
+                    .add_service_group(ServiceGroup.create('sshd').set_display_name('sshd'))
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_mysqld_running:
+                check = CheckLoad.create('proc_mysqld_' + server.get_id()) \
+                    .set_display_name('Running mysqld') \
+                    .set_check_type(self.__check_type) \
+                    .set_critical_range('1:') \
+                    .set_command('mysqld') \
+                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
+                    .add_service_group(ServiceGroup.create('mysqld').set_display_name('mysqld'))
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_cron_running:
+                check = CheckLoad.create('proc_cron_' + server.get_id()) \
+                    .set_display_name('Running cron') \
+                    .set_check_type(self.__check_type) \
+                    .set_critical_range('1:') \
+                    .set_command('cron') \
+                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
+                    .add_service_group(ServiceGroup.create('cron').set_display_name('cron'))
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_rsyslogd_running:
+                check = CheckLoad.create('proc_rsyslogd_' + server.get_id()) \
+                    .set_display_name('Running rsyslogd') \
+                    .set_check_type(self.__check_type) \
+                    .set_critical_range('1:') \
+                    .set_command('rsyslogd') \
+                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
+                    .add_service_group(ServiceGroup.create('rsyslogd').set_display_name('rsyslogd'))
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_nginx_running:
+                check = CheckLoad.create('proc_nginx_' + server.get_id()) \
+                    .set_display_name('Running nginx') \
+                    .set_check_type(self.__check_type) \
+                    .set_critical_range('1:') \
+                    .set_command('nginx') \
+                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
+                    .add_service_group(ServiceGroup.create('webserver').set_display_name('Webserver')) \
+                    .add_service_group(ServiceGroup.create('nginx').set_display_name('nginx'))
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_apache_running:
+                check = CheckLoad.create('proc_apache_' + server.get_id()) \
+                    .set_display_name('Running apache') \
+                    .set_check_type(self.__check_type) \
+                    .set_critical_range('1:') \
+                    .set_command('apache2') \
+                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
+                    .add_service_group(ServiceGroup.create('webserver').set_display_name('Webserver')) \
+                    .add_service_group(ServiceGroup.create('apache').set_display_name('apache'))
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_httpd_running:
+                check = CheckLoad.create('proc_httpd_' + server.get_id()) \
+                    .set_display_name('Running httpd') \
+                    .set_check_type(self.__check_type) \
+                    .set_critical_range('1:') \
+                    .set_command('httpd') \
+                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
+                    .add_service_group(ServiceGroup.create('webserver').set_display_name('Webserver')) \
+                    .add_service_group(ServiceGroup.create('httpd').set_display_name('httpd'))
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_php_fpm_running:
+                check = CheckLoad.create('proc_php_fpm_' + server.get_id()) \
+                    .set_display_name('Running php_fpm') \
+                    .set_check_type(self.__check_type) \
+                    .set_critical_range('1:') \
+                    .set_command('php-fpm') \
+                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
+                    .add_service_group(ServiceGroup.create('php_fpm').set_display_name('php_fpm'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
             if True is self.__check_disk:
                 if len(self.__check_partitions) == 0:
-                    check = CheckDisk.create('disk_' +  server.get_id()) \
+                    check = CheckDisk.create('disk_' + server.get_id()) \
                         .set_display_name('Disk ') \
+                        .set_check_type(self.__check_type) \
                         .add_service_group(ServiceGroup.create('disk').set_display_name('Disk'))
                     self.apply_notification_to_check(check)
                     server.add_check(check)
                 else:
                     for config in self.__check_partitions:
-                        check = CheckDisk.create('disk_' + config[0] +  server.get_id()) \
+                        check = CheckDisk.create('disk_' + config[0] + server.get_id()) \
                             .set_display_name('Disk ' + config[0]) \
+                            .set_check_type(self.__check_type) \
                             .set_partition(config[1]) \
                             .set_warning_percent(config[2]) \
                             .set_critical_percent(config[3]) \
