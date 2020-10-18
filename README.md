@@ -32,11 +32,15 @@ Check if a Dir or File exist
 
 #### Group Members
 Check Members of given group
-* link or copy `plugins/check_path_exists.sh` to `plugindir`
+* link or copy `plugins/check_group_members.py` to `plugindir`
 
 ***NOTICE:*** It is recommended to check the sudoers of a server.
 
-#### Path exist
+#### Existing users
+Check if only given users exists
+* link or copy `plugins/check_existing_users.py` to `plugindir`
+
+#### Docker login
 Check if login into docker registry succeed
 * link or copy `plugins/check_docker_login.sh` to `plugindir`
 * require `docker`
