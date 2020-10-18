@@ -32,7 +32,7 @@ class OS:
         self.__os = None
         self.__distro = None
         self.__version = None
-        self.__package_manager = None
+        self.__package_manager = []
 
     @staticmethod
     def create(id):
@@ -58,21 +58,31 @@ class OS:
     def get_os(self):
         return self.__os
 
-    def set_package_manager(self, package_manager):
+    def append_package_manager(self, package_manager):
 
         if isinstance(package_manager, PackageManager):
-            self.__package_manager = package_manager.get_id()
+            self.__package_manager.append(package_manager.get_id())
 
         elif isinstance(package_manager, str):
             package_manager = ConfigBuilder.get_package_manager(package_manager)
             if None is package_manager:
                 raise Exception('PackageManager does not exist yet!')
             elif isinstance(package_manager, PackageManager):
-                self.__package_manager = package_manager.get_id()
+                self.__package_manager.append(package_manager.get_id())
             else:
                 raise Exception('Can only add PackageManager or id of PackageManager!')
         else:
             raise Exception('Can only add PackageManager or id of PackageManager!')
+
+        return self
+
+    def remove_package_manager(self, package_manager):
+
+        if isinstance(package_manager, PackageManager):
+            self.__package_manager.remove(package_manager.get_id())
+
+        elif isinstance(package_manager, str):
+            self.__package_manager.remove(package_manager)
 
         return self
 
@@ -108,7 +118,8 @@ class OS:
             raise Exception('You have to specify distro for ' + self.__id)
         
         config = 'template Host "' + self.__id + '" {\n'
-        config += '  import "' + self.__package_manager + '"\n'
+        for manager in self.__package_manager:
+            config += '  import "' + manager + '"\n'
         config += '  vars.os = "' + self.__os + '"\n'
         config += '  vars.version = "' + self.__version + '"\n'
         config += '  vars.distro = "' + self.__distro + '"\n'

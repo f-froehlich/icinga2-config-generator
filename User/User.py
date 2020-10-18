@@ -118,6 +118,16 @@ class User:
 
         return self
 
+    def remove_group(self, group):
+
+        if isinstance(group, UserGroup):
+            self.__groups.remove(group.get_id())
+
+        elif isinstance(group, str):
+            self.__groups.append('group_' + group)
+
+        return self
+
     def set_enable_notifications(self, enable_notifications):
         ValueChecker.is_bool(enable_notifications)
         self.__enable_notifications = enable_notifications

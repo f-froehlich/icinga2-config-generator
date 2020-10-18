@@ -145,6 +145,15 @@ class NotificationTemplate:
             raise Exception('Can only add User or id of User!')
         return self
 
+    def remove_user(self, user):
+        if isinstance(user, User):
+            self.__users.remove(user.get_id())
+
+        elif isinstance(user, str):
+            self.__users.remove(user)
+
+        return self
+
     def get_users(self):
         return self.__users
 
@@ -159,6 +168,15 @@ class NotificationTemplate:
             self.__user_groups.append(user_group)
         else:
             raise Exception('Can only add UserGroup or id of UserGroup!')
+        return self
+
+    def remove_user_group(self, user_group):
+        if isinstance(user_group, UserGroup):
+            self.__user_groups.remove(user_group.get_id())
+
+        elif isinstance(user_group, str):
+            self.__user_groups.append(user_group)
+
         return self
 
     def get_user_groups(self):

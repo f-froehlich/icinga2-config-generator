@@ -29,6 +29,7 @@ from Servers.SSHTemplate import SSHTemplate
 from Servers.VHost import VHost
 from ValueChecker import ValueChecker
 from OS.OS import OS
+from PackageManager.PackageManager import PackageManager
 
 
 class ServerTemplate:
@@ -49,6 +50,7 @@ class ServerTemplate:
         self.__groups = []
         self.__notifications = []
         self.__downtimes = []
+        self.__package_manager = []
         self.__plugin_dir = '/usr/lib/nagios/plugins/'
         self.__max_check_attempts = 3
         self.__check_interval = '1m'
@@ -182,9 +184,17 @@ class ServerTemplate:
         elif isinstance(downtime, str):
             if None is ConfigBuilder.get_downtime(downtime):
                 raise Exception('Downtime does not exist yet!')
-            self.__downtimes.append(downtime)
+            self.__downtimes.append('downtime_' + downtime)
         else:
             raise Exception('Can only add Downtime or id of Downtime!')
+
+        return self
+
+    def remove_downtime(self, downtime):
+        if isinstance(downtime, ScheduledDowntime):
+            self.__downtimes.remove(downtime.get_id())
+        elif isinstance(downtime, str):
+            self.__downtimes.remove('downtime_' + downtime)
 
         return self
 
@@ -204,9 +214,19 @@ class ServerTemplate:
             elif not isinstance(notification, HostNotification):
                 raise Exception('Given Notification is not a HostNotification!')
 
-            self.__notifications.append(notification)
+            self.__notifications.append('notification_' + notification)
         else:
             raise Exception('Can only add HostNotification or id of HostNotification!')
+
+        return self
+
+    def remove_notification(self, notification):
+
+        if isinstance(notification, HostNotification):
+            self.__notifications.remove(notification.get_id())
+
+        elif isinstance(notification, str):
+            self.__notifications.remove('notification_' + notification)
 
         return self
 
@@ -224,6 +244,15 @@ class ServerTemplate:
 
         return self
 
+    def remove_check(self, check):
+        if isinstance(check, Check):
+            self.__checks.remove(check.get_id())
+
+        elif isinstance(check, str):
+            self.__checks.remove('check_' + check)
+
+        return self
+
     def get_check_ids(self):
 
         return self.__checks
@@ -236,10 +265,19 @@ class ServerTemplate:
             if None is ConfigBuilder.get_vhost(vhost):
                 raise Exception('VHost does not exist yet')
 
-            self.__vhosts.append(vhost)
+            self.__vhosts.append('vhost_' + vhost)
 
         else:
             raise Exception('Can only add VHost or id of VHost!')
+
+        return self
+
+    def remove_vhost(self, vhost):
+        if isinstance(vhost, VHost):
+            self.__vhosts.remove(vhost.get_id())
+
+        elif isinstance(vhost, str):
+            self.__vhosts.remove('vhost_' + vhost)
 
         return self
 
@@ -259,6 +297,14 @@ class ServerTemplate:
 
         return self
 
+    def remove_template(self, template):
+        if isinstance(template, ServerTemplate):
+            self.__templates.remove(template.get_id())
+        elif isinstance(template, str):
+            self.__templates.remove('template_' + template)
+
+        return self
+
     def get_template_ids(self):
 
         return self.__templates
@@ -275,12 +321,30 @@ class ServerTemplate:
 
         return self
 
+    def remove_hostgroup(self, group):
+        if isinstance(group, HostGroup):
+            self.__groups.remove(group.get_id())
+        elif isinstance(group, str):
+            self.__groups.remove('hostgroup_' + group)
+        else:
+            raise Exception('Can only add Hostgroup or id of Hostgroup!')
+
+        return self
+
     def get_hostgroup_ids(self):
 
         return self.__groups
 
     def add_custom_var(self, key, value):
         self.__custom_vars.append({'key': key, 'value': value})
+        return self
+
+    def remove_custom_var(self, key):
+        vars = self.__custom_vars
+        self.__custom_vars = []
+        for var in vars:
+            if var['key'] != key:
+                self.__custom_vars.append(var)
         return self
 
     def get_custom_var(self, key):
@@ -299,6 +363,34 @@ class ServerTemplate:
                     last_value = new_value
 
         return last_value
+
+    def append_package_manager(self, package_manager):
+
+        if isinstance(package_manager, PackageManager):
+            self.__package_manager.append(package_manager.get_id())
+
+        elif isinstance(package_manager, str):
+            package_manager = ConfigBuilder.get_package_manager(package_manager)
+            if None is package_manager:
+                raise Exception('PackageManager does not exist yet!')
+            elif isinstance(package_manager, PackageManager):
+                self.__package_manager.append(package_manager.get_id())
+            else:
+                raise Exception('Can only add PackageManager or id of PackageManager!')
+        else:
+            raise Exception('Can only add PackageManager or id of PackageManager!')
+
+        return self
+
+    def remove_package_manager(self, package_manager):
+
+        if isinstance(package_manager, PackageManager):
+            self.__package_manager.remove(package_manager.get_id())
+
+        elif isinstance(package_manager, str):
+            self.__package_manager.remove(package_manager)
+
+        return self
 
     def get_config(self):
         config = 'template Host "' + self.__id + '" {\n'
@@ -320,6 +412,9 @@ class ServerTemplate:
 
         if None is not self.__os:
             config += '  import "' + self.__os + '"\n'
+
+        for manager in self.__package_manager:
+            config += '  import "' + manager + '"\n'
 
         if None is not self.__ipv4:
             config += '  address = "' + self.__ipv4 + '"\n'
@@ -355,8 +450,14 @@ class ServerTemplate:
             config += '  vars.' + group + ' = true\n'
 
         for custom_var in self.__custom_vars:
-            # todo check for string, int, bool
-            config += '  vars.' + custom_var['key'] + ' = "' + custom_var['value'] + '"\n'
+            if isinstance(custom_var['value'], str):
+                config += '  vars.' + custom_var['key'] + ' = "' + custom_var['value'] + '"\n'
+            elif isinstance(custom_var['value'], int):
+                config += '  vars.' + custom_var['key'] + ' = ' + str(custom_var['value']) + '\n'
+            elif True == custom_var['value']:
+                config += '  vars.' + custom_var['key'] + ' = true\n'
+            elif False == custom_var['value']:
+                config += '  vars.' + custom_var['key'] + ' = false\n'
 
         config += '  check_command = "hostalive"\n'
         config += '}\n'

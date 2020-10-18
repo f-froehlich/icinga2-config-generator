@@ -46,6 +46,10 @@ class CheckGroupMembers(Check):
         self.__users.append(user)
         return self
 
+    def remove_user(self, user):
+        self.__users.remove(user)
+        return self
+
     def get_user(self):
         return self.__users
 

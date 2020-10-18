@@ -75,6 +75,15 @@ class VHost:
 
         return self
 
+    def remove_check(self, check):
+        if isinstance(check, Check):
+            self.__checks.remove(check.get_id())
+
+        elif isinstance(check, str):
+            self.__checks.remove('check_' + check)
+
+        return self
+
     def get_check_ids(self):
 
         return self.__checks

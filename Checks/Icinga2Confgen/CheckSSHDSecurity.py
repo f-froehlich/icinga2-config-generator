@@ -101,6 +101,12 @@ class CheckSSHDSecurity(Check):
         self.__config.append(key + "=" + value)
         return self
 
+    def remove_config_params(self, key, value):
+        ValueChecker.is_string(key)
+        ValueChecker.is_string(value)
+        self.__config.remove(key + "=" + value)
+        return self
+
     def get_config_params(self):
         return self.__config
 

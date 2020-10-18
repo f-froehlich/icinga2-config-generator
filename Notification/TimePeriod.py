@@ -60,6 +60,12 @@ class TimePeriod:
         self.__ranges.append((day, range))
         return self
 
+    def remove_period(self, day, range):
+        ValueChecker.is_string(day)
+        ValueChecker.is_string(range)
+        self.__ranges.remove((day, range))
+        return self
+
     def get_config(self):
         config = 'object TimePeriod "' + self.__id + '" {\n'
 

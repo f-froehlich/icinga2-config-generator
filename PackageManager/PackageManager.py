@@ -58,7 +58,7 @@ class PackageManager:
             raise Exception('You have to specify Manager for ' + self.__id)
 
         config = 'template Host "' + self.__id + '" {\n'
-        config += '  vars.package_manager = "' + self.__manager + '"\n'
+        config += '  vars.' + self.__id + ' = true\n'
         config += '}\n'
 
         return config
