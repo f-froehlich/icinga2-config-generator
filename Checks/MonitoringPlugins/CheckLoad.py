@@ -72,9 +72,9 @@ class CheckLoad(Check):
         return self.__procs_to_show
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
-        check = ConfigBuilder.get_check(id)
+        check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:
             id = 'check_' + id
             check = CheckLoad(id)

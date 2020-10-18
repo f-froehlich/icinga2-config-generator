@@ -35,10 +35,10 @@ class OS:
         self.__package_manager = []
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
 
-        os = ConfigBuilder.get_os(id)
+        os = None if force_create else ConfigBuilder.get_os(id)
         if None is os:
             id = 'os_' + id
             os = OS(id)
@@ -112,7 +112,7 @@ class OS:
             raise Exception('You have to specify OS for ' + self.__id)
         if None is self.__version:
             raise Exception('You have to specify Version for ' + self.__id)
-        if None is self.__package_manager:
+        if 0 == len(self.__package_manager):
             raise Exception('You have to specify PackageManager for ' + self.__id)
         if None is self.__distro:
             raise Exception('You have to specify distro for ' + self.__id)

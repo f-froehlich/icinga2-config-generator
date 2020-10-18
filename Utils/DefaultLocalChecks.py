@@ -30,12 +30,16 @@ from Checks.MonitoringPlugins.CheckProcs import CheckProcs
 from Checks.MonitoringPlugins.CheckUsers import CheckUsers
 from Checks.Icinga2Confgen.CheckSSHDSecurity import CheckSSHDSecurity
 from Checks.Icinga2Confgen.CheckGroupMembers import CheckGroupMembers
+from Checks.Icinga2Confgen.CheckExistingUsers import CheckExistingUsers
+from Checks.Icinga2Confgen.CheckUFWStatus import CheckUFWStatus
 from Groups.ServiceGroup import ServiceGroup
+from ValueChecker import ValueChecker
 
 
 class DefaultLocalChecks:
 
-    def __init__(self, servers=[], notifications=[], sudoers=['fafr']):
+    def __init__(self, servers=[], notifications=[], sudoers=[], additional_users=[]):
+        self.__additional_users = additional_users
         self.__servers = servers
         self.__notifications = notifications
         self.__check_type = 'local'
@@ -48,18 +52,25 @@ class DefaultLocalChecks:
         self.__check_disk = True
         self.__check_sshd_security = True
         self.__check_sshd_running = True
-        self.__check_mysqld_running = True
+        self.__check_mysqld_running = False
         self.__check_cron_running = True
+        self.__check_crond_running = False
         self.__check_rsyslogd_running = True
         self.__check_nginx_running = False
         self.__check_apache_running = False
         self.__check_httpd_running = False
         self.__check_php_fpm_running = False
-        self.__check_partitions = []
         self.__check_sudoers = True
+        self.__check_normal_users = True
+        self.__check_wheel = False
+        self.__check_ufw = True
         self.__sudoers = sudoers
+        self.__check_partitions = []
+        self.__ufw_rules = []
+        self.__ufw_defaults = ('deny', 'allow', 'deny')
 
     def check_load(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_load = enabled
 
         return self
@@ -68,6 +79,7 @@ class DefaultLocalChecks:
         return self.__check_load
 
     def check_apt(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_apt = enabled
 
         return self
@@ -76,6 +88,7 @@ class DefaultLocalChecks:
         return self.__check_apt
 
     def check_yum(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_yum = enabled
 
         return self
@@ -84,6 +97,7 @@ class DefaultLocalChecks:
         return self.__check_yum
 
     def check_users(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_users = enabled
 
         return self
@@ -92,6 +106,7 @@ class DefaultLocalChecks:
         return self.__check_users
 
     def check_swap(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_swap = enabled
 
         return self
@@ -100,6 +115,7 @@ class DefaultLocalChecks:
         return self.__check_swap
 
     def check_ntp_time(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_ntp_time = enabled
 
         return self
@@ -108,6 +124,7 @@ class DefaultLocalChecks:
         return self.__check_ntp_time
 
     def check_disk(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_disk = enabled
 
         return self
@@ -116,6 +133,7 @@ class DefaultLocalChecks:
         return self.__check_disk
 
     def check_sshd_security(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_sshd_security = enabled
 
         return self
@@ -124,6 +142,7 @@ class DefaultLocalChecks:
         return self.__check_sshd_security
 
     def check_sshd_running(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_sshd_running = enabled
 
         return self
@@ -132,6 +151,7 @@ class DefaultLocalChecks:
         return self.__check_sshd_running
 
     def check_mysqld_running(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_mysqld_running = enabled
 
         return self
@@ -140,6 +160,7 @@ class DefaultLocalChecks:
         return self.__check_mysqld_running
 
     def check_cron_running(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_cron_running = enabled
 
         return self
@@ -147,7 +168,17 @@ class DefaultLocalChecks:
     def is_checking_cron_running(self):
         return self.__check_cron_running
 
+    def check_crond_running(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__check_crond_running = enabled
+
+        return self
+
+    def is_checking_crond_running(self):
+        return self.__check_crond_running
+
     def check_rsyslogd_running(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_rsyslogd_running = enabled
 
         return self
@@ -156,6 +187,7 @@ class DefaultLocalChecks:
         return self.__check_rsyslogd_running
 
     def check_nginx_running(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_nginx_running = enabled
 
         return self
@@ -164,6 +196,7 @@ class DefaultLocalChecks:
         return self.__check_nginx_running
 
     def check_apache_running(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_apache_running = enabled
 
         return self
@@ -172,6 +205,7 @@ class DefaultLocalChecks:
         return self.__check_apache_running
 
     def check_httpd_running(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_httpd_running = enabled
 
         return self
@@ -180,6 +214,7 @@ class DefaultLocalChecks:
         return self.__check_httpd_running
 
     def check_php_fpm_running(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_php_fpm_running = enabled
 
         return self
@@ -187,38 +222,93 @@ class DefaultLocalChecks:
     def is_checking_php_fpm_running(self):
         return self.__check_php_fpm_running
 
+    def check_ufw(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__check_ufw = enabled
+
+        return self
+
+    def is_checking_ufw(self):
+        return self.__check_ufw
+
+    def add_ufw_rule(self, policy_from, policy_to, policy_action):
+        ValueChecker.is_string(policy_from)
+        ValueChecker.is_string(policy_to)
+        ValueChecker.is_string(policy_action)
+        self.__ufw_rules.append(
+            (policy_from.replace(' ', '-'), policy_to.replace(' ', '-'), policy_action.replace(' ', '-')))
+        return self
+
+    def set_ufw_defaults(self, incomming, outgoing, routing):
+        self.__ufw_defaults = tuple((incomming, outgoing, routing))
+        return self
+
     def add_server(self, server):
         self.__servers.append(server)
 
     def add_partition(self, id, path, warning_percent, critical_percent):
+        ValueChecker.is_string(id)
+        ValueChecker.is_string(path)
+        ValueChecker.is_number(warning_percent)
+        ValueChecker.is_number(critical_percent)
         self.__check_partitions.append((id, path, warning_percent, critical_percent))
 
         return self
 
     def check_sudoers(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_sudoers = enabled
 
         return self
 
     def is_checking_sudoers(self):
-        return self.__check_php_fpm_running
+        return self.__check_sudoers
+
+    def check_normal_users(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__check_normal_users = enabled
+
+        return self
+
+    def is_checking_normal_users(self):
+        return self.__check_normal_users
+
+    def check_wheel(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__check_wheel = enabled
+
+        return self
+
+    def is_checking_wheel(self):
+        return self.__check_wheel
 
     def add_sudoers(self, username):
+        ValueChecker.is_string(username)
         self.__sudoers.append(username)
 
         return self
 
+    def add_normal_user(self, username):
+        ValueChecker.is_string(username)
+        self.__additional_users.append(username)
+
+        return self
+
     def add_notification(self, notification):
+        # todo type check
         self.__notifications.append(notification)
         return self
 
     def apply_notification_to_check(self, check):
+        # todo type check
         for notification in self.__notifications:
             check.add_notification(notification)
         return self
 
     def set_check_type(self, type):
+        # todo type check
         self.__check_type = type
+        return self
 
     def apply(self):
         for server in self.__servers:
@@ -226,6 +316,7 @@ class DefaultLocalChecks:
                 check = CheckApt.create('apt_' + server.get_id()) \
                     .set_display_name('APT') \
                     .set_check_type(self.__check_type) \
+                    .set_check_interval('30m') \
                     .add_service_group(ServiceGroup.create('apt').set_display_name('APT'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
@@ -234,6 +325,7 @@ class DefaultLocalChecks:
                 check = CheckYum.create('yum_' + server.get_id()) \
                     .set_display_name('YUM') \
                     .set_check_type(self.__check_type) \
+                    .set_check_interval('30m') \
                     .add_service_group(ServiceGroup.create('yum').set_display_name('YUM'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
@@ -271,20 +363,22 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_sshd_security:
+                check = CheckSSHDSecurity.create('sshd_security_' + server.get_id()) \
+                    .set_display_name('SSHD security') \
+                    .set_check_interval('30m') \
+                    .set_check_type(self.__check_type) \
+                    .add_service_group(ServiceGroup.create('sshd_security').set_display_name('sshd Security')) \
+                    .add_service_group(ServiceGroup.create('sshd').set_display_name('sshd'))
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_sshd_running:
                 check = CheckProcs.create('proc_sshd_' + server.get_id()) \
                     .set_display_name('Running sshd') \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('sshd') \
                     .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
-                    .add_service_group(ServiceGroup.create('sshd').set_display_name('sshd'))
-                self.apply_notification_to_check(check)
-                server.add_check(check)
-
-            if True is self.__check_sshd_running:
-                check = CheckSSHDSecurity.create('sshd_security_' + server.get_id()) \
-                    .set_display_name('SSHD security') \
-                    .set_check_type(self.__check_type) \
                     .add_service_group(ServiceGroup.create('sshd').set_display_name('sshd'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
@@ -306,6 +400,17 @@ class DefaultLocalChecks:
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('cron') \
+                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
+                    .add_service_group(ServiceGroup.create('cron').set_display_name('cron'))
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_crond_running:
+                check = CheckProcs.create('proc_crond_' + server.get_id()) \
+                    .set_display_name('Running crond') \
+                    .set_check_type(self.__check_type) \
+                    .set_critical_range('1:') \
+                    .set_command('crond') \
                     .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
                     .add_service_group(ServiceGroup.create('cron').set_display_name('cron'))
                 self.apply_notification_to_check(check)
@@ -373,6 +478,7 @@ class DefaultLocalChecks:
                 check = CheckGroupMembers.create('sudoers_' + server.get_id()) \
                     .set_display_name('Sudoers') \
                     .set_check_type(self.__check_type) \
+                    .set_check_interval('1h') \
                     .add_service_group(ServiceGroup.create('sudoers').set_display_name('Sudoers')) \
                     .add_service_group(ServiceGroup.create('group_members').set_display_name('Group Members'))
                 for user in self.__sudoers:
@@ -381,12 +487,54 @@ class DefaultLocalChecks:
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
+            if True is self.__check_wheel:
+                check = CheckGroupMembers.create('wheel_' + server.get_id()) \
+                    .set_display_name('Sudoers (wheel)') \
+                    .set_group('wheel') \
+                    .set_check_type(self.__check_type) \
+                    .set_check_interval('1h') \
+                    .add_service_group(ServiceGroup.create('sudoers').set_display_name('Sudoers')) \
+                    .add_service_group(ServiceGroup.create('group_members').set_display_name('Group Members'))
+                for user in self.__sudoers:
+                    check.append_user(user)
+
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_normal_users:
+                check = CheckExistingUsers.create('existing_users' + server.get_id()) \
+                    .set_display_name('Existing users') \
+                    .set_check_type(self.__check_type) \
+                    .set_check_interval('1h') \
+                    .add_service_group(ServiceGroup.create('existing_user').set_display_name('Existing User'))
+                for user in self.__sudoers:
+                    check.append_existing_users(user)
+                for user in self.__additional_users:
+                    check.append_existing_users(user)
+
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_ufw:
+                check = CheckUFWStatus.create('ufw_' + server.get_id()) \
+                    .set_incomming(self.__ufw_defaults[0]) \
+                    .set_outgoing(self.__ufw_defaults[1]) \
+                    .set_routing(self.__ufw_defaults[2]) \
+                    .set_display_name('UFW Status') \
+                    .set_check_type(self.__check_type) \
+                    .set_check_interval('1h') \
+                    .add_service_group(ServiceGroup.create('ufw').set_display_name('UFW'))
+                for policy in self.__ufw_rules:
+                    check.add_rule(policy[0], policy[1], policy[2])
+
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
             if True is self.__check_disk:
                 if len(self.__check_partitions) == 0:
                     check = CheckDisk.create('disk_' + server.get_id()) \
                         .set_display_name('Disk ') \
-                        .set_check_type(self.__check_type) \
-                        .add_service_group(ServiceGroup.create('disk').set_display_name('Disk'))
+                        .set_check_type(self.__check_type)
                     self.apply_notification_to_check(check)
                     server.add_check(check)
                 else:
@@ -396,7 +544,6 @@ class DefaultLocalChecks:
                             .set_check_type(self.__check_type) \
                             .set_partition(config[1]) \
                             .set_warning_percent(config[2]) \
-                            .set_critical_percent(config[3]) \
-                            .add_service_group(ServiceGroup.create('disk').set_display_name('Disk'))
+                            .set_critical_percent(config[3])
                         self.apply_notification_to_check(check)
                         server.add_check(check)

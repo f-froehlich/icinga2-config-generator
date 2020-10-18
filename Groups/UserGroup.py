@@ -31,9 +31,9 @@ class UserGroup(Group):
         Group.__init__(self, id, 'user')
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
-        usergroup = ConfigBuilder.get_usergroup(id)
+        usergroup = None if force_create else ConfigBuilder.get_usergroup(id)
         if None is usergroup:
             id = 'usergroup_' + id
             usergroup = UserGroup(id)

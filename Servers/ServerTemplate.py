@@ -40,7 +40,6 @@ class ServerTemplate:
         self.__ipv6 = None
         self.__name = None
         self.__display_name = None
-        self.__description = None
         self.__ssh_template = None
         self.__os = None
         self.__checks = []
@@ -58,10 +57,10 @@ class ServerTemplate:
         self.__enable_perfdata = True
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
 
-        template = ConfigBuilder.get_template(id)
+        template = None if force_create else ConfigBuilder.get_template(id)
         if None is template:
             id = 'template_' + id
             template = ServerTemplate(id)
@@ -140,14 +139,6 @@ class ServerTemplate:
         ValueChecker.is_string(name)
         self.__display_name = name
         return self
-
-    def set_description(self, description):
-        ValueChecker.is_string(description)
-        self.__description = description
-        return self
-
-    def get_description(self):
-        return self.__description
 
     def set_ssh_template(self, ssh_template):
 
@@ -429,9 +420,6 @@ class ServerTemplate:
 
         if None is not self.__display_name:
             config += '  display_name = "' + self.__display_name + '"\n'
-
-        if None is not self.__description:
-            config += '  description = "' + self.__description + '"\n'
 
         config += '  max_check_attempts = ' + str(self.__max_check_attempts) + '\n'
         config += '  check_interval = ' + self.__check_interval + '\n'

@@ -53,10 +53,10 @@ class Server(ServerTemplate):
         return self.__zone
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
 
-        server = ConfigBuilder.get_server(id)
+        server = None if force_create else ConfigBuilder.get_server(id)
         if None is server:
             id = 'server_' + id
             server = Server(id)

@@ -33,10 +33,10 @@ class Zone:
         return self.__id
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
 
-        zone = ConfigBuilder.get_zone(id)
+        zone = None if force_create else ConfigBuilder.get_zone(id)
         if None is zone:
             id = 'zone_' + id
             zone = Zone(id)

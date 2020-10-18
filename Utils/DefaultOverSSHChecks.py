@@ -23,6 +23,6 @@ from Utils.DefaultLocalChecks import DefaultLocalChecks
 
 class DefaultOverSSHChecks(DefaultLocalChecks):
 
-    def __init__(self, servers=[], notifications=[]):
-        DefaultLocalChecks.__init__(self, servers, notifications)
-        DefaultLocalChecks.set_check_type('ssh')
+    def __init__(self, servers=[], notifications=[], sudoers=[]):
+        DefaultLocalChecks.__init__(self, servers, notifications, sudoers)
+        DefaultLocalChecks.set_check_type(self, 'ssh')

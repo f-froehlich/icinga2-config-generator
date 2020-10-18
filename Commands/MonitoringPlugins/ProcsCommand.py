@@ -31,9 +31,9 @@ class ProcsCommand(Command):
         Command.__init__(self, id)
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
-        command = ConfigBuilder.get_command(id)
+        command = None if force_create else ConfigBuilder.get_command(id)
         if None is command:
             id = 'command_' + id
             command = ProcsCommand(id)
@@ -88,7 +88,7 @@ class ProcsCommand(Command):
       set_if = {{ macro("$command_procs_argument_ereg$") != false }}
     }
     "-C" = {
-      value = "$command_procs_commandg$"
+      value = "$command_procs_command$"
       set_if = {{ macro("$command_procs_command$") != false }}
     }
     "-k" = {

@@ -31,9 +31,9 @@ class HostGroup(Group):
         Group.__init__(self, id, 'host')
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
-        hostgroup = ConfigBuilder.get_hostgroup(id)
+        hostgroup = None if force_create else ConfigBuilder.get_hostgroup(id)
         if None is hostgroup:
             id = 'hostgroup_' + id
             hostgroup = HostGroup(id)

@@ -46,10 +46,10 @@ class User:
         self.__groups = []
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
 
-        user = ConfigBuilder.get_user(id)
+        user = None if force_create else ConfigBuilder.get_user(id)
         if None is user:
             id = 'user_' + id
             user = User(id)

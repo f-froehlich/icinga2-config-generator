@@ -24,6 +24,7 @@ from Checks.Check import Check
 from Commands.MonitoringPlugins.DiskCommand import DiskCommand
 from ConfigBuilder import ConfigBuilder
 from ValueChecker import ValueChecker
+from Groups.ServiceGroup import ServiceGroup
 
 
 class CheckDisk(Check):
@@ -211,7 +212,10 @@ class CheckDisk(Check):
 
     def set_path(self, path):
         ValueChecker.is_string(path)
-        self.__path = path
+        if None is self.__path:
+            self.__path = []
+
+        self.__path.append(path)
         return self
 
     def get_path(self):
@@ -251,7 +255,10 @@ class CheckDisk(Check):
 
     def set_include_type(self, include_type):
         ValueChecker.is_string(include_type)
-        self.__include_type = include_type
+        if None is self.__include_type:
+            self.__include_type = []
+
+        self.__include_type.append(include_type)
         return self
 
     def get_include_type(self):
@@ -259,7 +266,10 @@ class CheckDisk(Check):
 
     def set_exclude_type(self, exclude_type):
         ValueChecker.is_string(exclude_type)
-        self.__exclude_type = exclude_type
+        if None is self.__exclude_type:
+            self.__exclude_type = []
+
+        self.__exclude_type.append(exclude_type)
         return self
 
     def get_exclude_type(self):
@@ -267,7 +277,9 @@ class CheckDisk(Check):
 
     def set_eregi_path(self, eregi_path):
         ValueChecker.is_string(eregi_path)
-        self.__eregi_path = eregi_path
+        if None is self.__eregi_path:
+            self.__eregi_path = []
+        self.__eregi_path.append(eregi_path)
         return self
 
     def get_eregi_path(self):
@@ -283,7 +295,10 @@ class CheckDisk(Check):
 
     def set_ereg_path(self, ereg_path):
         ValueChecker.is_string(ereg_path)
-        self.__ereg_path = ereg_path
+        if None is self.__ereg_path:
+            self.__ereg_path = []
+
+        self.__ereg_path.append(ereg_path)
         return self
 
     def get_ereg_path(self):
@@ -299,7 +314,9 @@ class CheckDisk(Check):
 
     def set_ignore_eregi_path(self, ignore_eregi_path):
         ValueChecker.is_string(ignore_eregi_path)
-        self.__ignore_eregi_path = ignore_eregi_path
+        if None is self.__ignore_ereg_path:
+            self.__ignore_eregi_path = []
+        self.__ignore_eregi_path.append(ignore_eregi_path)
         return self
 
     def get_ignore_eregi_path(self):
@@ -315,7 +332,10 @@ class CheckDisk(Check):
 
     def set_ignore_ereg_path(self, ignore_ereg_path):
         ValueChecker.is_string(ignore_ereg_path)
-        self.__ignore_ereg_path = ignore_ereg_path
+        if None is self.__ignore_ereg_path:
+            self.__ignore_ereg_path = []
+
+        self.__ignore_ereg_path.append(ignore_ereg_path)
         return self
 
     def get_ignore_ereg_path(self):
@@ -330,12 +350,14 @@ class CheckDisk(Check):
         return self.__ignore_ereg_partition
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
-        check = ConfigBuilder.get_check(id)
+        check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:
             id = 'check_' + id
-            check = CheckDisk(id)
+            check = CheckDisk(id) \
+                .set_check_interval('15m') \
+                .add_service_group(ServiceGroup.create('disk').set_display_name('Disk'))
             ConfigBuilder.add_check(id, check)
 
         if None is ConfigBuilder.get_command('disk'):

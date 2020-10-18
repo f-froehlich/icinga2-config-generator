@@ -31,7 +31,7 @@ class MailNotificationCommand(NotificationCommand):
         NotificationCommand.__init__(self, id)
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
         command = None if force_create else ConfigBuilder.get_command(id)
         if None is command:

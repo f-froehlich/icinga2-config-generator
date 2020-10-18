@@ -31,10 +31,10 @@ class PackageManager:
         self.__manager = None
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
 
-        pm = ConfigBuilder.get_package_manager(id)
+        pm = None if force_create else ConfigBuilder.get_package_manager(id)
         if None is pm:
             id = 'package_manager_' + id
             pm = PackageManager(id)
@@ -64,8 +64,16 @@ class PackageManager:
         return config
 
 
-apt = PackageManager.create('apt').set_manager('apt')
-yum = PackageManager.create('yum').set_manager('yum')
-apk = PackageManager.create('apk').set_manager('apk')
-rpm = PackageManager.create('rpm').set_manager('rpm')
-dpkg = PackageManager.create('dpkg').set_manager('dpkg')
+def apt(): return PackageManager.create('apt').set_manager('apt')
+
+
+def yum(): return PackageManager.create('yum').set_manager('yum')
+
+
+def apk(): return PackageManager.create('apk').set_manager('apk')
+
+
+def rpm(): return PackageManager.create('rpm').set_manager('rpm')
+
+
+def dpkg(): return PackageManager.create('dpkg').set_manager('dpkg')

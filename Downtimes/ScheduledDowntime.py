@@ -37,10 +37,10 @@ class ScheduledDowntime:
         self.__type = None
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
 
-        period = ConfigBuilder.get_downtime(id)
+        period = None if force_create else ConfigBuilder.get_downtime(id)
         if None is period:
             id = 'downtime_' + id
             period = ScheduledDowntime(id)

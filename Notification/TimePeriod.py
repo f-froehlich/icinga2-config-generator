@@ -32,10 +32,10 @@ class TimePeriod:
         self.__ranges = []
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
 
-        period = ConfigBuilder.get_time_period(id)
+        period = None if force_create else ConfigBuilder.get_time_period(id)
         if None is period:
             id = 'time_period_' + id
             period = TimePeriod(id)

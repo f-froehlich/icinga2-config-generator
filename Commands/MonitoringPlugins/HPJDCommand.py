@@ -31,9 +31,9 @@ class HPJDCommand(Command):
         Command.__init__(self, id)
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
-        command = ConfigBuilder.get_command(id)
+        command = None if force_create else ConfigBuilder.get_command(id)
         if None is command:
             id = 'command_' + id
             command = HPJDCommand(id)

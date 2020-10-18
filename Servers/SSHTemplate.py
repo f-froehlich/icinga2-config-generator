@@ -35,10 +35,10 @@ class SSHTemplate:
         self.__plugin_dir = '/usr/lib/nagios/plugins/'
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
 
-        template = ConfigBuilder.get_ssh_template(id)
+        template = None if force_create else ConfigBuilder.get_ssh_template(id)
         if None is template:
             id = 'ssh_template_' + id
             template = SSHTemplate(id)

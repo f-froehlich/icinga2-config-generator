@@ -34,10 +34,10 @@ class VHost:
         self.__checks = []
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
 
-        vhost = ConfigBuilder.get_vhost(id)
+        vhost = None if force_create else ConfigBuilder.get_vhost(id)
         if None is vhost:
             id = 'vhost_' + id
             vhost = VHost(id)

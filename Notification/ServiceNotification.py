@@ -41,10 +41,10 @@ class ServiceNotification(NotificationTemplate):
         return self.__allowed_types
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
 
-        notification = ConfigBuilder.get_notification_template(id)
+        notification = None if force_create else ConfigBuilder.get_notification_template(id)
         if None is notification:
             id = 'notification_' + id
             notification = ServiceNotification(id)

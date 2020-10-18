@@ -50,10 +50,10 @@ class NotificationTemplate:
         raise Exception('You must override get_allowed_types')
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
 
-        notification = ConfigBuilder.get_notification_template(id)
+        notification = None if force_create else ConfigBuilder.get_notification_template(id)
         if None is notification:
             id = 'notification_template_' + id
             notification = NotificationTemplate(id)
@@ -76,7 +76,7 @@ class NotificationTemplate:
         if isinstance(command, NotificationCommand):
             self.__command = command.get_id()
         elif isinstance(command, str):
-            command = ConfigBuilder.get_command(command)
+            command = None if force_create else ConfigBuilder.get_command(command)
             if None is command:
                 raise Exception('NotificationCommand does not exist yet!')
             if not isinstance(command, NotificationCommand):

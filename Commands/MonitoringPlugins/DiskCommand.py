@@ -31,9 +31,9 @@ class DiskCommand(Command):
         Command.__init__(self, id)
 
     @staticmethod
-    def create(id):
+    def create(id, force_create=False):
         ValueChecker.validate_id(id)
-        command = ConfigBuilder.get_command(id)
+        command = None if force_create else ConfigBuilder.get_command(id)
         if None is command:
             id = 'command_' + id
             command = DiskCommand(id)
@@ -63,6 +63,8 @@ class DiskCommand(Command):
     }
     "--path" = {
       value = "$command_disk_path$"
+      set_if = {{ macro("$command_disk_path$") != false }}
+      repeat_key = true
     }
     "--partition" = {
       value = "$command_disk_partition$"
@@ -108,6 +110,7 @@ class DiskCommand(Command):
     "--eregi-path" = {
       value = "$command_disk_eregi_path$"
       set_if = {{ macro("$command_disk_eregi_path$") != false }}
+      repeat_key = true
     }
     "--eregi-partition" = {
       value = "$command_disk_eregi_partition$"
@@ -116,6 +119,7 @@ class DiskCommand(Command):
     "--ignore-eregi-path" = {
       value = "$command_disk_ignore_eregi_path$"
       set_if = {{ macro("$command_disk_ignore_eregi_path$") != false }}
+      repeat_key = true
     }
     "--ignore-eregi-partition" = {
       value = "$command_disk_ignore_eregi_partition$"
@@ -124,6 +128,7 @@ class DiskCommand(Command):
     "--ereg-path" = {
       value = "$command_disk_ereg_path$"
       set_if = {{ macro("$command_disk_ereg_path$") != false }}
+      repeat_key = true
     }
     "--ereg-partition" = {
       value = "$command_disk_ereg_partition$"
@@ -132,6 +137,7 @@ class DiskCommand(Command):
     "--ignore-ereg-path" = {
       value = "$command_disk_ignore_ereg_path$"
       set_if = {{ macro("$command_disk_ignore_ereg_path$") != false }}
+      repeat_key = true
     }
     "--ignore-ereg-partition" = {
       value = "$command_disk_ignore_ereg_partition$"
@@ -148,10 +154,12 @@ class DiskCommand(Command):
     "--exclude-type" = {
       value = "$command_disk_exclude_type$"
       set_if = {{ macro("$command_disk_exclude_type$") != false }}
-    }
+      repeat_key = true
+  }
     "--include-type" = {
       value = "$command_disk_include_type$"
       set_if = {{ macro("$command_disk_include_type$") != false }}
+      repeat_key = true
     }
     "--newlines" = {
       set_if = "$command_disk_newlines$"
