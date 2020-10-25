@@ -31,6 +31,7 @@ from ValueChecker import ValueChecker
 from OS.OS import OS
 from PackageManager.PackageManager import PackageManager
 from ValueMapper import ValueMapper
+from Servers.Zone import Zone
 
 
 class ServerTemplate:
@@ -55,6 +56,7 @@ class ServerTemplate:
         self.__check_interval = '1m'
         self.__retry_interval = '15s'
         self.__enable_perfdata = True
+        self.__execution_zone = Zone.create('master')
 
     @staticmethod
     def create(id, force_create=False):
@@ -76,6 +78,23 @@ class ServerTemplate:
         return self
 
     def get_plugindir(self):
+        return self.__plugin_dir
+
+    def set_execution_zone(self, zone):
+        if isinstance(zone, Zone):
+            self.__execution_zone = zone
+
+        elif isinstance(zone, str):
+            zone = ConfigBuilder.get_zone(zone)
+            if None is zone:
+                raise Exception('Zone does not exist yet!')
+            self.__execution_zone = zone
+        else:
+            raise Exception('Can only add Zone or id of Zone!')
+
+        return self
+
+    def get_execution_zone(self):
         return self.__plugin_dir
 
     def set_max_check_attempts(self, max_check_attempts):
@@ -429,6 +448,7 @@ class ServerTemplate:
                 custom_var['value']) + '\n'
 
         config += '  check_command = "hostalive"\n'
+        config += '  zone = "' + self.__execution_zone.get_id() + '"\n'
         config += '}\n'
 
         return config
