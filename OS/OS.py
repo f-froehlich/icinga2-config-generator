@@ -40,7 +40,6 @@ class OS:
 
         os = None if force_create else ConfigBuilder.get_os(id)
         if None is os:
-            id = 'os_' + id
             os = OS(id)
             ConfigBuilder.add_os(id, os)
 
@@ -61,16 +60,15 @@ class OS:
     def append_package_manager(self, package_manager):
 
         if isinstance(package_manager, PackageManager):
-            self.__package_manager.append(package_manager.get_id())
+            if package_manager not in self.__package_manager:
+                self.__package_manager.append(package_manager)
 
         elif isinstance(package_manager, str):
             package_manager = ConfigBuilder.get_package_manager(package_manager)
             if None is package_manager:
                 raise Exception('PackageManager does not exist yet!')
-            elif isinstance(package_manager, PackageManager):
-                self.__package_manager.append(package_manager.get_id())
-            else:
-                raise Exception('Can only add PackageManager or id of PackageManager!')
+
+            return self.append_package_manager(package_manager)
         else:
             raise Exception('Can only add PackageManager or id of PackageManager!')
 
@@ -106,8 +104,7 @@ class OS:
     def get_distro(self):
         return self.__distro
 
-
-    def get_config(self):
+    def validate(self):
         if None is self.__os:
             raise Exception('You have to specify OS for ' + self.__id)
         if None is self.__version:
@@ -116,15 +113,17 @@ class OS:
             raise Exception('You have to specify PackageManager for ' + self.__id)
         if None is self.__distro:
             raise Exception('You have to specify distro for ' + self.__id)
-        
-        config = 'template Host "' + self.__id + '" {\n'
+
+    def get_config(self):
+        self.validate()
+
+        config = 'template Host "os_' + self.__id + '" {\n'
         for manager in self.__package_manager:
-            config += '  import "' + manager + '"\n'
+            config += '  import "packagemanager_' + manager.get_id() + '"\n'
         config += '  vars.os = "' + self.__os + '"\n'
         config += '  vars.version = "' + self.__version + '"\n'
         config += '  vars.distro = "' + self.__distro + '"\n'
-        config += '  vars.hostgroup_hg_os_' + self.__id + ' = true\n'
-        config += '  vars.hostgroup_hg_distro_' + self.__id + ' = true\n'
+        config += '  groups += ["hostgroup_hg_os_' + self.__id + '", "hostgroup_hg_distro_' + self.__distro + '"]\n'
         config += '}\n'
 
         return config

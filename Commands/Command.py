@@ -45,7 +45,7 @@ class Command:
         return '[ "$plugin_dir$" + "/' + self.get_command() + '"]'
 
     def get_config_local(self):
-        config = 'object CheckCommand "' + self.get_id() + '_local" {\n'
+        config = 'object CheckCommand "command_' + self.get_id() + '_local" {\n'
         config += '  command = ' + self.get_command_definition() + '\n'
         config += '  arguments = ' + self.get_arguments() + '\n'
         config += '}\n'
@@ -53,7 +53,7 @@ class Command:
         return config
 
     def get_config_ssh(self):
-        config = 'object CheckCommand "' + self.get_id() + '_ssh" {\n'
+        config = 'object CheckCommand "command_' + self.get_id() + '_ssh" {\n'
         config += '  vars.realcmd = ' + self.get_command_definition() + '\n'
         config += '  vars.realargs = ' + self.get_arguments() + '\n'
         config += """  command = [ "$command_overssh_plugin_dir$" + "/check_by_ssh"]

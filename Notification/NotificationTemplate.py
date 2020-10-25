@@ -26,6 +26,7 @@ from Groups.UserGroup import UserGroup
 from Notification.TimePeriod import TimePeriod
 from User.User import User
 from ValueChecker import ValueChecker
+from ValueMapper import ValueMapper
 
 
 class NotificationTemplate:
@@ -55,7 +56,6 @@ class NotificationTemplate:
 
         notification = None if force_create else ConfigBuilder.get_notification_template(id)
         if None is notification:
-            id = 'notification_template_' + id
             notification = NotificationTemplate(id)
             ConfigBuilder.add_notification_template(id, notification)
 
@@ -134,22 +134,24 @@ class NotificationTemplate:
 
     def add_user(self, user):
         if isinstance(user, User):
-            self.__users.append(user.get_id())
+            if user not in self.__users:
+                self.__users.append(user)
 
         elif isinstance(user, str):
-
-            if None is ConfigBuilder.get_user(user):
+            user = ConfigBuilder.get_user(user)
+            if None is user:
                 raise Exception('User does not exist yet!')
-            self.__users.append(user)
+            self.add_user(user)
         else:
             raise Exception('Can only add User or id of User!')
         return self
 
     def remove_user(self, user):
         if isinstance(user, User):
-            self.__users.remove(user.get_id())
+            self.__users.remove(user)
 
         elif isinstance(user, str):
+            user = ConfigBuilder.get_user(user)
             self.__users.remove(user)
 
         return self
@@ -159,59 +161,56 @@ class NotificationTemplate:
 
     def add_user_group(self, user_group):
         if isinstance(user_group, UserGroup):
-            self.__user_groups.append(user_group.get_id())
+            if user_group not in self.__user_groups:
+                self.__user_groups.append(user_group)
 
         elif isinstance(user_group, str):
-
-            if None is ConfigBuilder.get_usergroup(user_group):
+            user_group = ConfigBuilder.get_usergroup(user_group)
+            if None is user_group:
                 raise Exception('UserGroup does not exist yet!')
-            self.__user_groups.append(user_group)
+            self.add_user_group(user_group)
         else:
             raise Exception('Can only add UserGroup or id of UserGroup!')
         return self
 
     def remove_user_group(self, user_group):
         if isinstance(user_group, UserGroup):
-            self.__user_groups.remove(user_group.get_id())
+            self.__user_groups.remove(user_group)
 
         elif isinstance(user_group, str):
-            self.__user_groups.append(user_group)
+            user_group = ConfigBuilder.get_usergroup(user_group)
+            self.__user_groups.remove(user_group)
 
         return self
 
     def get_user_groups(self):
         return self.__user_groups
 
-    def get_config(self):
+    def validate(self):
         if None is self.__command:
             raise Exception('You have to set a Command for Notification!')
 
-        config = 'template Notification "' + self.__id + '" {\n'
+        if 0 == len(self.__users) and 0 == len(self.__user_groups):
+            raise Exception('You have to add a user or user group for Notification ' + self.__id)
+
+    def get_config(self):
+        self.validate()
+
+        config = 'template Notification "notification_template_' + self.__id + '" {\n'
         config += '  interval = ' + self.__interval + '\n'
-        config += '  command = "' + self.__command + '"\n'
-        config += '  period = "' + self.__time_period + '"\n'
+
         if None is not self.__escalation:
             config += '  times = {\n'
             config += '    begin = ' + self.__escalation[0] + '\n'
             config += '    end = ' + self.__escalation[1] + '\n'
             config += '  }\n'
 
-        config += '  states = []\n'
-        for state in self.__states:
-            config += '  states += [ "' + state + '" ]\n'
-
-        config += '  types = []\n'
-        for type in self.__types:
-            config += '  types += [ "' + type + '" ]\n'
-
-        config += '  users = []\n'
-        for user in self.__users:
-            config += '  users += [ "' + user + '" ]\n'
-
-        config += '  user_groups = []\n'
-        for group in self.__user_groups:
-            config += '  user_groups += [ "' + group + '" ]\n'
-
+        config += ValueMapper.parse_var('command', self.__command, value_prefix='command_')
+        config += ValueMapper.parse_var('period', self.__time_period, value_prefix='time_period_')
+        config += ValueMapper.parse_var('user_groups', self.__user_groups, value_prefix='usergroup_')
+        config += ValueMapper.parse_var('users', self.__users, value_prefix='user_')
+        config += ValueMapper.parse_var('types', self.__types)
+        config += ValueMapper.parse_var('states', self.__states)
         config += '}\n'
 
         return config

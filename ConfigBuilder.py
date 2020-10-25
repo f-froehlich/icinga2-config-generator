@@ -20,7 +20,6 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-import inspect
 import shutil
 from pathlib import Path
 from Application.Application import Application
@@ -66,8 +65,7 @@ class ConfigBuilder:
     def get_config():
         ConfigBuilder.__pbar.close()
 
-        shutil.rmtree('zones.d')
-        config = ConfigBuilder.__application.get_config()
+        shutil.rmtree('zones.d', ignore_errors=True)
 
         global_configs = [
             {'dir': 'checks', 'config': ConfigBuilder.__checks},
@@ -117,35 +115,22 @@ class ConfigBuilder:
 
         pbar.close()
 
+    @staticmethod
+    def get_hosts_with_hostgroup(group):
+        servers_with_group = []
+        for server in ConfigBuilder.__servers:
+            if group in server.get_hostgroups():
+                servers_with_group.append(server)
+
+        return servers_with_group
 
     @staticmethod
-    def get_property_default_config(instance, class_name, command_name, prefix):
+    def get_checks_from_server(server):
+        all_checks = server.get_checks()
+        for template in server.get_templates():
+            all_checks += ConfigBuilder.get_checks_from_server(template)
 
-        attributes = inspect.getmembers(instance, lambda a: not (inspect.isroutine(a)))
-        properties = [a for a in attributes if (a[0].startswith('_' + class_name + '__'))]
-        config = ''
-        for property in properties:
-            if True is property[1]:
-                config += '  vars.' + property[0].replace('_' + class_name + '__', prefix + '_' + \
-                                                          command_name + '_') + ' = true\n'
-            elif False is property[1]:
-                config += '  vars.' + property[0].replace('_' + class_name + '__', prefix + '_' + \
-                                                          command_name + '_') + ' = false\n'
-            elif isinstance(property[1], str):
-                config += '  vars.' + property[0].replace('_' + class_name + '__', prefix + '_' + \
-                                                          command_name + '_') + ' = "' + property[1] + '"\n'
-            elif isinstance(property[1], int):
-                config += '  vars.' + property[0].replace('_' + class_name + '__', prefix + '_' + \
-                                                          command_name + '_') + ' = ' + str(property[1]) + '\n'
-            elif isinstance(property[1], list):
-                arr = '['
-                for a in property[1]:
-                    arr += '"' + a + '", '
-                arr += ']'
-                config += '  vars.' + property[0].replace('_' + class_name + '__', prefix + '_' + \
-                                                          command_name + '_') + ' = ' + arr + '\n'
-
-        return config
+        return all_checks
 
     @staticmethod
     def get_instance(type):
@@ -160,7 +145,7 @@ class ConfigBuilder:
             'hostgroups': ConfigBuilder.__hostgroups,
             'usergroups': ConfigBuilder.__usergroups,
             'users': ConfigBuilder.__users,
-            'ssh_templates': ConfigBuilder.__ssh_templates,
+            'sshtemplates': ConfigBuilder.__ssh_templates,
             'time_periods': ConfigBuilder.__time_periods,
             'notification_templates': ConfigBuilder.__notification_templates,
             'notifications': ConfigBuilder.__notifications,
@@ -179,7 +164,6 @@ class ConfigBuilder:
 
     @staticmethod
     def get_server(id):
-        id = 'server_' + id
         for server in ConfigBuilder.__servers:
             if server['id'] == id:
                 return server['instance']
@@ -196,7 +180,7 @@ class ConfigBuilder:
 
     @staticmethod
     def get_check(id):
-        id = 'check_' + id
+
         for check in ConfigBuilder.__checks:
             if check['id'] == id:
                 return check['instance']
@@ -213,7 +197,6 @@ class ConfigBuilder:
 
     @staticmethod
     def get_template(id):
-        id = 'template_' + id
         for template in ConfigBuilder.__templates:
             if template['id'] == id:
                 return template['instance']
@@ -230,7 +213,6 @@ class ConfigBuilder:
 
     @staticmethod
     def get_command(id):
-        id = 'command_' + id
         for command in ConfigBuilder.__commands:
             if command['id'] == id:
                 return command['instance']
@@ -247,7 +229,6 @@ class ConfigBuilder:
 
     @staticmethod
     def get_vhost(id):
-        id = 'vhost_' + id
         for vhost in ConfigBuilder.__vhosts:
             if vhost['id'] == id:
                 return vhost['instance']
@@ -264,7 +245,6 @@ class ConfigBuilder:
 
     @staticmethod
     def get_hostgroup(id):
-        id = 'hostgroup_' + id
         for group in ConfigBuilder.__hostgroups:
             if group['id'] == id:
                 return group['instance']
@@ -281,7 +261,6 @@ class ConfigBuilder:
 
     @staticmethod
     def get_usergroup(id):
-        id = 'usergroup_' + id
         for group in ConfigBuilder.__usergroups:
             if group['id'] == id:
                 return group['instance']
@@ -298,7 +277,6 @@ class ConfigBuilder:
 
     @staticmethod
     def get_servicegroup(id):
-        id = 'servicegroup_' + id
         for group in ConfigBuilder.__servicegroups:
             if group['id'] == id:
                 return group['instance']
@@ -315,7 +293,6 @@ class ConfigBuilder:
 
     @staticmethod
     def get_ssh_template(id):
-        id = 'ssh_template_' + id
         for template in ConfigBuilder.__ssh_templates:
             if template['id'] == id:
                 return template['instance']
@@ -332,7 +309,6 @@ class ConfigBuilder:
 
     @staticmethod
     def get_time_period(id):
-        id = 'time_period_' + id
         for period in ConfigBuilder.__time_periods:
             if period['id'] == id:
                 return period['instance']
@@ -349,7 +325,6 @@ class ConfigBuilder:
 
     @staticmethod
     def get_notification_template(id):
-        id = 'notification_' + id
         for template in ConfigBuilder.__notification_templates:
             if template['id'] == id:
                 return template['instance']
@@ -374,7 +349,7 @@ class ConfigBuilder:
         return None
 
     @staticmethod
-    def add_notification_(id, period):
+    def add_notification(id, period):
         if ConfigBuilder.__check_for_existence and None is not ConfigBuilder.get_notification(id):
             raise Exception('Notification with id ' + id + ' already exists!')
 
@@ -383,10 +358,9 @@ class ConfigBuilder:
 
     @staticmethod
     def get_user(id):
-        id = 'user_' + id
-        for period in ConfigBuilder.__users:
-            if period['id'] == id:
-                return period['instance']
+        for user in ConfigBuilder.__users:
+            if user['id'] == id:
+                return user['instance']
 
         return None
 
@@ -400,7 +374,6 @@ class ConfigBuilder:
 
     @staticmethod
     def get_downtime(id):
-        id = 'downtime_' + id
         for period in ConfigBuilder.__downtimes:
             if period['id'] == id:
                 return period['instance']
@@ -429,7 +402,6 @@ class ConfigBuilder:
 
     @staticmethod
     def get_zone(id):
-        id = 'zone_' + id
         for period in ConfigBuilder.__zones:
             if period['id'] == id:
                 return period['instance']
@@ -446,7 +418,6 @@ class ConfigBuilder:
 
     @staticmethod
     def get_os(id):
-        id = 'os_' + id
         for period in ConfigBuilder.__os:
             if period['id'] == id:
                 return period['instance']
@@ -463,7 +434,6 @@ class ConfigBuilder:
 
     @staticmethod
     def get_package_manager(id):
-        id = 'package_manager_' + id
         for period in ConfigBuilder.__package_manager:
             if period['id'] == id:
                 return period['instance']

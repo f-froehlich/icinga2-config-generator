@@ -26,19 +26,23 @@ class ValueChecker:
     def get_prefixes():
 
         return [
-            'check',
-            'command',
             'server',
-            'hostgroup',
-            'servicegroup',
-            'usergroup',
-            'notification',
+            'check',
             'template',
-            'time_period',
+            'command',
             'vhost',
+            'servicegroup',
+            'hostgroup',
+            'usergroup',
+            'user',
+            'ssh_template',
+            'time_period',
+            'notification_template',
+            'notification',
             'downtime',
             'zone',
-            'os'
+            'os',
+            'package_manager',
         ]
 
     @staticmethod

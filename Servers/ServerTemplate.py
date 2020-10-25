@@ -30,6 +30,7 @@ from Servers.VHost import VHost
 from ValueChecker import ValueChecker
 from OS.OS import OS
 from PackageManager.PackageManager import PackageManager
+from ValueMapper import ValueMapper
 
 
 class ServerTemplate:
@@ -38,7 +39,6 @@ class ServerTemplate:
         self.__id = id
         self.__ipv4 = None
         self.__ipv6 = None
-        self.__name = None
         self.__display_name = None
         self.__ssh_template = None
         self.__os = None
@@ -62,7 +62,6 @@ class ServerTemplate:
 
         template = None if force_create else ConfigBuilder.get_template(id)
         if None is template:
-            id = 'template_' + id
             template = ServerTemplate(id)
             ConfigBuilder.add_template(id, template)
 
@@ -127,11 +126,6 @@ class ServerTemplate:
     def get_ipv6(self):
         return self.__ipv6
 
-    def set_name(self, name):
-        ValueChecker.is_string(name)
-        self.__name = name
-        return self
-
     def get_display_name(self):
         return self.__display_name
 
@@ -143,25 +137,26 @@ class ServerTemplate:
     def set_ssh_template(self, ssh_template):
 
         if isinstance(ssh_template, SSHTemplate):
-            self.__ssh_template = ssh_template.get_id()
+            self.__ssh_template = ssh_template
 
         elif isinstance(ssh_template, str):
-            if None is ConfigBuilder.get_ssh_template(ssh_template):
+            ssh_template = ConfigBuilder.get_ssh_template(ssh_template)
+            if None is ssh_template:
                 raise Exception('SSHTemplate does not exist yet!')
             self.__ssh_template = ssh_template
         else:
             raise Exception('Can only add SSHTemplate or id of SSHTemplate!')
 
         return self
-    
-    
+
     def set_os(self, os):
 
         if isinstance(os, OS):
-            self.__os = os.get_id()
+            self.__os = os
 
         elif isinstance(os, str):
-            if None is ConfigBuilder.get_os(os):
+            os = ConfigBuilder.get_os(os)
+            if None is os:
                 raise Exception('OS does not exist yet!')
             self.__os = os
         else:
@@ -171,11 +166,12 @@ class ServerTemplate:
 
     def add_downtime(self, downtime):
         if isinstance(downtime, ScheduledDowntime):
-            self.__downtimes.append(downtime.get_id())
+            self.__downtimes.append(downtime)
         elif isinstance(downtime, str):
-            if None is ConfigBuilder.get_downtime(downtime):
+            downtime = ConfigBuilder.get_downtime(downtime)
+            if None is downtime:
                 raise Exception('Downtime does not exist yet!')
-            self.__downtimes.append('downtime_' + downtime)
+            self.__downtimes.append(downtime)
         else:
             raise Exception('Can only add Downtime or id of Downtime!')
 
@@ -195,7 +191,8 @@ class ServerTemplate:
     def add_notification(self, notification):
 
         if isinstance(notification, HostNotification):
-            self.__notifications.append(notification.get_id())
+            if notification not in self.__notifications:
+                self.__notifications.append(notification)
 
         elif isinstance(notification, str):
 
@@ -205,7 +202,7 @@ class ServerTemplate:
             elif not isinstance(notification, HostNotification):
                 raise Exception('Given Notification is not a HostNotification!')
 
-            self.__notifications.append('notification_' + notification)
+            self.add_notification(notification)
         else:
             raise Exception('Can only add HostNotification or id of HostNotification!')
 
@@ -214,33 +211,40 @@ class ServerTemplate:
     def remove_notification(self, notification):
 
         if isinstance(notification, HostNotification):
-            self.__notifications.remove(notification.get_id())
+            self.__notifications.remove(notification)
 
         elif isinstance(notification, str):
-            self.__notifications.remove('notification_' + notification)
+            notification = ConfigBuilder.get_notification(notification)
+            self.__notifications.remove(notification)
 
         return self
 
     def add_check(self, check):
         if isinstance(check, Check):
-            self.__checks.append(check.get_id())
+            if check not in self.__checks:
+                self.__checks.append(check)
 
         elif isinstance(check, str):
-
-            if None is ConfigBuilder.get_check(check):
+            check = ConfigBuilder.get_check(check)
+            if None is check:
                 raise Exception('Check does not exist yet!')
-            self.__checks.append(check)
+            self.add_check(check)
         else:
             raise Exception('Can only add Check or id of Check!')
 
         return self
 
+    def add_checks(self):
+
+        return self.__checks
+
     def remove_check(self, check):
         if isinstance(check, Check):
-            self.__checks.remove(check.get_id())
+            self.__checks.remove(check)
 
         elif isinstance(check, str):
-            self.__checks.remove('check_' + check)
+            check = ConfigBuilder.get_check(check)
+            self.__checks.remove(check)
 
         return self
 
@@ -250,13 +254,15 @@ class ServerTemplate:
 
     def add_vhost(self, vhost):
         if isinstance(vhost, VHost):
-            self.__vhosts.append(vhost.get_id())
+            if vhost not in self.__vhosts:
+                self.__vhosts.append(vhost)
 
         elif isinstance(vhost, str):
-            if None is ConfigBuilder.get_vhost(vhost):
+            vhost = ConfigBuilder.get_vhost(vhost)
+            if None is vhost:
                 raise Exception('VHost does not exist yet')
 
-            self.__vhosts.append('vhost_' + vhost)
+            self.add_vhost(vhost)
 
         else:
             raise Exception('Can only add VHost or id of VHost!')
@@ -265,10 +271,11 @@ class ServerTemplate:
 
     def remove_vhost(self, vhost):
         if isinstance(vhost, VHost):
-            self.__vhosts.remove(vhost.get_id())
+            self.__vhosts.remove(vhost)
 
         elif isinstance(vhost, str):
-            self.__vhosts.remove('vhost_' + vhost)
+            vhost = ConfigBuilder.get_vhost(vhost)
+            self.__vhosts.remove(vhost)
 
         return self
 
@@ -278,11 +285,14 @@ class ServerTemplate:
 
     def add_template(self, template):
         if isinstance(template, ServerTemplate):
-            self.__templates.append(template.get_id())
+            if template not in self.__templates:
+                self.__templates.append(template)
+
         elif isinstance(template, str):
-            if None is ConfigBuilder.get_template(template):
+            template = ConfigBuilder.get_template(template)
+            if None is template:
                 raise Exception('ServerTemplate does not exist yet!')
-            self.__templates.append('template_' + template)
+            self.add_template(template)
         else:
             raise Exception('Can only add ServerTemplate or id of ServerTemplate!')
 
@@ -292,39 +302,42 @@ class ServerTemplate:
         if isinstance(template, ServerTemplate):
             self.__templates.remove(template.get_id())
         elif isinstance(template, str):
-            self.__templates.remove('template_' + template)
+            template = ConfigBuilder.get_template(template)
+            self.__templates.remove(template)
 
         return self
 
-    def get_template_ids(self):
+    def get_templates(self):
 
         return self.__templates
 
     def add_hostgroup(self, group):
         if isinstance(group, HostGroup):
-            self.__groups.append(group.get_id())
+            if group not in self.__groups:
+                self.__groups.append(group)
         elif isinstance(group, str):
-            if None is ConfigBuilder.get_hostgroup(group):
+            group = ConfigBuilder.get_hostgroup(group)
+            if None is group:
                 raise Exception('HostGroup does not exist yet!')
-            self.__groups.append('hostgroup_' + group)
+            self.add_hostgroup(group)
         else:
             raise Exception('Can only add Hostgroup or id of Hostgroup!')
 
         return self
+
+    def get_hostgroups(self):
+        return self.__groups
 
     def remove_hostgroup(self, group):
         if isinstance(group, HostGroup):
-            self.__groups.remove(group.get_id())
+            self.__groups.remove(group)
         elif isinstance(group, str):
-            self.__groups.remove('hostgroup_' + group)
+            group = ConfigBuilder.get_hostgroup(group)
+            self.__groups.remove(group)
         else:
             raise Exception('Can only add Hostgroup or id of Hostgroup!')
 
         return self
-
-    def get_hostgroup_ids(self):
-
-        return self.__groups
 
     def add_custom_var(self, key, value):
         self.__custom_vars.append({'key': key, 'value': value})
@@ -339,15 +352,13 @@ class ServerTemplate:
         return self
 
     def get_custom_var(self, key):
-
         for var in self.__custom_vars:
             if var['key'] == key:
                 return var['value']
 
         last_value = None
 
-        for template_id in self.__templates:
-            template = ConfigBuilder.get_template(template_id.replace('template_', ''))
+        for template in self.__templates:
             if None is not template:
                 new_value = template.get_custom_var(key)
                 if None is not new_value:
@@ -358,16 +369,14 @@ class ServerTemplate:
     def append_package_manager(self, package_manager):
 
         if isinstance(package_manager, PackageManager):
-            self.__package_manager.append(package_manager.get_id())
+            if package_manager not in self.__package_manager:
+                self.__package_manager.append(package_manager)
 
         elif isinstance(package_manager, str):
             package_manager = ConfigBuilder.get_package_manager(package_manager)
             if None is package_manager:
                 raise Exception('PackageManager does not exist yet!')
-            elif isinstance(package_manager, PackageManager):
-                self.__package_manager.append(package_manager.get_id())
-            else:
-                raise Exception('Can only add PackageManager or id of PackageManager!')
+            self.append_package_manager(package_manager)
         else:
             raise Exception('Can only add PackageManager or id of PackageManager!')
 
@@ -376,76 +385,48 @@ class ServerTemplate:
     def remove_package_manager(self, package_manager):
 
         if isinstance(package_manager, PackageManager):
-            self.__package_manager.remove(package_manager.get_id())
+            self.__package_manager.remove(package_manager)
 
         elif isinstance(package_manager, str):
+            package_manager = ConfigBuilder.get_package_manager(package_manager)
             self.__package_manager.remove(package_manager)
 
         return self
 
     def get_config(self):
-        config = 'template Host "' + self.__id + '" {\n'
+        config = 'template Host "servertemplate_' + self.__id + '" {\n'
 
         for template in self.__templates:
-            config += '  import "' + template + '"\n'
+            config += '  import "servertemplate_' + template.get_id() + '"\n'
 
         for vhost in self.__vhosts:
-            config += '  import "' + vhost + '"\n'
-
-        for notification in self.__notifications:
-            config += '  vars.' + notification + ' = true\n'
-
-        for downtime in self.__downtimes:
-            config += '  vars.' + downtime + ' = true\n'
+            config += '  import "vhost_' + vhost.get_id() + '"\n'
 
         if None is not self.__ssh_template:
-            config += '  import "' + self.__ssh_template + '"\n'
+            config += '  import "sshtemplate_' + self.__ssh_template.get_id() + '"\n'
 
         if None is not self.__os:
-            config += '  import "' + self.__os + '"\n'
+            config += '  import "os_' + self.__os.get_id() + '"\n'
 
         for manager in self.__package_manager:
-            config += '  import "' + manager + '"\n'
+            config += '  import "packagemanager_' + manager.get_id() + '"\n'
 
-        if None is not self.__ipv4:
-            config += '  address = "' + self.__ipv4 + '"\n'
-            config += '  vars.address = "' + self.__ipv4 + '"\n'
-
-        if None is not self.__ipv6:
-            config += '  address6 = "' + self.__ipv6 + '"\n'
-            config += '  vars.address6 = "' + self.__ipv6 + '"\n'
-
-        if None is not self.__name:
-            config += '  name = "' + self.__name + '"\n'
-
-        if None is not self.__display_name:
-            config += '  display_name = "' + self.__display_name + '"\n'
-
-        config += '  max_check_attempts = ' + str(self.__max_check_attempts) + '\n'
         config += '  check_interval = ' + self.__check_interval + '\n'
         config += '  retry_interval = ' + self.__retry_interval + '\n'
-        if True is self.__enable_perfdata:
-            config += '  enable_perfdata = true\n'
-        else:
-            config += '  enable_perfdata = false\n'
-
-        config += '  vars.plugin_dir = "' + self.__plugin_dir + '"\n'
-
-        for check in self.__checks:
-            config += '  vars.' + check + ' = true\n'
-
-        for group in self.__groups:
-            config += '  vars.' + group + ' = true\n'
+        config += ValueMapper.parse_var('vars.notification', self.__notifications, value_prefix='notification_')
+        config += ValueMapper.parse_var('vars.downtime', self.__downtimes, value_prefix='downtime_')
+        config += ValueMapper.parse_var('address', self.__ipv4)
+        config += ValueMapper.parse_var('address6', self.__ipv6)
+        config += ValueMapper.parse_var('display_name', self.__display_name)
+        config += ValueMapper.parse_var('max_check_attempts', self.__max_check_attempts)
+        config += ValueMapper.parse_var('enable_perfdata', self.__enable_perfdata)
+        config += ValueMapper.parse_var('vars.plugin_dir', self.__plugin_dir)
+        config += ValueMapper.parse_var('vars.checks', self.__checks, value_prefix='check_')
+        config += ValueMapper.parse_var('groups', self.__groups, value_prefix='hostgroup_')
 
         for custom_var in self.__custom_vars:
-            if isinstance(custom_var['value'], str):
-                config += '  vars.' + custom_var['key'] + ' = "' + custom_var['value'] + '"\n'
-            elif isinstance(custom_var['value'], int):
-                config += '  vars.' + custom_var['key'] + ' = ' + str(custom_var['value']) + '\n'
-            elif True == custom_var['value']:
-                config += '  vars.' + custom_var['key'] + ' = true\n'
-            elif False == custom_var['value']:
-                config += '  vars.' + custom_var['key'] + ' = false\n'
+            config += '  vars.' + custom_var['key'] + ' = ' + ValueMapper.parse_value_for_var(
+                custom_var['value']) + '\n'
 
         config += '  check_command = "hostalive"\n'
         config += '}\n'

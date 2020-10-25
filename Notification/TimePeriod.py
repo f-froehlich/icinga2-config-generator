@@ -37,7 +37,6 @@ class TimePeriod:
 
         period = None if force_create else ConfigBuilder.get_time_period(id)
         if None is period:
-            id = 'time_period_' + id
             period = TimePeriod(id)
             ConfigBuilder.add_time_period(id, period)
 
@@ -67,7 +66,7 @@ class TimePeriod:
         return self
 
     def get_config(self):
-        config = 'object TimePeriod "' + self.__id + '" {\n'
+        config = 'object TimePeriod "time_period_' + self.__id + '" {\n'
 
         if None is not self.__display_name:
             config += '  display_name = "' + self.__display_name + '"\n'

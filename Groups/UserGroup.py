@@ -35,7 +35,6 @@ class UserGroup(Group):
         ValueChecker.validate_id(id)
         usergroup = None if force_create else ConfigBuilder.get_usergroup(id)
         if None is usergroup:
-            id = 'usergroup_' + id
             usergroup = UserGroup(id)
             ConfigBuilder.add_usergroup(id, usergroup)
 

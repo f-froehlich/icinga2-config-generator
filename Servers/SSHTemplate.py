@@ -22,6 +22,7 @@
 
 from ConfigBuilder import ConfigBuilder
 from ValueChecker import ValueChecker
+from ValueMapper import ValueMapper
 
 class SSHTemplate:
 
@@ -40,9 +41,8 @@ class SSHTemplate:
 
         template = None if force_create else ConfigBuilder.get_ssh_template(id)
         if None is template:
-            id = 'ssh_template_' + id
             template = SSHTemplate(id)
-            ConfigBuilder.add_vhost(id, template)
+            ConfigBuilder.add_ssh_template(id, template)
 
         return template
 
@@ -90,8 +90,8 @@ class SSHTemplate:
         return self.__port
 
     def get_config(self):
-        config = 'template Host "' + self.__id + '" {\n'
-        config += ConfigBuilder.get_property_default_config(self, 'SSHTemplate', 'overssh', 'command')
+        config = 'template Host "sshtemplate_' + self.__id + '" {\n'
+        config += ValueMapper.get_property_default_config(self, 'SSHTemplate', 'overssh', 'command')
         config += '}\n'
 
         return config

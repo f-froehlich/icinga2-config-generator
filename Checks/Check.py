@@ -25,6 +25,7 @@ from Downtimes.DefaultScheduledDowntimes import ScheduledDowntime
 from Groups.ServiceGroup import ServiceGroup
 from Notification.ServiceNotification import ServiceNotification
 from ValueChecker import ValueChecker
+from ValueMapper import ValueMapper
 
 
 class Check:
@@ -47,7 +48,7 @@ class Check:
     @staticmethod
     def create(id, force_create=False):
         ValueChecker.validate_id(id)
-        id = 'check_' + id
+
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:
             check = Check(id, 'Check', 'check')
@@ -153,7 +154,7 @@ class Check:
 
     def get_config(self):
 
-        config = 'apply Service "' + self.get_id() + '" {\n'
+        config = 'apply Service "check_' + self.get_id() + '" {\n'
         config += '  check_command = "command_' + self.__command_name + '_' + self.__check_type + '"\n'
         config += self.get_property_default_config()
         config += self.get_custom_property_config()
@@ -161,45 +162,30 @@ class Check:
         config += self.get_notification_config()
         config += self.get_downtime_config()
         config += self.get_check_config()
-        config += '  assign where host.vars.' + self.get_id() + '\n'
+        config += '  assign where "check_' + self.get_id() + '" in host.vars.checks\n'
         config += '}\n'
 
         return config
 
     def get_group_config(self):
-        config = ''
-        for group in self.__service_groups:
-            config += '  vars.' + group + ' = true\n'
 
-        return config
+        return ValueMapper.parse_var('vars.group', self.__service_groups, value_prefix='servicegroup_')
 
     def get_notification_config(self):
-        config = ''
-        for notification in self.__notifications:
-            config += '  vars.' + notification + ' = true\n'
 
-        return config
+        return ValueMapper.parse_var('vars.notification', self.__notifications, value_prefix='notification_')
 
     def get_check_config(self):
         config = '  max_check_attempts = ' + str(self.__max_check_attempts) + '\n'
         config += '  check_interval = ' + self.__check_interval + '\n'
         config += '  retry_interval = ' + self.__retry_interval + '\n'
-        if True is self.__enable_perfdata:
-            config += '  enable_perfdata = true\n'
-        else:
-            config += '  enable_perfdata = false\n'
-
-        if None is not self.__display_name:
-            config += '  display_name = "' + self.__display_name + '"\n'
+        config += ValueMapper.parse_var('enable_perfdata', self.__enable_perfdata)
+        config += ValueMapper.parse_var('display_name', self.__display_name)
 
         return config
 
     def get_downtime_config(self):
-        config = ''
-        for downtime in self.__downtimes:
-            config += '  vars.' + downtime + ' = true\n'
-
-        return config
+        return ValueMapper.parse_var('downtime', self.__downtimes, value_prefix='downtime_')
 
     def get_custom_property_config(self):
         config = ''
@@ -210,4 +196,4 @@ class Check:
 
     def get_property_default_config(self):
 
-        return ConfigBuilder.get_property_default_config(self, self.__class_name, self.__command_name, 'command')
+        return ValueMapper.get_property_default_config(self, self.__class_name, self.__command_name, 'command')

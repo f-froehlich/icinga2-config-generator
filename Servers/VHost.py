@@ -24,7 +24,7 @@ from Checks.Check import Check
 from Checks.MonitoringPlugins.CheckHttp import CheckHttp
 from ConfigBuilder import ConfigBuilder
 from ValueChecker import ValueChecker
-
+from ValueMapper import ValueMapper
 
 class VHost:
 
@@ -39,7 +39,6 @@ class VHost:
 
         vhost = None if force_create else ConfigBuilder.get_vhost(id)
         if None is vhost:
-            id = 'vhost_' + id
             vhost = VHost(id)
             ConfigBuilder.add_vhost(id, vhost)
 
@@ -59,17 +58,17 @@ class VHost:
     def add_check(self, check):
         if isinstance(check, CheckHttp):
             check.set_vhost(self.__hostname)
-            self.__checks.append(check.get_id())
+            self.__checks.append(check)
 
         elif isinstance(check, Check):
-            self.__checks.append(check.get_id())
+            self.__checks.append(check)
 
         elif isinstance(check, str):
             check = ConfigBuilder.get_check(check)
             if None is check:
                 raise Exception('Check does not exist yet!')
 
-            return self.add_check(check)
+            self.__checks.append(check)
         else:
             raise Exception('Can only add Check or id of Check!')
 
@@ -77,10 +76,11 @@ class VHost:
 
     def remove_check(self, check):
         if isinstance(check, Check):
-            self.__checks.remove(check.get_id())
+            self.__checks.remove(check)
 
         elif isinstance(check, str):
-            self.__checks.remove('check_' + check)
+            check = ConfigBuilder.get_check(check)
+            self.__checks.remove(check)
 
         return self
 
@@ -89,9 +89,8 @@ class VHost:
         return self.__checks
 
     def get_config(self):
-        config = 'template Host "' + self.__id + '" {\n'
-        for check in self.__checks:
-            config += '  vars.' + check + ' = true\n'
+        config = 'template Host "vhost_' + self.__id + '" {\n'
+        config += ValueMapper.parse_var('vars.checks', self.__checks, value_prefix='check_')
         config += '}\n'
 
         return config
