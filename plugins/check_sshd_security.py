@@ -38,8 +38,8 @@ class SSHDSecurity:
     def main(self):
 
         for arg in self.__args:
-            if 'config' is arg[0]:
-                if None is not arg[1]:
+            if 'config' == arg[0]:
+                if None != arg[1]:
                     for config in arg[1]:
                         config = config.split("=")
                         self.check_value(config[0], config[1].split("|"))
@@ -57,9 +57,9 @@ class SSHDSecurity:
                 if config[0] == option:
                     if str(config[1]).lower() != str(expected).lower():
                         print(
-                            "WARNING: Configuration does not match expected value for param " + option + ". Expected: " + str(
+                            "CRITICAL: Configuration does not match expected value for param " + option + ". Expected: " + str(
                                 expected) + " got: " + str(config[1]))
-                        sys.exit(1)
+                        sys.exit(2)
                     return
             print("WARNING: Can't find expected configuration " + option + ". Expected: " + str(expected))
             sys.exit(1)
@@ -82,9 +82,9 @@ class SSHDSecurity:
 
             if 0 != len(not_existing_in_config):
                 print(
-                    "WARNING: There are some values of configuration '" + option + "' expected, which are not configured yet! Not configured values: " + ", ".join(
+                    "CRITICAL: There are some values of configuration '" + option + "' expected, which are not configured yet! Not configured values: " + ", ".join(
                         not_existing_in_config))
-                sys.exit(1)
+                sys.exit(2)
 
             if 0 != len(exist_in_config_but_not_expected):
                 print(
@@ -98,7 +98,7 @@ class SSHDSecurity:
                                stderr=subprocess.PIPE)
         stdout, stderr = out.communicate()
 
-        if 0 is not out.returncode:
+        if 0 != out.returncode:
             stderr = stderr.decode("utf-8")
             if 'a password is required' in stderr:
                 print(

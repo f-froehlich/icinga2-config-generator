@@ -169,7 +169,7 @@ class SSHDSecurity:
                 parsed_config.append(('incomming', policies[0].split()[0]))
                 parsed_config.append(('outgoing', policies[1].split()[0]))
                 parsed_config.append(('routing', policies[2].split()[0]))
-            elif '' == line or 'New profiles:' in line or '--' in line or 'To' in line:
+            elif '' == line or 'profile' in line or '--' in line or 'To' in line or 'WARN' in line:
                 pass
             else:
                 line = line.lower()

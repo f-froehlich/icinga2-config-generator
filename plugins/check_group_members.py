@@ -69,7 +69,7 @@ class GroupMembers:
                                stderr=subprocess.PIPE)
         stdout, stderr = out.communicate()
 
-        if 0 is not out.returncode:
+        if 0 != out.returncode:
             stderr = stderr.decode("utf-8")
             print('UNKNOWN: ' + stderr)
             sys.exit(3)
