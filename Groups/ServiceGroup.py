@@ -35,7 +35,6 @@ class ServiceGroup(Group):
         ValueChecker.validate_id(id)
         servicegroup = None if force_create else ConfigBuilder.get_servicegroup(id)
         if None is servicegroup:
-            id = 'servicegroup_' + id
             servicegroup = ServiceGroup(id)
             ConfigBuilder.add_servicegroup(id, servicegroup)
 

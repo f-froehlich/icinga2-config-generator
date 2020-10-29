@@ -32,7 +32,7 @@ class HostNotification(NotificationTemplate):
         self.__allowed_types = ['DowntimeStart', 'DowntimeEnd', 'DowntimeRemoved', 'Custom', 'Acknowledgement',
                                 'Problem', 'Recovery', 'FlappingStart', 'FlappingEnd']
         self.__allowed_states = ['Up', 'Down']
-        NotificationTemplate.__init__(self, 'template_' + id)
+        NotificationTemplate.__init__(self, id)
 
     def get_allowed_states(self):
         return self.__allowed_states
@@ -46,7 +46,6 @@ class HostNotification(NotificationTemplate):
 
         notification = None if force_create else ConfigBuilder.get_notification_template(id)
         if None is notification:
-            id = 'notification_' + id
             notification = HostNotification(id)
             ConfigBuilder.add_notification_template(id, notification)
 
@@ -57,9 +56,9 @@ class HostNotification(NotificationTemplate):
 
     def get_config(self):
         config = NotificationTemplate.get_config(self)
-        config += 'apply Notification "' + self.__id + '" to Host {\n'
-        config += '  import "' + NotificationTemplate.get_id(self) + '"\n'
-        config += '  assign where host.vars.' + self.__id + ' == true\n'
+        config += 'apply Notification "notification_' + self.__id + '" to Host {\n'
+        config += '  import "notification_template_' + NotificationTemplate.get_id(self) + '"\n'
+        config += '  assign where "notification_' + self.__id + '" in host.vars.notification\n'
         config += '}\n'
 
         return config

@@ -42,10 +42,10 @@ class Group:
         return self.__id
 
     def get_config(self):
-        config = 'object ' + self.__type.capitalize() + 'Group "' + self.get_id() + '" {\n'
+        config = 'object ' + self.__type.capitalize() + 'Group "' + self.__type + 'group_' + self.get_id() + '" {\n'
         if None is not self.__display_name:
             config += '  display_name = "' + self.__display_name + '"\n'
-        config += '  assign where ' + self.__type + '.vars.' + self.get_id() + '\n'
+        config += '  assign where "' + self.__type + 'group_' + self.get_id() + '" in ' + self.__type + '.groups\n'
         config += '}\n'
 
         return config

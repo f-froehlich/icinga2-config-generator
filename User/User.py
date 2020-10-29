@@ -23,6 +23,7 @@
 from ConfigBuilder import ConfigBuilder
 from Groups.UserGroup import UserGroup
 from ValueChecker import ValueChecker
+from ValueMapper import ValueMapper
 
 
 class User:
@@ -42,8 +43,11 @@ class User:
             'FlappingEnd', 'DowntimeStart', 'DowntimeEnd', 'DowntimeRemoved'
         ]
         self.__phone = None
+        self.__pager = None
         self.__email = None
+        self.__pager = None
         self.__groups = []
+        self.__vars = []
 
     @staticmethod
     def create(id, force_create=False):
@@ -51,7 +55,6 @@ class User:
 
         user = None if force_create else ConfigBuilder.get_user(id)
         if None is user:
-            id = 'user_' + id
             user = User(id)
             ConfigBuilder.add_user(id, user)
 
@@ -75,6 +78,14 @@ class User:
 
     def get_email(self):
         return self.__email
+
+    def set_pager(self, pager):
+        ValueChecker.is_string(pager)
+        self.__pager = pager
+        return self
+
+    def get_pager(self):
+        return self.__pager
 
     def set_phone(self, phone):
         ValueChecker.is_string(phone)
@@ -107,10 +118,11 @@ class User:
     def add_group(self, group):
 
         if isinstance(group, UserGroup):
-            self.__groups.append(group.get_id())
+            self.__groups.append(group)
 
         elif isinstance(group, str):
-            if None is ConfigBuilder.get_usergroup(group):
+            group = ConfigBuilder.get_usergroup(group)
+            if None is group:
                 raise Exception('UserGroup does not exist yet!')
             self.__groups.append(group)
         else:
@@ -121,10 +133,18 @@ class User:
     def remove_group(self, group):
 
         if isinstance(group, UserGroup):
-            self.__groups.remove(group.get_id())
+            self.__groups.remove(group)
 
         elif isinstance(group, str):
-            self.__groups.append('group_' + group)
+            group = ConfigBuilder.get_usergroup(group)
+            self.__groups.remove(group)
+
+        return self
+
+    def add_var(self, key, value):
+
+        ValueChecker.is_string(key)
+        self.__vars.append((key, value))
 
         return self
 
@@ -136,32 +156,25 @@ class User:
     def get_enable_notifications(self):
         return self.__enable_notifications
 
+    def validate(self):
+        if None is self.__email:
+            raise Exception('Email is required for User ' + self.get_id())
+
     def get_config(self):
-        config = 'object User "' + self.__id + '" {\n'
-        config += '  email = "' + self.__email + '"\n'
+        self.validate()
 
-        if None is not self.__phone:
-            config += '  vars.phone = "' + self.__phone + '"\n'
+        config = 'object User "user_' + self.__id + '" {\n'
+        config += ValueMapper.parse_var('email', self.__email)
+        config += ValueMapper.parse_var('pager', self.__pager)
+        config += ValueMapper.parse_var('vars.phone', self.__phone)
+        config += ValueMapper.parse_var('display_name', self.__display_name)
+        config += ValueMapper.parse_var('enable_notifications', self.__enable_notifications)
+        config += ValueMapper.parse_var('groups', self.__groups, value_prefix='usergroup_')
+        config += ValueMapper.parse_var('states', self.__states)
+        config += ValueMapper.parse_var('types', self.__types)
 
-        if None is not self.__display_name:
-            config += '  display_name = "' + self.__display_name + '"\n'
-
-        if True is self.__enable_notifications:
-            config += '  enable_notifications = true\n'
-        else:
-            config += '  enable_notifications = false\n'
-
-        for group in self.__groups:
-            config += '  groups += [ "' + group + '" ]\n'
-
-        config += '  states = []\n'
-        for state in self.__states:
-            config += '  states += [ "' + state + '" ]\n'
-
-        config += '  types = []\n'
-        for type in self.__types:
-            config += '  types += [ "' + type + '" ]\n'
-
+        for var in self.__vars:
+            config += '  var.' + var[0] + ' = ' + ValueMapper.parse_value_for_var(var[1]) + '\n'
         config += '}\n'
 
         return config

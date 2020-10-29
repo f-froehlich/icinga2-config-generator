@@ -36,7 +36,6 @@ class PackageManager:
 
         pm = None if force_create else ConfigBuilder.get_package_manager(id)
         if None is pm:
-            id = 'package_manager_' + id
             pm = PackageManager(id)
             ConfigBuilder.add_package_manager(id, pm)
 
@@ -53,12 +52,15 @@ class PackageManager:
     def get_manager(self):
         return self.__manager
 
-    def get_config(self):
+    def validate(self):
         if None is self.__manager:
             raise Exception('You have to specify Manager for ' + self.__id)
 
-        config = 'template Host "' + self.__id + '" {\n'
-        config += '  vars.' + self.__id + ' = true\n'
+    def get_config(self):
+        self.validate()
+
+        config = 'template Host "packagemanager_' + self.__id + '" {\n'
+        config += '  vars.package_manager += ["' + self.__id + '"]\n'
         config += '}\n'
 
         return config

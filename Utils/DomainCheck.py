@@ -54,7 +54,6 @@ class DomainCheck:
 
                 if True is dnssec:
                     dnssec_check = CheckDNSSECExpire.create(base_id + '_dnssec') \
-                        .set_zone(domain) \
                         .add_service_group(ServiceGroup.create('dnssec_check').set_display_name('DNSSEC')) \
                         .set_display_name('DNSSEC ' + domain) \
                         .set_check_interval('30m')

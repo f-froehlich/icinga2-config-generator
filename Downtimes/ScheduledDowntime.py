@@ -22,7 +22,7 @@
 from ConfigBuilder import ConfigBuilder
 from User.User import User
 from ValueChecker import ValueChecker
-
+from ValueMapper import ValueMapper
 
 class ScheduledDowntime:
 
@@ -42,7 +42,6 @@ class ScheduledDowntime:
 
         period = None if force_create else ConfigBuilder.get_downtime(id)
         if None is period:
-            id = 'downtime_' + id
             period = ScheduledDowntime(id)
             ConfigBuilder.add_downtime(id, period)
 
@@ -123,7 +122,7 @@ class ScheduledDowntime:
         self.__ranges.remove((day, range))
         return self
 
-    def get_config(self):
+    def validate(self):
         if None is self.__type:
             raise Exception('Type must be set for Downtime ' + self.__id)
         if None is self.__author:
@@ -131,26 +130,25 @@ class ScheduledDowntime:
         if None is self.__comment:
             raise Exception('Comment must be set for Downtime ' + self.__id)
 
-        config = 'apply ScheduledDowntime "' + self.__id + '" to ' + self.__type + '{\n'
-        config += '  comment = "' + self.__comment + '"\n'
-        config += '  author = "' + self.__author + '"\n'
+    def get_config(self):
+
+        config = 'apply ScheduledDowntime "downtime_' + self.__id + '" to ' + self.__type + '{\n'
+        config += ValueMapper.parse_var('comment', self.__comment)
+        config += ValueMapper.parse_var('author', self.__author)
         if None is not self.__duration and 'Service' == self.__type:
             # todo prüfen
             config += '  duration = "' + self.__duration + '"\n'
         if None is not self.__child_options:
             config += '  child_options = "' + self.__child_options + '"\n'
 
-        if True is self.__fixed:
-            config += '  fixed = true\n'
-        else:
-            config += '  fixed = false\n'
+        config += ValueMapper.parse_var('fixed', self.__fixed)
 
         config += '  ranges = {\n'
         for range in self.__ranges:
             config += '    "' + range[0] + '" = "' + range[1] + '"\n'
         config += '  }\n'
 
-        config += '  assign where ' + self.__type.lower() + '.vars.' + self.__id + ' == true\n'
+        config += '  assign where "downtime_' + self.__id + '" in ' + self.__type.lower() + '.vars.' + self.__id + '\n'
         config += '}\n'
 
         return config

@@ -35,7 +35,6 @@ class LogCommand(Command):
         ValueChecker.validate_id(id)
         command = None if force_create else ConfigBuilder.get_command(id)
         if None is command:
-            id = 'command_' + id
             command = LogCommand(id)
             ConfigBuilder.add_command(id, command)
 

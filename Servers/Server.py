@@ -29,7 +29,7 @@ from ValueChecker import ValueChecker
 class Server(ServerTemplate):
 
     def __init__(self, id):
-        ServerTemplate.__init__(self, 'template_' + id)
+        ServerTemplate.__init__(self, id)
         self.__id = id
         self.__zone = Zone.create('master')
 
@@ -58,7 +58,6 @@ class Server(ServerTemplate):
 
         server = None if force_create else ConfigBuilder.get_server(id)
         if None is server:
-            id = 'server_' + id
             server = Server(id)
             ConfigBuilder.add_server(id, server)
 
@@ -66,8 +65,8 @@ class Server(ServerTemplate):
 
     def get_config(self):
         config = ServerTemplate.get_config(self)
-        config += 'object Host "' + self.get_id() + '" {\n'
-        config += '  import "' + ServerTemplate.get_id(self) + '"\n'
+        config += 'object Host "server_' + self.get_id() + '" {\n'
+        config += '  import "servertemplate_' + ServerTemplate.get_id(self) + '"\n'
         config += '}\n'
 
         return config

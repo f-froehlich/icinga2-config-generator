@@ -38,7 +38,6 @@ class Zone:
 
         zone = None if force_create else ConfigBuilder.get_zone(id)
         if None is zone:
-            id = 'zone_' + id
             zone = Zone(id)
             ConfigBuilder.add_zone(id, zone)
 

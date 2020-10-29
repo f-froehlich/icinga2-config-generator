@@ -64,7 +64,6 @@ class CheckWave(Check):
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:
-            id = 'check_' + id
             check = CheckWave(id)
             ConfigBuilder.add_check(id, check)
 

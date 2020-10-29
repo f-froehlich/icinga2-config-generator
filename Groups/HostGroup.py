@@ -35,7 +35,6 @@ class HostGroup(Group):
         ValueChecker.validate_id(id)
         hostgroup = None if force_create else ConfigBuilder.get_hostgroup(id)
         if None is hostgroup:
-            id = 'hostgroup_' + id
             hostgroup = HostGroup(id)
             ConfigBuilder.add_hostgroup(id, hostgroup)
 

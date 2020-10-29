@@ -29,7 +29,7 @@ class NotificationCommand(Command):
         raise Exception('You have to override get_command_definition()')
 
     def get_config(self):
-        config = 'object NotificationCommand "' + self.get_id() + '" {\n'
+        config = 'object NotificationCommand "command_' + self.get_id() + '" {\n'
         config += '  command = ' + self.get_command_definition() + '\n'
         config += '  arguments = ' + self.get_arguments() + '\n'
         config += '}\n'
