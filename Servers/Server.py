@@ -24,7 +24,7 @@ from ConfigBuilder import ConfigBuilder
 from Servers.ServerTemplate import ServerTemplate
 from Servers.Zone import Zone
 from ValueChecker import ValueChecker
-
+from ValueMapper import ValueMapper
 
 class Server(ServerTemplate):
 
@@ -32,9 +32,18 @@ class Server(ServerTemplate):
         ServerTemplate.__init__(self, id)
         self.__id = id
         self.__zone = Zone.create('master')
+        self.__endpoint_name = None
 
     def get_id(self):
         return self.__id
+
+    def set_endpoint_name(self, name):
+        ValueChecker.is_string(name)
+        self.__endpoint_name = name
+        return self
+
+    def get_endpoint_name(self):
+        return self.__endpoint_name
 
     def set_zone(self, zone):
         if isinstance(zone, Zone):
@@ -67,6 +76,8 @@ class Server(ServerTemplate):
         config = ServerTemplate.get_config(self)
         config += 'object Host "server_' + self.get_id() + '" {\n'
         config += '  import "servertemplate_' + ServerTemplate.get_id(self) + '"\n'
+        config += '  vars.zone_name = "' + self.__zone.get_id() + '"\n'
+        config += ValueMapper.parse_var('vars.endpoint_name', self.__endpoint_name)
         config += '}\n'
 
         return config

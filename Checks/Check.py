@@ -26,6 +26,7 @@ from Groups.ServiceGroup import ServiceGroup
 from Notification.ServiceNotification import ServiceNotification
 from ValueChecker import ValueChecker
 from ValueMapper import ValueMapper
+from Servers.Zone import Zone
 
 
 class Check:
@@ -44,6 +45,10 @@ class Check:
         self.__check_interval = '1m'
         self.__retry_interval = '15s'
         self.__enable_perfdata = True
+        self.__command_endpoint = None
+        self.__override_endpoint = False
+        self.__zone = None
+        self.__override_zone = False
 
     @staticmethod
     def create(id, force_create=False):
@@ -67,6 +72,32 @@ class Check:
             raise Exception('Can only add Servicegroup or id of Servicegroup!')
 
         return self
+
+    def set_zone(self, zone):
+        if isinstance(zone, Zone):
+            self.__zone = zone
+            self.__override_zone = True
+        elif isinstance(zone, str):
+            zone = ConfigBuilder.get_zone(zone)
+            if None is zone:
+                raise Exception('Zone does not exist yet!')
+            self.__zone = zone
+            self.__override_zone = True
+        else:
+            raise Exception('Can only add Zone or id of Zone!')
+        return self
+
+    def get_zone(self):
+        return self.__zone
+
+    def set_endpoint_name(self, name):
+        ValueChecker.is_string(name)
+        self.__override_endpoint = True
+        self.__command_endpoint = name
+        return self
+
+    def get_endpoint_name(self):
+        return self.__command_endpoint
 
     def add_notification(self, notification):
         if isinstance(notification, ServiceNotification):
@@ -181,6 +212,14 @@ class Check:
         config += '  retry_interval = ' + self.__retry_interval + '\n'
         config += ValueMapper.parse_var('enable_perfdata', self.__enable_perfdata)
         config += ValueMapper.parse_var('display_name', self.__display_name)
+        if self.__override_endpoint:
+            config += '  command_endpoint = "' + self.__command_endpoint + '"\n'
+        else:
+            config += '  command_endpoint = host.vars.endpoint_name\n'
+        if self.__override_zone:
+            config += '  zone = "' + self.__zone.get_id() + '"\n'
+        else:
+            config += '  zone = host.vars.zone_name\n'
 
         return config
 
