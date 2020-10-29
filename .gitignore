@@ -1,3 +1,6 @@
 .idea
-zones.d
-!zones.d/.gitkeep
+**/zones.d/**
+__pycache__
+buid
+dist
+icinga2confgen.egg-info
