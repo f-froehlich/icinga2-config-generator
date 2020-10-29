@@ -53,12 +53,14 @@ class DefaultLocalChecks:
         self.__check_sshd_security = True
         self.__check_sshd_running = True
         self.__check_mysqld_running = False
+        self.__check_postgres_running = False
         self.__check_cron_running = True
         self.__check_crond_running = False
         self.__check_rsyslogd_running = True
         self.__check_nginx_running = False
         self.__check_apache_running = False
         self.__check_httpd_running = False
+        self.__check_tomcat_running = False
         self.__check_php_fpm_running = False
         self.__check_sudoers = True
         self.__check_normal_users = True
@@ -159,6 +161,15 @@ class DefaultLocalChecks:
     def is_checking_mysqld_running(self):
         return self.__check_mysqld_running
 
+    def check_postgres_running(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__check_postgres_running = enabled
+
+        return self
+
+    def is_checking_postgres_running(self):
+        return self.__check_postgres_running
+
     def check_cron_running(self, enabled):
         ValueChecker.is_bool(enabled)
         self.__check_cron_running = enabled
@@ -212,6 +223,15 @@ class DefaultLocalChecks:
 
     def is_checking_httpd_running(self):
         return self.__check_httpd_running
+
+    def check_tomcat_running(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__check_tomcat_running = enabled
+
+        return self
+
+    def is_checking_tomcat_running(self):
+        return self.__check_tomcat_running
 
     def check_php_fpm_running(self, enabled):
         ValueChecker.is_bool(enabled)
@@ -393,6 +413,17 @@ class DefaultLocalChecks:
                     .add_service_group(ServiceGroup.create('mysqld').set_display_name('mysqld'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
+                
+            if True is self.__check_postgres_running:
+                check = CheckProcs.create('proc_postgres_' + server.get_id()) \
+                    .set_display_name('Running Postgres') \
+                    .set_check_type(self.__check_type) \
+                    .set_critical_range('1:') \
+                    .set_command('postgres') \
+                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
+                    .add_service_group(ServiceGroup.create('postgres').set_display_name('Postgres'))
+                self.apply_notification_to_check(check)
+                server.add_check(check)
 
             if True is self.__check_cron_running:
                 check = CheckProcs.create('proc_cron_' + server.get_id()) \
@@ -457,6 +488,18 @@ class DefaultLocalChecks:
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('httpd') \
+                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
+                    .add_service_group(ServiceGroup.create('webserver').set_display_name('Webserver')) \
+                    .add_service_group(ServiceGroup.create('httpd').set_display_name('httpd'))
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_tomcat_running:
+                check = CheckProcs.create('proc_tomcat_' + server.get_id()) \
+                    .set_display_name('Running tomcat') \
+                    .set_check_type(self.__check_type) \
+                    .set_critical_range('1:') \
+                    .set_command('tomcat') \
                     .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
                     .add_service_group(ServiceGroup.create('webserver').set_display_name('Webserver')) \
                     .add_service_group(ServiceGroup.create('httpd').set_display_name('httpd'))
