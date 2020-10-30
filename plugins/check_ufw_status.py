@@ -154,24 +154,22 @@ class SSHDSecurity:
         stdout = stdout.decode("utf-8")
 
         parsed_config = []
+        line_counter = 0
+        parse_rules = False
         for line in stdout.split("\n"):
-            # print(line)
-            if 'Status:' in line:
-                status = line.split()[1]
-                parsed_config.append(('status', status))
-            elif 'Logging:' in line:
-                logging = line.split()[1]
-                loggingpolicy = line.split()[2].replace('(', '').replace(')', '')
-                parsed_config.append(('logging', logging))
-                parsed_config.append(('loggingpolicy', loggingpolicy))
-            elif 'Default:' in line:
+            if 0 == line_counter:
+                parsed_config.append(('status', line.split()[1]))
+            elif 1 == line_counter:
+                parsed_config.append(('logging', line.split()[1]))
+                parsed_config.append(('loggingpolicy', line.split()[2].replace('(', '').replace(')', '')))
+            elif 2 == line_counter:
                 policies = line.split(': ')[1].split(', ')
                 parsed_config.append(('incomming', policies[0].split()[0]))
                 parsed_config.append(('outgoing', policies[1].split()[0]))
                 parsed_config.append(('routing', policies[2].split()[0]))
-            elif '' == line or 'profile' in line or '--' in line or 'To' in line or 'WARN' in line:
-                pass
-            else:
+            elif '--' in line and not parse_rules:
+                parse_rules = True
+            elif parse_rules and '' != line:
                 line = line.lower()
 
                 if 'allow' in line:
@@ -190,6 +188,8 @@ class SSHDSecurity:
                           "are supported. Found policy " + line)
 
                     sys.exit(3)
+
+            line_counter += 1
 
         return parsed_config
 
@@ -217,19 +217,19 @@ class SSHDSecurity:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Check ufw status and rules')
 
-    parser.add_argument('-s', '--status', dest='status', choices=['inactive', 'active'], default='active',
+    parser.add_argument('-s', '--status', dest='status', default='active',
                         help='Status of ufw')
-    parser.add_argument('--warn-inactive', dest='warninactive', choices=['on', 'off'], default='on',
+    parser.add_argument('--warn-inactive', dest='warninactive', default='on',
                         help='Warn on inactive UFW')
-    parser.add_argument('-l', '--logging', dest='logging', choices=['on', 'off'], default='on',
+    parser.add_argument('-l', '--logging', dest='logging', default='on',
                         help='Status of logging')
-    parser.add_argument('-L', '--logging-policy', dest='loggingpolicy', choices=['low', 'medium', 'high', 'full'],
+    parser.add_argument('-L', '--logging-policy', dest='loggingpolicy',
                         default='low', help='Status of logging level')
-    parser.add_argument('-I', '--in', dest='incoming', choices=['deny', 'allow', 'reject', 'disabled'], default='deny',
+    parser.add_argument('-I', '--in', dest='incoming', default='deny',
                         help='Default incoming policy')
-    parser.add_argument('-O', '--out', dest='outgoing', choices=['deny', 'allow', 'reject', 'disabled'],
+    parser.add_argument('-O', '--out', dest='outgoing',
                         default='allow', help='Default outgoing policy')
-    parser.add_argument('-R', '--routing', dest='routing', choices=['deny', 'allow', 'reject', 'disabled'],
+    parser.add_argument('-R', '--routing', dest='routing',
                         default='disabled', help='Default routing policy')
     parser.add_argument('-r', '--rule', dest='rule', action='append',
                         help='Firewall rule from,to,action', default=[])

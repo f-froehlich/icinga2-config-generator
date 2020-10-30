@@ -10,7 +10,7 @@ Full License Information see  [https://github.com/f-froehlich/icinga2-config-gen
 See our [documentation](https://icinga2.confgen.org) for details.
 
 ## Prerequisite
-* install check plugins, that you need e.g. [our Plugins](plugins), [Monitoring Plugins](https://www.monitoring-plugins.org) or [Nagios Plugins](https://github.com/harisekhon/nagios-plugins)
+* install check plugins, that you need e.g. [our Plugins](https://github.com/f-froehlich/icinga2-config-generator/tree/master/plugins), [Monitoring Plugins](https://www.monitoring-plugins.org) or [Nagios Plugins](https://github.com/harisekhon/nagios-plugins)
 * install icinga2
 * install icingaweb2
 
@@ -46,7 +46,7 @@ This section contains the additional terms of the AGPLv3 license agreement, a co
 4. You have to place the following link on your Homepage in a suitable place, if you using this software ***not*** only for your own Servers, Applications, ...:
 
     ```html
-    We using monitoring configuration tools from <a href="https://icinga2.confgen.org">Fabian Fr&ouml;hlich</a>
+    We using monitoring tools from <a href="https://icinga2.confgen.org">Fabian Fr&ouml;hlich</a>
    ```
 
     The wording is decisive here, so another language may be used. Attributes of the link may also be adjusted, but the link must be followable by web crawlers (e.g. Googlebot).

@@ -1,6 +1,6 @@
 .idea
 **/zones.d/**
 __pycache__
-buid
+build
 dist
 icinga2confgen.egg-info
