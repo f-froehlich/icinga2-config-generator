@@ -200,7 +200,7 @@ class Check:
 
     def get_group_config(self):
 
-        return ValueMapper.parse_var('vars.group', self.__service_groups, value_prefix='servicegroup_')
+        return ValueMapper.parse_var('groups', self.__service_groups, value_prefix='servicegroup_')
 
     def get_notification_config(self):
 
