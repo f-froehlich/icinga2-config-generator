@@ -19,8 +19,6 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-from icinga2confgen.Checks.Icinga2Confgen.CheckDenyTlsVersion import CheckDenyTlsVersion
-from icinga2confgen.Checks.MonitoringPlugins.CheckDummy import CheckDummy
 from icinga2confgen.Checks.MonitoringPlugins.CheckHttp import CheckHttp
 from icinga2confgen.Groups.HostGroup import HostGroup
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
@@ -38,6 +36,8 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
         self.__validate_deny_license = True
         self.__validate_deny_readme = True
         self.__validate_deny_wp_admin = True
+        self.__validate_deny_wp_includes = True
+        self.__validate_deny_wp_content = True
         self.__validate_deny_wp_login = True
         self.__validate_deny_wp_cron = True
         self.__validate_deny_wp_load = True
@@ -107,6 +107,24 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
 
     def is_validating_deny_wp_admin(self):
         return self.__validate_deny_wp_admin
+
+    def validate_deny_wp_includes(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__validate_deny_wp_includes = enabled
+
+        return self
+
+    def is_validating_deny_wp_includes(self):
+        return self.__validate_deny_wp_includes
+
+    def validate_deny_wp_content(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__validate_deny_wp_content = enabled
+
+        return self
+
+    def is_validating_deny_wp_content(self):
+        return self.__validate_deny_wp_content
 
     def validate_deny_wp_login(self, enabled):
         ValueChecker.is_bool(enabled)
@@ -267,6 +285,10 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
                     self.create_wp_check('readme', base_id, server_ip, domain, '/readme.html')
                 if True is self.__validate_deny_wp_admin:
                     self.create_wp_check('wp_admin', base_id, server_ip, domain, '/wp-admin/')
+                if True is self.__validate_deny_wp_content:
+                    self.create_wp_check('wp_includes', base_id, server_ip, domain, '/wp-includes/')
+                if True is self.__validate_deny_wp_content:
+                    self.create_wp_check('wp_content', base_id, server_ip, domain, '/wp-content/')
                 if True is self.__validate_deny_wp_login:
                     self.create_wp_check('wp_login', base_id, server_ip, domain, '/wp-login.php')
                 if True is self.__validate_deny_wp_cron:

@@ -231,6 +231,8 @@ def get_default_check_name(id, command_name):
         'web_access_deny_tls1_2': 'Deny secure TLS 1.2',
         'web_access_deny_tls1_3': 'Deny secure TLS 1.3',
         'web_access_deny_wp_admin': 'deny /wp-admin',
+        'web_access_deny_wp_includes': 'deny /wp-includes',
+        'web_access_deny_wp_content': 'deny /wp-content',
         'web_access_deny_wp_login': 'deny /wp-login.php',
         'web_access_deny_wp_cron': 'deny /wp-cron.php',
         'web_access_deny_wp_load': 'deny /wp-load.php',
