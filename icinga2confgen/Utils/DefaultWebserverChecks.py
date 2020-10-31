@@ -46,6 +46,15 @@ class DefaultWebserverChecks:
         self.__validate_deny_tls1_3 = False
         self.__sni = True
 
+    def get_vhostconfigs(self):
+        return self.__vhostconfigs
+
+    def get_servers(self):
+        return self.__servers
+
+    def get_checkservers(self):
+        return self.__checkserver
+
     def validate_certificate(self, enabled):
         self.__validate_certificate = enabled
 
@@ -139,6 +148,9 @@ class DefaultWebserverChecks:
 
         return self
 
+    def get_sni(self):
+        return self.__sni
+
     def apply_notification_to_check(self, check):
         for notification in self.__notifications:
             check.add_notification(notification)
@@ -151,7 +163,7 @@ class DefaultWebserverChecks:
 
             for checkserver in self.__checkserver:
                 for server in self.__servers:
-                    base_id = service_baseid + ''.join(e for e in domain + server.get_id() if e.isalnum())
+                    base_id = service_baseid + '_' + ''.join(e for e in domain + server.get_id() if e.isalnum())
                     server_ip = server.get_ipv4()
                     if None is server_ip:
                         server_ip = server.get_ipv6()
