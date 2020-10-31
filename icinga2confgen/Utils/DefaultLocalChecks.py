@@ -62,6 +62,9 @@ class DefaultLocalChecks:
         self.__check_httpd_running = False
         self.__check_tomcat_running = False
         self.__check_php_fpm_running = False
+        self.__check_freshclam_running = False
+        self.__check_clamd_running = False
+        self.__check_postfix_running = False
         self.__check_sudoers = True
         self.__check_normal_users = True
         self.__check_wheel = False
@@ -151,6 +154,33 @@ class DefaultLocalChecks:
 
     def is_checking_sshd_running(self):
         return self.__check_sshd_running
+
+    def check_freshclam_running(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__check_freshclam_running = enabled
+
+        return self
+
+    def is_checking_freshclam_running(self):
+        return self.__check_freshclam_running
+
+    def check_clamd_running(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__check_clamd_running = enabled
+
+        return self
+
+    def is_checking_clamd_running(self):
+        return self.__check_clamd_running
+
+    def check_postfix_running(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__check_postfix_running = enabled
+
+        return self
+
+    def is_checking_postfix_running(self):
+        return self.__check_postfix_running
 
     def check_mysqld_running(self, enabled):
         ValueChecker.is_bool(enabled)
@@ -265,6 +295,10 @@ class DefaultLocalChecks:
 
     def add_server(self, server):
         self.__servers.append(server)
+        return self
+
+    def get_server(self):
+        return self.__servers
 
     def add_partition(self, id, path, warning_percent, critical_percent):
         ValueChecker.is_string(id)
@@ -319,6 +353,9 @@ class DefaultLocalChecks:
         self.__notifications.append(notification)
         return self
 
+    def get_notification(self):
+        return self.__notifications
+
     def apply_notification_to_check(self, check):
         # todo type check
         for notification in self.__notifications:
@@ -329,6 +366,28 @@ class DefaultLocalChecks:
         # todo type check
         self.__check_type = type
         return self
+
+    def create_running_check(self, name, command, server):
+        check = CheckProcs.create('running_proc_' + name + '_' + server.get_id()) \
+            .set_check_type(self.__check_type) \
+            .set_critical_range('1:') \
+            .set_command(command) \
+            .add_service_group(ServiceGroup.create(name))
+        self.apply_notification_to_check(check)
+        server.add_check(check)
+
+        return check
+
+    def create_running_check_arguments(self, name, argument, server):
+        check = CheckProcs.create('running_proc_' + name + '_' + server.get_id()) \
+            .set_check_type(self.__check_type) \
+            .set_critical_range('1:') \
+            .set_argument(argument) \
+            .add_service_group(ServiceGroup.create(name))
+        self.apply_notification_to_check(check)
+        server.add_check(check)
+
+        return check
 
     def apply(self):
         for server in self.__servers:
@@ -376,109 +435,57 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_sshd_running:
-                check = CheckProcs.create('running_proc_sshd_' + server.get_id()) \
-                    .set_check_type(self.__check_type) \
-                    .set_critical_range('1:') \
-                    .set_command('sshd') \
-                    .add_service_group(ServiceGroup.create('sshd'))
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                self.create_running_check('sshd', 'sshd', server)
 
             if True is self.__check_mysqld_running:
-                check = CheckProcs.create('running_proc_mysqld_' + server.get_id()) \
-                    .set_check_type(self.__check_type) \
-                    .set_critical_range('1:') \
-                    .set_command('mysqld') \
-                    .add_service_group(ServiceGroup.create('mysql')) \
-                    .add_service_group(ServiceGroup.create('database'))
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                check = self.create_running_check('mysql', 'mysqld', server)
+                check.add_service_group(ServiceGroup.create('database'))
 
             if True is self.__check_postgres_running:
-                check = CheckProcs.create('running_proc_postgres_' + server.get_id()) \
-                    .set_check_type(self.__check_type) \
-                    .set_critical_range('1:') \
-                    .set_command('postgres') \
-                    .add_service_group(ServiceGroup.create('database')) \
-                    .add_service_group(ServiceGroup.create('postgres'))
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                check = self.create_running_check('postgres', 'postgres', server)
+                check.add_service_group(ServiceGroup.create('database'))
 
             if True is self.__check_cron_running:
-                check = CheckProcs.create('running_proc_cron_' + server.get_id()) \
-                    .set_check_type(self.__check_type) \
-                    .set_critical_range('1:') \
-                    .set_command('cron') \
-                    .add_service_group(ServiceGroup.create('cron'))
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                self.create_running_check('cron', 'cron', server)
 
             if True is self.__check_crond_running:
-                check = CheckProcs.create('running_proc_crond_' + server.get_id()) \
-                    .set_check_type(self.__check_type) \
-                    .set_critical_range('1:') \
-                    .set_command('crond') \
-                    .add_service_group(ServiceGroup.create('cron'))
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                self.create_running_check('cron', 'crond', server)
 
             if True is self.__check_rsyslogd_running:
-                check = CheckProcs.create('running_proc_rsyslogd_' + server.get_id()) \
-                    .set_check_type(self.__check_type) \
-                    .set_critical_range('1:') \
-                    .set_command('rsyslogd') \
-                    .add_service_group(ServiceGroup.create('rsyslogd'))
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                self.create_running_check('rsyslogd', 'rsyslogd', server)
 
             if True is self.__check_nginx_running:
-                check = CheckProcs.create('running_proc_nginx_' + server.get_id()) \
-                    .set_check_type(self.__check_type) \
-                    .set_critical_range('1:') \
-                    .set_command('nginx') \
-                    .add_service_group(ServiceGroup.create('webserver')) \
-                    .add_service_group(ServiceGroup.create('nginx'))
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                check = self.create_running_check('nginx', 'nginx', server)
+                check.add_service_group(ServiceGroup.create('webserver'))
 
             if True is self.__check_apache_running:
-                check = CheckProcs.create('running_proc_apache_' + server.get_id()) \
-                    .set_check_type(self.__check_type) \
-                    .set_critical_range('1:') \
-                    .set_command('apache2') \
-                    .add_service_group(ServiceGroup.create('webserver')) \
-                    .add_service_group(ServiceGroup.create('apache'))
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                check = self.create_running_check('apache', 'apache2', server)
+                check.add_service_group(ServiceGroup.create('webserver'))
 
             if True is self.__check_httpd_running:
-                check = CheckProcs.create('running_proc_httpd_' + server.get_id()) \
-                    .set_check_type(self.__check_type) \
-                    .set_critical_range('1:') \
-                    .set_command('httpd') \
-                    .add_service_group(ServiceGroup.create('webserver')) \
-                    .add_service_group(ServiceGroup.create('apache'))
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                check = self.create_running_check('httpd', 'httpd', server)
+                check.add_service_group(ServiceGroup.create('webserver'))
 
             if True is self.__check_tomcat_running:
-                check = CheckProcs.create('running_proc_tomcat_' + server.get_id()) \
-                    .set_check_type(self.__check_type) \
-                    .set_critical_range('1:') \
-                    .set_command('tomcat') \
-                    .add_service_group(ServiceGroup.create('webserver')) \
-                    .add_service_group(ServiceGroup.create('tomcat'))
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                check = self.create_running_check('tomcat', 'tomcat', server)
+                check.add_service_group(ServiceGroup.create('webserver'))
 
             if True is self.__check_php_fpm_running:
-                check = CheckProcs.create('running_proc_php_fpm_' + server.get_id()) \
-                    .set_check_type(self.__check_type) \
-                    .set_critical_range('1:') \
-                    .set_command('php-fpm') \
-                    .add_service_group(ServiceGroup.create('php_fpm'))
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                self.create_running_check('php_fpm', 'php-fpm', server)
+
+            if True is self.__check_freshclam_running:
+                check = self.create_running_check('freshclam', 'freshclam', server)
+                check.add_service_group(ServiceGroup.create('security'))
+                check.add_service_group(ServiceGroup.create('antivirus'))
+
+            if True is self.__check_clamd_running:
+                check = self.create_running_check('clamd', 'clamd', server)
+                check.add_service_group(ServiceGroup.create('security'))
+                check.add_service_group(ServiceGroup.create('antivirus'))
+
+            if True is DefaultLocalChecks.is_checking_postfix_running(self):
+                check = self.create_running_check_arguments('postfix', 'postfix', server)
+                check.add_service_group(ServiceGroup.create('mail'))
 
             if True is self.__check_sudoers:
                 check = CheckGroupMembers.create('sudoers_group_members_' + server.get_id()) \
