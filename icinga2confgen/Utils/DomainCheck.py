@@ -53,29 +53,29 @@ class DomainCheck:
                 base_id = ''.join(e for e in domain if e.isalnum())
 
                 if True is dnssec:
-                    dnssec_check = CheckDNSSECExpire.create(base_id + '_dnssec') \
-                        .add_service_group(ServiceGroup.create('dnssec_check').set_display_name('DNSSEC')) \
-                        .set_display_name('DNSSEC ' + domain)
+                    dnssec_check = CheckDNSSECExpire.create('dnssec_expiry_' + base_id)
+                    dnssec_check.add_service_group(ServiceGroup.create('dnssec_check').set_display_name('DNSSEC')) \
+                        .set_display_name(dnssec_check.get_display_name() + ' ' + domain)
                     self.apply_notification_to_check(dnssec_check)
 
                     checkserver.add_check(dnssec_check)
 
                 if None is not ipv4:
-                    ipv4_check = CheckDig.create(base_id + '_ipv4') \
-                        .set_record_type('A') \
+                    ipv4_check = CheckDig.create('domain_address_ipv4_' + base_id)
+                    ipv4_check.set_record_type('A') \
                         .set_question(domain) \
                         .set_expected_address(ipv4) \
-                        .set_display_name('DNS A ' + domain)
+                        .set_display_name(ipv4_check.get_display_name() + ' ' + domain)
 
                     self.apply_notification_to_check(ipv4_check)
                     checkserver.add_check(ipv4_check)
 
                 if None is not ipv6:
-                    ipv6_check = CheckDig.create(base_id + '_ipv6') \
-                        .set_record_type('AAAA') \
+                    ipv6_check = CheckDig.create('domain_address_ipv6_' + base_id)
+                    ipv6_check.set_record_type('AAAA') \
                         .set_question(domain) \
                         .set_expected_address(ipv6) \
-                        .set_display_name('DNS AAAA ' + domain)
+                        .set_display_name(ipv6_check.get_display_name() + ' ' + domain)
                     self.apply_notification_to_check(ipv6_check)
 
                     checkserver.add_check(ipv6_check)

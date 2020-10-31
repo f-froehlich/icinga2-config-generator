@@ -27,6 +27,7 @@ from icinga2confgen.Notification.ServiceNotification import ServiceNotification
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 from icinga2confgen.Servers.Zone import Zone
+from icinga2confgen.Utils.DefaultNames import get_default_check_name
 
 
 class Check:
@@ -34,7 +35,7 @@ class Check:
     def __init__(self, id, class_name, command_name):
         self.__command_name = command_name
         self.__class_name = class_name
-        self.__display_name = None
+        self.__display_name = get_default_check_name(id, command_name)
         self.__id = id
         self.__service_groups = []
         self.__check_type = "local"

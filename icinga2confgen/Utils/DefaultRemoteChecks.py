@@ -54,12 +54,12 @@ class DefaultRemoteChecks:
 
             if True is self.__check_ping:
                 if None is not ipv4:
-                    check = CheckPing4.create(base_id + '_ping4') \
-                        .set_address(ipv4) \
-                        .set_display_name('Ping ipv4 ' + server.get_display_name())
+                    check = CheckPing4.create('ping4_' + base_id)
+                    check.set_address(ipv4) \
+                        .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
                     self.apply_check(check)
                 if None is not ipv6:
-                    check = CheckPing4.create(base_id + '_ping6') \
-                        .set_address(ipv6) \
-                        .set_display_name('Ping ipv6 ' + server.get_display_name())
+                    check = CheckPing4.create('ping6_' + base_id)
+                    check.set_address(ipv6) \
+                        .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
                     self.apply_check(check)

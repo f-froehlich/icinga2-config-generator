@@ -334,35 +334,30 @@ class DefaultLocalChecks:
         for server in self.__servers:
             if True is self.__check_apt:
                 check = CheckApt.create('apt_' + server.get_id()) \
-                    .set_display_name('APT') \
                     .set_check_type(self.__check_type)
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
             if True is self.__check_yum:
                 check = CheckYum.create('yum_' + server.get_id()) \
-                    .set_display_name('YUM') \
                     .set_check_type(self.__check_type)
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
             if True is self.__check_load:
                 check = CheckLoad.create('load_' + server.get_id()) \
-                    .set_display_name('Load') \
                     .set_check_type(self.__check_type)
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
             if True is self.__check_ntp_time:
                 check = CheckNTPTime.create('ntp_time_' + server.get_id()) \
-                    .set_display_name('NTP Time') \
                     .set_check_type(self.__check_type)
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
             if True is self.__check_swap:
                 check = CheckSWAP.create('swap_' + server.get_id()) \
-                    .set_display_name('SWAP') \
                     .set_check_type(self.__check_type)
 
                 self.apply_notification_to_check(check)
@@ -370,21 +365,18 @@ class DefaultLocalChecks:
 
             if True is self.__check_users:
                 check = CheckUsers.create('users_' + server.get_id()) \
-                    .set_display_name('Users') \
                     .set_check_type(self.__check_type)
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
             if True is self.__check_sshd_security:
                 check = CheckSSHDSecurity.create('sshd_security_' + server.get_id()) \
-                    .set_display_name('SSHD security') \
                     .set_check_type(self.__check_type)
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
             if True is self.__check_sshd_running:
-                check = CheckProcs.create('proc_sshd_' + server.get_id()) \
-                    .set_display_name('Running sshd') \
+                check = CheckProcs.create('running_proc_sshd_' + server.get_id()) \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('sshd') \
@@ -393,8 +385,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_mysqld_running:
-                check = CheckProcs.create('proc_mysqld_' + server.get_id()) \
-                    .set_display_name('Running mysqld') \
+                check = CheckProcs.create('running_proc_mysqld_' + server.get_id()) \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('mysqld') \
@@ -404,8 +395,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_postgres_running:
-                check = CheckProcs.create('proc_postgres_' + server.get_id()) \
-                    .set_display_name('Running Postgres') \
+                check = CheckProcs.create('running_proc_postgres_' + server.get_id()) \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('postgres') \
@@ -415,8 +405,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_cron_running:
-                check = CheckProcs.create('proc_cron_' + server.get_id()) \
-                    .set_display_name('Running cron') \
+                check = CheckProcs.create('running_proc_cron_' + server.get_id()) \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('cron') \
@@ -425,8 +414,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_crond_running:
-                check = CheckProcs.create('proc_crond_' + server.get_id()) \
-                    .set_display_name('Running crond') \
+                check = CheckProcs.create('running_proc_crond_' + server.get_id()) \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('crond') \
@@ -435,8 +423,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_rsyslogd_running:
-                check = CheckProcs.create('proc_rsyslogd_' + server.get_id()) \
-                    .set_display_name('Running rsyslogd') \
+                check = CheckProcs.create('running_proc_rsyslogd_' + server.get_id()) \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('rsyslogd') \
@@ -445,8 +432,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_nginx_running:
-                check = CheckProcs.create('proc_nginx_' + server.get_id()) \
-                    .set_display_name('Running nginx') \
+                check = CheckProcs.create('running_proc_nginx_' + server.get_id()) \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('nginx') \
@@ -456,8 +442,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_apache_running:
-                check = CheckProcs.create('proc_apache_' + server.get_id()) \
-                    .set_display_name('Running apache') \
+                check = CheckProcs.create('running_proc_apache_' + server.get_id()) \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('apache2') \
@@ -467,8 +452,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_httpd_running:
-                check = CheckProcs.create('proc_httpd_' + server.get_id()) \
-                    .set_display_name('Running httpd') \
+                check = CheckProcs.create('running_proc_httpd_' + server.get_id()) \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('httpd') \
@@ -478,8 +462,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_tomcat_running:
-                check = CheckProcs.create('proc_tomcat_' + server.get_id()) \
-                    .set_display_name('Running tomcat') \
+                check = CheckProcs.create('running_proc_tomcat_' + server.get_id()) \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('tomcat') \
@@ -489,8 +472,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_php_fpm_running:
-                check = CheckProcs.create('proc_php_fpm_' + server.get_id()) \
-                    .set_display_name('Running php_fpm') \
+                check = CheckProcs.create('running_proc_php_fpm_' + server.get_id()) \
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('php-fpm') \
@@ -499,8 +481,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_sudoers:
-                check = CheckGroupMembers.create('sudoers_' + server.get_id()) \
-                    .set_display_name('Sudoers') \
+                check = CheckGroupMembers.create('sudoers_group_members_' + server.get_id()) \
                     .set_check_type(self.__check_type) \
                     .add_service_group(ServiceGroup.create('sudoers'))
                 for user in self.__sudoers:
@@ -510,8 +491,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_wheel:
-                check = CheckGroupMembers.create('wheel_' + server.get_id()) \
-                    .set_display_name('Sudoers (wheel)') \
+                check = CheckGroupMembers.create('wheel_group_members_' + server.get_id()) \
                     .set_group('wheel') \
                     .set_check_type(self.__check_type) \
                     .add_service_group(ServiceGroup.create('sudoers'))
@@ -522,8 +502,7 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_normal_users:
-                check = CheckExistingUsers.create('existing_users' + server.get_id()) \
-                    .set_display_name('Existing users') \
+                check = CheckExistingUsers.create('existing_users_' + server.get_id()) \
                     .set_check_type(self.__check_type)
                 for user in self.__sudoers:
                     check.append_existing_users(user)
@@ -534,11 +513,10 @@ class DefaultLocalChecks:
                 server.add_check(check)
 
             if True is self.__check_ufw:
-                check = CheckUFWStatus.create('ufw_' + server.get_id()) \
+                check = CheckUFWStatus.create('ufw_status_' + server.get_id()) \
                     .set_incomming(self.__ufw_defaults[0]) \
                     .set_outgoing(self.__ufw_defaults[1]) \
                     .set_routing(self.__ufw_defaults[2]) \
-                    .set_display_name('UFW Status') \
                     .set_check_type(self.__check_type)
                 for policy in self.__ufw_rules:
                     check.add_rule(policy[0], policy[1], policy[2])
@@ -549,14 +527,13 @@ class DefaultLocalChecks:
             if True is self.__check_disk:
                 if len(self.__check_partitions) == 0:
                     check = CheckDisk.create('disk_' + server.get_id()) \
-                        .set_display_name('Disk') \
                         .set_check_type(self.__check_type)
                     self.apply_notification_to_check(check)
                     server.add_check(check)
                 else:
                     for config in self.__check_partitions:
-                        check = CheckDisk.create('disk_' + config[0] + '_' + server.get_id()) \
-                            .set_display_name('Disk ' + config[0]) \
+                        check = CheckDisk.create('disk_' + config[0] + '_' + server.get_id())
+                        check.set_display_name(check.get_display_name() + ' ' + config[0]) \
                             .set_check_type(self.__check_type) \
                             .set_partition(config[1]) \
                             .set_warning_percent(config[2]) \
