@@ -39,6 +39,18 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
         self.__validate_deny_readme = True
         self.__validate_deny_wp_admin = True
         self.__validate_deny_wp_login = True
+        self.__validate_deny_wp_cron = True
+        self.__validate_deny_wp_load = True
+        self.__validate_deny_wp_mail = True
+        self.__validate_deny_wp_settings = True
+        self.__validate_deny_wp_signup = True
+        self.__validate_deny_wp_trackback = True
+        self.__validate_deny_wp_xmlrpc = True
+        self.__validate_deny_wp_config = True
+        self.__validate_deny_wp_config_sample = True
+        self.__validate_deny_wp_blog_header = True
+        self.__validate_deny_wp_activate = True
+        self.__validate_deny_wp_links_opml = True
         self.__inherit = True
         self.__git_checks = DefaultGitChecks(vhostconfig, servers, checkserver, notifications).set_inherit(False)
 
@@ -105,6 +117,131 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
     def is_validating_deny_wp_login(self):
         return self.__validate_deny_wp_login
 
+    def validate_deny_wp_cron(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__validate_deny_wp_cron = enabled
+
+        return self
+
+    def is_validating_deny_wp_cron(self):
+        return self.__validate_deny_wp_cron
+
+    def validate_deny_wp_load(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__validate_deny_wp_load = enabled
+
+        return self
+
+    def is_validating_deny_wp_load(self):
+        return self.__validate_deny_wp_load
+
+    def validate_deny_wp_mail(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__validate_deny_wp_mail = enabled
+
+        return self
+
+    def is_validating_deny_wp_mail(self):
+        return self.__validate_deny_wp_mail
+
+    def validate_deny_wp_settings(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__validate_deny_wp_settings = enabled
+
+        return self
+
+    def is_validating_deny_wp_settings(self):
+        return self.__validate_deny_wp_settings
+
+    def validate_deny_wp_signup(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__validate_deny_wp_signup = enabled
+
+        return self
+
+    def is_validating_deny_wp_signup(self):
+        return self.__validate_deny_wp_signup
+
+    def validate_deny_wp_trackback(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__validate_deny_wp_trackback = enabled
+
+        return self
+
+    def is_validating_deny_wp_trackback(self):
+        return self.__validate_deny_wp_trackback
+
+    def validate_deny_wp_xmlrpc(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__validate_deny_wp_xmlrpc = enabled
+
+        return self
+
+    def is_validating_deny_wp_xmlrpc(self):
+        return self.__validate_deny_wp_xmlrpc
+
+    def validate_deny_wp_config(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__validate_deny_wp_config = enabled
+
+        return self
+
+    def is_validating_deny_wp_config(self):
+        return self.__validate_deny_wp_config
+
+    def validate_deny_wp_config_sample(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__validate_deny_wp_config_sample = enabled
+
+        return self
+
+    def is_validating_deny_wp_config_sample(self):
+        return self.__validate_deny_wp_config_sample
+
+    def validate_deny_wp_blog_header(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__validate_deny_wp_blog_header = enabled
+
+        return self
+
+    def is_validating_deny_wp_blog_header(self):
+        return self.__validate_deny_wp_blog_header
+
+    def validate_deny_wp_activate(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__validate_deny_wp_activate = enabled
+
+        return self
+
+    def is_validating_deny_wp_activate(self):
+        return self.__validate_deny_wp_activate
+
+    def validate_deny_wp_links_opml(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__validate_deny_wp_links_opml = enabled
+
+        return self
+
+    def is_validating_deny_wp_links_opml(self):
+        return self.__validate_deny_wp_links_opml
+
+    def create_wp_check(self, name, base_id, ip, domain, uri):
+        check = CheckHttp.create('web_access_deny_' + name + '_' + base_id)
+        check.set_ip(ip) \
+            .set_vhost(domain) \
+            .set_uri(uri) \
+            .set_ssl(True) \
+            .set_sni(DefaultWebserverChecks.get_sni(self)) \
+            .set_expect('40') \
+            .set_check_interval('1d') \
+            .set_display_name(check.get_display_name() + ' ' + domain) \
+            .add_service_group(ServiceGroup.create('wordpress')) \
+            .add_service_group(ServiceGroup.create('webserver'))
+        self.apply_notification_to_check(check)
+
+        for checkserver in DefaultWebserverChecks.get_checkservers(self):
+            checkserver.add_check(check)
+
     def apply(self):
         if self.__inherit:
             DefaultWebserverChecks.apply(self)
@@ -117,61 +254,40 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
             service_baseid = config[0]
             domain = config[1]
 
-            for checkserver in DefaultWebserverChecks.get_checkservers(self):
-                for server in DefaultWebserverChecks.get_servers(self):
-                    base_id = service_baseid + '_' + ''.join(e for e in domain + server.get_id() if e.isalnum())
-                    server_ip = server.get_ipv4()
-                    if None is server_ip:
-                        server_ip = server.get_ipv6()
+            for server in DefaultWebserverChecks.get_servers(self):
+                server.add_hostgroup(HostGroup.create('wordpress'))
+                base_id = service_baseid + '_' + ''.join(e for e in domain + server.get_id() if e.isalnum())
+                server_ip = server.get_ipv4()
+                if None is server_ip:
+                    server_ip = server.get_ipv6()
 
-                    if True is self.__validate_deny_license:
-                        check = CheckHttp.create('web_access_deny_license_' + base_id)
-                        check.set_ip(server_ip) \
-                            .set_vhost(domain) \
-                            .set_uri('/license.txt') \
-                            .set_ssl(True) \
-                            .set_sni(DefaultWebserverChecks.get_sni(self)) \
-                            .set_expect('40') \
-                            .set_check_interval('6h') \
-                            .set_display_name(check.get_display_name() + ' ' + domain)
-                        self.apply_notification_to_check(check)
-                        checkserver.add_check(check)
-
-                    if True is self.__validate_deny_readme:
-                        check = CheckHttp.create('web_access_deny_readme_' + base_id)
-                        check.set_ip(server_ip) \
-                            .set_vhost(domain) \
-                            .set_uri('/readme.html') \
-                            .set_ssl(True) \
-                            .set_sni(DefaultWebserverChecks.get_sni(self)) \
-                            .set_expect('40') \
-                            .set_check_interval('6h') \
-                            .set_display_name(check.get_display_name() + ' ' + domain)
-                        self.apply_notification_to_check(check)
-                        checkserver.add_check(check)
-
-                    if True is self.__validate_deny_wp_admin:
-                        check = CheckHttp.create('web_access_deny_wp_admin_' + base_id)
-                        check.set_ip(server_ip) \
-                            .set_vhost(domain) \
-                            .set_uri('/wp-admin/') \
-                            .set_ssl(True) \
-                            .set_sni(DefaultWebserverChecks.get_sni(self)) \
-                            .set_expect('40') \
-                            .set_check_interval('6h') \
-                            .set_display_name(check.get_display_name() + ' ' + domain)
-                        self.apply_notification_to_check(check)
-                        checkserver.add_check(check)
-
-                    if True is self.__validate_deny_wp_login:
-                        check = CheckHttp.create('web_access_deny_wp_login_' + base_id)
-                        check.set_ip(server_ip) \
-                            .set_vhost(domain) \
-                            .set_uri('/wp-login.php') \
-                            .set_ssl(True) \
-                            .set_sni(DefaultWebserverChecks.get_sni(self)) \
-                            .set_expect('40') \
-                            .set_check_interval('6h') \
-                            .set_display_name(check.get_display_name() + ' ' + domain)
-                        self.apply_notification_to_check(check)
-                        checkserver.add_check(check)
+                if True is self.__validate_deny_license:
+                    self.create_wp_check('license', base_id, server_ip, domain, '/license.txt')
+                if True is self.__validate_deny_readme:
+                    self.create_wp_check('readme', base_id, server_ip, domain, '/readme.html')
+                if True is self.__validate_deny_wp_admin:
+                    self.create_wp_check('wp_admin', base_id, server_ip, domain, '/wp-admin/')
+                if True is self.__validate_deny_wp_login:
+                    self.create_wp_check('wp_login', base_id, server_ip, domain, '/wp-login.php')
+                if True is self.__validate_deny_wp_cron:
+                    self.create_wp_check('wp_cron', base_id, server_ip, domain, '/wp-cron.php')
+                if True is self.__validate_deny_wp_load:
+                    self.create_wp_check('wp_load', base_id, server_ip, domain, '/wp-load.php')
+                if True is self.__validate_deny_wp_mail:
+                    self.create_wp_check('wp_mail', base_id, server_ip, domain, '/wp-mail.php')
+                if True is self.__validate_deny_wp_signup:
+                    self.create_wp_check('wp_signup', base_id, server_ip, domain, '/wp-signup.php')
+                if True is self.__validate_deny_wp_trackback:
+                    self.create_wp_check('wp_trackback', base_id, server_ip, domain, '/wp-trackback.php')
+                if True is self.__validate_deny_wp_xmlrpc:
+                    self.create_wp_check('wp_xmlrpc', base_id, server_ip, domain, '/xmlrpc.php')
+                if True is self.__validate_deny_wp_config:
+                    self.create_wp_check('wp_config', base_id, server_ip, domain, '/wp-config.php')
+                if True is self.__validate_deny_wp_config_sample:
+                    self.create_wp_check('wp_config_sample', base_id, server_ip, domain, '/wp-config-sample.php')
+                if True is self.__validate_deny_wp_blog_header:
+                    self.create_wp_check('wp_blog_header', base_id, server_ip, domain, '/wp-blog-header.php')
+                if True is self.__validate_deny_wp_activate:
+                    self.create_wp_check('wp_activate', base_id, server_ip, domain, '/wp-activate.php')
+                if True is self.__validate_deny_wp_links_opml:
+                    self.create_wp_check('wp_links_opml', base_id, server_ip, domain, '/wp-links-opml.php')

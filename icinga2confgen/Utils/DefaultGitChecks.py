@@ -79,7 +79,7 @@ class DefaultGitChecks(DefaultWebserverChecks):
                         server_ip = server.get_ipv6()
 
                     if True is self.__validate_deny_git:
-                        git_check = CheckHttp.create('web_access_deny_git_' + base_id)
+                        git_check = CheckHttp.create('web_access_deny_gitdir_' + base_id)
                         git_check.set_ip(server_ip) \
                             .set_vhost(domain) \
                             .set_uri('/.git/') \
