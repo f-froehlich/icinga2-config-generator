@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.ProcsCommand import ProcsCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckProcs(Check):
@@ -43,6 +44,8 @@ class CheckProcs(Check):
         self.__argument_ereg = None
         self.__command = None
         self.__only_non_kernel = False
+        self.add_service_group(ServiceGroup.create('procs'))
+        self.add_service_group(ServiceGroup.create('system_health'))
 
     def set_warning_range(self, warning_range):
         ValueChecker.is_string(warning_range)

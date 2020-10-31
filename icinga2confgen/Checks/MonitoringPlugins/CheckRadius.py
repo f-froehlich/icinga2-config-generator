@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.RadiusCommand import RadiusCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckRadius(Check):
@@ -40,6 +41,7 @@ class CheckRadius(Check):
         self.__expect = None
         self.__retries = 2
         self.__timeout = 10
+        self.add_service_group(ServiceGroup.create('radius'))
 
     def set_host(self, host):
         ValueChecker.is_string(host)

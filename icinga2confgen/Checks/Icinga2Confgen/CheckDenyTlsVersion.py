@@ -24,7 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.Icinga2Confgen.DenyTlsVersionCommand import DenyTlsVersionCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
-
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 class CheckDenyTlsVersion(Check):
 
@@ -33,6 +33,10 @@ class CheckDenyTlsVersion(Check):
         self.__protocol = None
         self.__domain = None
         self.__address = None
+        self.set_check_interval('6h')
+        self.add_service_group(ServiceGroup.create('security'))
+        self.add_service_group(ServiceGroup.create('webserver'))
+        self.add_service_group(ServiceGroup.create('tls'))
 
     def set_protocol(self, number):
         ValueChecker.is_string(number)

@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.LoadCommand import LoadCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckLoad(Check):
@@ -34,6 +35,8 @@ class CheckLoad(Check):
         self.__critical = '15,12,9'
         self.__percpu = True
         self.__procs_to_show = None
+        self.add_service_group(ServiceGroup.create('load'))
+        self.add_service_group(ServiceGroup.create('system_health'))
 
     def set_warning(self, load1, load5, load15):
         ValueChecker.is_number(load1)

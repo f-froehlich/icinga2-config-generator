@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.Icinga2Confgen.ExistingUsersCommand import ExistingUsersCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckExistingUsers(Check):
@@ -34,6 +35,9 @@ class CheckExistingUsers(Check):
         self.__uid_max = None
         self.__users = ["root"]
         self.__shell_filter = ["/bin/false", "/bin/sync", "/sbin/nologin", "/usr/sbin/nologin"]
+        self.set_check_interval('3h')
+        self.add_service_group(ServiceGroup.create('security'))
+        self.add_service_group(ServiceGroup.create('existing_user'))
 
     def set_uid_min(self, uid_min):
         ValueChecker.is_string(uid_min)

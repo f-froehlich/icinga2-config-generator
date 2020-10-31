@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.JabberCommand import JabberCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckJabber(Check):
@@ -52,6 +53,7 @@ class CheckJabber(Check):
         self.__warning_time = None
         self.__critical_time = None
         self.__timeout = 10
+        self.add_service_group(ServiceGroup.create('jabber'))
 
     def set_host(self, host):
         ValueChecker.is_string(host)

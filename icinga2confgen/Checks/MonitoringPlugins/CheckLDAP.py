@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.LDAPCommand import LDAPCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckLDAP(Check):
@@ -47,6 +48,7 @@ class CheckLDAP(Check):
         self.__warning_entries = None
         self.__critical_entries = None
         self.__timeout = 10
+        self.add_service_group(ServiceGroup.create('ldap'))
 
     def set_host(self, host):
         ValueChecker.is_string(host)

@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.UPSCommand import UPSCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckUPS(Check):
@@ -38,6 +39,8 @@ class CheckUPS(Check):
         self.__timeout = None
         self.__warning = None
         self.__critical = None
+        self.add_service_group(ServiceGroup.create('ups'))
+        self.add_service_group(ServiceGroup.create('system_health'))
 
     def set_host(self, host):
         ValueChecker.is_string(host)

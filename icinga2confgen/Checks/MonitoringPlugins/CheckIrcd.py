@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.IrcdCommand import IrcdCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckIrcd(Check):
@@ -34,6 +35,7 @@ class CheckIrcd(Check):
         self.__warning = None
         self.__critical = None
         self.__port = None
+        self.add_service_group(ServiceGroup.create('ircd'))
 
     def set_host(self, host):
         ValueChecker.is_string(host)

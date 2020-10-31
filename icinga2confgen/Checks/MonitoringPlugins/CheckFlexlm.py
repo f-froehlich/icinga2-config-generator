@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.FlexlmCommand import FlexlmCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckFlexlm(Check):
@@ -32,6 +33,7 @@ class CheckFlexlm(Check):
         Check.__init__(self, id, 'CheckFlexlm', 'flexlm')
         self.__file = None
         self.__timeout = 10
+        self.add_service_group(ServiceGroup.create('flexlm'))
 
     def set_file(self, file):
         ValueChecker.is_string(file)

@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.Icinga2Confgen.SSHDSecurityCommand import SSHDSecurityCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckSSHDSecurity(Check):
@@ -38,6 +39,10 @@ class CheckSSHDSecurity(Check):
         self.__fingerprint_hash = None
         self.__port = None
         self.__config = []
+        self.set_check_interval('6h')
+        self.add_service_group(ServiceGroup.create('security'))
+        self.add_service_group(ServiceGroup.create('sshd'))
+        self.add_service_group(ServiceGroup.create('sshd_security'))
 
     def set_permit_root_login(self, permit_root_login):
         ValueChecker.is_string(permit_root_login)
@@ -80,7 +85,7 @@ class CheckSSHDSecurity(Check):
         return self.__fingerprint_hash
 
     def set_port(self, port):
-        ValueChecker.is_string(port)
+        ValueChecker.is_number(port)
         self.__port = port
         return self
 

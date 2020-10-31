@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.UptimeCommand import UptimeCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckUptime(Check):
@@ -34,6 +35,9 @@ class CheckUptime(Check):
         self.__critical = None
         self.__for = None
         self.__since = None
+        self.set_check_interval('15m')
+        self.add_service_group(ServiceGroup.create('uptime'))
+        self.add_service_group(ServiceGroup.create('system_health'))
 
     def set_warning(self, warning):
         ValueChecker.is_string(warning)

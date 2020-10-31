@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.Icinga2Confgen.PathExistCommand import PathExistCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckPathExists(Check):
@@ -33,6 +34,7 @@ class CheckPathExists(Check):
         self.__file = None
         self.__dir = None
         self.__invert = False
+        self.add_service_group(ServiceGroup.create('path_exists'))
 
     def set_file(self, file):
         ValueChecker.is_string(file)

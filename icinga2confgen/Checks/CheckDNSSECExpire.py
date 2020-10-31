@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.DNSSECExpireCommand import DNSSECExpireCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckDNSSECExpire(Check):
@@ -36,6 +37,10 @@ class CheckDNSSECExpire(Check):
         self.resolver = None
         self.failing_domain = None
         self.record_type = None
+        self.set_check_interval('3h')
+        self.add_service_group(ServiceGroup.create('security'))
+        self.add_service_group(ServiceGroup.create('dns'))
+        self.add_service_group(ServiceGroup.create('dnssec'))
 
     def set_warning(self, warning):
         ValueChecker.is_string(warning)

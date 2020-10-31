@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.MailqCommand import MailqCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckMailq(Check):
@@ -35,6 +36,8 @@ class CheckMailq(Check):
         self.__warning_same_domain = None
         self.__critical_same_domain = None
         self.__sudo = False
+        self.add_service_group(ServiceGroup.create('mailq'))
+        self.add_service_group(ServiceGroup.create('mail'))
 
     def set_warning(self, warning):
         ValueChecker.is_number(warning)

@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.SIMAPCommand import SIMAPCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckSIMAP(Check):
@@ -52,6 +53,8 @@ class CheckSIMAP(Check):
         self.__warning_time = None
         self.__critical_time = None
         self.__timeout = 10
+        self.add_service_group(ServiceGroup.create('imap'))
+        self.add_service_group(ServiceGroup.create('mail'))
 
     def set_host(self, host):
         ValueChecker.is_string(host)

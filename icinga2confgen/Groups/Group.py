@@ -21,14 +21,14 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from icinga2confgen.ValueChecker import ValueChecker
-
+from icinga2confgen.Utils.DefaultNames import get_default_group_name
 
 class Group:
 
     def __init__(self, id, type):
         self.__id = id
         self.__type = type
-        self.__display_name = None
+        self.__display_name = get_default_group_name(id)
 
     def set_display_name(self, name):
         ValueChecker.is_string(name)

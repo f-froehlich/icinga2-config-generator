@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.ICMPCommand import ICMPCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckICMP(Check):
@@ -42,6 +43,8 @@ class CheckICMP(Check):
         self.__bytes = 76
         self.__warning = None
         self.__critical = None
+        self.add_service_group(ServiceGroup.create('icmp'))
+        self.add_service_group(ServiceGroup.create('network'))
 
     def set_host(self, host):
         ValueChecker.is_string(host)

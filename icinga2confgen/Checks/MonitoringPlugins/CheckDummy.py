@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.DummyCommand import DummyCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckDummy(Check):
@@ -32,6 +33,8 @@ class CheckDummy(Check):
         Check.__init__(self, id, 'CheckDummy', 'dummy')
         self.__state = 1
         self.__text = ""
+        self.set_check_interval('1h')
+        self.add_service_group(ServiceGroup.create('dummy'))
 
     def set_state(self, state):
         ValueChecker.is_number(state)

@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.SWAPCommand import SWAPCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckSWAP(Check):
@@ -34,6 +35,8 @@ class CheckSWAP(Check):
         self.__critical = 15
         self.__allswaps = False
         self.__no_swap = None
+        self.add_service_group(ServiceGroup.create('swap'))
+        self.add_service_group(ServiceGroup.create('system_health'))
 
     def set_warning(self, number):
         ValueChecker.is_number(number)

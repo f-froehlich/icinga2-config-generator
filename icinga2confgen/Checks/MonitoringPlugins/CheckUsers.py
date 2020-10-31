@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.UsersCommand import UsersCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckUsers(Check):
@@ -32,6 +33,8 @@ class CheckUsers(Check):
         Check.__init__(self, id, 'CheckUsers', 'users')
         self.__warning = 5
         self.__critical = 10
+        self.set_check_interval('5m')
+        self.add_service_group(ServiceGroup.create('user'))
 
     def set_warning(self, number):
         ValueChecker.is_number(number)

@@ -55,8 +55,7 @@ class DomainCheck:
                 if True is dnssec:
                     dnssec_check = CheckDNSSECExpire.create(base_id + '_dnssec') \
                         .add_service_group(ServiceGroup.create('dnssec_check').set_display_name('DNSSEC')) \
-                        .set_display_name('DNSSEC ' + domain) \
-                        .set_check_interval('30m')
+                        .set_display_name('DNSSEC ' + domain)
                     self.apply_notification_to_check(dnssec_check)
 
                     checkserver.add_check(dnssec_check)
@@ -66,9 +65,7 @@ class DomainCheck:
                         .set_record_type('A') \
                         .set_question(domain) \
                         .set_expected_address(ipv4) \
-                        .add_service_group(ServiceGroup.create('dns_check').set_display_name('DNS')) \
-                        .set_display_name('DNS A ' + domain) \
-                        .set_check_interval('5m')
+                        .set_display_name('DNS A ' + domain)
 
                     self.apply_notification_to_check(ipv4_check)
                     checkserver.add_check(ipv4_check)
@@ -78,9 +75,7 @@ class DomainCheck:
                         .set_record_type('AAAA') \
                         .set_question(domain) \
                         .set_expected_address(ipv6) \
-                        .add_service_group(ServiceGroup.create('dns_check').set_display_name('DNS')) \
-                        .set_display_name('DNS AAAA ' + domain) \
-                        .set_check_interval('5m')
+                        .set_display_name('DNS AAAA ' + domain)
                     self.apply_notification_to_check(ipv6_check)
 
                     checkserver.add_check(ipv6_check)

@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.SSHCommand import SSHCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckSSH(Check):
@@ -37,6 +38,7 @@ class CheckSSH(Check):
         self.__remote_protocol = None
         self.__force_ipv4 = None
         self.__force_ipv6 = None
+        self.add_service_group(ServiceGroup.create('sshd'))
 
     def set_hostname(self, hostname):
         ValueChecker.is_string(hostname)

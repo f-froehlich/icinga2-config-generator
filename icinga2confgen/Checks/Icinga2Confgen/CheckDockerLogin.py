@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.Icinga2Confgen.DockerLoginCommand import DockerLoginCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckDockerLogin(Check):
@@ -35,6 +36,7 @@ class CheckDockerLogin(Check):
         self.__address = None
         self.__port = None
         self.__as_sudo = False
+        self.add_service_group(ServiceGroup.create('docker'))
 
     def set_as_sudo(self, as_sudo):
         ValueChecker.is_bool(as_sudo)

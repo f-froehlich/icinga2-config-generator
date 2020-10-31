@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.HPJDCommand import HPJDCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckHPJD(Check):
@@ -34,6 +35,7 @@ class CheckHPJD(Check):
         self.__community = None
         self.__paper_check = False
         self.__port = None
+        self.add_service_group(ServiceGroup.create('hpjd'))
 
     def set_host(self, host):
         ValueChecker.is_string(host)

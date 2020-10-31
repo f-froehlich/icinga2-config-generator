@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.AptCommand import AptCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckApt(Check):
@@ -40,7 +41,9 @@ class CheckApt(Check):
         self.__only_critical = None
         self.__packages_warning = None
         self.__update = None
-        self.set_check_interval('15m')
+        self.set_check_interval('1h')
+        self.add_service_group(ServiceGroup.create('updates'))
+        self.add_service_group(ServiceGroup.create('apt'))
 
     def set_timeout(self, seconds):
         ValueChecker.is_number(seconds)

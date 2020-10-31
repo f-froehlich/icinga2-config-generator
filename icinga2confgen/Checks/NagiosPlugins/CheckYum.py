@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.NagiosPlugins.YumCommand import YumCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckYum(Check):
@@ -39,7 +40,9 @@ class CheckYum(Check):
         self.__repo_enabled = None
         self.__repo_disabled = None
         self.__plugin_disabled = None
-        self.set_check_interval('15m')
+        self.set_check_interval('1h')
+        self.add_service_group(ServiceGroup.create('updates'))
+        self.add_service_group(ServiceGroup.create('yum'))
 
     def set_timeout(self, seconds):
         ValueChecker.is_number(seconds)

@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.HttpCommand import HttpCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckHttp(Check):
@@ -75,6 +76,7 @@ class CheckHttp(Check):
         self.__warning = 7
         self.__critical = 15
         self.__timeout = 10
+        self.add_service_group(ServiceGroup.create('webserver'))
 
     def set_vhost(self, vhost):
         ValueChecker.is_string(vhost)

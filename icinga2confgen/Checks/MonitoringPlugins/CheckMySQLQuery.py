@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.MySQLQueryCommand import MySQLQueryCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckMysqlQuery(Check):
@@ -41,6 +42,8 @@ class CheckMysqlQuery(Check):
         self.__group = None
         self.__user = None
         self.__password = None
+        self.add_service_group(ServiceGroup.create('mysql'))
+        self.add_service_group(ServiceGroup.create('database'))
 
     def set_query(self, query):
         ValueChecker.is_string(query)

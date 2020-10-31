@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.DHCPCommand import DHCPCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckDHCP(Check):
@@ -36,6 +37,8 @@ class CheckDHCP(Check):
         self.__interface = None
         self.__mac = None
         self.__unicast = False
+        self.add_service_group(ServiceGroup.create('dhcp'))
+        self.add_service_group(ServiceGroup.create('network'))
 
     def set_server(self, server):
         ValueChecker.is_string(server)

@@ -24,12 +24,15 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.SensorsCommand import SensorsCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckSensors(Check):
 
     def __init__(self, id):
         Check.__init__(self, id, 'CheckSensors', 'sensors')
+        self.add_service_group(ServiceGroup.create('sensors'))
+        self.add_service_group(ServiceGroup.create('system_health'))
 
     @staticmethod
     def create(id, force_create=False):

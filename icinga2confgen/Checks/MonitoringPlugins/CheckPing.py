@@ -22,6 +22,7 @@
 
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckPing(Check):
@@ -35,6 +36,8 @@ class CheckPing(Check):
         self.__timeout = 10
         self.__packets = 4
         self.__address = None
+        self.add_service_group(ServiceGroup.create('ping'))
+        self.add_service_group(ServiceGroup.create('network'))
 
     def set_warning_percent_lost(self, threshold):
         ValueChecker.is_number(threshold)

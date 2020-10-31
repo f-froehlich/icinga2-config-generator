@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.DiskSMBCommand import DiskSMBCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckDiskSMB(Check):
@@ -39,6 +40,7 @@ class CheckDiskSMB(Check):
         self.__user = None
         self.__password = None
         self.__port = 445
+        self.add_service_group(ServiceGroup.create('disk'))
 
     def set_host(self, host):
         ValueChecker.is_string(host)

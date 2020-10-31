@@ -53,20 +53,13 @@ class DefaultRemoteChecks:
             ipv6 = server.get_ipv6()
 
             if True is self.__check_ping:
-                ping_service_group = ServiceGroup.create('ping').set_display_name('Ping')
-                ping4_service_group = ServiceGroup.create('ping4').set_display_name('Ping 4')
-                ping6_service_group = ServiceGroup.create('ping6').set_display_name('Ping 6')
                 if None is not ipv4:
                     check = CheckPing4.create(base_id + '_ping4') \
                         .set_address(ipv4) \
-                        .add_service_group(ping_service_group) \
-                        .add_service_group(ping4_service_group) \
                         .set_display_name('Ping ipv4 ' + server.get_display_name())
                     self.apply_check(check)
                 if None is not ipv6:
                     check = CheckPing4.create(base_id + '_ping6') \
                         .set_address(ipv6) \
-                        .add_service_group(ping_service_group) \
-                        .add_service_group(ping6_service_group) \
                         .set_display_name('Ping ipv6 ' + server.get_display_name())
                     self.apply_check(check)

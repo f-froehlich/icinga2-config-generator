@@ -25,6 +25,7 @@ from icinga2confgen.Commands.MonitoringPlugins.DiskCommand import DiskCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckDisk(Check):
@@ -63,7 +64,8 @@ class CheckDisk(Check):
         self.__exclude_type = None
         self.__include_type = None
         self.__newlines = None
-        self.set_check_interval('5m')
+        self.set_check_interval('30m')
+        self.add_service_group(ServiceGroup.create('disk'))
 
     def set_warning_units(self, number):
         ValueChecker.is_number(number)

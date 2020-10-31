@@ -95,7 +95,7 @@ class SSHDSecurity:
                         break
                 if False is found_rule:
                     print('CRITICAL: There is a configured rule on your system, which is not expected. From: ' \
-                          + running_rule[1] + ' To: ' + running_rule[2] + ' Policy: ' + running_rule[3])
+                          + running_rule[1] + ' To: ' + running_rule[3] + ' Policy: ' + running_rule[2])
                     sys.exit(2)
 
         # check for each configured rule exist a rule on the system
@@ -111,7 +111,7 @@ class SSHDSecurity:
 
             if False is found_rule:
                 print('CRITICAL: There is a rule configured, which is not on your system. From: ' + \
-                      configured_rule[0] + ' To: ' + configured_rule[1] + ' Policy: ' + configured_rule[2])
+                      configured_rule[2] + ' To: ' + configured_rule[0] + ' Policy: ' + configured_rule[1])
                 sys.exit(2)
 
     def check_defaults(self):

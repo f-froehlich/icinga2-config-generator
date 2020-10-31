@@ -335,60 +335,50 @@ class DefaultLocalChecks:
             if True is self.__check_apt:
                 check = CheckApt.create('apt_' + server.get_id()) \
                     .set_display_name('APT') \
-                    .set_check_type(self.__check_type) \
-                    .set_check_interval('30m') \
-                    .add_service_group(ServiceGroup.create('apt').set_display_name('APT'))
+                    .set_check_type(self.__check_type)
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
             if True is self.__check_yum:
                 check = CheckYum.create('yum_' + server.get_id()) \
                     .set_display_name('YUM') \
-                    .set_check_type(self.__check_type) \
-                    .set_check_interval('30m') \
-                    .add_service_group(ServiceGroup.create('yum').set_display_name('YUM'))
+                    .set_check_type(self.__check_type)
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
             if True is self.__check_load:
                 check = CheckLoad.create('load_' + server.get_id()) \
                     .set_display_name('Load') \
-                    .set_check_type(self.__check_type) \
-                    .add_service_group(ServiceGroup.create('load').set_display_name('Load'))
+                    .set_check_type(self.__check_type)
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
             if True is self.__check_ntp_time:
                 check = CheckNTPTime.create('ntp_time_' + server.get_id()) \
                     .set_display_name('NTP Time') \
-                    .set_check_type(self.__check_type) \
-                    .add_service_group(ServiceGroup.create('ntp_time').set_display_name('NTP Time'))
+                    .set_check_type(self.__check_type)
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
             if True is self.__check_swap:
                 check = CheckSWAP.create('swap_' + server.get_id()) \
                     .set_display_name('SWAP') \
-                    .set_check_type(self.__check_type) \
-                    .add_service_group(ServiceGroup.create('swap').set_display_name('SWAP'))
+                    .set_check_type(self.__check_type)
+
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
             if True is self.__check_users:
                 check = CheckUsers.create('users_' + server.get_id()) \
                     .set_display_name('Users') \
-                    .set_check_type(self.__check_type) \
-                    .add_service_group(ServiceGroup.create('users').set_display_name('Users'))
+                    .set_check_type(self.__check_type)
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
             if True is self.__check_sshd_security:
                 check = CheckSSHDSecurity.create('sshd_security_' + server.get_id()) \
                     .set_display_name('SSHD security') \
-                    .set_check_interval('30m') \
-                    .set_check_type(self.__check_type) \
-                    .add_service_group(ServiceGroup.create('sshd_security').set_display_name('sshd Security')) \
-                    .add_service_group(ServiceGroup.create('sshd').set_display_name('sshd'))
+                    .set_check_type(self.__check_type)
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
@@ -398,8 +388,7 @@ class DefaultLocalChecks:
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('sshd') \
-                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
-                    .add_service_group(ServiceGroup.create('sshd').set_display_name('sshd'))
+                    .add_service_group(ServiceGroup.create('sshd'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
@@ -409,8 +398,8 @@ class DefaultLocalChecks:
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('mysqld') \
-                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
-                    .add_service_group(ServiceGroup.create('mysqld').set_display_name('mysqld'))
+                    .add_service_group(ServiceGroup.create('mysql')) \
+                    .add_service_group(ServiceGroup.create('database'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
@@ -420,8 +409,8 @@ class DefaultLocalChecks:
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('postgres') \
-                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
-                    .add_service_group(ServiceGroup.create('postgres').set_display_name('Postgres'))
+                    .add_service_group(ServiceGroup.create('database')) \
+                    .add_service_group(ServiceGroup.create('postgres'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
@@ -431,8 +420,7 @@ class DefaultLocalChecks:
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('cron') \
-                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
-                    .add_service_group(ServiceGroup.create('cron').set_display_name('cron'))
+                    .add_service_group(ServiceGroup.create('cron'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
@@ -442,8 +430,7 @@ class DefaultLocalChecks:
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('crond') \
-                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
-                    .add_service_group(ServiceGroup.create('cron').set_display_name('cron'))
+                    .add_service_group(ServiceGroup.create('cron'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
@@ -453,8 +440,7 @@ class DefaultLocalChecks:
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('rsyslogd') \
-                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
-                    .add_service_group(ServiceGroup.create('rsyslogd').set_display_name('rsyslogd'))
+                    .add_service_group(ServiceGroup.create('rsyslogd'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
@@ -464,9 +450,8 @@ class DefaultLocalChecks:
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('nginx') \
-                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
-                    .add_service_group(ServiceGroup.create('webserver').set_display_name('Webserver')) \
-                    .add_service_group(ServiceGroup.create('nginx').set_display_name('nginx'))
+                    .add_service_group(ServiceGroup.create('webserver')) \
+                    .add_service_group(ServiceGroup.create('nginx'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
@@ -476,9 +461,8 @@ class DefaultLocalChecks:
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('apache2') \
-                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
-                    .add_service_group(ServiceGroup.create('webserver').set_display_name('Webserver')) \
-                    .add_service_group(ServiceGroup.create('apache').set_display_name('apache'))
+                    .add_service_group(ServiceGroup.create('webserver')) \
+                    .add_service_group(ServiceGroup.create('apache'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
@@ -488,9 +472,8 @@ class DefaultLocalChecks:
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('httpd') \
-                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
-                    .add_service_group(ServiceGroup.create('webserver').set_display_name('Webserver')) \
-                    .add_service_group(ServiceGroup.create('httpd').set_display_name('httpd'))
+                    .add_service_group(ServiceGroup.create('webserver')) \
+                    .add_service_group(ServiceGroup.create('apache'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
@@ -500,9 +483,8 @@ class DefaultLocalChecks:
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('tomcat') \
-                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
-                    .add_service_group(ServiceGroup.create('webserver').set_display_name('Webserver')) \
-                    .add_service_group(ServiceGroup.create('httpd').set_display_name('httpd'))
+                    .add_service_group(ServiceGroup.create('webserver')) \
+                    .add_service_group(ServiceGroup.create('tomcat'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
@@ -512,8 +494,7 @@ class DefaultLocalChecks:
                     .set_check_type(self.__check_type) \
                     .set_critical_range('1:') \
                     .set_command('php-fpm') \
-                    .add_service_group(ServiceGroup.create('procs').set_display_name('Procs')) \
-                    .add_service_group(ServiceGroup.create('php_fpm').set_display_name('php_fpm'))
+                    .add_service_group(ServiceGroup.create('php_fpm'))
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
@@ -521,9 +502,7 @@ class DefaultLocalChecks:
                 check = CheckGroupMembers.create('sudoers_' + server.get_id()) \
                     .set_display_name('Sudoers') \
                     .set_check_type(self.__check_type) \
-                    .set_check_interval('1h') \
-                    .add_service_group(ServiceGroup.create('sudoers').set_display_name('Sudoers')) \
-                    .add_service_group(ServiceGroup.create('group_members').set_display_name('Group Members'))
+                    .add_service_group(ServiceGroup.create('sudoers'))
                 for user in self.__sudoers:
                     check.append_user(user)
 
@@ -535,9 +514,7 @@ class DefaultLocalChecks:
                     .set_display_name('Sudoers (wheel)') \
                     .set_group('wheel') \
                     .set_check_type(self.__check_type) \
-                    .set_check_interval('1h') \
-                    .add_service_group(ServiceGroup.create('sudoers').set_display_name('Sudoers')) \
-                    .add_service_group(ServiceGroup.create('group_members').set_display_name('Group Members'))
+                    .add_service_group(ServiceGroup.create('sudoers'))
                 for user in self.__sudoers:
                     check.append_user(user)
 
@@ -547,9 +524,7 @@ class DefaultLocalChecks:
             if True is self.__check_normal_users:
                 check = CheckExistingUsers.create('existing_users' + server.get_id()) \
                     .set_display_name('Existing users') \
-                    .set_check_type(self.__check_type) \
-                    .set_check_interval('1h') \
-                    .add_service_group(ServiceGroup.create('existing_user').set_display_name('Existing User'))
+                    .set_check_type(self.__check_type)
                 for user in self.__sudoers:
                     check.append_existing_users(user)
                 for user in self.__additional_users:
@@ -564,9 +539,7 @@ class DefaultLocalChecks:
                     .set_outgoing(self.__ufw_defaults[1]) \
                     .set_routing(self.__ufw_defaults[2]) \
                     .set_display_name('UFW Status') \
-                    .set_check_type(self.__check_type) \
-                    .set_check_interval('1h') \
-                    .add_service_group(ServiceGroup.create('ufw').set_display_name('UFW'))
+                    .set_check_type(self.__check_type)
                 for policy in self.__ufw_rules:
                     check.add_rule(policy[0], policy[1], policy[2])
 
@@ -576,13 +549,13 @@ class DefaultLocalChecks:
             if True is self.__check_disk:
                 if len(self.__check_partitions) == 0:
                     check = CheckDisk.create('disk_' + server.get_id()) \
-                        .set_display_name('Disk ') \
+                        .set_display_name('Disk') \
                         .set_check_type(self.__check_type)
                     self.apply_notification_to_check(check)
                     server.add_check(check)
                 else:
                     for config in self.__check_partitions:
-                        check = CheckDisk.create('disk_' + config[0] + server.get_id()) \
+                        check = CheckDisk.create('disk_' + config[0] + '_' + server.get_id()) \
                             .set_display_name('Disk ' + config[0]) \
                             .set_check_type(self.__check_type) \
                             .set_partition(config[1]) \

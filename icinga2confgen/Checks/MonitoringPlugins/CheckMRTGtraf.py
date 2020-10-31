@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.MRTGtrafCommand import MRTGtrafCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckMRTGtraf(Check):
@@ -35,6 +36,7 @@ class CheckMRTGtraf(Check):
         self.__warning = None
         self.__critical = None
         self.__expires = None
+        self.add_service_group(ServiceGroup.create('mrt_gtraf'))
 
     def set_file(self, file):
         ValueChecker.is_string(file)

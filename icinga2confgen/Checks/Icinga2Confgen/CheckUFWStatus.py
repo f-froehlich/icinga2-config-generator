@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.Icinga2Confgen.UFWStatusCommand import UFWStatusCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckUFWStatus(Check):
@@ -38,6 +39,10 @@ class CheckUFWStatus(Check):
         self.__outgoing = None
         self.__routing = None
         self.__rule = []
+        self.set_check_interval('6h')
+        self.add_service_group(ServiceGroup.create('security'))
+        self.add_service_group(ServiceGroup.create('ufw'))
+        self.add_service_group(ServiceGroup.create('firewall'))
 
     def set_status(self, status):
         ValueChecker.is_string(status)

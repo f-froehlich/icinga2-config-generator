@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.SMTPCommand import SMTPCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckSMTP(Check):
@@ -37,8 +38,7 @@ class CheckSMTP(Check):
         self.__expect = None
         self.__command = None
         self.__response = None
-        self.__from
-        icinga2confgen. = None
+        self.__from = None
         self.__fqdn = None
         self.__cert_warning = 29
         self.__cert_critical = 15
@@ -51,6 +51,8 @@ class CheckSMTP(Check):
         self.__warning = 5
         self.__critical = 9
         self.__timeout = 10
+        self.add_service_group(ServiceGroup.create('smtp'))
+        self.add_service_group(ServiceGroup.create('mail'))
 
     def set_host(self, host):
         ValueChecker.is_string(host)

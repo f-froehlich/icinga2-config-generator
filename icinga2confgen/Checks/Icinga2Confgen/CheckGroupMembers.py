@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.Icinga2Confgen.GroupMembersCommand import GroupMembersCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckGroupMembers(Check):
@@ -32,6 +33,9 @@ class CheckGroupMembers(Check):
         Check.__init__(self, id, 'CheckGroupMembers', 'group_members')
         self.__group = 'sudo'
         self.__users = []
+        self.set_check_interval('3h')
+        self.add_service_group(ServiceGroup.create('security'))
+        self.add_service_group(ServiceGroup.create('group_members'))
 
     def set_group(self, group):
         ValueChecker.is_string(group)

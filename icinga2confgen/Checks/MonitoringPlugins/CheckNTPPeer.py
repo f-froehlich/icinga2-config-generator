@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.NTPPeerCommand import NTPPeerCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckNTPPeer(Check):
@@ -44,6 +45,9 @@ class CheckNTPPeer(Check):
         self.__twarn = None
         self.__tcrit = None
         self.__timeout = 10
+        self.set_check_interval('5m')
+        self.add_service_group(ServiceGroup.create('ntp'))
+        self.add_service_group(ServiceGroup.create('network'))
 
     def set_warning(self, seconds):
         ValueChecker.is_number(seconds)

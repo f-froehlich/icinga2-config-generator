@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.MySQLCommand import MySQLCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckMySQL(Check):
@@ -48,6 +49,8 @@ class CheckMySQL(Check):
         self.__ca_dir = None
         self.__cert = None
         self.__key = None
+        self.add_service_group(ServiceGroup.create('mysql'))
+        self.add_service_group(ServiceGroup.create('database'))
 
     def set_host(self, host):
         ValueChecker.is_string(host)

@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.FileAgeCommand import FileAgeCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckFileAge(Check):
@@ -36,6 +37,7 @@ class CheckFileAge(Check):
         self.__warning_size = None
         self.__critical_size = None
         self.__ignore_missing = False
+        self.add_service_group(ServiceGroup.create('file_age'))
 
     def set_file(self, file):
         ValueChecker.is_string(file)

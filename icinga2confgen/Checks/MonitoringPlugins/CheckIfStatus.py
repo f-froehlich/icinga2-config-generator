@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.IfStatusCommand import IfStatusCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckIfStatus(Check):
@@ -46,6 +47,8 @@ class CheckIfStatus(Check):
         self.__privproto = None
         self.__max_msg_size = None
         self.__timeout = 10
+        self.add_service_group(ServiceGroup.create('network'))
+        self.add_service_group(ServiceGroup.create('ifstatus'))
 
     def set_host(self, host):
         ValueChecker.is_string(host)

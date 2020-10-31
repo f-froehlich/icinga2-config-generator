@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.DigCommand import DigCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckDig(Check):
@@ -41,6 +42,10 @@ class CheckDig(Check):
         self.__record_type = 'A'
         self.__expected_address = 'set expected address!'
         self.__question_arguments = None
+        self.set_check_interval('5m')
+        self.add_service_group(ServiceGroup.create('dns'))
+        self.add_service_group(ServiceGroup.create('dig'))
+        self.add_service_group(ServiceGroup.create('network'))
 
     def set_warning_time(self, seconds):
         ValueChecker.is_number(seconds)

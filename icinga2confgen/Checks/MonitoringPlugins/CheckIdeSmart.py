@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.IdeSmartCommand import IdeSmartCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckIdeSmart(Check):
@@ -31,6 +32,9 @@ class CheckIdeSmart(Check):
     def __init__(self, id):
         Check.__init__(self, id, 'CheckIdeSmart', 'ide_smart')
         self.__device = None
+        self.set_check_interval('24h')
+        self.add_service_group(ServiceGroup.create('smart'))
+        self.add_service_group(ServiceGroup.create('disk'))
 
     def set_device(self, device):
         ValueChecker.is_string(device)

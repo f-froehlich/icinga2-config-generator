@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.LogCommand import LogCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckLog(Check):
@@ -33,6 +34,7 @@ class CheckLog(Check):
         self.__file = None
         self.__oldfile = None
         self.__query = None
+        self.add_service_group(ServiceGroup.create('log'))
 
     def set_file(self, file):
         ValueChecker.is_string(file)

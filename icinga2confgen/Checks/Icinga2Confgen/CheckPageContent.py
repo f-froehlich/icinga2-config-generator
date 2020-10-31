@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.Icinga2Confgen.PageContentCommand import PageContentCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckPageContent(Check):
@@ -40,6 +41,7 @@ class CheckPageContent(Check):
         self.__ssl = False
         self.__client_cert = None
         self.__client_key = None
+        self.add_service_group(ServiceGroup.create('webserver'))
 
     def set_ok(self, ok):
         ValueChecker.is_string(ok)

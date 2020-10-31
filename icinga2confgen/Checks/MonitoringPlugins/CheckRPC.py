@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.RPCCommand import RPCCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckRPC(Check):
@@ -34,6 +35,7 @@ class CheckRPC(Check):
         self.__command = None
         self.__port = None
         self.__version = None
+        self.add_service_group(ServiceGroup.create('rpc'))
 
     def set_host(self, host):
         ValueChecker.is_string(host)

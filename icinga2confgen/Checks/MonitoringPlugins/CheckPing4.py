@@ -26,12 +26,15 @@ from icinga2confgen.Commands.MonitoringPlugins.PingCommand import PingCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckPing4(CheckPing):
 
     def __init__(self, id):
         CheckPing.__init__(self, id)
+        self.add_service_group(ServiceGroup.create('ping'))
+        self.add_service_group(ServiceGroup.create('network'))
 
     @staticmethod
     def create(id, force_create=False):

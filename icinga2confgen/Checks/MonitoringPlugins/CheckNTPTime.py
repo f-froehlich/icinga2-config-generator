@@ -24,6 +24,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.NTPTimeCommand import NTPTimeCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckNTPTime(Check):
@@ -42,6 +43,9 @@ class CheckNTPTime(Check):
         self.__stratum_warn = None
         self.__stratum_crit = None
         self.__timeout = None
+        self.set_check_interval('5m')
+        self.add_service_group(ServiceGroup.create('ntp'))
+        self.add_service_group(ServiceGroup.create('network'))
 
     def set_warning(self, seconds):
         ValueChecker.is_string(seconds)
