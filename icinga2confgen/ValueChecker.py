@@ -19,6 +19,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+from icinga2confgen.ValueMapper import ValueMapper
 
 class ValueChecker:
 
@@ -53,7 +54,7 @@ class ValueChecker:
             if id.startswith(prefix + '_'):
                 raise Exception(prefix + '_ is a reserved Prefix. You can\'t use it!')
 
-        if ''.join(e for e in id if e.isalnum() or e == '_') != id:
+        if ValueMapper.canonicalize_for_id(id) != id:
             raise Exception('Id\'s can only contains letters (a-z,A-Z), numbers (0-9) and underscore (_)')
 
     @staticmethod

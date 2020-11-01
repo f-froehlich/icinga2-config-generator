@@ -74,3 +74,8 @@ class ValueMapper:
             return ValueMapper.parse_value_for_var(value_prefix + value.get_id())
 
         raise Exception('Cannot parse value ' + value)
+
+    @staticmethod
+    def canonicalize_for_id(raw):
+        allowed_chars = ['.', '_', '-']
+        return ''.join(e for e in raw if e.isalnum() or e in allowed_chars)
