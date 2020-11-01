@@ -110,8 +110,6 @@ class OS:
             raise Exception('You have to specify OS for ' + self.get_id())
         if None is self.__version:
             raise Exception('You have to specify Version for ' + self.get_id())
-        if 0 == len(self.__package_manager):
-            raise Exception('You have to specify PackageManager for ' + self.get_id())
         if None is self.__distro:
             raise Exception('You have to specify distro for ' + self.get_id())
 
