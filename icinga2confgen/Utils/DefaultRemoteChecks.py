@@ -21,7 +21,7 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.Checks.MonitoringPlugins.CheckPing4 import CheckPing4
-
+from icinga2confgen.ValueChecker import ValueChecker
 
 class DefaultRemoteChecks:
 
@@ -32,6 +32,7 @@ class DefaultRemoteChecks:
         self.__check_ping = True
 
     def check_ping(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__check_ping = enabled
 
         return self

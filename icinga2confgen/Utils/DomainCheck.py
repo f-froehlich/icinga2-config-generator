@@ -54,8 +54,10 @@ class DomainCheck:
 
                 if True is dnssec:
                     dnssec_check = CheckDNSSECExpire.create('dnssec_expiry_' + base_id)
-                    dnssec_check.add_service_group(ServiceGroup.create('dnssec_check').set_display_name('DNSSEC')) \
-                        .set_display_name(dnssec_check.get_display_name() + ' ' + domain)
+                    dnssec_check.add_service_group(ServiceGroup.create('dnssec')) \
+                        .set_display_name(dnssec_check.get_display_name() + ' ' + domain) \
+                        .set_zone(domain)
+
                     self.apply_notification_to_check(dnssec_check)
 
                     checkserver.add_check(dnssec_check)

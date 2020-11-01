@@ -24,7 +24,7 @@ from icinga2confgen.Checks.MonitoringPlugins.CheckDummy import CheckDummy
 from icinga2confgen.Checks.MonitoringPlugins.CheckHttp import CheckHttp
 from icinga2confgen.Groups.HostGroup import HostGroup
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-
+from icinga2confgen.ValueChecker import ValueChecker
 
 class DefaultWebserverChecks:
 
@@ -56,6 +56,7 @@ class DefaultWebserverChecks:
         return self.__checkserver
 
     def validate_certificate(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__validate_certificate = enabled
 
         return self
@@ -64,6 +65,7 @@ class DefaultWebserverChecks:
         return self.__validate_certificate
 
     def validate_http_redirect(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__validate_http_redirect = enabled
 
         return self
@@ -72,6 +74,7 @@ class DefaultWebserverChecks:
         return self.__validate_http_redirect
 
     def warn_no_http_redirect(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__warn_no_http_redirect = enabled
 
         return self
@@ -80,6 +83,7 @@ class DefaultWebserverChecks:
         return self.__warn_no_http_redirect
 
     def validate_allow_tls1(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__validate_allow_tls1 = enabled
 
         return self
@@ -88,14 +92,17 @@ class DefaultWebserverChecks:
         return self.__validate_allow_tls1
 
     def validate_deny_tls1(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__validate_deny_tls1 = enabled
 
         return self
 
     def is_validating_deny_tls1(self):
+        ValueChecker.is_bool(enabled)
         return self.__validate_deny_tls1
 
     def validate_allow_tls1_1(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__validate_allow_tls1_1 = enabled
 
         return self
@@ -104,6 +111,7 @@ class DefaultWebserverChecks:
         return self.__validate_allow_tls1_1
 
     def validate_deny_tls1_1(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__validate_deny_tls1_1 = enabled
 
         return self
@@ -112,6 +120,7 @@ class DefaultWebserverChecks:
         return self.__validate_deny_tls1_1
 
     def validate_allow_tls1_2(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__validate_allow_tls1_2 = enabled
 
         return self
@@ -120,6 +129,7 @@ class DefaultWebserverChecks:
         return self.__validate_allow_tls1_2
 
     def validate_deny_tls1_2(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__validate_deny_tls1_2 = enabled
 
         return self
@@ -128,6 +138,7 @@ class DefaultWebserverChecks:
         return self.__validate_deny_tls1_2
 
     def validate_allow_tls1_3(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__validate_allow_tls1_3 = enabled
 
         return self
@@ -136,6 +147,7 @@ class DefaultWebserverChecks:
         return self.__validate_allow_tls1_3
 
     def validate_deny_tls1_3(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__validate_deny_tls1_3 = enabled
 
         return self
@@ -144,6 +156,7 @@ class DefaultWebserverChecks:
         return self.__validate_deny_tls1_3
 
     def set_sni(self, enabled):
+        ValueChecker.is_bool(enabled)
         self.__sni = enabled
 
         return self
