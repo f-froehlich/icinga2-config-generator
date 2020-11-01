@@ -33,8 +33,8 @@ class CheckDisk(Check):
         Check.__init__(self, id, 'CheckDisk', 'disk')
         self.__warning = '20%'
         self.__critical = '10%'
-        self.__inode_warning = None
-        self.__inode_critical = None
+        self.__inode_warning = 20
+        self.__inode_critical = 10
         self.__combined_thresholds = None
         self.__path = None
         self.__partition = None

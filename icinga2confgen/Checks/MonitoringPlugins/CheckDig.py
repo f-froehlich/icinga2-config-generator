@@ -38,7 +38,7 @@ class CheckDig(Check):
         self.__only_ipv4 = False
         self.__only_ipv6 = False
         self.__question = None
-        self.__timeout = None
+        self.__timeout = 10
         self.__record_type = 'A'
         self.__expected_address = 'set expected address!'
         self.__question_arguments = None
