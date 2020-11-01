@@ -44,7 +44,7 @@ class User:
         ]
         self.__phone = None
         self.__pager = None
-        self.__email = None
+        self.__email = []
         self.__pager = None
         self.__groups = []
         self.__vars = []
@@ -71,9 +71,14 @@ class User:
     def get_display_name(self):
         return self.__display_name
 
-    def set_email(self, email):
+    def add_email(self, email):
         ValueChecker.is_string(email)
-        self.__email = email
+        self.__email.append(email)
+        return self
+
+    def remove_email(self, email):
+        ValueChecker.is_string(email)
+        self.__email.remove(email)
         return self
 
     def get_email(self):
@@ -141,6 +146,10 @@ class User:
 
         return self
 
+    def get_groups(self):
+
+        return self.__groups
+
     def add_var(self, key, value):
 
         ValueChecker.is_string(key)
@@ -164,7 +173,7 @@ class User:
         self.validate()
 
         config = 'object User "user_' + self.__id + '" {\n'
-        config += ValueMapper.parse_var('email', self.__email)
+        config += ValueMapper.parse_var('vars.email_addresses', self.__email)
         config += ValueMapper.parse_var('pager', self.__pager)
         config += ValueMapper.parse_var('vars.phone', self.__phone)
         config += ValueMapper.parse_var('display_name', self.__display_name)

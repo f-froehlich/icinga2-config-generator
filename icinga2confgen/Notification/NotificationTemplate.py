@@ -34,7 +34,7 @@ class NotificationTemplate:
     def __init__(self, id):
         self.__id = id
         self.__interval = '30m'
-        self.__command = None
+        self.__command = self.get_command_config()
         self.__time_period = None
         self.__escalation = None
         self.__users = []
@@ -49,6 +49,9 @@ class NotificationTemplate:
 
     def get_allowed_types(self):
         raise Exception('You must override get_allowed_types')
+
+    def get_command_config(self):
+        raise Exception('You must override get_command_config')
 
     @staticmethod
     def create(id, force_create=False):
@@ -212,5 +215,38 @@ class NotificationTemplate:
         config += ValueMapper.parse_var('types', self.__types)
         config += ValueMapper.parse_var('states', self.__states)
         config += '}\n'
+
+        return config
+
+    def apply_for_all_emails(self, type):
+        type = type.lower().capitalize()
+        if type not in ['Host', 'Service']:
+            raise Exception('Type can only be Host or Service')
+
+        config = ''
+        all_users = ConfigBuilder.get_instance('users')
+        all_users += self.get_users()
+        for group in self.get_user_groups():
+            added_user = []
+            for user in all_users:
+                if user in added_user:
+                    continue
+
+                added_user.append(user)
+                added_emails = []
+                groups_of_user = user.get_groups()
+                if group in groups_of_user:
+                    for email in user.get_email():
+                        if email in added_emails:
+                            continue
+
+                        added_emails.append(email)
+                        cemail = ValueMapper.canonicalize_for_id(email.replace('@', '_'))
+                        notification_id = 'notification_' + self.get_id() + '_' + user.get_id() + '_' + cemail
+                        config += 'apply Notification "' + notification_id + '" to ' + type + ' {\n'
+                        config += '  import "notification_template_' + NotificationTemplate.get_id(self) + '"\n'
+                        config += '  vars.email = "' + email + '"\n'
+                        config += '  assign where "notification_' + self.get_id() + '" in service.vars.notification\n'
+                        config += '}\n'
 
         return config

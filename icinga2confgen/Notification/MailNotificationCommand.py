@@ -108,7 +108,7 @@ class MailNotificationCommand(NotificationCommand):
     notification_servicename = "$service.name$"
     notification_serviceoutput = "$service.output$"
     notification_servicestate = "$service.state$"
-    notification_useremail = "$user.email$"
+    notification_useremail = "$email$"
     notification_servicedisplayname = "$service.display_name$"
   }
 """
