@@ -47,4 +47,4 @@ class MailServiceNotification(ServiceNotification):
         return config
 
     def get_command_config(self):
-        return MailNotificationCommand.create('mail_command')
+        return MailNotificationCommand.create('mail')

@@ -22,6 +22,7 @@
 
 import shutil
 from pathlib import Path
+
 from icinga2confgen.Application.Application import Application
 from icinga2confgen.ValueChecker import ValueChecker
 from tqdm import tqdm
@@ -32,6 +33,7 @@ class ConfigBuilder:
     __checks = []
     __templates = []
     __commands = []
+    __notification_commands = []
     __vhosts = []
     __hostgroups = []
     __servicegroups = []
@@ -80,6 +82,7 @@ class ConfigBuilder:
             {'dir': 'time_periods', 'config': ConfigBuilder.__time_periods},
             {'dir': 'notifications/templates', 'config': ConfigBuilder.__notification_templates},
             {'dir': 'notifications/notifications', 'config': ConfigBuilder.__notifications},
+            {'dir': 'notifications/commands', 'config': ConfigBuilder.__notification_commands},
             {'dir': 'downtimes', 'config': ConfigBuilder.__downtimes},
             {'dir': 'os', 'config': ConfigBuilder.__os},
             {'dir': 'package_manager', 'config': ConfigBuilder.__package_manager},
@@ -148,6 +151,7 @@ class ConfigBuilder:
             'sshtemplates': ConfigBuilder.__ssh_templates,
             'time_periods': ConfigBuilder.__time_periods,
             'notification_templates': ConfigBuilder.__notification_templates,
+            'notification_commands': ConfigBuilder.__notification_commands,
             'notifications': ConfigBuilder.__notifications,
             'downtimes': ConfigBuilder.__downtimes,
             'os': ConfigBuilder.__os,
@@ -225,6 +229,22 @@ class ConfigBuilder:
             raise Exception('Command with id ' + id + ' already exists!')
 
         ConfigBuilder.__commands.append({'id': id, 'instance': command})
+        ConfigBuilder.__pbar.update(1)
+
+    @staticmethod
+    def get_notification_command(id):
+        for notification_command in ConfigBuilder.__notification_commands:
+            if notification_command['id'] == id:
+                return notification_command['instance']
+
+        return None
+
+    @staticmethod
+    def add_notification_command(id, notification_command):
+        if ConfigBuilder.__check_for_existence and None is not ConfigBuilder.get_notification_command(id):
+            raise Exception('NotificationCommand with id ' + id + ' already exists!')
+
+        ConfigBuilder.__notification_commands.append({'id': id, 'instance': notification_command})
         ConfigBuilder.__pbar.update(1)
 
     @staticmethod
