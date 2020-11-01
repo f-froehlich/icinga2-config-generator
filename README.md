@@ -53,3 +53,4 @@ This section contains the additional terms of the AGPLv3 license agreement, a co
 
     Furthermore, the imprint has to include a clear reference to the original github repository [https://github.com/f-froehlich/icinga2-config-generator](https://github.com/f-froehlich/icinga2-config-generator) as well as the link mentioned above in the body text.
     
+5. You are not allowed to earn money with this tool.
