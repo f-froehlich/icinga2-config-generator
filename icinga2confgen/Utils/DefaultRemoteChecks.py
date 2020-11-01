@@ -19,9 +19,10 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.Checks.MonitoringPlugins.CheckPing4 import CheckPing4
+from icinga2confgen.Checks.MonitoringPlugins.CheckSSH import CheckSSH
 from icinga2confgen.ValueChecker import ValueChecker
+
 
 class DefaultRemoteChecks:
 
@@ -30,6 +31,8 @@ class DefaultRemoteChecks:
         self.__notifications = notifications
         self.__servers = servers
         self.__check_ping = True
+        self.__check_ssh = True
+        self.__check_ssh_port = 22
 
     def check_ping(self, enabled):
         ValueChecker.is_bool(enabled)
@@ -39,6 +42,24 @@ class DefaultRemoteChecks:
 
     def is_checking_ping(self):
         return self.__check_ping
+
+    def check_ssh(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__check_ssh = enabled
+
+        return self
+
+    def is_checking_ssh(self):
+        return self.__check_ssh
+
+    def check_ssh_port(self, port):
+        ValueChecker.is_number(port)
+        self.__check_ssh_port = port
+
+        return self
+
+    def is_checking_ssh_port(self):
+        return self.__check_ssh_port
 
     def apply_check(self, check):
         for notification in self.__notifications:
@@ -62,5 +83,20 @@ class DefaultRemoteChecks:
                 if None is not ipv6:
                     check = CheckPing4.create('ping6_' + base_id)
                     check.set_address(ipv6) \
+                        .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
+                    self.apply_check(check)
+
+            if True is self.__check_ssh:
+                if None is not ipv4:
+                    check = CheckSSH.create('ssh_ipv4_' + base_id)
+                    check.set_hostname(ipv4) \
+                        .set_port(self.__check_ssh_port) \
+                        .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
+                    self.apply_check(check)
+
+                if None is not ipv6:
+                    check = CheckSSH.create('ssh_ipv4_' + base_id)
+                    check.set_hostname(ipv6) \
+                        .set_port(self.__check_ssh_port) \
                         .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
                     self.apply_check(check)
