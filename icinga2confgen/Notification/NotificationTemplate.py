@@ -20,9 +20,9 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Commands.MonitoringPlugins.NotificationCommand import NotificationCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.UserGroup import UserGroup
+from icinga2confgen.Notification.NotificationCommand import NotificationCommand
 from icinga2confgen.Notification.TimePeriod import TimePeriod
 from icinga2confgen.User.User import User
 from icinga2confgen.ValueChecker import ValueChecker
@@ -199,7 +199,7 @@ class NotificationTemplate:
     def get_config(self):
         self.validate()
 
-        config = 'template Notification "notification_template_' + self.__id + '" {\n'
+        config = 'template Notification "notification_template_host_' + self.__id + '" {\n'
         config += '  interval = ' + self.__interval + '\n'
 
         if None is not self.__escalation:
@@ -208,7 +208,23 @@ class NotificationTemplate:
             config += '    end = ' + self.__escalation[1] + '\n'
             config += '  }\n'
 
-        config += ValueMapper.parse_var('command', self.__command, value_prefix='command_')
+        config += ValueMapper.parse_var('command', self.__command, value_prefix='command_host_')
+        config += ValueMapper.parse_var('period', self.__time_period, value_prefix='time_period_')
+        config += ValueMapper.parse_var('user_groups', self.__user_groups, value_prefix='usergroup_')
+        config += ValueMapper.parse_var('users', self.__users, value_prefix='user_')
+        config += ValueMapper.parse_var('types', self.__types)
+        config += ValueMapper.parse_var('states', self.__states)
+        config += '}\n'
+        config += 'template Notification "notification_template_service_' + self.__id + '" {\n'
+        config += '  interval = ' + self.__interval + '\n'
+
+        if None is not self.__escalation:
+            config += '  times = {\n'
+            config += '    begin = ' + self.__escalation[0] + '\n'
+            config += '    end = ' + self.__escalation[1] + '\n'
+            config += '  }\n'
+
+        config += ValueMapper.parse_var('command', self.__command, value_prefix='command_service_')
         config += ValueMapper.parse_var('period', self.__time_period, value_prefix='time_period_')
         config += ValueMapper.parse_var('user_groups', self.__user_groups, value_prefix='usergroup_')
         config += ValueMapper.parse_var('users', self.__users, value_prefix='user_')
@@ -242,11 +258,14 @@ class NotificationTemplate:
 
                         added_emails.append(email)
                         cemail = ValueMapper.canonicalize_for_id(email.replace('@', '_'))
-                        notification_id = 'notification_' + self.get_id() + '_' + user.get_id() + '_' + cemail
+                        notification_id = 'notification_' + type.lower() + '_' + self.get_id() + '_' + user.get_id() \
+                                          + '_' + cemail
                         config += 'apply Notification "' + notification_id + '" to ' + type + ' {\n'
-                        config += '  import "notification_template_' + NotificationTemplate.get_id(self) + '"\n'
+                        config += '  import "notification_template_' + type.lower() + '_' \
+                                  + NotificationTemplate.get_id(self) + '"\n'
                         config += '  vars.email = "' + email + '"\n'
-                        config += '  assign where "notification_' + self.get_id() + '" in service.vars.notification\n'
+                        config += '  assign where "notification_' + self.get_id() + '" in ' \
+                                  + type.lower() + '.vars.notification\n'
                         config += '}\n'
 
         return config

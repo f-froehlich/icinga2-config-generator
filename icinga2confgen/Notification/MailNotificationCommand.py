@@ -20,8 +20,8 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Commands.MonitoringPlugins.NotificationCommand import NotificationCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Notification.NotificationCommand import NotificationCommand
 from icinga2confgen.ValueChecker import ValueChecker
 
 
@@ -40,77 +40,35 @@ class MailNotificationCommand(NotificationCommand):
 
         return command
 
-    def get_command_definition(self):
-        return '[ "/etc/icinga2/scripts/mail-service-notification.sh" ]'
+    def get_command_executable_host(self):
+        return 'mail-host-notification.sh'
 
-    def get_arguments(self):
-        config = """{
-    "-4" = {
-      required = true
-      value = "$notification_address$"
-    }
-    "-6" = "$notification_address6$"
-    "-b" = "$notification_author$"
-    "-c" = "$notification_comment$"
-    "-d" = {
-      required = true
-      value = "$notification_date$"
-    }
-    "-e" = {
-      required = true
-      value = "$notification_servicename$"
-    }
-    "-f" = {
-      value = "$notification_from$"
-      description = "Set from icinga2confgen.address. Requires GNU mailutils (Debian/Ubuntu) or mailx (RHEL/SUSE)"
-    }
-    "-i" = "$notification_icingaweb2url$"
-    "-l" = {
-      required = true
-      value = "$notification_hostname$"
-    }
-    "-n" = {
-      required = true
-      value = "$notification_hostdisplayname$"
-    }
-    "-o" = {
-      required = true
-      value = "$notification_serviceoutput$"
-    }
-    "-r" = {
-      required = true
+    def get_command_executable_service(self):
+        return 'mail-service-notification.sh'
+
+    def validate(self):
+        pass
+
+    def get_arguments_host(self):
+        config = '{\n' + self.get_default_arguments_host() + """
+   "-r" = {
       value = "$notification_useremail$"
-    }
-    "-s" = {
       required = true
-      value = "$notification_servicestate$"
-    }
-    "-t" = {
-      required = true
-      value = "$notification_type$"
-    }
-    "-u" = {
-      required = true
-      value = "$notification_servicedisplayname$"
-    }
-    "-v" = "$notification_logtosyslog$"
-  }
+    }       
+}"""
+        config += self.get_default_vars_host()
+        config += '  vars.notification_useremail = "$email$"\n'
 
-  vars += {
-    notification_address = "$address$"
-    notification_address6 = "$address6$"
-    notification_author = "$notification.author$"
-    notification_comment = "$notification.comment$"
-    notification_type = "$notification.type$"
-    notification_date = "$icinga.long_date_time$"
-    notification_hostname = "$host.name$"
-    notification_hostdisplayname = "$host.display_name$"
-    notification_servicename = "$service.name$"
-    notification_serviceoutput = "$service.output$"
-    notification_servicestate = "$service.state$"
-    notification_useremail = "$email$"
-    notification_servicedisplayname = "$service.display_name$"
-  }
-"""
+        return config
+
+    def get_arguments_service(self):
+        config = '{\n' + self.get_default_arguments_service() + """
+   "-r" = {
+      value = "$notification_useremail$"
+      required = true
+    }       
+}"""
+        config += self.get_default_vars_service()
+        config += '  vars.notification_useremail = "$email$"\n'
 
         return config
