@@ -241,7 +241,6 @@ class NotificationTemplate:
 
         config = ''
         all_users = ConfigBuilder.get_instance('users')
-        all_users += self.get_users()
         for group in self.get_user_groups():
             added_user = []
             for user in all_users:

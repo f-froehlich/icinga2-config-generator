@@ -33,10 +33,10 @@ class MailServiceNotification(ServiceNotification):
     def create(id, force_create=False):
         ValueChecker.validate_id(id)
 
-        notification = None if force_create else ConfigBuilder.get_notification_template(id)
+        notification = None if force_create else ConfigBuilder.get_notification(id)
         if None is notification:
             notification = MailServiceNotification(id)
-            ConfigBuilder.add_notification_template(id, notification)
+            ConfigBuilder.add_notification(id, notification)
 
         return notification
 

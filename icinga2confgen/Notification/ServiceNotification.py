@@ -20,15 +20,12 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Notification.NotificationTemplate import NotificationTemplate
-from icinga2confgen.ValueChecker import ValueChecker
 
 
 class ServiceNotification(NotificationTemplate):
 
     def __init__(self, id):
-        self.__id = id
         self.__allowed_types = ['DowntimeStart', 'DowntimeEnd', 'DowntimeRemoved', 'Custom', 'Acknowledgement',
                                 'Problem', 'Recovery', 'FlappingStart', 'FlappingEnd']
         self.__allowed_states = ['Warning', 'Critical', 'Unknown', 'OK']
@@ -42,23 +39,4 @@ class ServiceNotification(NotificationTemplate):
 
     @staticmethod
     def create(id, force_create=False):
-        ValueChecker.validate_id(id)
-
-        notification = None if force_create else ConfigBuilder.get_notification_template(id)
-        if None is notification:
-            notification = ServiceNotification(id)
-            ConfigBuilder.add_notification_template(id, notification)
-
-        return notification
-
-    def get_id(self):
-        return self.__id
-
-    def get_config(self):
-        config = NotificationTemplate.get_config(self)
-        config += 'apply Notification "notification_' + self.__id + '" to Service {\n'
-        config += '  import "notification_template_' + NotificationTemplate.get_id(self) + '"\n'
-        config += '  assign where "notification_' + self.__id + '" in service.vars.notification\n'
-        config += '}\n'
-
-        return config
+        raise Exception('Cannot create ServiceNotification, use child classes instead')
