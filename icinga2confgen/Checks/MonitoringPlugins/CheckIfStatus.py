@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.IfStatusCommand import IfStatusCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckIfStatus(Check):
@@ -32,6 +32,7 @@ class CheckIfStatus(Check):
     def __init__(self, id):
         Check.__init__(self, id, 'CheckIfStatus', 'ifstatus')
         self.__host = None
+        self.__port = 161
         self.__community = None
         self.__snmp_version = None
         self.__if_mib = False
@@ -57,6 +58,14 @@ class CheckIfStatus(Check):
 
     def get_host(self):
         return self.__host
+
+    def set_port(self, port):
+        ValueChecker.is_number(port)
+        self.__port = port
+        return self
+
+    def get_port(self):
+        return self.__port
 
     def set_community(self, community):
         ValueChecker.is_string(community)
@@ -190,3 +199,9 @@ class CheckIfStatus(Check):
             IfStatusCommand.create('ifstatus')
 
         return check
+
+    def validate(self):
+        if None is self.__community:
+            raise Exception('You have to specify a community for ' + self.get_id())
+        if None is self.__host:
+            raise Exception('You have to specify a host for ' + self.get_id())

@@ -47,9 +47,11 @@ class SIMAPCommand(Command):
         config = """{
     "-H" = {
       value = "$command_simap_host$"
+      required = true
     }
     "-p" = {
       value = "$command_simap_port$"
+      required = true
     }
     "-4" = {
       set_if = "$command_simap_ipv4$"

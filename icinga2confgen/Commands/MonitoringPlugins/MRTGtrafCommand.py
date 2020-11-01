@@ -47,14 +47,18 @@ class MRTGtrafCommand(Command):
         config = """{
     "-F" = {
       value = "$command_mrt_gtraf_file$"
+      required = true
     }
     "-a" = {
       value = "$command_mrt_gtraf_aggregation$"
+      required = true
     }
     "-w" = {
       value = "$command_mrt_gtraf_warning$"
+      required = true
     "-c" = {
       value = "$command_mrt_gtraf_critical$"
+      required = true
     }
     "-e" = {
       value = "$command_mrt_gtraf_expires$"

@@ -47,12 +47,15 @@ class DNSSECExpireCommand(Command):
         config = """{
     "-z" = {
       value = "$command_dnssec_expiry_zone$"
+      required = true
     }
     "-w" = {
       value = "$command_dnssec_expiry_warning$"
+      required = true
     }
     "-c" = {
       value = "$command_dnssec_expiry_critical$"
+      required = true
     }
     "-r" = {
       value = "$command_dnssec_expiry_resolver$"

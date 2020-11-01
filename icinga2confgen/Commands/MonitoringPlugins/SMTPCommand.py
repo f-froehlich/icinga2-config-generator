@@ -47,6 +47,7 @@ class SMTPCommand(Command):
         config = """{
     "-H" = {
       value = "$command_smtp_host$"
+      required = true
     }
     "-p" = {
       value = "$command_smtp_port$"

@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.LogCommand import LogCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckLog(Check):
@@ -72,3 +72,11 @@ class CheckLog(Check):
             LogCommand.create('log')
 
         return check
+
+    def validate(self):
+        if None is self.__file:
+            raise Exception('You have to specify a file for ' + self.get_id())
+        if None is self.__oldfile:
+            raise Exception('You have to specify a old file for ' + self.get_id())
+        if None is self.__query:
+            raise Exception('You have to specify a query file for ' + self.get_id())

@@ -47,9 +47,11 @@ class MailqCommand(Command):
         config = """{
     "-w" = {
       value = "$command_mailq_warning$"
+      required = true
     }
     "-c" = {
       value = "$command_mailq_critical$"
+      required = true
     }
     "-W" = {
       value = "$command_mailq_warning_same_domain$"

@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.Icinga2Confgen.DockerLoginCommand import DockerLoginCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckDockerLogin(Check):
@@ -90,3 +90,13 @@ class CheckDockerLogin(Check):
             DockerLoginCommand.create('docker_login')
 
         return check
+
+    def validate(self):
+        if None is self.__user:
+            raise Exception('You have to specify a user for ' + self.get_id())
+        if None is self.__credentials:
+            raise Exception('You have to specify credentials for ' + self.get_id())
+        if None is self.__port:
+            raise Exception('You have to specify a port for ' + self.get_id())
+        if None is self.__address:
+            raise Exception('You have to specify an address for ' + self.get_id())

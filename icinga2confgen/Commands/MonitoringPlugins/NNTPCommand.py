@@ -47,9 +47,11 @@ class NNTPCommand(Command):
         config = """{
     "-H" = {
       value = "$command_nntp_host$"
+      required = true
     }
     "-p" = {
       value = "$command_nntp_port$"
+      required = true
     }
     "-4" = {
       set_if = "$command_nntp_ipv4$"

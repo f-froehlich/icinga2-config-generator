@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.MySQLQueryCommand import MySQLQueryCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckMysqlQuery(Check):
@@ -145,3 +145,7 @@ class CheckMysqlQuery(Check):
             MySQLQueryCommand.create('mysql_query')
 
         return check
+
+    def validate(self):
+        if None is self.__query:
+            raise Exception('You have to specify a query for ' + self.get_id())

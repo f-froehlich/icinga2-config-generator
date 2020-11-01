@@ -47,9 +47,11 @@ class UsersCommand(Command):
         config = """{
     "--warning" = {
       value = "$command_users_warning$"
+      required = true
     }
     "--critical" = {
       value = "$command_users_critical$"
+      required = true
     }
   }
 """

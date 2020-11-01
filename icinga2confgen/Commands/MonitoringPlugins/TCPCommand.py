@@ -47,9 +47,11 @@ class TCPCommand(Command):
         config = """{
     "-H" = {
       value = "$command_tcp_host$"
+      required = true
     }
     "-p" = {
       value = "$command_tcp_port$"
+      required = true
     }
     "-4" = {
       set_if = "$command_tcp_ipv4$"

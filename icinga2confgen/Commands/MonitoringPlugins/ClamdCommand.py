@@ -47,9 +47,11 @@ class ClamdCommand(Command):
         config = """{
     "-H" = {
       value = "$command_clamd_host$"
+      required = true
     }
     "-p" = {
       value = "$command_clamd_port$"
+      required = true
     }
     "-4" = {
       set_if = "$command_clamd_ipv4$"

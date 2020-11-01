@@ -47,6 +47,7 @@ class ICMPCommand(Command):
         config = """{
     "-H" = {
       value = "$command_icmp_host$"
+      required = true
     }
     "-4" = {
       set_if = "$command_icmp_use_ipv4$"

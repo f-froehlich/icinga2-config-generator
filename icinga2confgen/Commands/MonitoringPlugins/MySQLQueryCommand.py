@@ -47,6 +47,7 @@ class MySQLQueryCommand(Command):
         config = """{
     "-q" = {
       value = "$command_mysql_query_query$"
+      required = true
     }
     "-w" = {
       value = "$command_mysql_query_warning$"

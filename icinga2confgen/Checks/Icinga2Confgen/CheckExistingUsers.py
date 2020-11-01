@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.Icinga2Confgen.ExistingUsersCommand import ExistingUsersCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckExistingUsers(Check):
@@ -91,3 +91,6 @@ class CheckExistingUsers(Check):
             ExistingUsersCommand.create('existing_users')
 
         return check
+
+    def validate(self):
+        pass

@@ -47,6 +47,7 @@ class LDAPCommand(Command):
         config = """{
     "-H" = {
       value = "$command_ldap_host$"
+      required = true
     }
     "-p" = {
       value = "$command_ldap_port$"
@@ -64,6 +65,7 @@ class LDAPCommand(Command):
     }
     "-b" = {
       value = "$command_ldap_base$"
+      required = true
     }
     "-D" = {
       value = "$command_ldap_dn$"

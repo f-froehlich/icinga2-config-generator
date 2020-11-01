@@ -47,6 +47,7 @@ class UPSCommand(Command):
         config = """{
     "-H" = {
       value = "$command_ups_host$"
+      required = true
     }
     "-p" = {
       value = "$command_ups_port$"
@@ -54,6 +55,7 @@ class UPSCommand(Command):
     }
     "-u" = {
       value = "$command_ups_ups$"
+      required = true
     }
     "-T" = {
       value = "$command_ups_temperature$"

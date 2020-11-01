@@ -47,9 +47,11 @@ class UptimeCommand(Command):
         config = """{
     "--warning" = {
       value = "$command_uptime_warning$"
+      required = true
     }
     "--critical" = {
       value = "$command_uptime_critical$"
+      required = true
     }
     "--for" = {
       value = "$command_uptime_for$"

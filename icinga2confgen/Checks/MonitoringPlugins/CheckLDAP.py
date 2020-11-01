@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.LDAPCommand import LDAPCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckLDAP(Check):
@@ -198,3 +198,9 @@ class CheckLDAP(Check):
             LDAPCommand.create('ldap')
 
         return check
+
+    def validate(self):
+        if None is self.__base:
+            raise Exception('You have to specify a base dn for ' + self.get_id())
+        if None is self.__host:
+            raise Exception('You have to specify a host for ' + self.get_id())

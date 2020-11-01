@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.FileAgeCommand import FileAgeCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckFileAge(Check):
@@ -99,3 +99,11 @@ class CheckFileAge(Check):
             FileAgeCommand.create('file_age')
 
         return check
+
+    def validate(self):
+        if None is self.__file:
+            raise Exception('You have to specify a file for ' + self.get_id())
+        if None is self.__warning_seconds:
+            raise Exception('You have to specify warning seconds for ' + self.get_id())
+        if None is self.__critical_seconds:
+            raise Exception('You have to specify critical seconds for ' + self.get_id())

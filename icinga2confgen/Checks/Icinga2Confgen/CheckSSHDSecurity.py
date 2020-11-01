@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.Icinga2Confgen.SSHDSecurityCommand import SSHDSecurityCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckSSHDSecurity(Check):
@@ -127,3 +127,6 @@ class CheckSSHDSecurity(Check):
             SSHDSecurityCommand.create('sshd_security')
 
         return check
+
+    def validate(self):
+        pass

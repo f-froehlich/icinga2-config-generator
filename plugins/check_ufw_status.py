@@ -24,18 +24,18 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 import argparse
-import sys
 import subprocess
+import sys
 
 
 class SSHDSecurity:
 
-    def __init__(self, status, warn_inactive, logging, loggingpolicy, incomming, outgoing, routing, rules):
+    def __init__(self, status, warn_inactive, logging, loggingpolicy, incoming, outgoing, routing, rules):
         self.__warn_inactive = warn_inactive
         self.__rules = self.parse_rules(rules)
         self.__routing = routing
         self.__outgoing = outgoing
-        self.__incomming = incomming
+        self.__incoming = incoming
         self.__loggingpolicy = loggingpolicy
         self.__logging = logging
         self.__status = status
@@ -116,10 +116,10 @@ class SSHDSecurity:
 
     def check_defaults(self):
         for c in self.__running_config:
-            if 'incomming' == c[0]:
-                if self.__incomming != c[1]:
-                    print('CRITICAL: Default incomming policy does not match. Expected ' \
-                          + self.__incomming + ' got ' + c[1])
+            if 'incoming' == c[0]:
+                if self.__incoming != c[1]:
+                    print('CRITICAL: Default incoming policy does not match. Expected ' \
+                          + self.__incoming + ' got ' + c[1])
                     sys.exit(2)
 
             elif 'outgoing' == c[0]:
@@ -164,7 +164,7 @@ class SSHDSecurity:
                 parsed_config.append(('loggingpolicy', line.split()[2].replace('(', '').replace(')', '')))
             elif 2 == line_counter:
                 policies = line.split(': ')[1].split(', ')
-                parsed_config.append(('incomming', policies[0].split()[0]))
+                parsed_config.append(('incoming', policies[0].split()[0]))
                 parsed_config.append(('outgoing', policies[1].split()[0]))
                 parsed_config.append(('routing', policies[2].split()[0]))
             elif '--' in line and not parse_rules:

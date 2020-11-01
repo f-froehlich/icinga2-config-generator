@@ -47,6 +47,7 @@ class LDAPSCommand(Command):
         config = """{
     "-H" = {
       value = "$command_ldaps_host$"
+      required = true
     }
     "-p" = {
       value = "$command_ldaps_port$"
@@ -64,6 +65,7 @@ class LDAPSCommand(Command):
     }
     "-b" = {
       value = "$command_ldaps_base$"
+      required = true
     }
     "-D" = {
       value = "$command_ldaps_dn$"

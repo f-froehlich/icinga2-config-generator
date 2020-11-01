@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.HPJDCommand import HPJDCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckHPJD(Check):
@@ -81,3 +81,7 @@ class CheckHPJD(Check):
             HPJDCommand.create('hpjd')
 
         return check
+
+    def validate(self):
+        if None is self.__host:
+            raise Exception('You have to specify a host for ' + self.get_id())

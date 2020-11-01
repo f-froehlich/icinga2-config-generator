@@ -47,6 +47,7 @@ class SSHCommand(Command):
         config = """{
     "--hostname" = {
       value = "$command_ssh_hostname$"
+      required = true
     }
     "--port" = {
       value = "$command_ssh_port$"

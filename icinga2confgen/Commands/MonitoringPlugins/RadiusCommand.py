@@ -47,6 +47,7 @@ class RadiusCommand(Command):
         config = """{
     "-H" = {
       value = "$command_radius_host$"
+      required = true
     }
     "-P" = {
       value = "$command_radius_port$"
@@ -54,9 +55,11 @@ class RadiusCommand(Command):
     }
     "-u" = {
       value = "$command_radius_username$"
+      required = true
     }
     "-p" = {
       value = "$command_radius_password$"
+      required = true
     }
     "-n" = {
       value = "$command_radius_nas_id$"
@@ -68,6 +71,7 @@ class RadiusCommand(Command):
     }
     "-F" = {
       value = "$command_radius_config_file$"
+      required = true
     }
     "-e" = {
       value = "$command_radius_expect$"

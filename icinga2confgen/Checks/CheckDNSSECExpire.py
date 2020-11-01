@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.DNSSECExpireCommand import DNSSECExpireCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckDNSSECExpire(Check):
@@ -33,10 +33,10 @@ class CheckDNSSECExpire(Check):
         Check.__init__(self, id, 'CheckDNSSECExpire', 'dnssec_expiry')
         self.__warning = '10d'
         self.__critical = '5d'
-        self.zone = None
-        self.resolver = None
-        self.failing_domain = None
-        self.record_type = None
+        self.__zone = None
+        self.__resolver = '1.1.1.1'
+        self.__failing_domain = None
+        self.__record_type = None
         self.set_check_interval('3h')
         self.add_service_group(ServiceGroup.create('security'))
         self.add_service_group(ServiceGroup.create('dns'))
@@ -102,3 +102,7 @@ class CheckDNSSECExpire(Check):
             DNSSECExpireCommand.create('dnssec_expiry')
 
         return check
+
+    def validate(self):
+        if None is self.__zone:
+            raise Exception('You have to specify a zone for ' + self.get_id())

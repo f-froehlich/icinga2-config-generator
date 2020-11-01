@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.MySQLCommand import MySQLCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckMySQL(Check):
@@ -208,3 +208,6 @@ class CheckMySQL(Check):
             MySQLCommand.create('mysql')
 
         return check
+
+    def validate(self):
+        pass

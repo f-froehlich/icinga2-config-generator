@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.Icinga2Confgen.PageContentCommand import PageContentCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckPageContent(Check):
@@ -144,3 +144,7 @@ class CheckPageContent(Check):
             PageContentCommand.create('page_content')
 
         return check
+
+    def validate(self):
+        if None is self.__domain:
+            raise Exception('You have to specify a domain for ' + self.get_id())

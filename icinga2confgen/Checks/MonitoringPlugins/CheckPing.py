@@ -21,8 +21,8 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from icinga2confgen.Checks.Check import Check
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckPing(Check):
@@ -92,3 +92,7 @@ class CheckPing(Check):
     def get_config(self):
         raise Exception(
             'You can\'t use CheckPing for your configuration directly. Please use CheckPing4 or CheckPing6 instead')
+
+    def validate(self):
+        if None is self.__address:
+            raise Exception('You have to specify an address for ' + self.get_id())

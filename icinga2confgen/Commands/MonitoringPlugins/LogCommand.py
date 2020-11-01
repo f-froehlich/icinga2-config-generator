@@ -47,12 +47,15 @@ class LogCommand(Command):
         config = """{
     "-F" = {
       value = "$command_log_file$"
+      required = true
     }
     "-O" = {
       value = "$command_log_oldfile$"
+      required = true
     }
     "-q" = {
       value = "$command_log_query$"
+      required = true
     }
   }
 """

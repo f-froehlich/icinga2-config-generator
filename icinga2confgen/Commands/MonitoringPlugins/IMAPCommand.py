@@ -47,9 +47,11 @@ class IMAPCommand(Command):
         config = """{
     "-H" = {
       value = "$command_imap_host$"
+      required = true
     }
     "-p" = {
       value = "$command_imap_port$"
+      required = true
     }
     "-4" = {
       set_if = "$command_imap_ipv4$"

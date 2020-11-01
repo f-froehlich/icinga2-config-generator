@@ -47,9 +47,11 @@ class LoadCommand(Command):
         config = """{
     "--warning" = {
       value = "$command_load_warning$"
+      required = true
     }
     "--critical" = {
       value = "$command_load_critical$"
+      required = true
     }
     "--percpu" = {
       value = "$command_load_percpu$"

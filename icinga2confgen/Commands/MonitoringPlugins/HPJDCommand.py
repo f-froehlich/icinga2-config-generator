@@ -47,6 +47,7 @@ class HPJDCommand(Command):
         config = """{
     "-H" = {
       value = "$command_hpjd_host$"
+      required = true
     }
     "-c" = {
       value = "$command_hpjd_community$"

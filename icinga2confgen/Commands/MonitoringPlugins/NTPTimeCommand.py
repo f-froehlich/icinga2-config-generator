@@ -55,6 +55,7 @@ class NTPTimeCommand(Command):
     }
     "--hostname" = {
       value = "$command_ntp_time_ntp_server$"
+      required = true
     }
     "--port" = {
       value = "$command_ntp_time_ntp_server_port$"

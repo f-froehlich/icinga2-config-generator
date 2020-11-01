@@ -47,9 +47,11 @@ class UDPCommand(Command):
         config = """{
     "-H" = {
       value = "$command_udp_host$"
+      required = true
     }
     "-p" = {
       value = "$command_udp_port$"
+      required = true
     }
     "-4" = {
       set_if = "$command_udp_ipv4$"

@@ -47,15 +47,19 @@ class DiskCommand(Command):
         config = """{
     "--warning" = {
       value = "$command_disk_warning$"
+      required = true
     }
     "--critical" = {
       value = "$command_disk_critical$"
+      required = true
     }
     "--iwarning" = {
       value = "$command_disk_inode_warning$%"
+      required = true
     }
     "--icritical" = {
       value = "$command_disk_inode_critical$%"
+      required = true
     }
     "--combined-thresholds" = {
       set_if = "$command_disk_combined_thresholds$"
@@ -67,6 +71,7 @@ class DiskCommand(Command):
     }
     "--partition" = {
       value = "$command_disk_partition$"
+      set_if = {{ macro("$command_disk_partition$") != false }}
     }
     "--exclude_device" = {
       value = "$command_disk_exclude_device$"

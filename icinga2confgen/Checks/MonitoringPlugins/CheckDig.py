@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.DigCommand import DigCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckDig(Check):
@@ -33,7 +33,7 @@ class CheckDig(Check):
         Check.__init__(self, id, 'CheckDig', 'dig')
         self.__warning_time = 5
         self.__critical_time = 10
-        self.__dnsserver_hostname = '127.0.0.53'
+        self.__dnsserver_hostname = '1.1.1.1'
         self.__dnsserver_port = None
         self.__only_ipv4 = False
         self.__only_ipv6 = False
@@ -42,7 +42,7 @@ class CheckDig(Check):
         self.__record_type = 'A'
         self.__expected_address = 'set expected address!'
         self.__question_arguments = None
-        self.set_check_interval('5m')
+        self.set_check_interval('15m')
         self.add_service_group(ServiceGroup.create('dns'))
         self.add_service_group(ServiceGroup.create('dig'))
         self.add_service_group(ServiceGroup.create('network'))
@@ -147,3 +147,15 @@ class CheckDig(Check):
             DigCommand.create('dig')
 
         return check
+
+    def validate(self):
+        if None is self.__question:
+            raise Exception('You have to specify a question for ' + self.get_id())
+        if None is self.__record_type:
+            raise Exception('You have to specify a record type for ' + self.get_id())
+        if None is self.__expected_address:
+            raise Exception('You have to specify an expected address for ' + self.get_id())
+        if None is self.__warning_time:
+            raise Exception('You have to specify a warning time for ' + self.get_id())
+        if None is self.__critical_time:
+            raise Exception('You have to specify a critical time for ' + self.get_id())

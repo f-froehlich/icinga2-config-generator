@@ -47,6 +47,7 @@ class IrcdCommand(Command):
         config = """{
     "-H" = {
       value = "$command_ircd_host$"
+      required = true
     }
     "-w" = {
       value = "$command_ircd_warning$"

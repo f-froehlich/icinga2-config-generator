@@ -47,9 +47,11 @@ class JabberCommand(Command):
         config = """{
     "-H" = {
       value = "$command_jabber_host$"
+      required = true
     }
     "-p" = {
       value = "$command_jabber_port$"
+      required = true
     }
     "-4" = {
       set_if = "$command_jabber_ipv4$"

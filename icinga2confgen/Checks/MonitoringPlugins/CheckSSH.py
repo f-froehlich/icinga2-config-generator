@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.SSHCommand import SSHCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckSSH(Check):
@@ -108,3 +108,7 @@ class CheckSSH(Check):
             SSHCommand.create('ssh')
 
         return check
+
+    def validate(self):
+        if None is self.__hostname:
+            raise Exception('You have to specify a hostname for ' + self.get_id())

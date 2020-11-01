@@ -47,9 +47,11 @@ class FTPCommand(Command):
         config = """{
     "-H" = {
       value = "$command_ftp_host$"
+      required = true
     }
     "-p" = {
       value = "$command_ftp_port$"
+      required = true
     }
     "-4" = {
       set_if = "$command_ftp_ipv4$"

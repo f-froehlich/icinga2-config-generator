@@ -21,9 +21,9 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.HostGroup import HostGroup
 from icinga2confgen.PackageManager.PackageManager import PackageManager
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class OS:
@@ -107,13 +107,13 @@ class OS:
 
     def validate(self):
         if None is self.__os:
-            raise Exception('You have to specify OS for ' + self.__id)
+            raise Exception('You have to specify OS for ' + self.get_id())
         if None is self.__version:
-            raise Exception('You have to specify Version for ' + self.__id)
+            raise Exception('You have to specify Version for ' + self.get_id())
         if 0 == len(self.__package_manager):
-            raise Exception('You have to specify PackageManager for ' + self.__id)
+            raise Exception('You have to specify PackageManager for ' + self.get_id())
         if None is self.__distro:
-            raise Exception('You have to specify distro for ' + self.__id)
+            raise Exception('You have to specify distro for ' + self.get_id())
 
     def get_config(self):
         self.validate()

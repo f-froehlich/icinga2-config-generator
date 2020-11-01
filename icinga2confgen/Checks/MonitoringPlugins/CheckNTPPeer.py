@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.NTPPeerCommand import NTPPeerCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckNTPPeer(Check):
@@ -149,3 +149,7 @@ class CheckNTPPeer(Check):
             NTPPeerCommand.create('ntp_peer')
 
         return check
+
+    def validate(self):
+        if None is self.__ntp_server:
+            raise Exception('You have to specify a ntp server for ' + self.get_id())

@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.FTPCommand import FTPCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckFTP(Check):
@@ -32,7 +32,7 @@ class CheckFTP(Check):
     def __init__(self, id):
         Check.__init__(self, id, 'CheckFTP', 'ftp')
         self.__host = None
-        self.__port = None
+        self.__port = 21
         self.__ipv4 = False
         self.__ipv6 = False
         self.__escape = False
@@ -243,3 +243,7 @@ class CheckFTP(Check):
             FTPCommand.create('ftp')
 
         return check
+
+    def validate(self):
+        if None is self.__host:
+            raise Exception('You have to specify a host for ' + self.get_id())

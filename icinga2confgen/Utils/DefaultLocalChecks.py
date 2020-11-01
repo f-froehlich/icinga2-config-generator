@@ -20,18 +20,18 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from icinga2confgen.Checks.Icinga2Confgen.CheckExistingUsers import CheckExistingUsers
+from icinga2confgen.Checks.Icinga2Confgen.CheckGroupMembers import CheckGroupMembers
+from icinga2confgen.Checks.Icinga2Confgen.CheckSSHDSecurity import CheckSSHDSecurity
+from icinga2confgen.Checks.Icinga2Confgen.CheckUFWStatus import CheckUFWStatus
 from icinga2confgen.Checks.MonitoringPlugins.CheckApt import CheckApt
-from icinga2confgen.Checks.NagiosPlugins.CheckYum import CheckYum
 from icinga2confgen.Checks.MonitoringPlugins.CheckDisk import CheckDisk
 from icinga2confgen.Checks.MonitoringPlugins.CheckLoad import CheckLoad
 from icinga2confgen.Checks.MonitoringPlugins.CheckNTPTime import CheckNTPTime
-from icinga2confgen.Checks.MonitoringPlugins.CheckSWAP import CheckSWAP
 from icinga2confgen.Checks.MonitoringPlugins.CheckProcs import CheckProcs
+from icinga2confgen.Checks.MonitoringPlugins.CheckSWAP import CheckSWAP
 from icinga2confgen.Checks.MonitoringPlugins.CheckUsers import CheckUsers
-from icinga2confgen.Checks.Icinga2Confgen.CheckSSHDSecurity import CheckSSHDSecurity
-from icinga2confgen.Checks.Icinga2Confgen.CheckGroupMembers import CheckGroupMembers
-from icinga2confgen.Checks.Icinga2Confgen.CheckExistingUsers import CheckExistingUsers
-from icinga2confgen.Checks.Icinga2Confgen.CheckUFWStatus import CheckUFWStatus
+from icinga2confgen.Checks.NagiosPlugins.CheckYum import CheckYum
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.ValueChecker import ValueChecker
 
@@ -289,8 +289,8 @@ class DefaultLocalChecks:
             (policy_from.replace(' ', '-'), policy_to.replace(' ', '-'), policy_action.replace(' ', '-')))
         return self
 
-    def set_ufw_defaults(self, incomming, outgoing, routing):
-        self.__ufw_defaults = tuple((incomming, outgoing, routing))
+    def set_ufw_defaults(self, incoming, outgoing, routing):
+        self.__ufw_defaults = tuple((incoming, outgoing, routing))
         return self
 
     def add_server(self, server):
@@ -521,7 +521,7 @@ class DefaultLocalChecks:
 
             if True is self.__check_ufw:
                 check = CheckUFWStatus.create('ufw_status_' + server.get_id()) \
-                    .set_incomming(self.__ufw_defaults[0]) \
+                    .set_incoming(self.__ufw_defaults[0]) \
                     .set_outgoing(self.__ufw_defaults[1]) \
                     .set_routing(self.__ufw_defaults[2]) \
                     .set_check_type(self.__check_type)

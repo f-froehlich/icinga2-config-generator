@@ -47,9 +47,11 @@ class SPOPCommand(Command):
         config = """{
     "-H" = {
       value = "$command_spop_host$"
+      required = true
     }
     "-p" = {
       value = "$command_spop_port$"
+      required = true
     }
     "-4" = {
       set_if = "$command_spop_ipv4$"

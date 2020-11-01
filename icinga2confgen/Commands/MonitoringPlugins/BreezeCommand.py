@@ -47,12 +47,15 @@ class BreezeCommand(Command):
         config = """{
     "-H" = {
       value = "$command_breeze_host$"
+      required = true
     }
     "-w" = {
       value = "$command_breeze_warning$"
+      required = true
     }
     "-c" = {
       value = "$command_breeze_critical$"
+      required = true
     }
     "-p" = {
       value = "$command_breeze_community$"

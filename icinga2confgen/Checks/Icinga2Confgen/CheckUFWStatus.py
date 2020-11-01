@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.Icinga2Confgen.UFWStatusCommand import UFWStatusCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckUFWStatus(Check):
@@ -61,20 +61,20 @@ class CheckUFWStatus(Check):
         return True if 'on' == self.__warninactive else False
 
     def set_logging(self, logging):
-        ValueChecker.is_bool(logging)
-        self.__logging = 'on' if logging else 'off'
+        ValueChecker.is_string(logging)
+        self.__logging = logging
         return self
 
     def get_logging(self):
-        return True if 'on' == self.__logging else False
+        return self.__logging
 
-    def set_incomming(self, incomming):
-        ValueChecker.is_string(incomming)
-        self.__incomming = incomming
+    def set_incoming(self, incoming):
+        ValueChecker.is_string(incoming)
+        self.__incoming = incoming
         return self
 
-    def get_incomming(self):
-        return self.__incomming
+    def get_incoming(self):
+        return self.__incoming
 
     def set_outgoing(self, outgoing):
         ValueChecker.is_string(outgoing)
@@ -121,3 +121,6 @@ class CheckUFWStatus(Check):
             UFWStatusCommand.create('ufw_status')
 
         return check
+
+    def validate(self):
+        pass

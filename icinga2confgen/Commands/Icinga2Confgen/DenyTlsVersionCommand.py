@@ -47,9 +47,11 @@ class DenyTlsVersionCommand(Command):
         config = """{
     "-p" = {
       value = "$command_deny_tls_version_protocol$"
+      required = true
     }
     "-d" = {
       value = "$command_deny_tls_version_domain$"
+      required = true
     }
     "-a" = {
       value = "$command_deny_tls_version_address$"

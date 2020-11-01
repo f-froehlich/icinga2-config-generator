@@ -54,7 +54,7 @@ class PackageManager:
 
     def validate(self):
         if None is self.__manager:
-            raise Exception('You have to specify Manager for ' + self.__id)
+            raise Exception('You have to specify Manager for ' + self.get_id())
 
     def get_config(self):
         self.validate()

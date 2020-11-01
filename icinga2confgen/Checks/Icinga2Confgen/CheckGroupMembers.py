@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.Icinga2Confgen.GroupMembersCommand import GroupMembersCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckGroupMembers(Check):
@@ -69,3 +69,6 @@ class CheckGroupMembers(Check):
             GroupMembersCommand.create('group_members')
 
         return check
+
+    def validate(self):
+        pass

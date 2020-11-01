@@ -24,10 +24,10 @@ from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Downtimes.DefaultScheduledDowntimes import ScheduledDowntime
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.Notification.ServiceNotification import ServiceNotification
-from icinga2confgen.ValueChecker import ValueChecker
-from icinga2confgen.ValueMapper import ValueMapper
 from icinga2confgen.Servers.Zone import Zone
 from icinga2confgen.Utils.DefaultNames import get_default_check_name
+from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.ValueMapper import ValueMapper
 
 
 class Check:
@@ -61,6 +61,9 @@ class Check:
             ConfigBuilder.add_check(id, check)
 
         return check
+
+    def validate(self):
+        raise Exception('Each check must override validate method')
 
     def add_service_group(self, group):
         if isinstance(group, ServiceGroup):
@@ -185,6 +188,7 @@ class Check:
         return []
 
     def get_config(self):
+        self.validate()
 
         config = 'apply Service "check_' + self.get_id() + '" {\n'
         config += '  check_command = "command_' + self.__command_name + '_' + self.__check_type + '"\n'

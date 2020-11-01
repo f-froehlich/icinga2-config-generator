@@ -71,6 +71,7 @@ class PageContentCommand(Command):
     }
     "--domain" = {
       value = "$command_page_content_domain$"
+      required = true
     }
     "--port" = {
       value = "$command_page_content_port$"

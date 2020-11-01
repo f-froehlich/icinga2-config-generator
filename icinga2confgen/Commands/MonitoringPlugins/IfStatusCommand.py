@@ -47,9 +47,15 @@ class IfStatusCommand(Command):
         config = """{
     "-H" = {
       value = "$command_ifstatus_host$"
+      required = true
+    }
+    "-p" = {
+      value = "$command_ifstatus_port$"
+      required = true
     }
     "-C" = {
       value = "$command_ifstatus_community$"
+      required = true
     }
     "-v" = {
       value = "$command_ifstatus_snmp_version$"

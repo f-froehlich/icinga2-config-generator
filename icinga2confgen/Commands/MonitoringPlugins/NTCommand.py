@@ -47,9 +47,11 @@ class NTCommand(Command):
         config = """{
     "-H" = {
       value = "$command_nt_host$"
+      required = true
     }
     "-v" = {
       value = "$command_nt_variable$"
+      required = true
     }
     "-w" = {
       value = "$command_nt_warning$"

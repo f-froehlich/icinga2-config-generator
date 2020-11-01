@@ -47,9 +47,11 @@ class DiskSMBCommand(Command):
         config = """{
     "-H" = {
       value = "$command_disk_smb_host$"
+      required = true
     }
     "-s" = {
       value = "$command_disk_smb_share$"
+      required = true
     }
     "-W" = {
       value = "$command_disk_smb_workgroup$"
@@ -61,9 +63,11 @@ class DiskSMBCommand(Command):
     }
     "-u" = {
       value = "$command_disk_smb_user$"
+      required = true
     }
     "-p" = {
       value = "$command_disk_smb_password$"
+      required = true
     }
     "-w" = {
       value = "$command_disk_smb_warning$"

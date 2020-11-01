@@ -47,6 +47,7 @@ class IdeSmartCommand(Command):
         config = """{
     "-d" = {
       value = "$command_ide_smart_device$"
+      set_if = {{ macro("$command_ide_smart_device$") != false }}
     }
   }
 """

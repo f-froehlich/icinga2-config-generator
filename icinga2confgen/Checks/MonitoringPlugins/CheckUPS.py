@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.UPSCommand import UPSCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckUPS(Check):
@@ -110,3 +110,9 @@ class CheckUPS(Check):
             UPSCommand.create('ups')
 
         return check
+
+    def validate(self):
+        if None is self.__host:
+            raise Exception('You have to specify a host for ' + self.get_id())
+        if None is self.__ups:
+            raise Exception('You have to specify a ups for ' + self.get_id())

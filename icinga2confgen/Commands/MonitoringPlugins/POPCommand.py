@@ -47,9 +47,11 @@ class POPCommand(Command):
         config = """{
     "-H" = {
       value = "$command_pop_host$"
+      required = true
     }
     "-p" = {
       value = "$command_pop_port$"
+      required = true
     }
     "-4" = {
       set_if = "$command_pop_ipv4$"

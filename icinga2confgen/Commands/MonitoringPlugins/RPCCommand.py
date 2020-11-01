@@ -47,9 +47,11 @@ class RPCCommand(Command):
         config = """{
     "-H" = {
       value = "$command_rpc_host$"
+      required = true
     }
     "-C" = {
       value = "$command_rpc_command$"
+      required = true
     }
     "-p" = {
       value = "$command_rpc_port$"

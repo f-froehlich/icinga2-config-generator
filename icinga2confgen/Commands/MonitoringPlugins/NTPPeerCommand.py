@@ -55,6 +55,7 @@ class NTPPeerCommand(Command):
     }
     "--hostname" = {
       value = "$command_ntp_peer_ntp_server$"
+      required = true
     }
     "--port" = {
       value = "$command_ntp_peer_ntp_server_port$"

@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.SensorsCommand import SensorsCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckSensors(Check):
@@ -46,3 +46,6 @@ class CheckSensors(Check):
             SensorsCommand.create('sensors')
 
         return check
+
+    def validate(self):
+        pass

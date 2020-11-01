@@ -47,12 +47,15 @@ class FileAgeCommand(Command):
         config = """{
     "-f" = {
       value = "$command_file_age_file$"
+      required = true
     }
     "-w" = {
       value = "$command_file_age_warning_seconds$"
+      required = true
     }
     "-c" = {
       value = "$command_file_age_critical_seconds$"
+      required = true
     }
     "-W" = {
       value = "$command_file_age_warning_size$"

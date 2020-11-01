@@ -47,6 +47,7 @@ class WaveCommand(Command):
         config = """{
     "-H" = {
       value = "$command_wave_host$"
+      required = true
     }
     "-w" = {
       value = "$command_wave_warning$"

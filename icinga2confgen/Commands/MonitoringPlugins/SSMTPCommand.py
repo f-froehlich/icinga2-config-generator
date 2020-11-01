@@ -47,9 +47,11 @@ class SSMTPCommand(Command):
         config = """{
     "-H" = {
       value = "$command_ssmtp_host$"
+      required = true
     }
     "-p" = {
       value = "$command_ssmtp_port$"
+      required = true
     }
     "-4" = {
       set_if = "$command_ssmtp_ipv4$"

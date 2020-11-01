@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.IdeSmartCommand import IdeSmartCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckIdeSmart(Check):
@@ -56,3 +56,6 @@ class CheckIdeSmart(Check):
             IdeSmartCommand.create('ide_smart')
 
         return check
+
+    def validate(self):
+        pass

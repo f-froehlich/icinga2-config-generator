@@ -47,9 +47,11 @@ class SWAPCommand(Command):
         config = """{
     "--warning" = {
       value = "$command_swap_warning$%"
+      required = true
     }
     "--critical" = {
       value = "$command_swap_critical$%"
+      required = true
     }
     "--allswaps" = {
       value = "$command_swap_allswaps$"

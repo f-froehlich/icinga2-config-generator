@@ -23,8 +23,9 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.Icinga2Confgen.DenyTlsVersionCommand import DenyTlsVersionCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
+
 
 class CheckDenyTlsVersion(Check):
 
@@ -40,6 +41,8 @@ class CheckDenyTlsVersion(Check):
 
     def set_protocol(self, number):
         ValueChecker.is_string(number)
+        if number not in ['1.0', '1.1', '1.2', '1.3']:
+            raise Exception('Protocol must be 1.0 | 1.1 | 1.2 | 1.3')
         self.__protocol = number
         return self
 
@@ -74,3 +77,9 @@ class CheckDenyTlsVersion(Check):
             DenyTlsVersionCommand.create('deny_tls_version')
 
         return check
+
+    def validate(self):
+        if None is self.__domain:
+            raise Exception('You have to specify a domain for ' + self.get_id())
+        if None is self.__protocol:
+            raise Exception('You have to specify a protocol for ' + self.get_id())

@@ -53,6 +53,7 @@ class SNMPCommand(Command):
     }
     "-H" = {
       value = "$command_snmp_host$"
+      required = true
     }
     "-p" = {
       value = "$command_snmp_port$"
@@ -99,7 +100,7 @@ class SNMPCommand(Command):
     }
     "-o" = {
       value = "$command_snmp_oids$"
-      set_if = {{ macro("$command_snmp_oids$") != false }}
+      required = true
     }
     "-d" = {
       value = "$command_snmp_delimiter$"

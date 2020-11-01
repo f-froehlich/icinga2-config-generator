@@ -23,9 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.DiskCommand import DiskCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.ValueChecker import ValueChecker
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class CheckDisk(Check):
@@ -364,3 +363,6 @@ class CheckDisk(Check):
             DiskCommand.create('disk')
 
         return check
+
+    def validate(self):
+        pass

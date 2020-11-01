@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.ProcsCommand import ProcsCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckProcs(Check):
@@ -163,3 +163,6 @@ class CheckProcs(Check):
             ProcsCommand.create('procs')
 
         return check
+
+    def validate(self):
+        pass

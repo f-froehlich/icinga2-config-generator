@@ -23,8 +23,8 @@
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.NagiosPlugins.YumCommand import YumCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckYum(Check):
@@ -128,3 +128,6 @@ class CheckYum(Check):
             YumCommand.create('yum')
 
         return check
+
+    def validate(self):
+        pass

@@ -63,12 +63,15 @@ class DigCommand(Command):
     }
     "--query_address" = {
       value = "$command_dig_question$"
+      required = true
     }
     "--record_type" = {
       value = "$command_dig_record_type$"
+      required = true
     }
     "--expected_address" = {
       value = "$command_dig_expected_address$"
+      required = true
     }
     "--dig-arguments" = {
       value = "$command_dig_question_arguments$"
@@ -76,12 +79,15 @@ class DigCommand(Command):
     }
     "--timeout" = {
       value = "$command_dig_timeout$"
+      required = true
     }
     "--warning" = {
       value = "$command_dig_warning_time$"
+      required = true
     }
     "--critical" = {
       value = "$command_dig_critical_time$"
+      required = true
     }
   }
 """
