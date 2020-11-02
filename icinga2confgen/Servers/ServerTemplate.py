@@ -30,6 +30,7 @@ from icinga2confgen.Groups.HostGroup import HostGroup
 from icinga2confgen.Notification.Notification import Notification
 from icinga2confgen.OS.OS import OS
 from icinga2confgen.PackageManager.PackageManager import PackageManager
+from icinga2confgen.Servers.PluginDirs import PluginDirs
 from icinga2confgen.Servers.SSHTemplate import SSHTemplate
 from icinga2confgen.Servers.VHost import VHost
 from icinga2confgen.Servers.Zone import Zone
@@ -37,9 +38,10 @@ from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
 
-class ServerTemplate:
+class ServerTemplate(PluginDirs):
 
     def __init__(self, id):
+        PluginDirs.__init__(self)
         self.__id = id
         self.__ipv4 = None
         self.__ipv6 = None
@@ -54,7 +56,6 @@ class ServerTemplate:
         self.__notifications = []
         self.__downtimes = []
         self.__package_manager = []
-        self.__plugin_dir = '/usr/lib/nagios/plugins/'
         self.__max_check_attempts = 3
         self.__check_interval = '1m'
         self.__retry_interval = '15s'
@@ -75,14 +76,6 @@ class ServerTemplate:
     def get_id(self):
         return self.__id
 
-    def set_plugindir(self, dir):
-        ValueChecker.is_string(dir)
-        self.__plugin_dir = dir
-        return self
-
-    def get_plugindir(self):
-        return self.__plugin_dir
-
     def set_execution_zone(self, zone):
         if isinstance(zone, Zone):
             self.__execution_zone = zone
@@ -98,7 +91,7 @@ class ServerTemplate:
         return self
 
     def get_execution_zone(self):
-        return self.__plugin_dir
+        return self.__execution_zone
 
     def set_max_check_attempts(self, max_check_attempts):
         ValueChecker.is_number(max_check_attempts)
@@ -436,9 +429,9 @@ class ServerTemplate:
         config += ValueMapper.parse_var('display_name', self.__display_name)
         config += ValueMapper.parse_var('max_check_attempts', self.__max_check_attempts)
         config += ValueMapper.parse_var('enable_perfdata', self.__enable_perfdata)
-        config += ValueMapper.parse_var('vars.plugin_dir', self.__plugin_dir)
         config += ValueMapper.parse_var('vars.checks', self.__checks, value_prefix='check_')
         config += ValueMapper.parse_var('groups', self.__groups, value_prefix='hostgroup_')
+        config += PluginDirs.get_dir_config(self)
 
         for custom_var in self.__custom_vars:
             config += '  vars.' + custom_var['key'] + ' = ' + ValueMapper.parse_value_for_var(

@@ -45,7 +45,7 @@ class Command:
         return config
 
     def get_command_definition(self):
-        return '[ "$plugin_dir$" + "/' + self.get_command() + '"]'
+        return '[ "$nagios_plugin_dir$" + "/' + self.get_command() + '"]'
 
     def get_config_local(self):
         config = 'object CheckCommand "command_' + self.get_id() + '_local" {\n'
@@ -59,7 +59,7 @@ class Command:
         config = 'object CheckCommand "command_' + self.get_id() + '_ssh" {\n'
         config += '  vars.realcmd = ' + self.get_command_definition() + '\n'
         config += '  vars.realargs = ' + self.get_arguments() + '\n'
-        config += """  command = [ "$command_overssh_plugin_dir$" + "/check_by_ssh"]
+        config += """  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
   arguments = {
     "-i" = "$command_overssh_identityfile$"
     "-l" = "$command_overssh_user$"

@@ -24,20 +24,21 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Servers.PluginDirs import PluginDirs
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
 
-class SSHTemplate:
+class SSHTemplate(PluginDirs):
 
     def __init__(self, id):
+        PluginDirs.__init__(self)
         self.__id = id
         self.__host = None
         self.__identityfile = None
         self.__user = 'icinga'
         self.__port = 22
         self.__timeout = 30
-        self.__plugin_dir = '/usr/lib/nagios/plugins/'
 
     @staticmethod
     def create(id, force_create=False):
@@ -59,14 +60,6 @@ class SSHTemplate:
         return self
 
     def get_hostname(self):
-        return self.__host
-
-    def set_plugin_dir(self, plugin_dir):
-        ValueChecker.is_string(plugin_dir)
-        self.__host = plugin_dir
-        return self
-
-    def get_plugin_dir(self):
         return self.__host
 
     def set_user(self, user):
@@ -96,6 +89,8 @@ class SSHTemplate:
     def get_config(self):
         config = 'template Host "sshtemplate_' + self.__id + '" {\n'
         config += ValueMapper.get_property_default_config(self, 'SSHTemplate', 'overssh', 'command')
+        config += ValueMapper.parse_var('vars.command_overssh_nagios_plugin_dir', self.get_nagios_plugindir())
+        config += ValueMapper.parse_var('vars.command_overssh_monitoring_plugin_dir', self.get_monitoring_plugindir())
         config += '}\n'
 
         return config

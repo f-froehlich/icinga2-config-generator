@@ -44,7 +44,7 @@ class DummyCommand(Command):
         return command
 
     def get_command_definition(self):
-        return '[ "$plugin_dir$" + "/' + self.get_command() + '", "$command_dummy_state$", "$command_dummy_text$"]'
+        return '[ "$nagios_plugin_dir$" + "/' + self.get_command() + '", "$command_dummy_state$", "$command_dummy_text$"]'
 
     def get_command(self):
         return 'check_dummy'

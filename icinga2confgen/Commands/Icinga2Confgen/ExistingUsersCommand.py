@@ -43,6 +43,9 @@ class ExistingUsersCommand(Command):
 
         return command
 
+    def get_command_definition(self):
+        return '[ "$monitoring_plugin_dir$" + "/' + self.get_command() + '"]'
+
     def get_command(self):
         return 'check_existing_users.py'
 

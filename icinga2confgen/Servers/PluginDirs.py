@@ -23,44 +23,33 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Commands.Command import Command
-from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.ValueMapper import ValueMapper
 
 
-class PathExistCommand(Command):
+class PluginDirs:
 
-    def __init__(self, id):
-        Command.__init__(self, id)
+    def __init__(self):
+        self.__nagios_plugin_dir = '/usr/lib/nagios/plugins/'
+        self.__monitoring_plugin_dir = '/usr/local/monitoring/monitoring_plugins/'
 
-    @staticmethod
-    def create(id, force_create=False):
-        ValueChecker.validate_id(id)
-        command = None if force_create else ConfigBuilder.get_command(id)
-        if None is command:
-            command = PathExistCommand(id)
-            ConfigBuilder.add_command(id, command)
+    def set_nagios_plugindir(self, dir):
+        ValueChecker.is_string(dir)
+        self.__nagios_plugin_dir = dir
+        return self
 
-        return command
+    def get_nagios_plugindir(self):
+        return self.__nagios_plugin_dir
 
-    def get_command_definition(self):
-        return '[ "$monitoring_plugin_dir$" + "/' + self.get_command() + '"]'
+    def set_monitoring_plugindir(self, dir):
+        ValueChecker.is_string(dir)
+        self.__monitoring_plugin_dir = dir
+        return self
 
-    def get_command(self):
-        return 'check_path_exist.sh'
+    def get_monitoring_plugindir(self):
+        return self.__monitoring_plugin_dir
 
-    def get_arguments(self):
-        config = """{
-    "-f" = {
-      value = "$command_path_exist_file$"
-    }
-    "-d" = {
-      value = "$command_path_exist_dir$"
-    }
-    "-i" = {
-      set_if = "$command_path_exist_invert$"
-    }
-  }
-"""
-
+    def get_dir_config(self):
+        config = ValueMapper.parse_var('vars.nagios_plugin_dir', self.__nagios_plugin_dir)
+        config += ValueMapper.parse_var('vars.monitoring_plugin_dir', self.__monitoring_plugin_dir)
         return config
