@@ -30,7 +30,7 @@ with open('README.md') as readme_file:
 
 setup_args = dict(
     name='icinga2confgen',
-    version='0.0.3',
+    version='0.0.4',
     description='Icinga2 configuration file generator for hosts, commands, checks, ... in python',
     long_description_content_type="text/markdown",
     long_description=README,

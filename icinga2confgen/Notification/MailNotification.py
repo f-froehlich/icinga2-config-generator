@@ -23,23 +23,30 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Notification.NotificationTemplate import NotificationTemplate
+from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Notification.MailNotificationCommand import MailNotificationCommand
+from icinga2confgen.Notification.Notification import Notification
+from icinga2confgen.ValueChecker import ValueChecker
 
 
-class HostNotification(NotificationTemplate):
-
-    def __init__(self, id):
-        self.__allowed_types = ['DowntimeStart', 'DowntimeEnd', 'DowntimeRemoved', 'Custom', 'Acknowledgement',
-                                'Problem', 'Recovery', 'FlappingStart', 'FlappingEnd']
-        self.__allowed_states = ['Up', 'Down']
-        NotificationTemplate.__init__(self, id)
-
-    def get_allowed_states(self):
-        return self.__allowed_states
-
-    def get_allowed_types(self):
-        return self.__allowed_types
+class MailNotification(Notification):
 
     @staticmethod
     def create(id, force_create=False):
-        raise Exception('Cannot create HostNotification, use child classes instead')
+        ValueChecker.validate_id(id)
+
+        notification = None if force_create else ConfigBuilder.get_notification(id)
+        if None is notification:
+            notification = MailNotification(id)
+            ConfigBuilder.add_notification(id, notification)
+
+        return notification
+
+    def get_config(self):
+        config = Notification.get_config(self)
+        config += self.apply_for_all_emails()
+
+        return config
+
+    def get_command_config(self):
+        return MailNotificationCommand.create('mail')

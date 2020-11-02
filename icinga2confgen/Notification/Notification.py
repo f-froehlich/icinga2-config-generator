@@ -32,40 +32,35 @@ from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
 
-class NotificationTemplate:
+class Notification:
 
     def __init__(self, id):
         self.__id = id
-        self.__interval = '30m'
+        self.__interval = '1h'
         self.__command = self.get_command_config()
         self.__time_period = None
         self.__escalation = None
         self.__users = []
         self.__user_groups = []
-        self.__states = self.get_allowed_states()
-        self.__allowed_states = self.get_allowed_states()
-        self.__types = self.get_allowed_types()
-        self.__allowed_types = self.get_allowed_types()
 
-    def get_allowed_states(self):
-        raise Exception('You must override get_allowed_states')
+        self.__allowed_host_types = ['DowntimeStart', 'DowntimeEnd', 'DowntimeRemoved', 'Custom', 'Acknowledgement',
+                                     'Problem', 'Recovery', 'FlappingStart', 'FlappingEnd']
+        self.__host_types = self.__allowed_host_types
+        self.__allowed_host_states = ['Up', 'Down']
+        self.__host_states = self.__allowed_host_states
 
-    def get_allowed_types(self):
-        raise Exception('You must override get_allowed_types')
+        self.__allowed_service_types = ['DowntimeStart', 'DowntimeEnd', 'DowntimeRemoved', 'Custom', 'Acknowledgement',
+                                        'Problem', 'Recovery', 'FlappingStart', 'FlappingEnd']
+        self.__service_types = self.__allowed_service_types
+        self.__allowed_service_states = ['Warning', 'Critical', 'Unknown', 'OK']
+        self.__service_states = self.__allowed_service_states
 
     def get_command_config(self):
         raise Exception('You must override get_command_config')
 
     @staticmethod
     def create(id, force_create=False):
-        ValueChecker.validate_id(id)
-
-        notification = None if force_create else ConfigBuilder.get_notification_template(id)
-        if None is notification:
-            notification = NotificationTemplate(id)
-            ConfigBuilder.add_notification_template(id, notification)
-
-        return notification
+        raise Exception('Cannot create Notification, use child classes instead')
 
     def get_id(self):
         return self.__id
@@ -82,11 +77,9 @@ class NotificationTemplate:
         if isinstance(command, NotificationCommand):
             self.__command = command.get_id()
         elif isinstance(command, str):
-            command = None if force_create else ConfigBuilder.get_command(command)
+            command = ConfigBuilder.get_notification_command(command)
             if None is command:
                 raise Exception('NotificationCommand does not exist yet!')
-            if not isinstance(command, NotificationCommand):
-                raise Exception('You can only set a NotificationCommand as command for Notification!')
             self.__command = command.get_id()
         return self
 
@@ -118,25 +111,45 @@ class NotificationTemplate:
     def get_escalation(self):
         return self.__escalation
 
-    def set_types(self, types):
+    def set_host_types(self, types):
         for type in types:
-            if type not in self.__allowed_types:
-                raise Exception('Type ' + type + ' is not allowed')
-        self.__types = types
+            if type not in self.__allowed_host_types:
+                raise Exception('Type ' + type + ' is not allowed for host')
+        self.__host_types = types
         return self
 
-    def get_types(self):
-        return self.__types
+    def get_host_types(self):
+        return self.__host_types
 
-    def set_states(self, states):
+    def set_host_states(self, states):
         for state in states:
-            if state not in self.__allowed_states:
-                raise Exception('State ' + state + ' is not allowed')
-        self.__states = states
+            if state not in self.__allowed_host_states:
+                raise Exception('State ' + state + ' is not allowed for host')
+        self.__host_states = states
         return self
 
-    def get_states(self):
-        return self.__states
+    def get_host_states(self):
+        return self.__host_states
+
+    def set_service_types(self, types):
+        for type in types:
+            if type not in self.__allowed_service_types:
+                raise Exception('Type ' + type + ' is not allowed for service')
+        self.__service_types = types
+        return self
+
+    def get_service_types(self):
+        return self.__service_types
+
+    def set_service_states(self, states):
+        for state in states:
+            if state not in self.__allowed_service_states:
+                raise Exception('State ' + state + ' is not allowed for service')
+        self.__service_states = states
+        return self
+
+    def get_service_states(self):
+        return self.__service_states
 
     def add_user(self, user):
         if isinstance(user, User):
@@ -215,8 +228,8 @@ class NotificationTemplate:
         config += ValueMapper.parse_var('period', self.__time_period, value_prefix='time_period_')
         config += ValueMapper.parse_var('user_groups', self.__user_groups, value_prefix='usergroup_')
         config += ValueMapper.parse_var('users', self.__users, value_prefix='user_')
-        config += ValueMapper.parse_var('types', self.__types)
-        config += ValueMapper.parse_var('states', self.__states)
+        config += ValueMapper.parse_var('types', self.__host_types)
+        config += ValueMapper.parse_var('states', self.__host_states)
         config += '}\n'
         config += 'template Notification "notification_template_service_' + self.__id + '" {\n'
         config += '  interval = ' + self.__interval + '\n'
@@ -231,16 +244,13 @@ class NotificationTemplate:
         config += ValueMapper.parse_var('period', self.__time_period, value_prefix='time_period_')
         config += ValueMapper.parse_var('user_groups', self.__user_groups, value_prefix='usergroup_')
         config += ValueMapper.parse_var('users', self.__users, value_prefix='user_')
-        config += ValueMapper.parse_var('types', self.__types)
-        config += ValueMapper.parse_var('states', self.__states)
+        config += ValueMapper.parse_var('types', self.__service_types)
+        config += ValueMapper.parse_var('states', self.__service_states)
         config += '}\n'
 
         return config
 
-    def apply_for_all_emails(self, type):
-        type = type.lower().capitalize()
-        if type not in ['Host', 'Service']:
-            raise Exception('Type can only be Host or Service')
+    def apply_for_all_emails(self):
 
         config = ''
         all_users = ConfigBuilder.get_instance('users')
@@ -260,14 +270,15 @@ class NotificationTemplate:
 
                         added_emails.append(email)
                         cemail = ValueMapper.canonicalize_for_id(email.replace('@', '_'))
-                        notification_id = 'notification_' + type.lower() + '_' + self.get_id() + '_' + user.get_id() \
-                                          + '_' + cemail
-                        config += 'apply Notification "' + notification_id + '" to ' + type + ' {\n'
-                        config += '  import "notification_template_' + type.lower() + '_' \
-                                  + NotificationTemplate.get_id(self) + '"\n'
-                        config += '  vars.email = "' + email + '"\n'
-                        config += '  assign where "notification_' + self.get_id() + '" in ' \
-                                  + type.lower() + '.vars.notification\n'
-                        config += '}\n'
+                        for type in ['Service', 'Host']:
+                            notification_id = 'notification_' + type.lower() + '_' + self.get_id() + '_' \
+                                              + user.get_id() + '_' + cemail
+                            config += 'apply Notification "' + notification_id + '" to ' + type + ' {\n'
+                            config += '  import "notification_template_' + type.lower() + '_' \
+                                      + Notification.get_id(self) + '"\n'
+                            config += '  vars.email = "' + email + '"\n'
+                            config += '  assign where "notification_' + self.get_id() + '" in ' \
+                                      + type.lower() + '.vars.notification\n'
+                            config += '}\n'
 
         return config

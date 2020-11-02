@@ -6,6 +6,9 @@ Copyright (c) 2020 Fabian Fröhlich <mail@icinga2.confgen.org> [https://icinga2.
 
 Full License Information see  [https://github.com/f-froehlich/icinga2-config-generator/blob/master/LICENSE](LICENSE) file in root directory of this source code and License section of this File.
 
+# Donate
+This project needs donations. Please check out [https://icinga2.confgen.org/Donate](https://icinga2.confgen.org/Donate) for details.
+
 # Quick setup
 See our [documentation](https://icinga2.confgen.org) for details.
 

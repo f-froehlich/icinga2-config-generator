@@ -27,7 +27,7 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Downtimes.ScheduledDowntime import ScheduledDowntime
 from icinga2confgen.Groups.HostGroup import HostGroup
-from icinga2confgen.Notification.HostNotification import HostNotification
+from icinga2confgen.Notification.Notification import Notification
 from icinga2confgen.OS.OS import OS
 from icinga2confgen.PackageManager.PackageManager import PackageManager
 from icinga2confgen.Servers.SSHTemplate import SSHTemplate
@@ -211,22 +211,16 @@ class ServerTemplate:
         return self.__ssh_template
 
     def add_notification(self, notification):
-
-        if isinstance(notification, HostNotification):
-            if notification not in self.__notifications:
-                self.__notifications.append(notification)
-
+        if isinstance(notification, Notification):
+            self.__notifications.append(notification)
         elif isinstance(notification, str):
-
             notification = ConfigBuilder.get_notification(notification)
             if None is notification:
-                raise Exception('Notification not exist yet!')
-            elif not isinstance(notification, HostNotification):
-                raise Exception('Given Notification is not a HostNotification!')
+                raise Exception('Notification does not exist yet!')
 
-            self.add_notification(notification)
+            self.__notifications.append(notification)
         else:
-            raise Exception('Can only add HostNotification or id of HostNotification!')
+            raise Exception('Can only add Notification or id of Notification!')
 
         return self
 

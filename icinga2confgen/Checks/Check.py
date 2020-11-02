@@ -26,7 +26,7 @@
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Downtimes.DefaultScheduledDowntimes import ScheduledDowntime
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.Notification.ServiceNotification import ServiceNotification
+from icinga2confgen.Notification.Notification import Notification
 from icinga2confgen.Servers.Zone import Zone
 from icinga2confgen.Utils.DefaultNames import get_default_check_name
 from icinga2confgen.ValueChecker import ValueChecker
@@ -107,18 +107,16 @@ class Check:
         return self.__command_endpoint
 
     def add_notification(self, notification):
-        if isinstance(notification, ServiceNotification):
-            self.__notifications.append(notification.get_id())
+        if isinstance(notification, Notification):
+            self.__notifications.append(notification)
         elif isinstance(notification, str):
             notification = ConfigBuilder.get_notification(notification)
             if None is notification:
                 raise Exception('Notification does not exist yet!')
-            if False is isinstance(notification, ServiceNotification):
-                raise Exception('Can only add ServiceNotification or id of ServiceNotification!')
 
-            self.__notifications.append(notification.get_id())
+            self.__notifications.append(notification)
         else:
-            raise Exception('Can only add ServiceNotification or id of ServiceNotification!')
+            raise Exception('Can only add Notification or id of Notification!')
 
         return self
 
