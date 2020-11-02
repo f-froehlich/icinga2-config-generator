@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# -*- coding: utf-8
+
 #  Icinga2 configuration generator
 #
 #  Icinga2 configuration file generator for hosts, commands, checks, ... in python
@@ -24,8 +27,8 @@ from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Checks.MonitoringPlugins.CheckPing import CheckPing
 from icinga2confgen.Commands.MonitoringPlugins.PingCommand import PingCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class CheckPing6(CheckPing):

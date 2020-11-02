@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# -*- coding: utf-8
+
 #  Icinga2 configuration generator
 #
 #  Icinga2 configuration file generator for hosts, commands, checks, ... in python

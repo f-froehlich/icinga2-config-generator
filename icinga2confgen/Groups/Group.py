@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# -*- coding: utf-8
+
 #  Icinga2 configuration generator
 #
 #  Icinga2 configuration file generator for hosts, commands, checks, ... in python
@@ -20,8 +23,9 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Utils.DefaultNames import get_default_group_name
+from icinga2confgen.ValueChecker import ValueChecker
+
 
 class Group:
 

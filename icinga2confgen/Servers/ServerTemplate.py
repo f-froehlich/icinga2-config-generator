@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# -*- coding: utf-8
+
 #  Icinga2 configuration generator
 #
 #  Icinga2 configuration file generator for hosts, commands, checks, ... in python
@@ -25,13 +28,13 @@ from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Downtimes.ScheduledDowntime import ScheduledDowntime
 from icinga2confgen.Groups.HostGroup import HostGroup
 from icinga2confgen.Notification.HostNotification import HostNotification
-from icinga2confgen.Servers.SSHTemplate import SSHTemplate
-from icinga2confgen.Servers.VHost import VHost
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.OS.OS import OS
 from icinga2confgen.PackageManager.PackageManager import PackageManager
-from icinga2confgen.ValueMapper import ValueMapper
+from icinga2confgen.Servers.SSHTemplate import SSHTemplate
+from icinga2confgen.Servers.VHost import VHost
 from icinga2confgen.Servers.Zone import Zone
+from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.ValueMapper import ValueMapper
 
 
 class ServerTemplate:

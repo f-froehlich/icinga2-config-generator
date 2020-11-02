@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# -*- coding: utf-8
+
 #  Icinga2 configuration generator
 #
 #  Icinga2 configuration file generator for hosts, commands, checks, ... in python
@@ -23,9 +26,10 @@
 import shutil
 from pathlib import Path
 
+from tqdm import tqdm
+
 from icinga2confgen.Application.Application import Application
 from icinga2confgen.ValueChecker import ValueChecker
-from tqdm import tqdm
 
 
 class ConfigBuilder:
