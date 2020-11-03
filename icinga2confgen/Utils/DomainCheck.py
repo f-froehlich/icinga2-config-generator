@@ -23,7 +23,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 from icinga2confgen.Checks.CheckDNSSECExpire import CheckDNSSECExpire
-from icinga2confgen.Checks.MonitoringPlugins.CheckDig import CheckDig
+from icinga2confgen.Checks.NagiosPlugins.CheckDig import CheckDig
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 

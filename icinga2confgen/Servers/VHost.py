@@ -24,7 +24,7 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from icinga2confgen.Checks.Check import Check
-from icinga2confgen.Checks.MonitoringPlugins.CheckHttp import CheckHttp
+from icinga2confgen.Checks.NagiosPlugins.CheckHttp import CheckHttp
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper

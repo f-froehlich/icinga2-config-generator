@@ -22,8 +22,8 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-from icinga2confgen.Checks.MonitoringPlugins.CheckPing4 import CheckPing4
-from icinga2confgen.Checks.MonitoringPlugins.CheckSSH import CheckSSH
+from icinga2confgen.Checks.NagiosPlugins.CheckPing4 import CheckPing4
+from icinga2confgen.Checks.NagiosPlugins.CheckSSH import CheckSSH
 from icinga2confgen.ValueChecker import ValueChecker
 
 

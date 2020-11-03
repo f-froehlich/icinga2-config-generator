@@ -23,18 +23,18 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Checks.Icinga2Confgen.CheckExistingUsers import CheckExistingUsers
-from icinga2confgen.Checks.Icinga2Confgen.CheckGroupMembers import CheckGroupMembers
-from icinga2confgen.Checks.Icinga2Confgen.CheckSSHDSecurity import CheckSSHDSecurity
-from icinga2confgen.Checks.Icinga2Confgen.CheckUFWStatus import CheckUFWStatus
-from icinga2confgen.Checks.MonitoringPlugins.CheckApt import CheckApt
-from icinga2confgen.Checks.MonitoringPlugins.CheckDisk import CheckDisk
-from icinga2confgen.Checks.MonitoringPlugins.CheckLoad import CheckLoad
-from icinga2confgen.Checks.MonitoringPlugins.CheckNTPTime import CheckNTPTime
-from icinga2confgen.Checks.MonitoringPlugins.CheckProcs import CheckProcs
-from icinga2confgen.Checks.MonitoringPlugins.CheckSWAP import CheckSWAP
-from icinga2confgen.Checks.MonitoringPlugins.CheckUsers import CheckUsers
-from icinga2confgen.Checks.NagiosPlugins.CheckYum import CheckYum
+from icinga2confgen.Checks.HariSekhonNagiosPlugins.CheckYum import CheckYum
+from icinga2confgen.Checks.MonitoringPlugins.CheckExistingUsers import CheckExistingUsers
+from icinga2confgen.Checks.MonitoringPlugins.CheckGroupMembers import CheckGroupMembers
+from icinga2confgen.Checks.MonitoringPlugins.CheckSSHDSecurity import CheckSSHDSecurity
+from icinga2confgen.Checks.MonitoringPlugins.CheckUFWStatus import CheckUFWStatus
+from icinga2confgen.Checks.NagiosPlugins.CheckApt import CheckApt
+from icinga2confgen.Checks.NagiosPlugins.CheckDisk import CheckDisk
+from icinga2confgen.Checks.NagiosPlugins.CheckLoad import CheckLoad
+from icinga2confgen.Checks.NagiosPlugins.CheckNTPTime import CheckNTPTime
+from icinga2confgen.Checks.NagiosPlugins.CheckProcs import CheckProcs
+from icinga2confgen.Checks.NagiosPlugins.CheckSWAP import CheckSWAP
+from icinga2confgen.Checks.NagiosPlugins.CheckUsers import CheckUsers
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.ValueChecker import ValueChecker
 

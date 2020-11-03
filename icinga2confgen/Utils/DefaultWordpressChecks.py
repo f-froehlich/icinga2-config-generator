@@ -22,7 +22,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-from icinga2confgen.Checks.MonitoringPlugins.CheckHttp import CheckHttp
+from icinga2confgen.Checks.NagiosPlugins.CheckHttp import CheckHttp
 from icinga2confgen.Groups.HostGroup import HostGroup
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.Utils.DefaultGitChecks import DefaultGitChecks
