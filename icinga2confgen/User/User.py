@@ -25,13 +25,15 @@
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.UserGroup import UserGroup
+from icinga2confgen.Notification.NotificationFunctions import NotificationFunctions
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
 
-class User:
+class User(NotificationFunctions):
 
     def __init__(self, id):
+        NotificationFunctions.__init__(self)
         self.__id = id
         self.__display_name = None
         self.__enable_notifications = True
@@ -45,10 +47,6 @@ class User:
             'Problem', 'Acknowledgement', 'Recovery', 'Custom', 'FlappingStart',
             'FlappingEnd', 'DowntimeStart', 'DowntimeEnd', 'DowntimeRemoved'
         ]
-        self.__phone = None
-        self.__pager = None
-        self.__email = []
-        self.__pager = None
         self.__groups = []
         self.__vars = []
 
@@ -73,35 +71,6 @@ class User:
 
     def get_display_name(self):
         return self.__display_name
-
-    def add_email(self, email):
-        ValueChecker.is_string(email)
-        self.__email.append(email)
-        return self
-
-    def remove_email(self, email):
-        ValueChecker.is_string(email)
-        self.__email.remove(email)
-        return self
-
-    def get_email(self):
-        return self.__email
-
-    def set_pager(self, pager):
-        ValueChecker.is_string(pager)
-        self.__pager = pager
-        return self
-
-    def get_pager(self):
-        return self.__pager
-
-    def set_phone(self, phone):
-        ValueChecker.is_string(phone)
-        self.__phone = phone
-        return self
-
-    def get_phone(self):
-        return self.__phone
 
     def set_types(self, types):
         for type in types:
@@ -169,18 +138,14 @@ class User:
         return self.__enable_notifications
 
     def validate(self):
-        if None is self.__email:
-            raise Exception('Email is required for User ' + self.get_id())
+        return
 
     def get_config(self):
         self.validate()
 
         config = 'object User "user_' + self.__id + '" {\n'
-        config += ValueMapper.parse_var('vars.email_addresses', self.__email)
-        config += ValueMapper.parse_var('pager', self.__pager)
-        config += ValueMapper.parse_var('vars.phone', self.__phone)
         config += ValueMapper.parse_var('display_name', self.__display_name)
-        config += ValueMapper.parse_var('enable_notifications', self.__enable_notifications)
+        config += NotificationFunctions.get_config(self)
         config += ValueMapper.parse_var('groups', self.__groups, value_prefix='usergroup_')
         config += ValueMapper.parse_var('states', self.__states)
         config += ValueMapper.parse_var('types', self.__types)

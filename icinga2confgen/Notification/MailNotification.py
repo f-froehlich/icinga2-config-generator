@@ -27,6 +27,7 @@ from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Notification.MailNotificationCommand import MailNotificationCommand
 from icinga2confgen.Notification.Notification import Notification
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.ValueMapper import ValueMapper
 
 
 class MailNotification(Notification):
@@ -44,9 +45,18 @@ class MailNotification(Notification):
 
     def get_config(self):
         config = Notification.get_config(self)
-        config += self.apply_for_all_emails()
+        config += self.apply_for_all()
 
         return config
 
     def get_command_config(self):
         return MailNotificationCommand.create('mail')
+
+    def user_config_function(self, user):
+        email_config = []
+        for email in user.get_email():
+            email_config.append(ValueMapper.parse_var('vars.notification_email', email))
+        return email_config
+
+    def group_config_function(self, group):
+        return self.user_config_function(group)

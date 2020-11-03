@@ -25,13 +25,15 @@
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.Group import Group
+from icinga2confgen.Notification.NotificationFunctions import NotificationFunctions
 from icinga2confgen.ValueChecker import ValueChecker
 
 
-class UserGroup(Group):
+class UserGroup(Group, NotificationFunctions):
 
     def __init__(self, id):
         Group.__init__(self, id, 'user')
+        NotificationFunctions.__init__(self)
 
     @staticmethod
     def create(id, force_create=False):
@@ -42,3 +44,6 @@ class UserGroup(Group):
             ConfigBuilder.add_usergroup(id, usergroup)
 
         return usergroup
+
+    def get_custom_config(self):
+        return NotificationFunctions.get_config(self)

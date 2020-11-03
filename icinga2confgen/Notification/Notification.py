@@ -58,6 +58,12 @@ class Notification:
     def get_command_config(self):
         raise Exception('You must override get_command_config')
 
+    def user_config_function(self, user):
+        raise Exception('You must override user_config_function')
+
+    def group_config_function(self, group):
+        raise Exception('You must override group_config_function')
+
     @staticmethod
     def create(id, force_create=False):
         raise Exception('Cannot create Notification, use child classes instead')
@@ -250,35 +256,40 @@ class Notification:
 
         return config
 
-    def apply_for_all_emails(self):
+    def apply_for_all(self):
 
-        config = ''
+        config_user = ''
+        config_group = ''
         all_users = ConfigBuilder.get_instance('users')
-        for group in self.get_user_groups():
-            added_user = []
+
+        configured_users = []
+        for group in self.__user_groups:
             for user in all_users:
-                if user in added_user:
+                if user in configured_users:
                     continue
+                # write config for user
+                configured_users.append(user)
+                user_data_config = enumerate(self.user_config_function(user))
+                for key, config in user_data_config:
+                    notification_id = 'notification_' + self.get_id() + '_user_' + user.get_id() + '_' + str(key)
+                    config_user += self.get_assign_config(config, notification_id)
 
-                added_user.append(user)
-                added_emails = []
-                groups_of_user = user.get_groups()
-                if group in groups_of_user:
-                    for email in user.get_email():
-                        if email in added_emails:
-                            continue
+            # write config for group
+            group_data_config = enumerate(self.group_config_function(group))
+            for key, config in group_data_config:
+                notification_id = 'notification_' + self.get_id() + '_group_' + group.get_id() + '_' + str(key)
+                config_group += self.get_assign_config(config, notification_id)
 
-                        added_emails.append(email)
-                        cemail = ValueMapper.canonicalize_for_id(email.replace('@', '_'))
-                        for type in ['Service', 'Host']:
-                            notification_id = 'notification_' + type.lower() + '_' + self.get_id() + '_' \
-                                              + user.get_id() + '_' + cemail
-                            config += 'apply Notification "' + notification_id + '" to ' + type + ' {\n'
-                            config += '  import "notification_template_' + type.lower() + '_' \
-                                      + Notification.get_id(self) + '"\n'
-                            config += '  vars.notification_email = "' + email + '"\n'
-                            config += '  assign where "notification_' + self.get_id() + '" in ' \
-                                      + type.lower() + '.vars.notification\n'
-                            config += '}\n'
+        return config_user + config_group
 
+    def get_assign_config(self, custom_config, notification_id):
+        config = ''
+        for type in ['Host', 'Service']:
+            config += 'apply Notification "' + type.lower() + '_' + notification_id + '" to ' + type + ' {\n'
+            config += '  import "notification_template_' + type.lower() + '_' \
+                      + Notification.get_id(self) + '"\n'
+            config += custom_config
+            config += '  assign where "notification_' + self.get_id() + '" in ' \
+                      + type.lower() + '.vars.notification\n'
+            config += '}\n'
         return config
