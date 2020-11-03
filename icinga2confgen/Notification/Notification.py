@@ -276,7 +276,7 @@ class Notification:
                             config += 'apply Notification "' + notification_id + '" to ' + type + ' {\n'
                             config += '  import "notification_template_' + type.lower() + '_' \
                                       + Notification.get_id(self) + '"\n'
-                            config += '  vars.email = "' + email + '"\n'
+                            config += '  vars.notification_email = "' + email + '"\n'
                             config += '  assign where "notification_' + self.get_id() + '" in ' \
                                       + type.lower() + '.vars.notification\n'
                             config += '}\n'

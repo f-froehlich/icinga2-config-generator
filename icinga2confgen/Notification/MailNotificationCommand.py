@@ -55,23 +55,21 @@ class MailNotificationCommand(NotificationCommand):
     def get_arguments_host(self):
         config = '{\n' + self.get_default_arguments_host() + """
    "-r" = {
-      value = "$notification_useremail$"
+      value = "$notification_email$"
       required = true
     }       
 }"""
         config += self.get_default_vars_host()
-        config += '  vars.notification_useremail = "$email$"\n'
 
         return config
 
     def get_arguments_service(self):
         config = '{\n' + self.get_default_arguments_service() + """
    "-r" = {
-      value = "$notification_useremail$"
+      value = "$notification_email$"
       required = true
     }       
 }"""
         config += self.get_default_vars_service()
-        config += '  vars.notification_useremail = "$email$"\n'
 
         return config
