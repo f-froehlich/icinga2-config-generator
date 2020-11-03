@@ -43,6 +43,9 @@ class YumCommand(Command):
 
         return command
 
+    def get_command_definition(self):
+        return '[ "$harik_sekhon_plugin_dir$" + "/' + self.get_command() + '"]'
+
     def get_command(self):
         return 'check_yum.py'
 

@@ -91,6 +91,8 @@ class SSHTemplate(PluginDirs):
         config += ValueMapper.get_property_default_config(self, 'SSHTemplate', 'overssh', 'command')
         config += ValueMapper.parse_var('vars.command_overssh_nagios_plugin_dir', self.get_nagios_plugindir())
         config += ValueMapper.parse_var('vars.command_overssh_monitoring_plugin_dir', self.get_monitoring_plugindir())
+        config += ValueMapper.parse_var('vars.command_overssh_harik_sekhon_plugin_dir',
+                                        self.get_harik_sekhon_plugindir())
         config += '}\n'
 
         return config

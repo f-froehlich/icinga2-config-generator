@@ -32,6 +32,7 @@ class PluginDirs:
     def __init__(self):
         self.__nagios_plugin_dir = '/usr/lib/nagios/plugins/'
         self.__monitoring_plugin_dir = '/usr/local/monitoring/monitoring_plugins/'
+        self.__harik_sekhon_plugin_dir = '/usr/local/monitoring/harik_sekhon/'
 
     def set_nagios_plugindir(self, dir):
         ValueChecker.is_string(dir)
@@ -49,7 +50,16 @@ class PluginDirs:
     def get_monitoring_plugindir(self):
         return self.__monitoring_plugin_dir
 
+    def set_harik_sekhon_plugindir(self, dir):
+        ValueChecker.is_string(dir)
+        self.__harik_sekhon_plugin_dir = dir
+        return self
+
+    def get_harik_sekhon_plugindir(self):
+        return self.__harik_sekhon_plugin_dir
+
     def get_dir_config(self):
         config = ValueMapper.parse_var('vars.nagios_plugin_dir', self.__nagios_plugin_dir)
         config += ValueMapper.parse_var('vars.monitoring_plugin_dir', self.__monitoring_plugin_dir)
+        config += ValueMapper.parse_var('vars.harik_sekhon_plugin_dir', self.__harik_sekhon_plugin_dir)
         return config
