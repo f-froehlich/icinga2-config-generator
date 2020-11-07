@@ -32,16 +32,18 @@ from icinga2confgen.OS.OS import OS
 from icinga2confgen.PackageManager.PackageManager import PackageManager
 from icinga2confgen.Servers.PluginDirs import PluginDirs
 from icinga2confgen.Servers.SSHTemplate import SSHTemplate
+from icinga2confgen.Servers.ScriptDirs import ScriptDirs
 from icinga2confgen.Servers.VHost import VHost
 from icinga2confgen.Servers.Zone import Zone
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
 
-class ServerTemplate(PluginDirs):
+class ServerTemplate(PluginDirs, ScriptDirs):
 
     def __init__(self, id):
         PluginDirs.__init__(self)
+        ScriptDirs.__init__(self)
         self.__id = id
         self.__ipv4 = None
         self.__ipv6 = None
@@ -432,6 +434,7 @@ class ServerTemplate(PluginDirs):
         config += ValueMapper.parse_var('vars.checks', self.__checks, value_prefix='check_')
         config += ValueMapper.parse_var('groups', self.__groups, value_prefix='hostgroup_')
         config += PluginDirs.get_dir_config(self)
+        config += ScriptDirs.get_dir_config(self)
 
         for custom_var in self.__custom_vars:
             config += '  vars.' + custom_var['key'] + ' = ' + ValueMapper.parse_value_for_var(

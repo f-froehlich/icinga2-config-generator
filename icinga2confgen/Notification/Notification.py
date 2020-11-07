@@ -232,8 +232,6 @@ class Notification:
 
         config += ValueMapper.parse_var('command', self.__command, value_prefix='command_host_')
         config += ValueMapper.parse_var('period', self.__time_period, value_prefix='time_period_')
-        config += ValueMapper.parse_var('user_groups', self.__user_groups, value_prefix='usergroup_')
-        config += ValueMapper.parse_var('users', self.__users, value_prefix='user_')
         config += ValueMapper.parse_var('types', self.__host_types)
         config += ValueMapper.parse_var('states', self.__host_states)
         config += '}\n'
@@ -248,8 +246,6 @@ class Notification:
 
         config += ValueMapper.parse_var('command', self.__command, value_prefix='command_service_')
         config += ValueMapper.parse_var('period', self.__time_period, value_prefix='time_period_')
-        config += ValueMapper.parse_var('user_groups', self.__user_groups, value_prefix='usergroup_')
-        config += ValueMapper.parse_var('users', self.__users, value_prefix='user_')
         config += ValueMapper.parse_var('types', self.__service_types)
         config += ValueMapper.parse_var('states', self.__service_states)
         config += '}\n'
@@ -272,22 +268,25 @@ class Notification:
                 user_data_config = enumerate(self.user_config_function(user))
                 for key, config in user_data_config:
                     notification_id = 'notification_' + self.get_id() + '_user_' + user.get_id() + '_' + str(key)
-                    config_user += self.get_assign_config(config, notification_id)
+                    config_user += self.get_assign_config(config, notification_id, users=[user])
 
             # write config for group
             group_data_config = enumerate(self.group_config_function(group))
             for key, config in group_data_config:
                 notification_id = 'notification_' + self.get_id() + '_group_' + group.get_id() + '_' + str(key)
-                config_group += self.get_assign_config(config, notification_id)
+                config_group += self.get_assign_config(config, notification_id,
+                                                       users=['group_notification_sender_' + group.get_id()])
 
         return config_user + config_group
 
-    def get_assign_config(self, custom_config, notification_id):
+    def get_assign_config(self, custom_config, notification_id, users=None, groups=None):
         config = ''
         for type in ['Host', 'Service']:
             config += 'apply Notification "' + type.lower() + '_' + notification_id + '" to ' + type + ' {\n'
             config += '  import "notification_template_' + type.lower() + '_' \
                       + Notification.get_id(self) + '"\n'
+            config += ValueMapper.parse_var('user_groups', groups, value_prefix='usergroup_')
+            config += ValueMapper.parse_var('users', users, value_prefix='user_')
             config += custom_config
             config += '  assign where "notification_' + self.get_id() + '" in ' \
                       + type.lower() + '.vars.notification\n'

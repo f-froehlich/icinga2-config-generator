@@ -47,6 +47,7 @@ class ValueChecker:
             'zone',
             'os',
             'package_manager',
+            'group_notification_sender',
         ]
 
     @staticmethod

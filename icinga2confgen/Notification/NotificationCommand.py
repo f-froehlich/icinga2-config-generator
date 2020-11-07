@@ -41,6 +41,9 @@ class NotificationCommand:
     def get_command_executable_service(self):
         raise Exception("get_command_executable_service must return command executable for service in " + self.__id)
 
+    def get_script_dir(self):
+        return "$monitoring_script_dir$"
+
     def get_arguments_host(self):
         config = '{\n' + self.get_default_arguments_host() + '}\n'
         config += self.get_default_vars_host()
@@ -54,10 +57,10 @@ class NotificationCommand:
         return config
 
     def get_command_definition_host(self):
-        return '[ "/etc/icinga2/scripts/' + self.get_command_executable_host() + '"]'
+        return '[ "' + self.get_script_dir() + '/' + self.get_command_executable_host() + '"]'
 
     def get_command_definition_service(self):
-        return '[ "/etc/icinga2/scripts/' + self.get_command_executable_service() + '"]'
+        return '[ "' + self.get_script_dir() + '/' + self.get_command_executable_service() + '"]'
 
     def get_config(self):
         self.validate()
@@ -75,40 +78,40 @@ class NotificationCommand:
     def get_default_arguments_host(self):
         return """
     "-d" = {
-      value = "$notification_date$"
+      value = "$icinga.long_date_time$"
       required = true
     }
     "-l" = {
-      value = "$notification_hostname$"
+      value = "$host.name$"
       required = true
     }
     "-n" = {
-      value = "$notification_hostdisplayname$"
+      value = "$host.display_name$"
       required = true
     }
     "-o" = {
-      value = "$notification_serviceoutput$"
+      value = "$service.output$"
       required = true
     }
     "-s" = {
-      value = "$notification_servicestate$"
+      value = "$service.state$"
       required = true
     }
     "-4" = {
-      value = "$notification_address$"
-      set_if = {{ macro("$notification_address$") != false }}
+      value = "$address$"
+      set_if = {{ macro("$address$") != false }}
     }
     "-6" = {
-      value = "$notification_address6$"
-      set_if = {{ macro("$notification_address6$") != false }}
+      value = "$address6$"
+      set_if = {{ macro("$address6$") != false }}
     }
     "-b" = {
-      value = "$notification_author$"
-      set_if = {{ macro("$notification_author$") != false }}
+      value = "$notification.author$"
+      set_if = {{ macro("$notification.author$") != false }}
     }
     "-c" = {
-      value = "$notification_comment$"
-      set_if = {{ macro("$notification_comment$") != false }}
+      value = "$notification.comment$"
+      set_if = {{ macro("$notification.comment$") != false }}
     }
     "-i" = {
       value = "$notification_icingaweb2url$"
@@ -117,7 +120,10 @@ class NotificationCommand:
     "-f" = {
       value = "$notification_from$"
       set_if = {{ macro("$notification_from$") != false }}
-      description = "Set from icinga2confgen.address. Requires GNU mailutils (Debian/Ubuntu) or mailx (RHEL/SUSE)"
+    }
+    "-t" = {
+      value = "$notification.type$"
+      required = true
     }
     "-v" = {
       set_if = "$notification_logtosyslog$"
@@ -125,33 +131,17 @@ class NotificationCommand:
 """
 
     def get_default_vars_host(self):
-        return """
-  vars += {
-    notification_address = "$address$"
-    notification_address6 = "$address6$"
-    notification_author = "$notification.author$"
-    notification_comment = "$notification.comment$"
-    notification_date = "$icinga.long_date_time$"
-    notification_hostname = "$host.name$"
-    notification_hostdisplayname = "$host.display_name$"
-    notification_serviceoutput = "$service.output$"
-    notification_servicestate = "$service.state$"
-  }
-"""
+        return ''
 
     def get_default_arguments_service(self):
         config = self.get_default_arguments_host()
         config += """
     "-e" = {
-      value = "$notification_servicename$"
-      required = true
-    }
-    "-t" = {
-      value = "$notification_type$"
+      value = "$service.name$"
       required = true
     }
     "-u" = {
-      value = "$notification_servicedisplayname$"
+      value = "$service.display_name$"
       required = true
     }
 """
@@ -159,11 +149,4 @@ class NotificationCommand:
 
     def get_default_vars_service(self):
         config = self.get_default_vars_host()
-        config += """
-  vars += {
-    notification_servicename = "$service.name$"
-    notification_type = "$notification.type$"
-    notification_servicedisplayname = "$service.display_name$"
-  }
-"""
         return config

@@ -28,7 +28,7 @@ from icinga2confgen.Notification.NotificationCommand import NotificationCommand
 from icinga2confgen.ValueChecker import ValueChecker
 
 
-class MailNotificationCommand(NotificationCommand):
+class TelegramNotificationCommand(NotificationCommand):
 
     def __init__(self, id):
         NotificationCommand.__init__(self, id)
@@ -38,41 +38,47 @@ class MailNotificationCommand(NotificationCommand):
         ValueChecker.validate_id(id)
         command = None if force_create else ConfigBuilder.get_notification_command(id)
         if None is command:
-            command = MailNotificationCommand(id)
+            command = TelegramNotificationCommand(id)
             ConfigBuilder.add_notification_command(id, command)
 
         return command
 
     def get_command_executable_host(self):
-        return 'mail-host-notification.sh'
+        return 'telegram_notification_host.py'
 
     def get_command_executable_service(self):
-        return 'mail-service-notification.sh'
-
-    def get_script_dir(self):
-        return "$icinga_script_dir$"
+        return 'telegram_notification_service.py'
 
     def validate(self):
         pass
 
-    def get_arguments_host(self):
-        config = '{\n' + self.get_default_arguments_host() + """
-   "-r" = {
-      value = "$notification_email$"
+    def get_telegram_args(self):
+        return """
+   "-T" = {
+      value = "$notification_telegram_token$"
       required = true
-    }       
-}"""
+    }
+   "-U" = {
+      value = "$notification_telegram_users$"
+      set_if = {{ macro("$notification_telegram_users$") != false }}
+      repeat_key = true
+    } 
+   "-G" = {
+      value = "$notification_telegram_groups$"
+      set_if = {{ macro("$notification_telegram_groups$") != false }}
+      repeat_key = true
+    }
+"""
+
+    def get_arguments_host(self):
+        config = '{\n' + self.get_default_arguments_host() + self.get_telegram_args() + '}\n'
         config += self.get_default_vars_host()
 
         return config
 
     def get_arguments_service(self):
-        config = '{\n' + self.get_default_arguments_service() + """
-   "-r" = {
-      value = "$notification_email$"
-      required = true
-    }       
-}"""
+        config = '{\n' + self.get_default_arguments_service() + self.get_telegram_args() + '}\n'
+
         config += self.get_default_vars_service()
 
         return config

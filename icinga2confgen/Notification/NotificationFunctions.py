@@ -33,6 +33,7 @@ class NotificationFunctions:
         self.__email = []
         self.__phone = []
         self.__pager = []
+        self.__telegram = []
 
     def add_email(self, email):
         ValueChecker.is_string(email)
@@ -47,6 +48,20 @@ class NotificationFunctions:
 
     def get_email(self):
         return self.__email
+
+    def add_telegram_id(self, telegram_id):
+        ValueChecker.is_number(telegram_id)
+        if telegram_id not in self.__telegram:
+            self.__telegram.append(telegram_id)
+        return self
+
+    def remove_telegram_id(self, telegram_id):
+        ValueChecker.is_number(telegram_id)
+        self.__telegram.remove(telegram_id)
+        return self
+
+    def get_telegram_id(self):
+        return self.__telegram
 
     def add_pager(self, pager):
         ValueChecker.is_string(pager)
