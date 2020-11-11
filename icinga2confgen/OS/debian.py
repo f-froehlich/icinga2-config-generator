@@ -27,48 +27,48 @@ from icinga2confgen.PackageManager.PackageManager import apt
 
 
 def os_debian_2_0(): return OS.create('debian_2_0').set_distro('debian').set_version('2.0').set_os(
-    'Debian GNU/Linux 2.0 (hamm)').append_package_manager(apt())
+    'Debian GNU/Linux 2.0 (hamm)').add_package_manager(apt())
 
 
 def os_debian_2_1(): return OS.create('debian_2_1').set_distro('debian').set_version('2.1').set_os(
-    'Debian GNU/Linux 2.1 (slink)').append_package_manager(apt())
+    'Debian GNU/Linux 2.1 (slink)').add_package_manager(apt())
 
 
 def os_debian_2_2(): return OS.create('debian_2_2').set_distro('debian').set_version('2.2').set_os(
-    'Debian GNU/Linux 2.2 (potato)').append_package_manager(apt())
+    'Debian GNU/Linux 2.2 (potato)').add_package_manager(apt())
 
 
 def os_debian_3_0(): return OS.create('debian_3_0').set_distro('debian').set_version('3.0').set_os(
-    'Debian GNU/Linux 3.0 (woody)').append_package_manager(apt())
+    'Debian GNU/Linux 3.0 (woody)').add_package_manager(apt())
 
 
 def os_debian_3_1(): return OS.create('debian_3_1').set_distro('debian').set_version('3.1').set_os(
-    'Debian GNU/Linux 3.1 (sarge)').append_package_manager(apt())
+    'Debian GNU/Linux 3.1 (sarge)').add_package_manager(apt())
 
 
 def os_debian_4_0(): return OS.create('debian_4_0').set_distro('debian').set_version('4.0').set_os(
-    'Debian GNU/Linux 4.0 (etch)').append_package_manager(apt())
+    'Debian GNU/Linux 4.0 (etch)').add_package_manager(apt())
 
 
 def os_debian_5_0(): return OS.create('debian_5_0').set_distro('debian').set_version('5.0').set_os(
-    'Debian GNU/Linux 5.0 (lenny)').append_package_manager(apt())
+    'Debian GNU/Linux 5.0 (lenny)').add_package_manager(apt())
 
 
 def os_debian_6_0(): return OS.create('debian_6_0').set_distro('debian').set_version('6.0').set_os(
-    'Debian 6.0 (squeeze)').append_package_manager(apt())
+    'Debian 6.0 (squeeze)').add_package_manager(apt())
 
 
 def os_debian_7(): return OS.create('debian_7').set_distro('debian').set_version('7').set_os(
-    'Debian 7 (wheezy)').append_package_manager(apt())
+    'Debian 7 (wheezy)').add_package_manager(apt())
 
 
 def os_debian_8(): return OS.create('debian_8').set_distro('debian').set_version('8').set_os(
-    'Debian 8 (jessie)').append_package_manager(apt())
+    'Debian 8 (jessie)').add_package_manager(apt())
 
 
 def os_debian_9(): return OS.create('debian_9').set_distro('debian').set_version('9').set_os(
-    'Debian 9 (stretch)').append_package_manager(apt())
+    'Debian 9 (stretch)').add_package_manager(apt())
 
 
 def os_debian_10(): return OS.create('debian_10').set_distro('debian').set_version('10').set_os(
-    'Debian 10 (buster)').append_package_manager(apt())
+    'Debian 10 (buster)').add_package_manager(apt())

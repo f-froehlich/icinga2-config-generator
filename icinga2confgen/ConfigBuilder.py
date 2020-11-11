@@ -26,10 +26,8 @@
 import shutil
 from pathlib import Path
 
-from tqdm import tqdm
-
-from icinga2confgen.Application.Application import Application
 from icinga2confgen.ValueChecker import ValueChecker
+from tqdm import tqdm
 
 
 class ConfigBuilder:
@@ -38,7 +36,6 @@ class ConfigBuilder:
     __templates = []
     __commands = []
     __notification_commands = []
-    __vhosts = []
     __hostgroups = []
     __servicegroups = []
     __usergroups = []
@@ -51,7 +48,6 @@ class ConfigBuilder:
     __zones = []
     __os = []
     __package_manager = []
-    __application = Application.create()
     __pbar = tqdm(desc="Configuring", unit=' Configs')
     __check_for_existence = True
 
@@ -77,7 +73,6 @@ class ConfigBuilder:
             {'dir': 'checks', 'config': ConfigBuilder.__checks},
             {'dir': 'templates', 'config': ConfigBuilder.__templates},
             {'dir': 'commands', 'config': ConfigBuilder.__commands},
-            {'dir': 'vhosts', 'config': ConfigBuilder.__vhosts},
             {'dir': 'groups/servicegroups', 'config': ConfigBuilder.__servicegroups},
             {'dir': 'groups/hostgroups', 'config': ConfigBuilder.__hostgroups},
             {'dir': 'groups/usergroups', 'config': ConfigBuilder.__usergroups},
@@ -116,9 +111,6 @@ class ConfigBuilder:
                 file.write(server.get_config())
             pbar.update(1)
 
-        with open('zones.d/application.conf', "w") as file:
-            file.write(ConfigBuilder.__application.get_config())
-            pbar.update(1)
 
         pbar.close()
 
@@ -126,7 +118,7 @@ class ConfigBuilder:
     def get_hosts_with_hostgroup(group):
         servers_with_group = []
         for server in ConfigBuilder.__servers:
-            if group in server.get_hostgroups():
+            if group in server.get_hostgroups_recursive():
                 servers_with_group.append(server)
 
         return servers_with_group
@@ -147,7 +139,6 @@ class ConfigBuilder:
             'checks': ConfigBuilder.__checks,
             'templates': ConfigBuilder.__templates,
             'commands': ConfigBuilder.__commands,
-            'vhosts': ConfigBuilder.__vhosts,
             'servicegroups': ConfigBuilder.__servicegroups,
             'hostgroups': ConfigBuilder.__hostgroups,
             'usergroups': ConfigBuilder.__usergroups,
@@ -249,22 +240,6 @@ class ConfigBuilder:
             raise Exception('NotificationCommand with id ' + id + ' already exists!')
 
         ConfigBuilder.__notification_commands.append({'id': id, 'instance': notification_command})
-        ConfigBuilder.__pbar.update(1)
-
-    @staticmethod
-    def get_vhost(id):
-        for vhost in ConfigBuilder.__vhosts:
-            if vhost['id'] == id:
-                return vhost['instance']
-
-        return None
-
-    @staticmethod
-    def add_vhost(id, vhost):
-        if ConfigBuilder.__check_for_existence and None is not ConfigBuilder.get_vhost(id):
-            raise Exception('vHost with id ' + id + ' already exists!')
-
-        ConfigBuilder.__vhosts.append({'id': id, 'instance': vhost})
         ConfigBuilder.__pbar.update(1)
 
     @staticmethod
@@ -410,18 +385,6 @@ class ConfigBuilder:
             raise Exception('Downtime with id ' + id + ' already exists!')
 
         ConfigBuilder.__downtimes.append({'id': id, 'instance': period})
-        ConfigBuilder.__pbar.update(1)
-
-    @staticmethod
-    def get_application():
-        return ConfigBuilder.__application
-
-    @staticmethod
-    def set_application(application):
-        if not isinstance(application, Application):
-            raise Exception('Can only set Application')
-
-        ConfigBuilder.__application = application
         ConfigBuilder.__pbar.update(1)
 
     @staticmethod

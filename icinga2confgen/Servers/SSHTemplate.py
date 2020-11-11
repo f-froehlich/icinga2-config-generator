@@ -86,7 +86,13 @@ class SSHTemplate(PluginDirs):
     def get_port(self):
         return self.__port
 
+    def validate(self):
+        if None == self.__host:
+            raise Exception('You have to specify the host in SSHTemplate on ' + self.__id)
+
     def get_config(self):
+        self.validate()
+
         config = 'template Host "sshtemplate_' + self.__id + '" {\n'
         config += ValueMapper.get_property_default_config(self, 'SSHTemplate', 'overssh', 'command')
         config += ValueMapper.parse_var('vars.command_overssh_nagios_plugin_dir', self.get_nagios_plugindir())

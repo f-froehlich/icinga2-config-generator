@@ -23,6 +23,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from icinga2confgen.Checks.Checkable import Checkable
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Downtimes.DefaultScheduledDowntimes import ScheduledDowntime
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
@@ -33,9 +34,10 @@ from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
 
-class Check:
+class Check(Checkable):
 
     def __init__(self, id, class_name, command_name):
+        Checkable.__init__(self)
         self.__command_name = command_name
         self.__class_name = class_name
         self.__display_name = get_default_check_name(id, command_name)
@@ -45,10 +47,6 @@ class Check:
         self.__notifications = []
         self.__downtimes = []
         self.__allowed_check_types = ["local", "ssh"]
-        self.__max_check_attempts = 3
-        self.__check_interval = '1m'
-        self.__retry_interval = '15s'
-        self.__enable_perfdata = True
         self.__command_endpoint = None
         self.__override_endpoint = False
         self.__zone = None
@@ -148,35 +146,6 @@ class Check:
     def get_check_type(self):
         return self.__check_type
 
-    def set_max_check_attempts(self, max_check_attempts):
-        ValueChecker.is_number(max_check_attempts)
-        self.__max_check_attempts = max_check_attempts
-        return self
-
-    def get_max_check_attempts(self):
-        return self.__max_check_attempts
-
-    def set_check_interval(self, check_interval):
-        ValueChecker.is_string(check_interval)
-        self.__check_interval = check_interval
-        return self
-
-    def get_check_interval(self):
-        return self.__check_interval
-
-    def set_retry_interval(self, retry_interval):
-        ValueChecker.is_string(retry_interval)
-        self.__retry_interval = retry_interval
-        return self
-
-    def get_retry_interval(self):
-        return self.__retry_interval
-
-    def set_enable_perfdata(self, enable_perfdata):
-        ValueChecker.is_bool(enable_perfdata)
-        self.__enable_perfdata = enable_perfdata
-        return self
-
     def set_display_name(self, display_name):
         ValueChecker.is_string(display_name)
         self.__display_name = display_name
@@ -213,10 +182,7 @@ class Check:
         return ValueMapper.parse_var('vars.notification', self.__notifications, value_prefix='notification_')
 
     def get_check_config(self):
-        config = '  max_check_attempts = ' + str(self.__max_check_attempts) + '\n'
-        config += '  check_interval = ' + self.__check_interval + '\n'
-        config += '  retry_interval = ' + self.__retry_interval + '\n'
-        config += ValueMapper.parse_var('enable_perfdata', self.__enable_perfdata)
+        config = Checkable.get_check_config(self)
         config += ValueMapper.parse_var('display_name', self.__display_name)
         if self.__override_endpoint:
             config += '  command_endpoint = "' + self.__command_endpoint + '"\n'

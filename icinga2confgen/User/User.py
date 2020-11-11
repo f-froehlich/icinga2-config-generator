@@ -129,6 +129,24 @@ class User(NotificationFunctions):
 
         return self
 
+    def get_var(self, key):
+
+        ValueChecker.is_string(key)
+        for var in self.__vars:
+            if var[0] == key:
+                return var[0]
+
+        return None
+
+    def remove_var(self, key):
+
+        ValueChecker.is_string(key)
+        var = self.get_var(key)
+        if None != var:
+            self.__vars.remove((key, var))
+
+        return self
+
     def set_enable_notifications(self, enable_notifications):
         ValueChecker.is_bool(enable_notifications)
         self.__enable_notifications = enable_notifications

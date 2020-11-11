@@ -61,7 +61,7 @@ class OS:
     def get_os(self):
         return self.__os
 
-    def append_package_manager(self, package_manager):
+    def add_package_manager(self, package_manager):
 
         if isinstance(package_manager, PackageManager):
             if package_manager not in self.__package_manager:
@@ -72,7 +72,7 @@ class OS:
             if None is package_manager:
                 raise Exception('PackageManager does not exist yet!')
 
-            return self.append_package_manager(package_manager)
+            return self.add_package_manager(package_manager)
         else:
             raise Exception('Can only add PackageManager or id of PackageManager!')
 

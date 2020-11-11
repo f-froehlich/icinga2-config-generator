@@ -24,6 +24,7 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from icinga2confgen.Checks.Check import Check
+from icinga2confgen.Checks.Checkable import Checkable
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Downtimes.ScheduledDowntime import ScheduledDowntime
 from icinga2confgen.Groups.HostGroup import HostGroup
@@ -33,17 +34,17 @@ from icinga2confgen.PackageManager.PackageManager import PackageManager
 from icinga2confgen.Servers.PluginDirs import PluginDirs
 from icinga2confgen.Servers.SSHTemplate import SSHTemplate
 from icinga2confgen.Servers.ScriptDirs import ScriptDirs
-from icinga2confgen.Servers.VHost import VHost
 from icinga2confgen.Servers.Zone import Zone
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
 
-class ServerTemplate(PluginDirs, ScriptDirs):
+class ServerTemplate(PluginDirs, ScriptDirs, Checkable):
 
     def __init__(self, id):
         PluginDirs.__init__(self)
         ScriptDirs.__init__(self)
+        Checkable.__init__(self)
         self.__id = id
         self.__ipv4 = None
         self.__ipv6 = None
@@ -51,17 +52,12 @@ class ServerTemplate(PluginDirs, ScriptDirs):
         self.__ssh_template = None
         self.__os = None
         self.__checks = []
-        self.__vhosts = []
         self.__templates = []
         self.__custom_vars = []
         self.__groups = []
         self.__notifications = []
         self.__downtimes = []
         self.__package_manager = []
-        self.__max_check_attempts = 3
-        self.__check_interval = '1m'
-        self.__retry_interval = '15s'
-        self.__enable_perfdata = True
         self.__execution_zone = Zone.create('master')
 
     @staticmethod
@@ -94,35 +90,6 @@ class ServerTemplate(PluginDirs, ScriptDirs):
 
     def get_execution_zone(self):
         return self.__execution_zone
-
-    def set_max_check_attempts(self, max_check_attempts):
-        ValueChecker.is_number(max_check_attempts)
-        self.__max_check_attempts = max_check_attempts
-        return self
-
-    def get_max_check_attempts(self):
-        return self.__max_check_attempts
-
-    def set_check_interval(self, check_interval):
-        ValueChecker.is_string(check_interval)
-        self.__check_interval = check_interval
-        return self
-
-    def get_check_interval(self):
-        return self.__check_interval
-
-    def set_retry_interval(self, retry_interval):
-        ValueChecker.is_string(retry_interval)
-        self.__retry_interval = retry_interval
-        return self
-
-    def get_retry_interval(self):
-        return self.__retry_interval
-
-    def set_enable_perfdata(self, enable_perfdata):
-        ValueChecker.is_bool(enable_perfdata)
-        self.__enable_perfdata = enable_perfdata
-        return self
 
     def get_enable_perfdata(self):
         return self.__enable_perfdata
@@ -263,37 +230,6 @@ class ServerTemplate(PluginDirs, ScriptDirs):
 
         return self.__checks
 
-    def add_vhost(self, vhost):
-        if isinstance(vhost, VHost):
-            if vhost not in self.__vhosts:
-                self.__vhosts.append(vhost)
-
-        elif isinstance(vhost, str):
-            vhost = ConfigBuilder.get_vhost(vhost)
-            if None is vhost:
-                raise Exception('VHost does not exist yet')
-
-            self.add_vhost(vhost)
-
-        else:
-            raise Exception('Can only add VHost or id of VHost!')
-
-        return self
-
-    def remove_vhost(self, vhost):
-        if isinstance(vhost, VHost):
-            self.__vhosts.remove(vhost)
-
-        elif isinstance(vhost, str):
-            vhost = ConfigBuilder.get_vhost(vhost)
-            self.__vhosts.remove(vhost)
-
-        return self
-
-    def get_vhost_ids(self):
-
-        return self.__vhosts
-
     def add_template(self, template):
         if isinstance(template, ServerTemplate):
             if template not in self.__templates:
@@ -339,6 +275,13 @@ class ServerTemplate(PluginDirs, ScriptDirs):
     def get_hostgroups(self):
         return self.__groups
 
+    def get_hostgroups_recursive(self):
+        groups = self.__groups
+        for template in self.__templates:
+            groups += template.get_hostgroups()
+
+        return groups
+
     def remove_hostgroup(self, group):
         if isinstance(group, HostGroup):
             self.__groups.remove(group)
@@ -377,7 +320,7 @@ class ServerTemplate(PluginDirs, ScriptDirs):
 
         return last_value
 
-    def append_package_manager(self, package_manager):
+    def add_package_manager(self, package_manager):
 
         if isinstance(package_manager, PackageManager):
             if package_manager not in self.__package_manager:
@@ -387,7 +330,7 @@ class ServerTemplate(PluginDirs, ScriptDirs):
             package_manager = ConfigBuilder.get_package_manager(package_manager)
             if None is package_manager:
                 raise Exception('PackageManager does not exist yet!')
-            self.append_package_manager(package_manager)
+            self.add_package_manager(package_manager)
         else:
             raise Exception('Can only add PackageManager or id of PackageManager!')
 
@@ -410,9 +353,6 @@ class ServerTemplate(PluginDirs, ScriptDirs):
         for template in self.__templates:
             config += '  import "servertemplate_' + template.get_id() + '"\n'
 
-        for vhost in self.__vhosts:
-            config += '  import "vhost_' + vhost.get_id() + '"\n'
-
         if None is not self.__ssh_template:
             config += '  import "sshtemplate_' + self.__ssh_template.get_id() + '"\n'
 
@@ -422,15 +362,12 @@ class ServerTemplate(PluginDirs, ScriptDirs):
         for manager in self.__package_manager:
             config += '  import "packagemanager_' + manager.get_id() + '"\n'
 
-        config += '  check_interval = ' + self.__check_interval + '\n'
-        config += '  retry_interval = ' + self.__retry_interval + '\n'
+        config += Checkable.get_check_config(self)
         config += ValueMapper.parse_var('vars.notification', self.__notifications, value_prefix='notification_')
         config += ValueMapper.parse_var('vars.downtime', self.__downtimes, value_prefix='downtime_')
         config += ValueMapper.parse_var('address', self.__ipv4)
         config += ValueMapper.parse_var('address6', self.__ipv6)
         config += ValueMapper.parse_var('display_name', self.__display_name)
-        config += ValueMapper.parse_var('max_check_attempts', self.__max_check_attempts)
-        config += ValueMapper.parse_var('enable_perfdata', self.__enable_perfdata)
         config += ValueMapper.parse_var('vars.checks', self.__checks, value_prefix='check_')
         config += ValueMapper.parse_var('groups', self.__groups, value_prefix='hostgroup_')
         config += PluginDirs.get_dir_config(self)
