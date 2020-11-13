@@ -118,8 +118,8 @@ class ConfigBuilder:
     def get_hosts_with_hostgroup(group):
         servers_with_group = []
         for server in ConfigBuilder.__servers:
-            if group in server.get_hostgroups_recursive():
-                servers_with_group.append(server)
+            if group in server['instance'].get_hostgroups_recursive():
+                servers_with_group.append(server['instance'])
 
         return servers_with_group
 

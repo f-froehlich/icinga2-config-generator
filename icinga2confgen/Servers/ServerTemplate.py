@@ -24,24 +24,24 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from icinga2confgen.Checks.Check import Check
-from icinga2confgen.Checks.Checkable import Checkable
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Downtimes.ScheduledDowntime import ScheduledDowntime
 from icinga2confgen.Groups.HostGroup import HostGroup
-from icinga2confgen.Notification.Notification import Notification
+from icinga2confgen.Helpers.Checkable import Checkable
+from icinga2confgen.Helpers.CustomVars import CustomVars
+from icinga2confgen.Helpers.PluginDirs import PluginDirs
+from icinga2confgen.Helpers.ScriptDirs import ScriptDirs
 from icinga2confgen.OS.OS import OS
 from icinga2confgen.PackageManager.PackageManager import PackageManager
-from icinga2confgen.Servers.PluginDirs import PluginDirs
 from icinga2confgen.Servers.SSHTemplate import SSHTemplate
-from icinga2confgen.Servers.ScriptDirs import ScriptDirs
 from icinga2confgen.Servers.Zone import Zone
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
 
-class ServerTemplate(PluginDirs, ScriptDirs, Checkable):
+class ServerTemplate(PluginDirs, ScriptDirs, Checkable, CustomVars):
 
     def __init__(self, id):
+        CustomVars.__init__(self)
         PluginDirs.__init__(self)
         ScriptDirs.__init__(self)
         Checkable.__init__(self)
@@ -53,10 +53,7 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable):
         self.__os = None
         self.__checks = []
         self.__templates = []
-        self.__custom_vars = []
         self.__groups = []
-        self.__notifications = []
-        self.__downtimes = []
         self.__package_manager = []
         self.__execution_zone = Zone.create('master')
 
@@ -91,9 +88,6 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable):
     def get_execution_zone(self):
         return self.__execution_zone
 
-    def get_enable_perfdata(self):
-        return self.__enable_perfdata
-
     def set_ipv4(self, ip):
         ValueChecker.is_string(ip)
         self.__ipv4 = ip
@@ -110,14 +104,6 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable):
     def get_ipv6(self):
         return self.__ipv6
 
-    def get_display_name(self):
-        return self.__display_name
-
-    def set_display_name(self, name):
-        ValueChecker.is_string(name)
-        self.__display_name = name
-        return self
-
     def set_ssh_template(self, ssh_template):
 
         if isinstance(ssh_template, SSHTemplate):
@@ -132,6 +118,10 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable):
             raise Exception('Can only add SSHTemplate or id of SSHTemplate!')
 
         return self
+
+    def get_ssh_template(self):
+
+        return self.__ssh_template
 
     def set_os(self, os):
 
@@ -148,54 +138,9 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable):
 
         return self
 
-    def add_downtime(self, downtime):
-        if isinstance(downtime, ScheduledDowntime):
-            self.__downtimes.append(downtime)
-        elif isinstance(downtime, str):
-            downtime = ConfigBuilder.get_downtime(downtime)
-            if None is downtime:
-                raise Exception('Downtime does not exist yet!')
-            self.__downtimes.append(downtime)
-        else:
-            raise Exception('Can only add Downtime or id of Downtime!')
+    def get_os(self):
 
-        return self
-
-    def remove_downtime(self, downtime):
-        if isinstance(downtime, ScheduledDowntime):
-            self.__downtimes.remove(downtime.get_id())
-        elif isinstance(downtime, str):
-            self.__downtimes.remove('downtime_' + downtime)
-
-        return self
-
-    def get_ssh_template(self):
-        return self.__ssh_template
-
-    def add_notification(self, notification):
-        if isinstance(notification, Notification):
-            self.__notifications.append(notification)
-        elif isinstance(notification, str):
-            notification = ConfigBuilder.get_notification(notification)
-            if None is notification:
-                raise Exception('Notification does not exist yet!')
-
-            self.__notifications.append(notification)
-        else:
-            raise Exception('Can only add Notification or id of Notification!')
-
-        return self
-
-    def remove_notification(self, notification):
-
-        if isinstance(notification, HostNotification):
-            self.__notifications.remove(notification)
-
-        elif isinstance(notification, str):
-            notification = ConfigBuilder.get_notification(notification)
-            self.__notifications.remove(notification)
-
-        return self
+        return self.__os
 
     def add_check(self, check):
         if isinstance(check, Check):
@@ -212,7 +157,7 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable):
 
         return self
 
-    def add_checks(self):
+    def get_check(self):
 
         return self.__checks
 
@@ -225,10 +170,6 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable):
             self.__checks.remove(check)
 
         return self
-
-    def get_check_ids(self):
-
-        return self.__checks
 
     def add_template(self, template):
         if isinstance(template, ServerTemplate):
@@ -293,33 +234,6 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable):
 
         return self
 
-    def add_custom_var(self, key, value):
-        self.__custom_vars.append({'key': key, 'value': value})
-        return self
-
-    def remove_custom_var(self, key):
-        vars = self.__custom_vars
-        self.__custom_vars = []
-        for var in vars:
-            if var['key'] != key:
-                self.__custom_vars.append(var)
-        return self
-
-    def get_custom_var(self, key):
-        for var in self.__custom_vars:
-            if var['key'] == key:
-                return var['value']
-
-        last_value = None
-
-        for template in self.__templates:
-            if None is not template:
-                new_value = template.get_custom_var(key)
-                if None is not new_value:
-                    last_value = new_value
-
-        return last_value
-
     def add_package_manager(self, package_manager):
 
         if isinstance(package_manager, PackageManager):
@@ -362,20 +276,14 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable):
         for manager in self.__package_manager:
             config += '  import "packagemanager_' + manager.get_id() + '"\n'
 
-        config += Checkable.get_check_config(self)
-        config += ValueMapper.parse_var('vars.notification', self.__notifications, value_prefix='notification_')
-        config += ValueMapper.parse_var('vars.downtime', self.__downtimes, value_prefix='downtime_')
+        config += Checkable.get_config(self)
         config += ValueMapper.parse_var('address', self.__ipv4)
         config += ValueMapper.parse_var('address6', self.__ipv6)
-        config += ValueMapper.parse_var('display_name', self.__display_name)
         config += ValueMapper.parse_var('vars.checks', self.__checks, value_prefix='check_')
         config += ValueMapper.parse_var('groups', self.__groups, value_prefix='hostgroup_')
         config += PluginDirs.get_dir_config(self)
         config += ScriptDirs.get_dir_config(self)
-
-        for custom_var in self.__custom_vars:
-            config += '  vars.' + custom_var['key'] + ' = ' + ValueMapper.parse_value_for_var(
-                custom_var['value']) + '\n'
+        config += CustomVars.get_config(self)
 
         config += '  check_command = "hostalive"\n'
         config += '  zone = "' + self.__execution_zone.get_id() + '"\n'

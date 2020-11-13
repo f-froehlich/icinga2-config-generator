@@ -23,11 +23,9 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Checks.Checkable import Checkable
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Downtimes.DefaultScheduledDowntimes import ScheduledDowntime
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.Notification.Notification import Notification
+from icinga2confgen.Helpers.Checkable import Checkable
 from icinga2confgen.Servers.Zone import Zone
 from icinga2confgen.Utils.DefaultNames import get_default_check_name
 from icinga2confgen.ValueChecker import ValueChecker
@@ -38,14 +36,12 @@ class Check(Checkable):
 
     def __init__(self, id, class_name, command_name):
         Checkable.__init__(self)
+        self.set_display_name(get_default_check_name(id, command_name))
         self.__command_name = command_name
         self.__class_name = class_name
-        self.__display_name = get_default_check_name(id, command_name)
         self.__id = id
         self.__service_groups = []
         self.__check_type = "local"
-        self.__notifications = []
-        self.__downtimes = []
         self.__allowed_check_types = ["local", "ssh"]
         self.__command_endpoint = None
         self.__override_endpoint = False
@@ -104,32 +100,6 @@ class Check(Checkable):
     def get_endpoint_name(self):
         return self.__command_endpoint
 
-    def add_notification(self, notification):
-        if isinstance(notification, Notification):
-            self.__notifications.append(notification)
-        elif isinstance(notification, str):
-            notification = ConfigBuilder.get_notification(notification)
-            if None is notification:
-                raise Exception('Notification does not exist yet!')
-
-            self.__notifications.append(notification)
-        else:
-            raise Exception('Can only add Notification or id of Notification!')
-
-        return self
-
-    def add_downtime(self, downtime):
-        if isinstance(downtime, ScheduledDowntime):
-            self.__downtimes.append(downtime.get_id())
-        elif isinstance(downtime, str):
-            if None is ConfigBuilder.get_downtime(downtime):
-                raise Exception('Downtime does not exist yet!')
-            self.__downtimes.append(downtime)
-        else:
-            raise Exception('Can only add Downtime or id of Downtime!')
-
-        return self
-
     def get_service_group_ids(self):
 
         return self.__service_groups
@@ -146,14 +116,6 @@ class Check(Checkable):
     def get_check_type(self):
         return self.__check_type
 
-    def set_display_name(self, display_name):
-        ValueChecker.is_string(display_name)
-        self.__display_name = display_name
-        return self
-
-    def get_display_name(self):
-        return self.__display_name
-
     def get_custom_definitions(self):
         return []
 
@@ -165,8 +127,6 @@ class Check(Checkable):
         config += self.get_property_default_config()
         config += self.get_custom_property_config()
         config += self.get_group_config()
-        config += self.get_notification_config()
-        config += self.get_downtime_config()
         config += self.get_check_config()
         config += '  assign where "check_' + self.get_id() + '" in host.vars.checks\n'
         config += '}\n'
@@ -177,13 +137,8 @@ class Check(Checkable):
 
         return ValueMapper.parse_var('groups', self.__service_groups, value_prefix='servicegroup_')
 
-    def get_notification_config(self):
-
-        return ValueMapper.parse_var('vars.notification', self.__notifications, value_prefix='notification_')
-
     def get_check_config(self):
-        config = Checkable.get_check_config(self)
-        config += ValueMapper.parse_var('display_name', self.__display_name)
+        config = Checkable.get_config(self)
         if self.__override_endpoint:
             config += '  command_endpoint = "' + self.__command_endpoint + '"\n'
         else:
@@ -194,9 +149,6 @@ class Check(Checkable):
             config += '  zone = host.vars.zone_name\n'
 
         return config
-
-    def get_downtime_config(self):
-        return ValueMapper.parse_var('downtime', self.__downtimes, value_prefix='downtime_')
 
     def get_custom_property_config(self):
         config = ''
