@@ -25,8 +25,8 @@
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.Helpers import DefaultNames
 from icinga2confgen.Helpers.Checkable import Checkable
-from icinga2confgen.Utils import DefaultNames
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
@@ -69,7 +69,7 @@ class Check(Checkable):
 
         return self
 
-    def get_service_group_ids(self):
+    def get_service_groups(self):
 
         return self.__service_groups
 

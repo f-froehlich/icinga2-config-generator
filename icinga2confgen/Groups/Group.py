@@ -23,7 +23,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Utils.DefaultNames import get_default_group_name
+from icinga2confgen.Helpers.DefaultNames import get_default_group_name
 from icinga2confgen.ValueChecker import ValueChecker
 
 

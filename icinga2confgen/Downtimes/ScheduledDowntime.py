@@ -35,7 +35,6 @@ class ScheduledDowntime:
         self.__duration = None
         self.__child_options = None
         self.__ranges = []
-        self.__type = None
 
     @staticmethod
     def create(id, force_create=False):
@@ -84,15 +83,6 @@ class ScheduledDowntime:
     def get_author(self):
         return self.__author
 
-    def set_type(self, type):
-        if type not in ['Service', 'Host']:
-            raise Exception('Type must be Host or Service')
-        self.__type = type
-        return self
-
-    def get_type(self):
-        return self.__type
-
     def set_child_options(self, child_options):
         if child_options not in ['DowntimeNoChildren', 'DowntimeTriggeredChildren', 'DowntimeNonTriggeredChildren']:
             raise Exception(
@@ -124,32 +114,30 @@ class ScheduledDowntime:
         return self
 
     def validate(self):
-        if None is self.__type:
-            raise Exception('Type must be set for Downtime ' + self.__id)
         if None is self.__author:
             raise Exception('Author must be set for Downtime ' + self.__id)
         if None is self.__comment:
             raise Exception('Comment must be set for Downtime ' + self.__id)
 
     def get_config(self):
+        config = ''
+        for type in ['Host', 'Service']:
 
-        config = 'apply ScheduledDowntime "downtime_' + self.__id + '" to ' + self.__type + '{\n'
-        config += ValueMapper.parse_var('comment', self.__comment)
-        config += ValueMapper.parse_var('author', self.__author)
-        if None is not self.__duration and 'Service' == self.__type:
-            # todo prüfen
-            config += '  duration = "' + self.__duration + '"\n'
-        if None is not self.__child_options:
-            config += '  child_options = "' + self.__child_options + '"\n'
+            config += 'apply ScheduledDowntime "downtime_' + self.__id + '" to ' + type + '{\n'
+            config += ValueMapper.parse_var('comment', self.__comment)
+            config += ValueMapper.parse_var('author', self.__author)
+            config += ValueMapper.parse_var('child_options', self.__child_options)
+            config += ValueMapper.parse_var('fixed', self.__fixed)
+            if None is not self.__duration:
+                config += '  duration = ' + self.__duration + '\n'
 
-        config += ValueMapper.parse_var('fixed', self.__fixed)
+            if 0 < len(self.__ranges):
+                config += '  ranges = {\n'
+                for range in self.__ranges:
+                    config += '    "' + range[0] + '" = "' + range[1] + '"\n'
+                config += '  }\n'
 
-        config += '  ranges = {\n'
-        for range in self.__ranges:
-            config += '    "' + range[0] + '" = "' + range[1] + '"\n'
-        config += '  }\n'
-
-        config += '  assign where "downtime_' + self.__id + '" in ' + self.__type.lower() + '.vars.' + self.__id + '\n'
-        config += '}\n'
+            config += '  assign where "downtime_' + self.__id + '" in ' + type.lower() + '.vars.downtime\n'
+            config += '}\n'
 
         return config

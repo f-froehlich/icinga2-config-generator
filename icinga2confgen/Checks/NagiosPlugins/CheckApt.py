@@ -128,9 +128,6 @@ class CheckApt(Check):
     def get_update(self):
         return self.__update
 
-    def get_custom_definitions(self):
-        return []
-
     @staticmethod
     def create(id, force_create=False):
         ValueChecker.validate_id(id)
