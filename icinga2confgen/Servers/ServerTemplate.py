@@ -44,7 +44,7 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable, CustomVars):
         CustomVars.__init__(self)
         PluginDirs.__init__(self)
         ScriptDirs.__init__(self)
-        Checkable.__init__(self)
+        Checkable.__init__(self, is_check=False)
         self.__id = id
         self.__ipv4 = None
         self.__ipv6 = None
@@ -56,6 +56,7 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable, CustomVars):
         self.__groups = []
         self.__package_manager = []
         self.__execution_zone = Zone.create('master')
+        self.__execution_endpoint = None
 
     @staticmethod
     def create(id, force_create=False):
@@ -87,6 +88,14 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable, CustomVars):
 
     def get_execution_zone(self):
         return self.__execution_zone
+
+    def set_execution_endpoint(self, endpoint):
+        ValueChecker.is_string(endpoint)
+        self.__execution_endpoint = endpoint
+        return self
+
+    def get_execution_endpoint(self):
+        return self.__execution_endpoint
 
     def set_ipv4(self, ip):
         ValueChecker.is_string(ip)
@@ -209,7 +218,7 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable, CustomVars):
                 raise Exception('HostGroup does not exist yet!')
             self.add_hostgroup(group)
         else:
-            raise Exception('Can only add Hostgroup or id of Hostgroup!')
+            raise Exception('Can only add HostGroup or id of HostGroup!')
 
         return self
 
@@ -229,8 +238,6 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable, CustomVars):
         elif isinstance(group, str):
             group = ConfigBuilder.get_hostgroup(group)
             self.__groups.remove(group)
-        else:
-            raise Exception('Can only add Hostgroup or id of Hostgroup!')
 
         return self
 
@@ -261,6 +268,9 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable, CustomVars):
 
         return self
 
+    def get_package_managers(self):
+        return self.__package_manager
+
     def get_config(self):
         config = 'template Host "servertemplate_' + self.__id + '" {\n'
 
@@ -281,12 +291,13 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable, CustomVars):
         config += ValueMapper.parse_var('address6', self.__ipv6)
         config += ValueMapper.parse_var('vars.checks', self.__checks, value_prefix='check_')
         config += ValueMapper.parse_var('groups', self.__groups, value_prefix='hostgroup_')
-        config += PluginDirs.get_dir_config(self)
-        config += ScriptDirs.get_dir_config(self)
+        config += PluginDirs.get_config(self)
+        config += ScriptDirs.get_config(self)
         config += CustomVars.get_config(self)
 
         config += '  check_command = "hostalive"\n'
         config += '  zone = "' + self.__execution_zone.get_id() + '"\n'
+        config += ValueMapper.parse_var('vars.endpoint_name', self.__execution_endpoint)
         config += '}\n'
 
         return config

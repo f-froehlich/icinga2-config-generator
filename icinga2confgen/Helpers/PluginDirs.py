@@ -58,7 +58,7 @@ class PluginDirs:
     def get_harik_sekhon_plugindir(self):
         return self.__harik_sekhon_plugin_dir
 
-    def get_dir_config(self):
+    def get_config(self):
         config = ValueMapper.parse_var('vars.nagios_plugin_dir', self.__nagios_plugin_dir)
         config += ValueMapper.parse_var('vars.monitoring_plugin_dir', self.__monitoring_plugin_dir)
         config += ValueMapper.parse_var('vars.harik_sekhon_plugin_dir', self.__harik_sekhon_plugin_dir)

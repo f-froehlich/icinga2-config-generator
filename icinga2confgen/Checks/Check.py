@@ -26,8 +26,7 @@
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.Helpers.Checkable import Checkable
-from icinga2confgen.Servers.Zone import Zone
-from icinga2confgen.Utils.DefaultNames import get_default_check_name
+from icinga2confgen.Utils import DefaultNames
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
@@ -36,17 +35,13 @@ class Check(Checkable):
 
     def __init__(self, id, class_name, command_name):
         Checkable.__init__(self)
-        self.set_display_name(get_default_check_name(id, command_name))
         self.__command_name = command_name
         self.__class_name = class_name
         self.__id = id
         self.__service_groups = []
         self.__check_type = "local"
         self.__allowed_check_types = ["local", "ssh"]
-        self.__command_endpoint = None
-        self.__override_endpoint = False
-        self.__zone = None
-        self.__override_zone = False
+        self.set_display_name(DefaultNames.get_default_check_name(id, command_name))
 
     @staticmethod
     def create(id, force_create=False):
@@ -73,32 +68,6 @@ class Check(Checkable):
             raise Exception('Can only add Servicegroup or id of Servicegroup!')
 
         return self
-
-    def set_zone(self, zone):
-        if isinstance(zone, Zone):
-            self.__zone = zone
-            self.__override_zone = True
-        elif isinstance(zone, str):
-            zone = ConfigBuilder.get_zone(zone)
-            if None is zone:
-                raise Exception('Zone does not exist yet!')
-            self.__zone = zone
-            self.__override_zone = True
-        else:
-            raise Exception('Can only add Zone or id of Zone!')
-        return self
-
-    def get_zone(self):
-        return self.__zone
-
-    def set_endpoint_name(self, name):
-        ValueChecker.is_string(name)
-        self.__override_endpoint = True
-        self.__command_endpoint = name
-        return self
-
-    def get_endpoint_name(self):
-        return self.__command_endpoint
 
     def get_service_group_ids(self):
 
@@ -127,7 +96,7 @@ class Check(Checkable):
         config += self.get_property_default_config()
         config += self.get_custom_property_config()
         config += self.get_group_config()
-        config += self.get_check_config()
+        config += Checkable.get_config(self)
         config += '  assign where "check_' + self.get_id() + '" in host.vars.checks\n'
         config += '}\n'
 
@@ -136,19 +105,6 @@ class Check(Checkable):
     def get_group_config(self):
 
         return ValueMapper.parse_var('groups', self.__service_groups, value_prefix='servicegroup_')
-
-    def get_check_config(self):
-        config = Checkable.get_config(self)
-        if self.__override_endpoint:
-            config += '  command_endpoint = "' + self.__command_endpoint + '"\n'
-        else:
-            config += '  command_endpoint = host.vars.endpoint_name\n'
-        if self.__override_zone:
-            config += '  zone = "' + self.__zone.get_id() + '"\n'
-        else:
-            config += '  zone = host.vars.zone_name\n'
-
-        return config
 
     def get_custom_property_config(self):
         config = ''

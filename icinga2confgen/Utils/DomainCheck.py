@@ -59,7 +59,7 @@ class DomainCheck:
                     dnssec_check = CheckDNSSECExpire.create('dnssec_expiry_' + base_id)
                     dnssec_check.add_service_group(ServiceGroup.create('dnssec')) \
                         .set_display_name(dnssec_check.get_display_name() + ' ' + domain) \
-                        .set_zone(domain)
+                        .set_dns_zone(domain)
 
                     self.apply_notification_to_check(dnssec_check)
 

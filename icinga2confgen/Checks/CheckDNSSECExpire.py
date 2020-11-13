@@ -36,7 +36,7 @@ class CheckDNSSECExpire(Check):
         Check.__init__(self, id, 'CheckDNSSECExpire', 'dnssec_expiry')
         self.__warning = '10d'
         self.__critical = '5d'
-        self.__zone = None
+        self.__dns_zone = None
         self.__resolver = '1.1.1.1'
         self.__failing_domain = None
         self.__record_type = None
@@ -61,13 +61,13 @@ class CheckDNSSECExpire(Check):
     def get_critical(self):
         return self.__critical
 
-    def set_zone(self, zone):
+    def set_dns_zone(self, zone):
         ValueChecker.is_string(zone)
-        self.__zone = zone
+        self.__dns_zone = zone
         return self
 
-    def get_zone(self):
-        return self.__zone
+    def get_dns_zone(self):
+        return self.__dns_zone
 
     def set_resolver(self, resolver):
         ValueChecker.is_string(resolver)
@@ -107,5 +107,5 @@ class CheckDNSSECExpire(Check):
         return check
 
     def validate(self):
-        if None is self.__zone:
+        if None is self.__dns_zone:
             raise Exception('You have to specify a zone for ' + self.get_id())

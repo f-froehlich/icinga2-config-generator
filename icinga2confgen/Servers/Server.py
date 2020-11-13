@@ -25,9 +25,7 @@
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Servers.ServerTemplate import ServerTemplate
-from icinga2confgen.Servers.Zone import Zone
 from icinga2confgen.ValueChecker import ValueChecker
-from icinga2confgen.ValueMapper import ValueMapper
 
 
 class Server(ServerTemplate):
@@ -35,35 +33,9 @@ class Server(ServerTemplate):
     def __init__(self, id):
         ServerTemplate.__init__(self, id)
         self.__id = id
-        self.__zone = Zone.create('master')
-        self.__endpoint_name = None
 
     def get_id(self):
         return self.__id
-
-    def set_endpoint_name(self, name):
-        ValueChecker.is_string(name)
-        self.__endpoint_name = name
-        return self
-
-    def get_endpoint_name(self):
-        return self.__endpoint_name
-
-    def set_zone(self, zone):
-        if isinstance(zone, Zone):
-            self.__zone = zone
-
-        elif isinstance(zone, str):
-            zone = ConfigBuilder.get_zone(zone)
-            if None is zone:
-                raise Exception('Zone does not exist yet!')
-            self.__zone = zone
-        else:
-            raise Exception('Can only add Zone or id of Zone!')
-        return self
-
-    def get_zone(self):
-        return self.__zone
 
     @staticmethod
     def create(id, force_create=False):
@@ -80,8 +52,6 @@ class Server(ServerTemplate):
         config = ServerTemplate.get_config(self)
         config += 'object Host "server_' + self.get_id() + '" {\n'
         config += '  import "servertemplate_' + ServerTemplate.get_id(self) + '"\n'
-        config += '  vars.zone_name = "' + self.__zone.get_id() + '"\n'
-        config += ValueMapper.parse_var('vars.endpoint_name', self.__endpoint_name)
         config += '}\n'
 
         return config
