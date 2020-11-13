@@ -69,10 +69,11 @@ class ScheduledDowntime:
     def set_author(self, author):
 
         if isinstance(author, User):
-            self.__author = author.get_id()
+            self.__author = author
 
         elif isinstance(author, str):
-            if None is ConfigBuilder.get_user(author):
+            author = ConfigBuilder.get_user(author)
+            if None is author:
                 raise Exception('User does not exist yet!')
             self.__author = author
         else:
@@ -112,6 +113,9 @@ class ScheduledDowntime:
         ValueChecker.is_string(range)
         self.__ranges.remove((day, range))
         return self
+
+    def get_periods(self):
+        return self.__ranges
 
     def validate(self):
         if None is self.__author:
