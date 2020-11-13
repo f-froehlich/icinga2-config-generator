@@ -24,23 +24,16 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from icinga2confgen.Helpers.DefaultNames import get_default_group_name
-from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Helpers.Namable import Nameable
 
 
-class Group:
+class Group(Nameable):
 
     def __init__(self, id, type):
+        Nameable.__init__(self)
+        self.set_display_name(get_default_group_name(id))
         self.__id = id
         self.__type = type
-        self.__display_name = get_default_group_name(id)
-
-    def set_display_name(self, name):
-        ValueChecker.is_string(name)
-        self.__display_name = name
-        return self
-
-    def get_display_name(self):
-        return self.__display_name
 
     def get_id(self):
         return self.__id
@@ -50,8 +43,7 @@ class Group:
 
     def get_config(self):
         config = 'object ' + self.__type.capitalize() + 'Group "' + self.__type + 'group_' + self.get_id() + '" {\n'
-        if None is not self.__display_name:
-            config += '  display_name = "' + self.__display_name + '"\n'
+        config += Nameable.get_config(self)
         config += self.get_custom_config()
         config += '  assign where "' + self.__type + 'group_' + self.get_id() + '" in ' + self.__type + '.groups\n'
         config += '}\n'

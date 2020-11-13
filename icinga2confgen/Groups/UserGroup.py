@@ -51,10 +51,7 @@ class UserGroup(Group, NotificationFunctions):
     def get_config(self):
         config = Group.get_config(self)
         config += 'object User "user_group_notification_sender_' + self.get_id() + '" {\n'
-        if None == self.get_display_name():
-            config += '  display_name = "Notification sender of group ' + self.get_id() + '"'
-        else:
-            config += '  display_name = "Notification sender of group ' + self.get_display_name() + '"'
+        config += '  display_name = "Notification sender of group ' + self.get_display_name() + '"'
         config += '}\n'
 
         return config
