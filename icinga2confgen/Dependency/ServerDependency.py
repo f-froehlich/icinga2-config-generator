@@ -23,55 +23,40 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Commands.Command import Command
 from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Dependency.Dependency import Dependency
 from icinga2confgen.ValueChecker import ValueChecker
 
 
-class DNSSECExpireCommand(Command):
+class ServerDependency(Dependency):
 
     def __init__(self, id):
-        Command.__init__(self, id)
+        Dependency.__init__(self, id)
 
     @staticmethod
     def create(id, force_create=False):
         ValueChecker.validate_id(id)
-        command = None if force_create else ConfigBuilder.get_command(id)
-        if None is command:
-            command = DNSSECExpireCommand(id)
-            ConfigBuilder.add_command(id, command)
 
-        return command
+        dependency = None if force_create else ConfigBuilder.get_dependency(id)
+        if None is dependency:
+            dependency = ServerDependency(id)
+            ConfigBuilder.add_dependency(id, dependency)
 
-    def get_command(self):
-        return 'check_dnssec_expiry.sh'
+        return dependency
 
-    def get_arguments(self):
-        config = """{
-    "-z" = {
-      value = "$command_dnssec_expiry_dns_zone$"
-      required = true
-    }
-    "-w" = {
-      value = "$command_dnssec_expiry_warning$"
-      required = true
-    }
-    "-c" = {
-      value = "$command_dnssec_expiry_critical$"
-      required = true
-    }
-    "-r" = {
-      value = "$command_dnssec_expiry_resolver$"
-      set_if = {{ macro("$command_dnssec_expiry_resolver$") != false }}
-    }
-    "-f" = {
-      value = "$command_dnssec_expiry_failing_domain$"
-      set_if = {{ macro("$command_dnssec_expiry_failing_domain$") != false }}
-    }
-    "-t" = {
-      value = "$command_dnssec_expiry_record_type$"
-      set_if = {{ macro("$command_dnssec_expiry_record_type$") != false }}
-    }
-  }
-"""
+    def get_allowed_states(self):
+        raise Exception("You have to override get_allowed_states!")
+
+    def get_default_states(self):
+        raise Exception("You have to override get_default_states!")
+
+    def get_config(self):
+        self.validate()
+
+        config = Dependency.get_config(self)
+        config += 'apply Dependency "hostdependency_' + self.__id + '" to Host {\n'
+        config += '  import "dependency_' + self.get_id() + '"\n'
+        config += '  assign where "dependency_' + self.__id + '" in host.vars.dependencies\n'
+        config += '}\n'
+
         return config

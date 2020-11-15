@@ -56,7 +56,6 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
         self.__validate_deny_wp_activate = True
         self.__validate_deny_wp_links_opml = True
         self.__inherit = True
-        self.__git_checks = DefaultGitChecks(vhostconfig, servers, checkserver, notifications).set_inherit(False)
 
     def set_inherit(self, enabled):
         ValueChecker.is_bool(enabled)
@@ -247,12 +246,13 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
     def is_validating_deny_wp_links_opml(self):
         return self.__validate_deny_wp_links_opml
 
-    def create_wp_check(self, name, base_id, server, domain, uri):
+    def create_wp_check(self, name, service_baseid, base_id, server, domain, uri):
 
         if None is server.get_ipv4() and None is server.get_ipv6():
             raise Exception('It is required to set the ipv4 or ipv6 on the server with id "' +
                             server.get_id() + '", before you can apply this checks!')
 
+        default_access_checks = self.get_default_access_check(service_baseid, server, domain)
         if None is not server.get_ipv4():
             check = CheckHttp.create('web_access_deny_' + name + '_ipv4_' + base_id)
             check.set_ip(server.get_ipv4()) \
@@ -263,12 +263,10 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
                 .set_expect('40') \
                 .set_check_interval('1d') \
                 .set_display_name(check.get_display_name() + ' ' + domain) \
-                .add_service_group(ServiceGroup.create('wordpress')) \
-                .add_service_group(ServiceGroup.create('webserver'))
+                .add_service_group(ServiceGroup.create('wordpress'))
             self.apply_notification_to_check(check)
 
-            for checkserver in DefaultWebserverChecks.get_checkservers(self):
-                checkserver.add_check(check)
+            self.apply_check_to_checkserver(check, default_access_checks['ipv4'])
 
         if None is not server.get_ipv6():
             check = CheckHttp.create('web_access_deny_' + name + '_ipv6_' + base_id)
@@ -280,20 +278,14 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
                 .set_expect('40') \
                 .set_check_interval('1d') \
                 .set_display_name(check.get_display_name() + ' ' + domain) \
-                .add_service_group(ServiceGroup.create('wordpress')) \
-                .add_service_group(ServiceGroup.create('webserver'))
+                .add_service_group(ServiceGroup.create('wordpress'))
             self.apply_notification_to_check(check)
 
-            for checkserver in DefaultWebserverChecks.get_checkservers(self):
-                checkserver.add_check(check)
+            self.apply_check_to_checkserver(check, default_access_checks['ipv6'])
 
     def apply(self):
         if self.__inherit:
             DefaultWebserverChecks.apply(self)
-
-        self.__git_checks.validate_deny_git(self.__validate_deny_git) \
-            .validate_deny_gitignore(self.__validate_deny_gitignore) \
-            .apply()
 
         for config in DefaultWordpressChecks.get_vhostconfigs(self):
             service_baseid = config[0]
@@ -304,36 +296,42 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
                 base_id = service_baseid + '_' + server.get_id() + '_' + ValueMapper.canonicalize_for_id(domain)
 
                 if True is self.__validate_deny_license:
-                    self.create_wp_check('license', base_id, server, domain, '/license.txt')
+                    self.create_wp_check('license', service_baseid, base_id, server, domain, '/license.txt')
                 if True is self.__validate_deny_readme:
-                    self.create_wp_check('readme', base_id, server, domain, '/readme.html')
+                    self.create_wp_check('readme', service_baseid, base_id, server, domain, '/readme.html')
                 if True is self.__validate_deny_wp_admin:
-                    self.create_wp_check('wp_admin', base_id, server, domain, '/wp-admin/')
+                    self.create_wp_check('wp_admin', service_baseid, base_id, server, domain, '/wp-admin/')
                 if True is self.__validate_deny_wp_content:
-                    self.create_wp_check('wp_includes', base_id, server, domain, '/wp-includes/')
+                    self.create_wp_check('wp_includes', service_baseid, base_id, server, domain, '/wp-includes/')
                 if True is self.__validate_deny_wp_content:
-                    self.create_wp_check('wp_content', base_id, server, domain, '/wp-content/')
+                    self.create_wp_check('wp_content', service_baseid, base_id, server, domain, '/wp-content/')
                 if True is self.__validate_deny_wp_login:
-                    self.create_wp_check('wp_login', base_id, server, domain, '/wp-login.php')
+                    self.create_wp_check('wp_login', service_baseid, base_id, server, domain, '/wp-login.php')
                 if True is self.__validate_deny_wp_cron:
-                    self.create_wp_check('wp_cron', base_id, server, domain, '/wp-cron.php')
+                    self.create_wp_check('wp_cron', service_baseid, base_id, server, domain, '/wp-cron.php')
                 if True is self.__validate_deny_wp_load:
-                    self.create_wp_check('wp_load', base_id, server, domain, '/wp-load.php')
+                    self.create_wp_check('wp_load', service_baseid, base_id, server, domain, '/wp-load.php')
                 if True is self.__validate_deny_wp_mail:
-                    self.create_wp_check('wp_mail', base_id, server, domain, '/wp-mail.php')
+                    self.create_wp_check('wp_mail', service_baseid, base_id, server, domain, '/wp-mail.php')
                 if True is self.__validate_deny_wp_signup:
-                    self.create_wp_check('wp_signup', base_id, server, domain, '/wp-signup.php')
+                    self.create_wp_check('wp_signup', service_baseid, base_id, server, domain, '/wp-signup.php')
                 if True is self.__validate_deny_wp_trackback:
-                    self.create_wp_check('wp_trackback', base_id, server, domain, '/wp-trackback.php')
+                    self.create_wp_check('wp_trackback', service_baseid, base_id, server, domain, '/wp-trackback.php')
                 if True is self.__validate_deny_wp_xmlrpc:
-                    self.create_wp_check('wp_xmlrpc', base_id, server, domain, '/xmlrpc.php')
+                    self.create_wp_check('wp_xmlrpc', service_baseid, base_id, server, domain, '/xmlrpc.php')
                 if True is self.__validate_deny_wp_config:
-                    self.create_wp_check('wp_config', base_id, server, domain, '/wp-config.php')
+                    self.create_wp_check('wp_config', service_baseid, base_id, server, domain, '/wp-config.php')
                 if True is self.__validate_deny_wp_config_sample:
-                    self.create_wp_check('wp_config_sample', base_id, server, domain, '/wp-config-sample.php')
+                    self.create_wp_check('wp_config_sample', service_baseid, base_id, server, domain,
+                                         '/wp-config-sample.php')
                 if True is self.__validate_deny_wp_blog_header:
-                    self.create_wp_check('wp_blog_header', base_id, server, domain, '/wp-blog-header.php')
+                    self.create_wp_check('wp_blog_header', service_baseid, base_id, server, domain,
+                                         '/wp-blog-header.php')
                 if True is self.__validate_deny_wp_activate:
-                    self.create_wp_check('wp_activate', base_id, server, domain, '/wp-activate.php')
+                    self.create_wp_check('wp_activate', service_baseid, base_id, server, domain, '/wp-activate.php')
                 if True is self.__validate_deny_wp_links_opml:
-                    self.create_wp_check('wp_links_opml', base_id, server, domain, '/wp-links-opml.php')
+                    self.create_wp_check('wp_links_opml', service_baseid, base_id, server, domain, '/wp-links-opml.php')
+
+        DefaultGitChecks(self.get_vhostconfigs(), self.get_servers(), self.get_checkservers(), self.get_notifications()) \
+            .set_inherit(False) \
+            .apply()

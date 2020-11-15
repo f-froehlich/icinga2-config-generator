@@ -23,6 +23,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Notification.TimePeriod import TimePeriod
 
 
@@ -40,10 +41,16 @@ class DefaultTimePeriods:
 
     @staticmethod
     def continuously(id='24_7', display_name='24/7'):
+        period = ConfigBuilder.get_time_period(id)
+        if None != period:
+            return period
+
         return TimePeriod.create(id) \
             .set_display_name(display_name) \
             .add_period("monday", "00:00-24:00") \
             .add_period("tuesday", "00:00-24:00") \
             .add_period("wednesday", "00:00-24:00") \
             .add_period("thursday", "00:00-24:00") \
-            .add_period("friday", "00:00-24:00")
+            .add_period("friday", "00:00-24:00") \
+            .add_period("saturday", "00:00-24:00") \
+            .add_period("sunday", "00:00-24:00")

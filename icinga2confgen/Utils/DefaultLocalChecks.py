@@ -35,6 +35,7 @@ from icinga2confgen.Checks.NagiosPlugins.CheckNTPTime import CheckNTPTime
 from icinga2confgen.Checks.NagiosPlugins.CheckProcs import CheckProcs
 from icinga2confgen.Checks.NagiosPlugins.CheckSWAP import CheckSWAP
 from icinga2confgen.Checks.NagiosPlugins.CheckUsers import CheckUsers
+from icinga2confgen.Dependency.CheckDependency import CheckDependency
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.ValueChecker import ValueChecker
 
@@ -431,14 +432,21 @@ class DefaultLocalChecks:
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
+            sshd_running_check = None
+            if True is self.__check_sshd_running:
+                sshd_running_check = self.create_running_check('sshd', 'sshd', server)
+
             if True is self.__check_sshd_security:
                 check = CheckSSHDSecurity.create('sshd_security_' + server.get_id()) \
                     .set_check_type(self.__check_type)
                 self.apply_notification_to_check(check)
                 server.add_check(check)
 
-            if True is self.__check_sshd_running:
-                self.create_running_check('sshd', 'sshd', server)
+                if None != sshd_running_check:
+                    dependency = CheckDependency.create('sshd_security_require_sshd_running_' + server.get_id()) \
+                        .set_server(server) \
+                        .set_check(sshd_running_check)
+                    check.add_dependency(dependency)
 
             if True is self.__check_mysqld_running:
                 check = self.create_running_check('mysql', 'mysqld', server)

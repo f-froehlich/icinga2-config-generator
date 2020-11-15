@@ -23,6 +23,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Dependency.Dependency import Dependency
 from icinga2confgen.Downtimes.ScheduledDowntime import ScheduledDowntime
 from icinga2confgen.Helpers.Namable import Nameable
 from icinga2confgen.Notification.Notification import Notification
@@ -42,6 +43,7 @@ class Checkable(Nameable):
         self.__enable_perfdata = True
         self.__notifications = []
         self.__downtimes = []
+        self.__dependencies = []
         self.__dns_zone = Zone.create('master')
         self.__override_zone = False
         self.__command_endpoint = None
@@ -94,14 +96,40 @@ class Checkable(Nameable):
 
     def remove_downtime(self, downtime):
         if isinstance(downtime, ScheduledDowntime):
-            self.__downtimes.remove(downtime.get_id())
+            self.__downtimes.remove(downtime)
         elif isinstance(downtime, str):
-            self.__downtimes.remove('downtime_' + downtime)
+            downtime = ConfigBuilder.get_downtime(downtime)
+            self.__downtimes.remove(downtime)
 
         return self
 
     def get_downtimes(self):
         return self.__downtimes
+
+    def add_dependency(self, dependency):
+        if isinstance(dependency, Dependency):
+            self.__dependencies.append(dependency)
+        elif isinstance(dependency, str):
+            dependency = ConfigBuilder.get_dependency(dependency)
+            if None is dependency:
+                raise Exception('Dependency does not exist yet!')
+            self.__dependencies.append(dependency)
+        else:
+            raise Exception('Can only add Dependency or id of Dependency!')
+
+        return self
+
+    def remove_dependency(self, dependency):
+        if isinstance(dependency, Dependency):
+            self.__dependencies.remove(dependency)
+        elif isinstance(dependency, str):
+            dependency = ConfigBuilder.get_dependency(dependency)
+            self.__dependencies.remove(dependency)
+
+        return self
+
+    def get_dependencies(self):
+        return self.__dependencies
 
     def add_notification(self, notification):
         if isinstance(notification, Notification):
@@ -182,5 +210,6 @@ class Checkable(Nameable):
         config += ValueMapper.parse_var('enable_perfdata', self.__enable_perfdata)
         config += ValueMapper.parse_var('vars.notification', self.__notifications, value_prefix='notification_')
         config += ValueMapper.parse_var('vars.downtime', self.__downtimes, value_prefix='downtime_')
+        config += ValueMapper.parse_var('vars.dependencies', self.__dependencies, value_prefix='dependency_')
 
         return config

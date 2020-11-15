@@ -47,6 +47,7 @@ class ConfigBuilder:
     __downtimes = []
     __zones = []
     __os = []
+    __dependencies = []
     __package_manager = []
     __pbar = tqdm(desc="Configuring", unit=' Configs')
     __check_for_existence = True
@@ -87,7 +88,7 @@ class ConfigBuilder:
             {'dir': 'package_manager', 'config': ConfigBuilder.__package_manager},
         ]
 
-        total = len(ConfigBuilder.__servers)
+        total = len(ConfigBuilder.__servers) + len(ConfigBuilder.__dependencies)
         for config in global_configs:
             total += len(config['config'])
 
@@ -111,6 +112,16 @@ class ConfigBuilder:
                 file.write(server.get_config())
             pbar.update(1)
 
+        for conf in ConfigBuilder.__dependencies:
+            dependency = conf['instance']
+            server = dependency.get_server()
+            zone = server.get_zone()
+            dirpath = 'zones.d/' + ConfigBuilder.replace_prefixes(zone.get_id()) + '/dependencies/'
+
+            Path(dirpath).mkdir(parents=True, exist_ok=True)
+            with open(dirpath + '/' + ConfigBuilder.replace_prefixes(conf['id']) + '.conf', "w") as file:
+                file.write(dependency.get_config())
+            pbar.update(1)
 
         pbar.close()
 
@@ -150,7 +161,8 @@ class ConfigBuilder:
             'notifications': ConfigBuilder.__notifications,
             'downtimes': ConfigBuilder.__downtimes,
             'os': ConfigBuilder.__os,
-            'package_manager': ConfigBuilder.__package_manager
+            'package_manager': ConfigBuilder.__package_manager,
+            'dependencies': ConfigBuilder.__dependencies
         }
 
         instances_config = config[type]
@@ -433,4 +445,20 @@ class ConfigBuilder:
             raise Exception('package_manager with id ' + id + ' already exists!')
 
         ConfigBuilder.__package_manager.append({'id': id, 'instance': package_manager})
+        ConfigBuilder.__pbar.update(1)
+
+    @staticmethod
+    def get_dependency(id):
+        for period in ConfigBuilder.__dependencies:
+            if period['id'] == id:
+                return period['instance']
+
+        return None
+
+    @staticmethod
+    def add_dependency(id, dependency):
+        if ConfigBuilder.__check_for_existence and None is not ConfigBuilder.get_dependency(id):
+            raise Exception('dependency with id ' + id + ' already exists!')
+
+        ConfigBuilder.__dependencies.append({'id': id, 'instance': dependency})
         ConfigBuilder.__pbar.update(1)

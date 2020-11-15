@@ -25,7 +25,6 @@
 from icinga2confgen.Checks.NagiosPlugins.CheckHttp import CheckHttp
 from icinga2confgen.Utils.DefaultWebserverChecks import DefaultWebserverChecks
 from icinga2confgen.ValueChecker import ValueChecker
-from icinga2confgen.ValueMapper import ValueMapper
 
 
 class DefaultGitChecks(DefaultWebserverChecks):
@@ -71,70 +70,42 @@ class DefaultGitChecks(DefaultWebserverChecks):
             service_baseid = config[0]
             domain = config[1]
 
-            for checkserver in DefaultWebserverChecks.get_checkservers(self):
-                for server in DefaultWebserverChecks.get_servers(self):
-                    base_id = service_baseid + '_' + server.get_id() + '_' + ValueMapper.canonicalize_for_id(domain)
-                    server_ipv4 = server.get_ipv4()
-                    server_ipv6 = server.get_ipv6()
+            for server in DefaultWebserverChecks.get_servers(self):
+                base_id = service_baseid
 
-                    if None is server_ipv4 and None is server_ipv6:
-                        raise Exception('It is required to set the ipv4 or ipv6 on the server with id "' +
-                                        server.get_id() + '", before you can apply this checks!')
+                if True is self.__validate_deny_git:
+                    self.create_git_check('gitdir', service_baseid, base_id, domain, server, '/.git/')
 
-                    if True is self.__validate_deny_git:
-                        if None is not server_ipv4:
-                            git_check = CheckHttp.create('web_access_deny_gitdir_ipv4_' + base_id)
-                            git_check.set_ip(server_ipv4) \
-                                .set_vhost(domain) \
-                                .set_uri('/.git/') \
-                                .set_ssl(True) \
-                                .set_sni(DefaultWebserverChecks.get_sni(self)) \
-                                .set_expect('40') \
-                                .set_check_interval('6h') \
-                                .set_display_name(git_check.get_display_name() + ' ' + domain)
-                            self.apply_notification_to_check(git_check)
+                if True is self.__validate_deny_gitignore:
+                    self.create_git_check('gitignore', service_baseid, base_id, domain, server, '/.gitignore')
 
-                            checkserver.add_check(git_check)
+    def create_git_check(self, name, base_id, service_baseid, domain, server, uri):
 
-                        if None is not server_ipv6:
-                            git_check = CheckHttp.create('web_access_deny_gitdir_ipv6_' + base_id)
-                            git_check.set_ip(server_ipv6) \
-                                .set_vhost(domain) \
-                                .set_uri('/.git/') \
-                                .set_ssl(True) \
-                                .set_sni(DefaultWebserverChecks.get_sni(self)) \
-                                .set_expect('40') \
-                                .set_check_interval('6h') \
-                                .set_display_name(git_check.get_display_name() + ' ' + domain)
-                            self.apply_notification_to_check(git_check)
+        if None is server.get_ipv4() and None is server.get_ipv6():
+            raise Exception('It is required to set the ipv4 or ipv6 on the server with id "' +
+                            server.get_id() + '", before you can apply this checks!')
 
-                            checkserver.add_check(git_check)
+        default_access_checks = self.get_default_access_check(service_baseid, server, domain)
+        if None is not server.get_ipv4():
+            git_check = CheckHttp.create('web_access_deny_' + name + '_ipv4_' + base_id)
+            git_check.set_ip(server.get_ipv4()) \
+                .set_vhost(domain) \
+                .set_uri(uri) \
+                .set_ssl(True) \
+                .set_sni(DefaultWebserverChecks.get_sni(self)) \
+                .set_expect('40') \
+                .set_check_interval('6h') \
+                .set_display_name(git_check.get_display_name() + ' ' + domain)
+            self.apply_check_to_checkserver(git_check, default_access_checks['ipv4'])
 
-                    if True is self.__validate_deny_gitignore:
-                        if None is not server_ipv4:
-                            gitignore_check = CheckHttp.create('web_access_deny_gitignore_ipv4_' + base_id)
-                            gitignore_check.set_ip(server_ipv4) \
-                                .set_vhost(domain) \
-                                .set_uri('/.gitignore') \
-                                .set_ssl(True) \
-                                .set_sni(DefaultWebserverChecks.get_sni(self)) \
-                                .set_expect('40') \
-                                .set_check_interval('6h') \
-                                .set_display_name(gitignore_check.get_display_name() + ' ' + domain)
-                            self.apply_notification_to_check(git_check)
-
-                            checkserver.add_check(gitignore_check)
-
-                        if None is not server_ipv6:
-                            gitignore_check = CheckHttp.create('web_access_deny_gitignore_upv6_' + base_id)
-                            gitignore_check.set_ip(server_ipv6) \
-                                .set_vhost(domain) \
-                                .set_uri('/.gitignore') \
-                                .set_ssl(True) \
-                                .set_sni(DefaultWebserverChecks.get_sni(self)) \
-                                .set_expect('40') \
-                                .set_check_interval('6h') \
-                                .set_display_name(gitignore_check.get_display_name() + ' ' + domain)
-                            self.apply_notification_to_check(git_check)
-
-                            checkserver.add_check(gitignore_check)
+        if None is not server.get_ipv6():
+            git_check = CheckHttp.create('web_access_deny_' + name + '_ipv6_' + base_id)
+            git_check.set_ip(server.get_ipv6()) \
+                .set_vhost(domain) \
+                .set_uri(uri) \
+                .set_ssl(True) \
+                .set_sni(DefaultWebserverChecks.get_sni(self)) \
+                .set_expect('40') \
+                .set_check_interval('6h') \
+                .set_display_name(git_check.get_display_name() + ' ' + domain)
+            self.apply_check_to_checkserver(git_check, default_access_checks['ipv4'])
