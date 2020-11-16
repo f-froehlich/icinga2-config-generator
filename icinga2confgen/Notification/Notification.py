@@ -249,6 +249,7 @@ class Notification:
         config += ValueMapper.parse_var('types', self.__service_types)
         config += ValueMapper.parse_var('states', self.__service_states)
         config += '}\n'
+        config += self.apply_for_all()
 
         return config
 
@@ -261,8 +262,11 @@ class Notification:
         configured_users = []
         for group in self.__user_groups:
             for user in all_users:
-                if user in configured_users:
+                # do not send multiple notifications to a user and only send, if user should receive notification
+                # via direct assignment or group assignment
+                if user in configured_users or (user not in self.__users and group not in user.get_groups()):
                     continue
+
                 # write config for user
                 configured_users.append(user)
                 user_data_config = enumerate(self.user_config_function(user))

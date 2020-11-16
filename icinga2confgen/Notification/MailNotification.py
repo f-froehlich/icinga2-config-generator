@@ -43,12 +43,6 @@ class MailNotification(Notification):
 
         return notification
 
-    def get_config(self):
-        config = Notification.get_config(self)
-        config += self.apply_for_all()
-
-        return config
-
     def get_command_config(self):
         return MailNotificationCommand.create('mail')
 
