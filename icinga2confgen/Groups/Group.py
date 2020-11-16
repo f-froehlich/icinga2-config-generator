@@ -45,7 +45,7 @@ class Group(Nameable):
         config = 'object ' + self.__type.capitalize() + 'Group "' + self.__type + 'group_' + self.get_id() + '" {\n'
         config += Nameable.get_config(self)
         config += self.get_custom_config()
-        config += '  assign where "' + self.__type + 'group_' + self.get_id() + '" in ' + self.__type + '.groups\n'
+        config += '  assign where "' + self.__type + 'group_' + self.get_id() + '" in ' + self.__type + '.vars.groups\n'
         config += '}\n'
 
         return config

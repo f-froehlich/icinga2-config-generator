@@ -104,7 +104,7 @@ class Check(Checkable):
 
     def get_group_config(self):
 
-        return ValueMapper.parse_var('groups', self.__service_groups, value_prefix='servicegroup_')
+        return ValueMapper.parse_var('vars.groups', self.__service_groups, value_prefix='servicegroup_')
 
     def get_custom_property_config(self):
         config = ''
