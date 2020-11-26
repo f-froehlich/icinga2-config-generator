@@ -36,7 +36,7 @@ class CheckDummy(Check):
         Check.__init__(self, id, 'CheckDummy', 'dummy')
         self.__state = 1
         self.__text = ""
-        self.set_check_interval('1h')
+        self.set_check_interval('15m')
         self.add_service_group(ServiceGroup.create('dummy'))
 
     def set_state(self, state):

@@ -48,7 +48,6 @@ class CheckNTPPeer(Check):
         self.__twarn = None
         self.__tcrit = None
         self.__timeout = 10
-        self.set_check_interval('5m')
         self.add_service_group(ServiceGroup.create('ntp'))
         self.add_service_group(ServiceGroup.create('network'))
 

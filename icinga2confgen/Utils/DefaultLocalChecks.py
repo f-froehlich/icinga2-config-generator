@@ -34,6 +34,7 @@ from icinga2confgen.Checks.NagiosPlugins.CheckLoad import CheckLoad
 from icinga2confgen.Checks.NagiosPlugins.CheckNTPTime import CheckNTPTime
 from icinga2confgen.Checks.NagiosPlugins.CheckProcs import CheckProcs
 from icinga2confgen.Checks.NagiosPlugins.CheckSWAP import CheckSWAP
+from icinga2confgen.Checks.NagiosPlugins.CheckSensors import CheckSensors
 from icinga2confgen.Checks.NagiosPlugins.CheckUsers import CheckUsers
 from icinga2confgen.Dependency.CheckDependency import CheckDependency
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
@@ -48,6 +49,8 @@ class DefaultLocalChecks:
         self.__notifications = notifications
         self.__check_type = 'local'
         self.__check_load = True
+        self.__check_procs = True
+        self.__check_sensors = False
         self.__check_apt = True
         self.__check_yum = False
         self.__check_users = True
@@ -86,6 +89,24 @@ class DefaultLocalChecks:
 
     def is_checking_load(self):
         return self.__check_load
+
+    def check_procs(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__check_procs = enabled
+
+        return self
+
+    def is_checking_procs(self):
+        return self.__check_procs
+
+    def check_sensors(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__check_sensors = enabled
+
+        return self
+
+    def is_checking_sensors(self):
+        return self.__check_sensors
 
     def check_apt(self, enabled):
         ValueChecker.is_bool(enabled)
@@ -409,6 +430,18 @@ class DefaultLocalChecks:
 
             if True is self.__check_load:
                 check = CheckLoad.create('load_' + server.get_id()) \
+                    .set_check_type(self.__check_type)
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_procs:
+                check = CheckProcs.create('procs_' + server.get_id()) \
+                    .set_check_type(self.__check_type)
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_sensors:
+                check = CheckSensors.create('sensors_' + server.get_id()) \
                     .set_check_type(self.__check_type)
                 self.apply_notification_to_check(check)
                 server.add_check(check)

@@ -44,13 +44,16 @@ class DNSSECExpireCommand(Command):
         return command
 
     def get_command(self):
-        return 'check_dnssec_expiry.sh'
+        return 'check_dnssec_status.py'
+
+    def get_command_definition(self):
+        return '[ "$monitoring_plugin_dir$" + "/' + self.get_command() + '"]'
 
     def get_arguments(self):
         config = """{
-    "-z" = {
-      value = "$command_dnssec_expiry_dns_zone$"
-      required = true
+    "-d" = {
+      value = "$command_dnssec_expiry_dns_domains$"
+      repeat_key = true
     }
     "-w" = {
       value = "$command_dnssec_expiry_warning$"
@@ -64,13 +67,15 @@ class DNSSECExpireCommand(Command):
       value = "$command_dnssec_expiry_resolver$"
       set_if = {{ macro("$command_dnssec_expiry_resolver$") != false }}
     }
-    "-f" = {
-      value = "$command_dnssec_expiry_failing_domain$"
-      set_if = {{ macro("$command_dnssec_expiry_failing_domain$") != false }}
+    "--ignore-root" = {
+      set_if = "$command_dnssec_expiry_ignore_root$"
     }
-    "-t" = {
-      value = "$command_dnssec_expiry_record_type$"
-      set_if = {{ macro("$command_dnssec_expiry_record_type$") != false }}
+    "--ignore-tld" = {
+      set_if = "$command_dnssec_expiry_ignore_tld$"
+    }
+    "--timeout" = {
+      value = "$command_dnssec_expiry_timeout$"
+      set_if = {{ macro("$command_dnssec_expiry_timeout$") != false }}
     }
   }
 """

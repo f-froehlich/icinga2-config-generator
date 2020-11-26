@@ -43,7 +43,7 @@ class CheckYum(Check):
         self.__repo_enabled = None
         self.__repo_disabled = None
         self.__plugin_disabled = None
-        self.set_check_interval('1h')
+        self.set_check_interval('15m')
         self.add_service_group(ServiceGroup.create('updates'))
         self.add_service_group(ServiceGroup.create('yum'))
 

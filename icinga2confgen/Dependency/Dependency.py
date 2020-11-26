@@ -130,7 +130,7 @@ class Dependency:
         self.validate()
 
         config = 'template Dependency "dependency_' + self.__id + '" {\n'
-        config += ValueMapper.parse_var('parent_host_name', self.__parent_host_name, value_prefix='server_')
+        config += ValueMapper.parse_var('parent_host_name', self.__parent_host_name)
         config += ValueMapper.parse_var('disable_checks', self.__disable_checks)
         config += ValueMapper.parse_var('disable_notifications', self.__disable_notifications)
         config += ValueMapper.parse_var('ignore_soft_states', self.__ignore_soft_states)

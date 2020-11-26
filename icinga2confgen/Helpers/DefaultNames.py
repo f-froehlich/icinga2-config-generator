@@ -179,7 +179,7 @@ def get_default_check_name(id, command_name):
         'ping4': 'Ping (ipv4)',
         'ping6': 'Ping (ipv6)',
         'pop': 'POP',
-        'procs': 'Procs',
+        'procs': 'Processes',
         'radius': 'RADIUS',
         'rpc': 'RPC',
         'running_proc_amavisd': 'Amavisd running',

@@ -46,7 +46,6 @@ class CheckNTPTime(Check):
         self.__stratum_warn = None
         self.__stratum_crit = None
         self.__timeout = None
-        self.set_check_interval('5m')
         self.add_service_group(ServiceGroup.create('ntp'))
         self.add_service_group(ServiceGroup.create('network'))
 

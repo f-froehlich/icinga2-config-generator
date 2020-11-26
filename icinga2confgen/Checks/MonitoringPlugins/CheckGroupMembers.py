@@ -36,7 +36,7 @@ class CheckGroupMembers(Check):
         Check.__init__(self, id, 'CheckGroupMembers', 'group_members')
         self.__group = 'sudo'
         self.__users = []
-        self.set_check_interval('3h')
+        self.set_check_interval('15m')
         self.add_service_group(ServiceGroup.create('security'))
         self.add_service_group(ServiceGroup.create('group_members'))
 

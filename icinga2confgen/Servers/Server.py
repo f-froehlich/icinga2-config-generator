@@ -50,7 +50,7 @@ class Server(ServerTemplate):
 
     def get_config(self):
         config = ServerTemplate.get_config(self)
-        config += 'object Host "server_' + self.get_id() + '" {\n'
+        config += 'object Host "' + self.get_id() + '" {\n'
         config += '  import "servertemplate_' + ServerTemplate.get_id(self) + '"\n'
         config += '}\n'
 

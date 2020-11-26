@@ -42,7 +42,7 @@ class CheckSSHDSecurity(Check):
         self.__fingerprint_hash = None
         self.__port = None
         self.__config = []
-        self.set_check_interval('6h')
+        self.set_check_interval('15m')
         self.add_service_group(ServiceGroup.create('security'))
         self.add_service_group(ServiceGroup.create('sshd'))
         self.add_service_group(ServiceGroup.create('sshd_security'))

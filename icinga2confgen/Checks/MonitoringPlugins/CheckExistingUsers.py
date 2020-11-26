@@ -38,7 +38,7 @@ class CheckExistingUsers(Check):
         self.__uid_max = None
         self.__users = ["root"]
         self.__shell_filter = ["/bin/false", "/bin/sync", "/sbin/nologin", "/usr/sbin/nologin"]
-        self.set_check_interval('3h')
+        self.set_check_interval('15m')
         self.add_service_group(ServiceGroup.create('security'))
         self.add_service_group(ServiceGroup.create('existing_user'))
 

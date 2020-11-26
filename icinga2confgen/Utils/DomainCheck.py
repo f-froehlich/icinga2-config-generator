@@ -22,9 +22,8 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-from icinga2confgen.Checks.CheckDNSSECExpire import CheckDNSSECExpire
+from icinga2confgen.Checks.MonitoringPlugins.CheckDNSSECExpire import CheckDNSSECExpire
 from icinga2confgen.Checks.NagiosPlugins.CheckDig import CheckDig
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 
 
 class DomainCheck:
@@ -56,10 +55,8 @@ class DomainCheck:
                 base_id = ''.join(e for e in domain if e.isalnum())
 
                 if True is dnssec:
-                    dnssec_check = CheckDNSSECExpire.create('dnssec_expiry_' + base_id)
-                    dnssec_check.add_service_group(ServiceGroup.create('dnssec')) \
-                        .set_display_name(dnssec_check.get_display_name() + ' ' + domain) \
-                        .set_dns_zone(domain)
+                    dnssec_check = CheckDNSSECExpire.create('dnssec_expiry') \
+                        .add_dns_domain(domain)
 
                     self.apply_notification_to_check(dnssec_check)
 

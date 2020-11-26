@@ -44,7 +44,7 @@ class CheckApt(Check):
         self.__only_critical = None
         self.__packages_warning = None
         self.__update = None
-        self.set_check_interval('1h')
+        self.set_check_interval('15m')
         self.add_service_group(ServiceGroup.create('updates'))
         self.add_service_group(ServiceGroup.create('apt'))
 

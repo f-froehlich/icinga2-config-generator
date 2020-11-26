@@ -42,7 +42,7 @@ class CheckUFWStatus(Check):
         self.__outgoing = None
         self.__routing = None
         self.__rule = []
-        self.set_check_interval('6h')
+        self.set_check_interval('15m')
         self.add_service_group(ServiceGroup.create('security'))
         self.add_service_group(ServiceGroup.create('ufw'))
         self.add_service_group(ServiceGroup.create('firewall'))

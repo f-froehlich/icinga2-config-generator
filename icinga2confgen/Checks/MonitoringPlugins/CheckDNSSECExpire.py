@@ -24,7 +24,7 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from icinga2confgen.Checks.Check import Check
-from icinga2confgen.Commands.DNSSECExpireCommand import DNSSECExpireCommand
+from icinga2confgen.Commands.MonitoringPlugins.DNSSECExpireCommand import DNSSECExpireCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.ValueChecker import ValueChecker
@@ -34,19 +34,20 @@ class CheckDNSSECExpire(Check):
 
     def __init__(self, id):
         Check.__init__(self, id, 'CheckDNSSECExpire', 'dnssec_expiry')
-        self.__warning = '10d'
-        self.__critical = '5d'
-        self.__dns_zone = None
+        self.__warning = 10
+        self.__critical = 5
+        self.__dns_domains = []
         self.__resolver = '1.1.1.1'
-        self.__failing_domain = None
-        self.__record_type = None
-        self.set_check_interval('3h')
+        self.__ignore_root = True
+        self.__ignore_tld = True
+        self.__timeout = 30
+        self.set_check_interval('15m')
         self.add_service_group(ServiceGroup.create('security'))
         self.add_service_group(ServiceGroup.create('dns'))
         self.add_service_group(ServiceGroup.create('dnssec'))
 
     def set_warning(self, warning):
-        ValueChecker.is_string(warning)
+        ValueChecker.is_number(warning)
         self.__warning = warning
         return self
 
@@ -54,20 +55,34 @@ class CheckDNSSECExpire(Check):
         return self.__warning
 
     def set_critical(self, critical):
-        ValueChecker.is_string(critical)
+        ValueChecker.is_number(critical)
         self.__critical = critical
         return self
 
     def get_critical(self):
         return self.__critical
 
-    def set_dns_zone(self, zone):
-        ValueChecker.is_string(zone)
-        self.__dns_zone = zone
+    def set_timeout(self, timeout):
+        ValueChecker.is_number(timeout)
+        self.__timeout = timeout
         return self
 
-    def get_dns_zone(self):
-        return self.__dns_zone
+    def get_timeout(self):
+        return self.__timeout
+
+    def add_dns_domain(self, domain):
+        ValueChecker.is_string(domain)
+        if domain not in self.__dns_domains:
+            self.__dns_domains.append(domain)
+        return self
+
+    def remove_dns_domain(self, domain):
+        ValueChecker.is_string(domain)
+        self.__dns_domains.remove(domain)
+        return self
+
+    def get_dns_domains(self):
+        return self.__dns_domains
 
     def set_resolver(self, resolver):
         ValueChecker.is_string(resolver)
@@ -77,21 +92,21 @@ class CheckDNSSECExpire(Check):
     def get_resolver(self):
         return self.__resolver
 
-    def set_failing_domain(self, failing_domain):
-        ValueChecker.is_string(failing_domain)
-        self.__failing_domain = failing_domain
+    def set_ignore_root(self, ignore_root):
+        ValueChecker.is_bool(ignore_root)
+        self.__ignore_root = ignore_root
         return self
 
-    def get_failing_domain(self):
-        return self.__failing_domain
+    def get_ignore_root(self):
+        return self.__ignore_root
 
-    def set_record_type(self, record_type):
-        ValueChecker.is_string(record_type)
-        self.__record_type = record_type
+    def set_ignore_tld(self, ignore_tld):
+        ValueChecker.is_bool(ignore_tld)
+        self.__ignore_tld = ignore_tld
         return self
 
-    def get_record_type(self):
-        return self.__record_type
+    def get_ignore_tld(self):
+        return self.__ignore_tld
 
     @staticmethod
     def create(id, force_create=False):
@@ -107,5 +122,4 @@ class CheckDNSSECExpire(Check):
         return check
 
     def validate(self):
-        if None is self.__dns_zone:
-            raise Exception('You have to specify a zone for ' + self.get_id())
+        pass

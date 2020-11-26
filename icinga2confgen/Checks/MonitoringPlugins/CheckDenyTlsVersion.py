@@ -37,7 +37,7 @@ class CheckDenyTlsVersion(Check):
         self.__protocol = None
         self.__domain = None
         self.__address = None
-        self.set_check_interval('6h')
+        self.set_check_interval('15m')
         self.add_service_group(ServiceGroup.create('security'))
         self.add_service_group(ServiceGroup.create('webserver'))
         self.add_service_group(ServiceGroup.create('tls'))

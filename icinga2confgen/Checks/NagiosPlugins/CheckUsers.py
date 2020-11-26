@@ -36,7 +36,6 @@ class CheckUsers(Check):
         Check.__init__(self, id, 'CheckUsers', 'users')
         self.__warning = 5
         self.__critical = 10
-        self.set_check_interval('5m')
         self.add_service_group(ServiceGroup.create('user'))
 
     def set_warning(self, number):

@@ -249,7 +249,7 @@ class DefaultWebserverChecks:
                             .set_ssl(True) \
                             .set_sni(self.__sni) \
                             .set_certificate_check(True) \
-                            .set_check_interval('3h') \
+                            .set_check_interval('15m') \
                             .add_service_group(ServiceGroup.create('certificate_check')) \
                             .set_display_name(certificate_check.get_display_name() + ' ' + domain)
 
@@ -263,7 +263,7 @@ class DefaultWebserverChecks:
                             .set_ssl(True) \
                             .set_sni(self.__sni) \
                             .set_certificate_check(True) \
-                            .set_check_interval('3h') \
+                            .set_check_interval('15m') \
                             .add_service_group(ServiceGroup.create('certificate_check')) \
                             .set_display_name(certificate_check.get_display_name() + ' ' + domain)
 
@@ -282,7 +282,7 @@ class DefaultWebserverChecks:
                             .set_sni(self.__sni) \
                             .set_port(80) \
                             .set_expect('HTTP/1.1 30') \
-                            .set_check_interval('6h') \
+                            .set_check_interval('15m') \
                             .add_service_group(ServiceGroup.create('http_redirect')) \
                             .set_display_name(redirect_check.get_display_name() + ' ' + domain)
 
@@ -297,7 +297,7 @@ class DefaultWebserverChecks:
                             .set_sni(self.__sni) \
                             .set_port(80) \
                             .set_expect('HTTP/1.1 30') \
-                            .set_check_interval('6h') \
+                            .set_check_interval('15m') \
                             .add_service_group(ServiceGroup.create('http_redirect')) \
                             .set_display_name(redirect_check.get_display_name() + ' ' + domain)
 
@@ -309,7 +309,7 @@ class DefaultWebserverChecks:
                     redirect_check = CheckDummy.create('web_access_missing_http_redirect_' + base_id)
                     redirect_check.set_state(1) \
                         .set_text(redirect_check.get_display_name() + ' ' + domain) \
-                        .set_check_interval('6h') \
+                        .set_check_interval('15m') \
                         .add_service_group(ServiceGroup.create('missing_http_redirect_check')) \
                         .add_service_group(ServiceGroup.create('webserver')) \
                         .set_display_name(redirect_check.get_display_name() + ' ' + domain)
@@ -353,7 +353,7 @@ class DefaultWebserverChecks:
                     .set_uri(uri) \
                     .set_sni(self.__sni) \
                     .set_ssl_protocol(protocol) \
-                    .set_check_interval('6h') \
+                    .set_check_interval('15m') \
                     .add_service_group(ServiceGroup.create('tls_' + protocol_id + '_check')) \
                     .add_service_group(ServiceGroup.create('tls')) \
                     .set_display_name(tls_check.get_display_name() + ' ' + domain)
@@ -367,7 +367,7 @@ class DefaultWebserverChecks:
                     .set_uri(uri) \
                     .set_sni(self.__sni) \
                     .set_ssl_protocol(protocol) \
-                    .set_check_interval('6h') \
+                    .set_check_interval('15m') \
                     .add_service_group(ServiceGroup.create('tls_' + protocol_id + '_check')) \
                     .add_service_group(ServiceGroup.create('tls')) \
                     .set_display_name(tls_check.get_display_name() + ' ' + domain)
@@ -387,7 +387,7 @@ class DefaultWebserverChecks:
                 tls_check.set_address(server_ipv4) \
                     .set_domain(domain) \
                     .set_protocol(protocol) \
-                    .set_check_interval('6h') \
+                    .set_check_interval('15m') \
                     .add_service_group(ServiceGroup.create('tls_' + protocol_id + '_check')) \
                     .set_display_name(tls_check.get_display_name() + ' ' + domain)
 
@@ -398,7 +398,7 @@ class DefaultWebserverChecks:
                 tls_check.set_address(server_ipv6) \
                     .set_domain(domain) \
                     .set_protocol(protocol) \
-                    .set_check_interval('6h') \
+                    .set_check_interval('15m') \
                     .add_service_group(ServiceGroup.create('tls_' + protocol_id + '_check')) \
                     .set_display_name(tls_check.get_display_name() + ' ' + domain)
                 self.apply_check_to_checkserver(tls_check, default_ipv6_http_check)

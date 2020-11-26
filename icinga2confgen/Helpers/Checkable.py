@@ -83,12 +83,14 @@ class Checkable(Nameable):
 
     def add_downtime(self, downtime):
         if isinstance(downtime, ScheduledDowntime):
-            self.__downtimes.append(downtime)
+            if downtime not in self.__downtimes:
+                self.__downtimes.append(downtime)
         elif isinstance(downtime, str):
             downtime = ConfigBuilder.get_downtime(downtime)
             if None is downtime:
                 raise Exception('Downtime does not exist yet!')
-            self.__downtimes.append(downtime)
+            if downtime not in self.__downtimes:
+                self.__downtimes.append(downtime)
         else:
             raise Exception('Can only add Downtime or id of Downtime!')
 
@@ -108,12 +110,14 @@ class Checkable(Nameable):
 
     def add_dependency(self, dependency):
         if isinstance(dependency, Dependency):
-            self.__dependencies.append(dependency)
+            if dependency not in self.__dependencies:
+                self.__dependencies.append(dependency)
         elif isinstance(dependency, str):
             dependency = ConfigBuilder.get_dependency(dependency)
             if None is dependency:
                 raise Exception('Dependency does not exist yet!')
-            self.__dependencies.append(dependency)
+            if dependency not in self.__dependencies:
+                self.__dependencies.append(dependency)
         else:
             raise Exception('Can only add Dependency or id of Dependency!')
 
@@ -133,13 +137,14 @@ class Checkable(Nameable):
 
     def add_notification(self, notification):
         if isinstance(notification, Notification):
-            self.__notifications.append(notification)
+            if notification not in self.__notifications:
+                self.__notifications.append(notification)
         elif isinstance(notification, str):
             notification = ConfigBuilder.get_notification(notification)
             if None is notification:
                 raise Exception('Notification does not exist yet!')
-
-            self.__notifications.append(notification)
+            if notification not in self.__notifications:
+                self.__notifications.append(notification)
         else:
             raise Exception('Can only add Notification or id of Notification!')
         return self

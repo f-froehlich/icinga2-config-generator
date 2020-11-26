@@ -261,7 +261,7 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
                 .set_ssl(True) \
                 .set_sni(DefaultWebserverChecks.get_sni(self)) \
                 .set_expect('40') \
-                .set_check_interval('1d') \
+                .set_check_interval('15m') \
                 .set_display_name(check.get_display_name() + ' ' + domain) \
                 .add_service_group(ServiceGroup.create('wordpress'))
             self.apply_notification_to_check(check)
@@ -276,7 +276,7 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
                 .set_ssl(True) \
                 .set_sni(DefaultWebserverChecks.get_sni(self)) \
                 .set_expect('40') \
-                .set_check_interval('1d') \
+                .set_check_interval('15m') \
                 .set_display_name(check.get_display_name() + ' ' + domain) \
                 .add_service_group(ServiceGroup.create('wordpress'))
             self.apply_notification_to_check(check)

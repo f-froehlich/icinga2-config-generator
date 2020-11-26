@@ -94,7 +94,7 @@ class DefaultGitChecks(DefaultWebserverChecks):
                 .set_ssl(True) \
                 .set_sni(DefaultWebserverChecks.get_sni(self)) \
                 .set_expect('40') \
-                .set_check_interval('6h') \
+                .set_check_interval('15m') \
                 .set_display_name(git_check.get_display_name() + ' ' + domain)
             self.apply_check_to_checkserver(git_check, default_access_checks['ipv4'])
 
