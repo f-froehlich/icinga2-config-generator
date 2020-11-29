@@ -88,6 +88,9 @@ class Check(Checkable):
     def get_custom_definitions(self):
         return []
 
+    def get_command_name(self):
+        return self.__command_name
+
     def get_config(self):
         self.validate()
 
@@ -95,6 +98,7 @@ class Check(Checkable):
         config += '  check_command = "command_' + self.__command_name + '_' + self.__check_type + '"\n'
         config += self.get_property_default_config()
         config += self.get_custom_property_config()
+        config += self.get_custom_config()
         config += self.get_group_config()
         config += Checkable.get_config(self)
         config += '  assign where "check_' + self.get_id() + '" in host.vars.checks\n'
@@ -116,3 +120,6 @@ class Check(Checkable):
     def get_property_default_config(self):
 
         return ValueMapper.get_property_default_config(self, self.__class_name, self.__command_name, 'command')
+
+    def get_custom_config(self):
+        return ''
