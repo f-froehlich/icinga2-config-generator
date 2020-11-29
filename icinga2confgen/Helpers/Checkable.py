@@ -40,6 +40,7 @@ class Checkable(Nameable):
         self.__max_check_attempts = 3
         self.__check_interval = '1m'
         self.__retry_interval = '15s'
+        self.__check_timeout = 30
         self.__enable_perfdata = True
         self.__notifications = []
         self.__downtimes = []
@@ -56,6 +57,14 @@ class Checkable(Nameable):
 
     def get_max_check_attempts(self):
         return self.__max_check_attempts
+
+    def set_check_timeout(self, check_timeout):
+        ValueChecker.is_number(check_timeout)
+        self.__check_timeout = check_timeout
+        return self
+
+    def get_check_timeout(self):
+        return self.__check_timeout
 
     def set_check_interval(self, check_interval):
         ValueChecker.is_string(check_interval)
@@ -213,6 +222,7 @@ class Checkable(Nameable):
         config += '  retry_interval = ' + self.__retry_interval + '\n'
         config += ValueMapper.parse_var('max_check_attempts', self.__max_check_attempts)
         config += ValueMapper.parse_var('enable_perfdata', self.__enable_perfdata)
+        config += ValueMapper.parse_var('check_timeout', self.__check_timeout)
         config += ValueMapper.parse_var('vars.notification', self.__notifications, value_prefix='notification_')
         config += ValueMapper.parse_var('vars.downtime', self.__downtimes, value_prefix='downtime_')
         config += ValueMapper.parse_var('vars.dependencies', self.__dependencies, value_prefix='dependency_')
