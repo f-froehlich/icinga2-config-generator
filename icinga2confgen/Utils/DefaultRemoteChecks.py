@@ -22,6 +22,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+from icinga2confgen.Checks.MonitoringPlugins.CheckOpenPorts import CheckOpenPorts
 from icinga2confgen.Checks.NagiosPlugins.CheckPing4 import CheckPing4
 from icinga2confgen.Checks.NagiosPlugins.CheckSSH import CheckSSH
 from icinga2confgen.ValueChecker import ValueChecker
@@ -34,6 +35,8 @@ class DefaultRemoteChecks:
         self.__notifications = notifications
         self.__servers = servers
         self.__check_ping = True
+        self.__check_open_ports = True
+        self.__open_ports = []
         self.__check_ssh = True
         self.__check_ssh_port = 22
 
@@ -64,6 +67,39 @@ class DefaultRemoteChecks:
     def is_checking_ssh_port(self):
         return self.__check_ssh_port
 
+    def check_open_ports(self, port):
+        ValueChecker.is_number(port)
+        self.__check_open_ports = port
+
+        return self
+
+    def is_checking_open_ports(self):
+        return self.__check_open_ports
+
+    def add_allowed_port(self, port, protocol):
+        ValueChecker.is_number(port)
+        ValueChecker.is_string(protocol)
+        protocol = protocol.lower()
+
+        config = (port, protocol)
+        if config not in self.__open_ports:
+            self.__open_ports.append(config)
+
+        return self
+
+    def remove_allowed_port(self, port, protocol):
+        ValueChecker.is_number(port)
+        ValueChecker.is_string(protocol)
+        protocol = protocol.lower()
+
+        config = (port, protocol)
+        self.__open_ports.remove(config)
+
+        return self
+
+    def get_allowed_ports(self):
+        return self.__open_ports
+
     def apply_check(self, check):
         for notification in self.__notifications:
             check.add_notification(notification)
@@ -87,6 +123,21 @@ class DefaultRemoteChecks:
                     check = CheckPing4.create('ping6_' + base_id)
                     check.set_address(ipv6) \
                         .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
+                    self.apply_check(check)
+
+            if True is self.__check_open_ports:
+                if None is not ipv4:
+                    check = CheckOpenPorts.create('open_ports4_' + base_id)
+                    check.set_host(ipv4)
+                    for config in self.__open_ports:
+                        check.add_allowed_port(config[0], config[1])
+                    self.apply_check(check)
+
+                if None is not ipv6:
+                    check = CheckOpenPorts.create('open_ports6_' + base_id)
+                    check.set_host(ipv6)
+                    for config in self.__open_ports:
+                        check.add_allowed_port(config[0], config[1])
                     self.apply_check(check)
 
             if True is self.__check_ssh:
