@@ -36,10 +36,8 @@ class ValueMapper:
         for property in properties:
             if None is property[1]:
                 continue
-            config += '  vars.' + property[0].replace(
-                '_' + class_name + '__',
-                prefix + '_' + command_name + '_'
-            ) + ' = ' + ValueMapper.parse_value_for_var(property[1]) + '\n'
+            key = property[0].replace('_' + class_name + '__', prefix + '_' + command_name + '_')
+            config += ValueMapper.parse_var(key, property[1])
 
         return config
 
