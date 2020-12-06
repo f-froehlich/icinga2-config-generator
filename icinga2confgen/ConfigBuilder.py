@@ -26,8 +26,9 @@
 import shutil
 from pathlib import Path
 
-from icinga2confgen.ValueChecker import ValueChecker
 from tqdm import tqdm
+
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class ConfigBuilder:
@@ -51,6 +52,7 @@ class ConfigBuilder:
     __package_manager = []
     __pbar = tqdm(desc="Configuring", unit=' Configs')
     __check_for_existence = True
+    __utils = []
 
     @staticmethod
     def set_check_for_existence(enabled):
@@ -65,7 +67,14 @@ class ConfigBuilder:
         return string
 
     @staticmethod
+    def apply_utils():
+        for util_class in ConfigBuilder.__utils:
+            if util_class.is_auto_apply():
+                util_class.apply()
+
+    @staticmethod
     def get_config():
+        ConfigBuilder.apply_utils()
         ConfigBuilder.__pbar.close()
 
         shutil.rmtree('zones.d', ignore_errors=True)
@@ -462,3 +471,8 @@ class ConfigBuilder:
 
         ConfigBuilder.__dependencies.append({'id': id, 'instance': dependency})
         ConfigBuilder.__pbar.update(1)
+
+    @staticmethod
+    def add_util_class(util_class):
+        if util_class not in ConfigBuilder.__utils:
+            ConfigBuilder.__utils.append(util_class)

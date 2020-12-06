@@ -23,8 +23,10 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 from icinga2confgen.Checks.NagiosPlugins.CheckProcs import CheckProcs
+from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Dependency.CheckDependency import CheckDependency
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class LocalCheckManager:
@@ -34,6 +36,9 @@ class LocalCheckManager:
         self.__servers = servers
         self.__check_type = 'local'
         self.__callback_function = None
+        self.__auto_apply = True
+
+        ConfigBuilder.add_util_class(self)
 
     def set_callback_function(self, function):
         if not callable(function):
@@ -41,6 +46,13 @@ class LocalCheckManager:
         self.__callback_function = function
 
         return self
+
+    def set_auto_apply(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__auto_apply = enabled
+
+    def is_auto_apply(self):
+        return self.__auto_apply
 
     def get_servers(self):
         return self.__servers
