@@ -25,7 +25,6 @@
 from icinga2confgen.Checks.NagiosPlugins.CheckHttp import CheckHttp
 from icinga2confgen.Groups.HostGroup import HostGroup
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.Utils.DefaultGitChecks import DefaultGitChecks
 from icinga2confgen.Utils.DefaultWebserverChecks import DefaultWebserverChecks
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
@@ -35,8 +34,6 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
 
     def __init__(self, vhostconfig=[], servers=[], checkserver=[], notifications=[]):
         DefaultWebserverChecks.__init__(self, vhostconfig, servers, checkserver, notifications)
-        self.__validate_deny_git = True
-        self.__validate_deny_gitignore = True
         self.__validate_deny_license = True
         self.__validate_deny_readme = True
         self.__validate_deny_wp_admin = True
@@ -65,24 +62,6 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
 
     def is_inherit(self):
         return self.__inherit
-
-    def validate_deny_git(self, enabled):
-        ValueChecker.is_bool(enabled)
-        self.__validate_deny_git = enabled
-
-        return self
-
-    def is_validating_deny_git(self):
-        return self.__validate_deny_git
-
-    def validate_deny_gitignore(self, enabled):
-        ValueChecker.is_bool(enabled)
-        self.__validate_deny_gitignore = enabled
-
-        return self
-
-    def is_validating_deny_gitignore(self):
-        return self.__validate_deny_gitignore
 
     def validate_deny_license(self, enabled):
         ValueChecker.is_bool(enabled)
@@ -264,9 +243,8 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
                 .set_check_interval('15m') \
                 .set_display_name(check.get_display_name() + ' ' + domain) \
                 .add_service_group(ServiceGroup.create('wordpress'))
-            self.apply_notification_to_check(check)
 
-            self.apply_check_to_checkserver(check, default_access_checks['ipv4'])
+            self.apply_check(check, default_access_checks['ipv4'])
 
         if None is not server.get_ipv6():
             check = CheckHttp.create('web_access_deny_' + name + '_ipv6_' + base_id)
@@ -279,9 +257,8 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
                 .set_check_interval('15m') \
                 .set_display_name(check.get_display_name() + ' ' + domain) \
                 .add_service_group(ServiceGroup.create('wordpress'))
-            self.apply_notification_to_check(check)
 
-            self.apply_check_to_checkserver(check, default_access_checks['ipv6'])
+            self.apply_check(check, default_access_checks['ipv6'])
 
     def apply(self):
         if self.__inherit:
@@ -332,6 +309,3 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
                 if True is self.__validate_deny_wp_links_opml:
                     self.create_wp_check('wp_links_opml', service_baseid, base_id, server, domain, '/wp-links-opml.php')
 
-        DefaultGitChecks(self.get_vhostconfigs(), self.get_servers(), self.get_checkservers(), self.get_notifications()) \
-            .set_inherit(False) \
-            .apply()

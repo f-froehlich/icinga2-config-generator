@@ -96,7 +96,7 @@ class DefaultGitChecks(DefaultWebserverChecks):
                 .set_expect('40') \
                 .set_check_interval('15m') \
                 .set_display_name(git_check.get_display_name() + ' ' + domain)
-            self.apply_check_to_checkserver(git_check, default_access_checks['ipv4'])
+            self.apply_check(git_check, default_access_checks['ipv4'])
 
         if None is not server.get_ipv6():
             git_check = CheckHttp.create('web_access_deny_' + name + '_ipv6_' + base_id)
@@ -106,6 +106,6 @@ class DefaultGitChecks(DefaultWebserverChecks):
                 .set_ssl(True) \
                 .set_sni(DefaultWebserverChecks.get_sni(self)) \
                 .set_expect('40') \
-                .set_check_interval('6h') \
+                .set_check_interval('15m') \
                 .set_display_name(git_check.get_display_name() + ' ' + domain)
-            self.apply_check_to_checkserver(git_check, default_access_checks['ipv4'])
+            self.apply_check(git_check, default_access_checks['ipv4'])

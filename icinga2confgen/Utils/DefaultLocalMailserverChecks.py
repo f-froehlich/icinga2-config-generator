@@ -23,7 +23,6 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.Utils.DefaultLocalChecks import DefaultLocalChecks
 from icinga2confgen.ValueChecker import ValueChecker
 
@@ -90,34 +89,25 @@ class DefaultLocalMailserverChecks(DefaultLocalChecks):
         if self.__inherit:
             DefaultLocalChecks.apply(self)
 
-        for server in DefaultLocalChecks.get_server(self):
+        for server in DefaultLocalChecks.get_servers(self):
             if True is self.__check_amavisd_running:
-                check = self.create_running_check_arguments('amavisd', 'amavisd', server)
-                check.add_service_group(ServiceGroup.create('mail'))
+                self.create_running_check_arguments('amavisd', 'amavisd', server, ['mail'])
 
             if True is self.__check_dovecot_running:
-                check = self.create_running_check('dovecot', 'dovecot', server)
-                check.add_service_group(ServiceGroup.create('mail'))
+                self.create_running_check('dovecot', 'dovecot', server, ['mail'])
 
             if True is self.__check_postgrey_running:
-                check = self.create_running_check('postgrey', 'postgrey', server)
-                check.add_service_group(ServiceGroup.create('mail'))
+                self.create_running_check('postgrey', 'postgrey', server, ['mail'])
 
             if True is self.__check_opendkim_running:
-                check = self.create_running_check('opendkim', 'opendkim', server)
-                check.add_service_group(ServiceGroup.create('mail'))
+                self.create_running_check('opendkim', 'opendkim', server, ['mail'])
 
             # force checking if enabled and not inherited
             if True is DefaultLocalChecks.is_checking_postfix_running(self) and not self.__inherit:
-                check = self.create_running_check_arguments('postfix', 'postfix', server)
-                check.add_service_group(ServiceGroup.create('mail'))
+                self.create_running_check_arguments('postfix', 'postfix', server, ['mail'])
 
             if True is DefaultLocalChecks.is_checking_freshclam_running(self) and not self.__inherit:
-                check = self.create_running_check('freshclam', 'freshclam', server)
-                check.add_service_group(ServiceGroup.create('security'))
-                check.add_service_group(ServiceGroup.create('antivirus'))
+                self.create_running_check('freshclam', 'freshclam', server, ['security', 'antivirus'])
 
             if True is DefaultLocalChecks.is_checking_clamd_running(self) and not self.__inherit:
-                check = self.create_running_check('clamd', 'clamd', server)
-                check.add_service_group(ServiceGroup.create('security'))
-                check.add_service_group(ServiceGroup.create('antivirus'))
+                self.create_running_check('clamd', 'clamd', server, ['security', 'antivirus'])

@@ -26,19 +26,17 @@ from icinga2confgen.Checks.MonitoringPlugins.CheckDenyTlsVersion import CheckDen
 from icinga2confgen.Checks.NagiosPlugins.CheckDummy import CheckDummy
 from icinga2confgen.Checks.NagiosPlugins.CheckHttp import CheckHttp
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Dependency.CheckDependency import CheckDependency
 from icinga2confgen.Groups.HostGroup import HostGroup
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.Helpers.RemoteCheckManager import RemoteCheckManager
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
 
-class DefaultWebserverChecks:
+class DefaultWebserverChecks(RemoteCheckManager):
 
     def __init__(self, vhostconfig=[], servers=[], checkserver=[], notifications=[]):
-        self.__checkserver = checkserver
-        self.__notifications = notifications
-        self.__servers = servers
+        RemoteCheckManager.__init__(self, servers=servers, checkserver=checkserver, notifications=notifications)
         self.__vhostconfigs = vhostconfig
         self.__validate_certificate = True
         self.__validate_http_redirect = True
@@ -55,15 +53,6 @@ class DefaultWebserverChecks:
 
     def get_vhostconfigs(self):
         return self.__vhostconfigs
-
-    def get_servers(self):
-        return self.__servers
-
-    def get_notifications(self):
-        return self.__notifications
-
-    def get_checkservers(self):
-        return self.__checkserver
 
     def validate_certificate(self, enabled):
         ValueChecker.is_bool(enabled)
@@ -174,22 +163,6 @@ class DefaultWebserverChecks:
     def get_sni(self):
         return self.__sni
 
-    def apply_notification_to_check(self, check):
-        for notification in self.__notifications:
-            check.add_notification(notification)
-
-    def apply_check_to_checkserver(self, check, depends_on=None):
-
-        self.apply_notification_to_check(check)
-        for checkserver in self.__checkserver:
-            checkserver.add_check(check)
-            if None != depends_on:
-                dependency = CheckDependency.create(
-                    check.get_id() + '_require_' + depends_on.get_id() + '_on_' + checkserver.get_id()) \
-                    .set_server(checkserver) \
-                    .set_check(depends_on)
-                check.add_dependency(dependency)
-
     def get_default_access_check(self, service_baseid, server, domain):
         base_id = service_baseid + '_' + server.get_id() + '_' + ValueMapper.canonicalize_for_id(domain)
         return {
@@ -203,7 +176,7 @@ class DefaultWebserverChecks:
             domain = config[1]
             uri = config[2]
 
-            for server in self.__servers:
+            for server in self.get_servers():
                 base_id = service_baseid + '_' + server.get_id() + '_' + ValueMapper.canonicalize_for_id(domain)
                 server_ipv4 = server.get_ipv4()
                 server_ipv6 = server.get_ipv6()
@@ -224,7 +197,7 @@ class DefaultWebserverChecks:
                         .set_ssl(True) \
                         .set_sni(self.__sni) \
                         .set_display_name(default_ipv4_http_check.get_display_name() + ' ' + domain)
-                    self.apply_check_to_checkserver(default_ipv4_http_check)
+                    self.apply_check(default_ipv4_http_check)
 
                 if None is not server_ipv6:
                     default_ipv6_http_check = CheckHttp.create('web_access_default_ipv6_' + base_id)
@@ -234,7 +207,7 @@ class DefaultWebserverChecks:
                         .set_ssl(True) \
                         .set_sni(self.__sni) \
                         .set_display_name(default_ipv6_http_check.get_display_name() + ' ' + domain)
-                    self.apply_check_to_checkserver(default_ipv6_http_check)
+                    self.apply_check(default_ipv6_http_check)
 
                 if None == default_ipv4_http_check and None == default_ipv6_http_check:
                     raise Exception('Server "' + server.get_id()
@@ -253,7 +226,7 @@ class DefaultWebserverChecks:
                             .add_service_group(ServiceGroup.create('certificate_check')) \
                             .set_display_name(certificate_check.get_display_name() + ' ' + domain)
 
-                        self.apply_check_to_checkserver(certificate_check, default_ipv4_http_check)
+                        self.apply_check(certificate_check, default_ipv4_http_check)
 
                     if None is not server_ipv6:
                         certificate_check = CheckHttp.create('web_access_certificate_ipv6_' + base_id)
@@ -267,7 +240,7 @@ class DefaultWebserverChecks:
                             .add_service_group(ServiceGroup.create('certificate_check')) \
                             .set_display_name(certificate_check.get_display_name() + ' ' + domain)
 
-                        self.apply_check_to_checkserver(certificate_check, default_ipv6_http_check)
+                        self.apply_check(certificate_check, default_ipv6_http_check)
 
                 else:
                     server.add_hostgroup(HostGroup.create('no_certificate_check'))
@@ -286,7 +259,7 @@ class DefaultWebserverChecks:
                             .add_service_group(ServiceGroup.create('http_redirect')) \
                             .set_display_name(redirect_check.get_display_name() + ' ' + domain)
 
-                        self.apply_check_to_checkserver(redirect_check, default_ipv4_http_check)
+                        self.apply_check(redirect_check, default_ipv4_http_check)
 
                     if None is not server_ipv6:
                         redirect_check = CheckHttp.create('web_access_http_redirect_ipv6_' + base_id)
@@ -301,7 +274,7 @@ class DefaultWebserverChecks:
                             .add_service_group(ServiceGroup.create('http_redirect')) \
                             .set_display_name(redirect_check.get_display_name() + ' ' + domain)
 
-                        self.apply_check_to_checkserver(redirect_check, default_ipv6_http_check)
+                        self.apply_check(redirect_check, default_ipv6_http_check)
 
                     server.add_hostgroup(HostGroup.create('http_redirect'))
 
@@ -314,7 +287,7 @@ class DefaultWebserverChecks:
                         .add_service_group(ServiceGroup.create('webserver')) \
                         .set_display_name(redirect_check.get_display_name() + ' ' + domain)
 
-                    self.apply_check_to_checkserver(redirect_check)
+                    self.apply_check(redirect_check)
                     server.add_hostgroup(HostGroup.create('no_http_redirect'))
 
                 else:
@@ -358,7 +331,7 @@ class DefaultWebserverChecks:
                     .add_service_group(ServiceGroup.create('tls')) \
                     .set_display_name(tls_check.get_display_name() + ' ' + domain)
 
-                self.apply_check_to_checkserver(tls_check, default_ipv4_http_check)
+                self.apply_check(tls_check, default_ipv4_http_check)
 
             if None is not server_ipv6:
                 tls_check = CheckHttp.create('web_access_allow_tls' + protocol_id + '_ipv6_' + base_id)
@@ -372,7 +345,7 @@ class DefaultWebserverChecks:
                     .add_service_group(ServiceGroup.create('tls')) \
                     .set_display_name(tls_check.get_display_name() + ' ' + domain)
 
-                self.apply_check_to_checkserver(tls_check, default_ipv6_http_check)
+                self.apply_check(tls_check, default_ipv6_http_check)
 
             if insecure:
                 server.add_hostgroup(HostGroup.create('insecure_webserver'))
@@ -391,7 +364,7 @@ class DefaultWebserverChecks:
                     .add_service_group(ServiceGroup.create('tls_' + protocol_id + '_check')) \
                     .set_display_name(tls_check.get_display_name() + ' ' + domain)
 
-                self.apply_check_to_checkserver(tls_check, default_ipv4_http_check)
+                self.apply_check(tls_check, default_ipv4_http_check)
 
             if None is not server_ipv6:
                 tls_check = CheckDenyTlsVersion.create('web_access_deny_tls' + protocol_id + '_ipv6_' + base_id)
@@ -401,7 +374,7 @@ class DefaultWebserverChecks:
                     .set_check_interval('15m') \
                     .add_service_group(ServiceGroup.create('tls_' + protocol_id + '_check')) \
                     .set_display_name(tls_check.get_display_name() + ' ' + domain)
-                self.apply_check_to_checkserver(tls_check, default_ipv6_http_check)
+                self.apply_check(tls_check, default_ipv6_http_check)
 
             server.add_hostgroup(HostGroup.create('deny_insecure_TLSv' + protocol_id + '_webserver'))
 

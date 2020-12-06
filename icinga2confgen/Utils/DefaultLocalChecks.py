@@ -36,18 +36,16 @@ from icinga2confgen.Checks.NagiosPlugins.CheckProcs import CheckProcs
 from icinga2confgen.Checks.NagiosPlugins.CheckSWAP import CheckSWAP
 from icinga2confgen.Checks.NagiosPlugins.CheckSensors import CheckSensors
 from icinga2confgen.Checks.NagiosPlugins.CheckUsers import CheckUsers
-from icinga2confgen.Dependency.CheckDependency import CheckDependency
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.Helpers.LocalCheckManager import LocalCheckManager
 from icinga2confgen.ValueChecker import ValueChecker
 
 
-class DefaultLocalChecks:
+class DefaultLocalChecks(LocalCheckManager):
 
     def __init__(self, servers=[], notifications=[], sudoers=[], additional_users=[]):
+        LocalCheckManager.__init__(self, servers=servers, notifications=notifications)
         self.__additional_users = additional_users
-        self.__servers = servers
-        self.__notifications = notifications
-        self.__check_type = 'local'
         self.__check_load = True
         self.__check_procs = True
         self.__check_sensors = False
@@ -328,13 +326,6 @@ class DefaultLocalChecks:
         self.__ufw_defaults = tuple((incoming, outgoing, routing))
         return self
 
-    def add_server(self, server):
-        self.__servers.append(server)
-        return self
-
-    def get_server(self):
-        return self.__servers
-
     def add_partition(self, id, path, warning_percent, critical_percent):
         ValueChecker.is_string(id)
         ValueChecker.is_string(path)
@@ -391,119 +382,58 @@ class DefaultLocalChecks:
     def get_notification(self):
         return self.__notifications
 
-    def apply_notification_to_check(self, check):
-        # todo type check
-        for notification in self.__notifications:
-            check.add_notification(notification)
-        return self
-
-    def set_check_type(self, type):
-        # todo type check
-        self.__check_type = type
-        return self
-
-    def create_running_check(self, name, command, server):
-        check = CheckProcs.create('running_proc_' + name + '_' + server.get_id()) \
-            .set_check_type(self.__check_type) \
-            .set_critical_range('1:') \
-            .set_command(command) \
-            .add_service_group(ServiceGroup.create(name))
-        self.apply_notification_to_check(check)
-        server.add_check(check)
-
-        return check
-
-    def create_running_check_arguments(self, name, argument, server):
-        check = CheckProcs.create('running_proc_' + name + '_' + server.get_id()) \
-            .set_check_type(self.__check_type) \
-            .set_critical_range('1:') \
-            .set_argument(argument) \
-            .add_service_group(ServiceGroup.create(name))
-        self.apply_notification_to_check(check)
-        server.add_check(check)
-
-        return check
-
     def apply(self):
-        for server in self.__servers:
+        for server in self.get_servers():
             if True is self.__check_apt:
-                check = CheckApt.create('apt_' + server.get_id()) \
-                    .set_check_type(self.__check_type)
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                check = CheckApt.create('apt_' + server.get_id())
+                self.apply_check(check)
 
             if True is self.__check_yum:
-                check = CheckYum.create('yum_' + server.get_id()) \
-                    .set_check_type(self.__check_type)
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                check = CheckYum.create('yum_' + server.get_id())
+                self.apply_check(check)
 
             if True is self.__check_load:
-                check = CheckLoad.create('load_' + server.get_id()) \
-                    .set_check_type(self.__check_type)
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                check = CheckLoad.create('load_' + server.get_id())
+                self.apply_check(check)
 
             if True is self.__check_reboot_required:
-                check = CheckLoad.create('reboot_required_' + server.get_id()) \
-                    .set_check_type(self.__check_type)
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                check = CheckLoad.create('reboot_required_' + server.get_id())
+                self.apply_check(check)
 
             if True is self.__check_procs:
-                check = CheckProcs.create('procs_' + server.get_id()) \
-                    .set_check_type(self.__check_type)
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                check = CheckProcs.create('procs_' + server.get_id())
+                self.apply_check(check)
 
             if True is self.__check_sensors:
-                check = CheckSensors.create('sensors_' + server.get_id()) \
-                    .set_check_type(self.__check_type)
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                check = CheckSensors.create('sensors_' + server.get_id())
+                self.apply_check(check)
 
             if True is self.__check_ntp_time:
-                check = CheckNTPTime.create('ntp_time_' + server.get_id()) \
-                    .set_check_type(self.__check_type)
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                check = CheckNTPTime.create('ntp_time_' + server.get_id())
+                self.apply_check(check)
 
             if True is self.__check_swap:
-                check = CheckSWAP.create('swap_' + server.get_id()) \
-                    .set_check_type(self.__check_type)
+                check = CheckSWAP.create('swap_' + server.get_id())
 
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                self.apply_check(check)
 
             if True is self.__check_users:
-                check = CheckUsers.create('users_' + server.get_id()) \
-                    .set_check_type(self.__check_type)
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                check = CheckUsers.create('users_' + server.get_id())
+                self.apply_check(check)
 
             sshd_running_check = None
             if True is self.__check_sshd_running:
-                sshd_running_check = self.create_running_check('sshd', 'sshd', server)
+                self.create_running_check('sshd', 'sshd', server)
 
             if True is self.__check_sshd_security:
-                check = CheckSSHDSecurity.create('sshd_security_' + server.get_id()) \
-                    .set_check_type(self.__check_type)
-                self.apply_notification_to_check(check)
-                server.add_check(check)
-
-                if None != sshd_running_check:
-                    dependency = CheckDependency.create('sshd_security_require_sshd_running_' + server.get_id()) \
-                        .set_server(server) \
-                        .set_check(sshd_running_check)
-                    check.add_dependency(dependency)
+                check = CheckSSHDSecurity.create('sshd_security_' + server.get_id())
+                self.apply_check(check, sshd_running_check)
 
             if True is self.__check_mysqld_running:
-                check = self.create_running_check('mysql', 'mysqld', server)
-                check.add_service_group(ServiceGroup.create('database'))
+                self.create_running_check('mysql', 'mysqld', server, ['database'])
 
             if True is self.__check_postgres_running:
-                check = self.create_running_check('postgres', 'postgres', server)
-                check.add_service_group(ServiceGroup.create('database'))
+                self.create_running_check('postgres', 'postgres', server, ['database'])
 
             if True is self.__check_cron_running:
                 self.create_running_check('cron', 'cron', server)
@@ -515,95 +445,74 @@ class DefaultLocalChecks:
                 self.create_running_check('rsyslogd', 'rsyslogd', server)
 
             if True is self.__check_nginx_running:
-                check = self.create_running_check('nginx', 'nginx', server)
-                check.add_service_group(ServiceGroup.create('webserver'))
+                self.create_running_check('nginx', 'nginx', server, ['webserver'])
 
             if True is self.__check_apache_running:
-                check = self.create_running_check('apache', 'apache2', server)
-                check.add_service_group(ServiceGroup.create('webserver'))
+                self.create_running_check('apache', 'apache2', server, ['webserver'])
 
             if True is self.__check_httpd_running:
-                check = self.create_running_check('httpd', 'httpd', server)
-                check.add_service_group(ServiceGroup.create('webserver'))
+                self.create_running_check('httpd', 'httpd', server, ['webserver'])
 
             if True is self.__check_tomcat_running:
-                check = self.create_running_check('tomcat', 'tomcat', server)
-                check.add_service_group(ServiceGroup.create('webserver'))
+                self.create_running_check('tomcat', 'tomcat', server, ['webserver'])
 
             if True is self.__check_php_fpm_running:
-                self.create_running_check('php_fpm', 'php-fpm', server)
+                self.create_running_check('php_fpm', 'php-fpm', server, ['webserver'])
 
             if True is self.__check_freshclam_running:
-                check = self.create_running_check('freshclam', 'freshclam', server)
-                check.add_service_group(ServiceGroup.create('security'))
-                check.add_service_group(ServiceGroup.create('antivirus'))
+                self.create_running_check('freshclam', 'freshclam', server, ['security', 'antivirus'])
 
             if True is self.__check_clamd_running:
-                check = self.create_running_check('clamd', 'clamd', server)
-                check.add_service_group(ServiceGroup.create('security'))
-                check.add_service_group(ServiceGroup.create('antivirus'))
+                self.create_running_check('clamd', 'clamd', server, ['security', 'antivirus'])
 
             if True is DefaultLocalChecks.is_checking_postfix_running(self):
-                check = self.create_running_check_arguments('postfix', 'postfix', server)
-                check.add_service_group(ServiceGroup.create('mail'))
+                self.create_running_check_arguments('postfix', 'postfix', server, ['mail'])
 
             if True is self.__check_sudoers:
                 check = CheckGroupMembers.create('sudoers_group_members_' + server.get_id()) \
-                    .set_check_type(self.__check_type) \
                     .add_service_group(ServiceGroup.create('sudoers'))
                 for user in self.__sudoers:
                     check.append_user(user)
 
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                self.apply_check(check)
 
             if True is self.__check_wheel:
                 check = CheckGroupMembers.create('wheel_group_members_' + server.get_id()) \
                     .set_group('wheel') \
-                    .set_check_type(self.__check_type) \
                     .add_service_group(ServiceGroup.create('sudoers'))
                 for user in self.__sudoers:
                     check.append_user(user)
 
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                self.apply_check(check)
 
             if True is self.__check_normal_users:
-                check = CheckExistingUsers.create('existing_users_' + server.get_id()) \
-                    .set_check_type(self.__check_type)
+                check = CheckExistingUsers.create('existing_users_' + server.get_id())
                 for user in self.__sudoers:
                     check.append_existing_users(user)
                 for user in self.__additional_users:
                     check.append_existing_users(user)
 
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                self.apply_check(check)
 
             if True is self.__check_ufw:
                 check = CheckUFWStatus.create('ufw_status_' + server.get_id()) \
                     .set_incoming(self.__ufw_defaults[0]) \
                     .set_outgoing(self.__ufw_defaults[1]) \
-                    .set_routing(self.__ufw_defaults[2]) \
-                    .set_check_type(self.__check_type)
+                    .set_routing(self.__ufw_defaults[2])
                 for policy in self.__ufw_rules:
                     check.add_rule(policy[0], policy[1], policy[2])
 
-                self.apply_notification_to_check(check)
-                server.add_check(check)
+                self.apply_check(check)
 
             if True is self.__check_disk:
                 if len(self.__check_partitions) == 0:
-                    check = CheckDisk.create('disk_' + server.get_id()) \
-                        .set_check_type(self.__check_type)
-                    self.apply_notification_to_check(check)
-                    server.add_check(check)
+                    check = CheckDisk.create('disk_' + server.get_id())
+                    self.apply_check(check)
                 else:
                     for config in self.__check_partitions:
                         check = CheckDisk.create('disk_' + config[0] + '_' + server.get_id())
                         check.set_display_name(check.get_display_name() + ' ' + config[0]) \
-                            .set_check_type(self.__check_type) \
                             .set_partition(config[1]) \
                             .set_warning_percent(config[2]) \
                             .set_critical_percent(config[3])
-                        self.apply_notification_to_check(check)
-                        server.add_check(check)
+                        self.apply_check(check)

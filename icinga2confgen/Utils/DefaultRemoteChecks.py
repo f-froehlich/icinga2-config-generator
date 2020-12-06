@@ -25,15 +25,14 @@
 from icinga2confgen.Checks.MonitoringPlugins.CheckOpenPorts import CheckOpenPorts
 from icinga2confgen.Checks.NagiosPlugins.CheckPing4 import CheckPing4
 from icinga2confgen.Checks.NagiosPlugins.CheckSSH import CheckSSH
+from icinga2confgen.Helpers.RemoteCheckManager import RemoteCheckManager
 from icinga2confgen.ValueChecker import ValueChecker
 
 
-class DefaultRemoteChecks:
+class DefaultRemoteChecks(RemoteCheckManager):
 
     def __init__(self, servers=[], checkserver=[], notifications=[]):
-        self.__checkserver = checkserver
-        self.__notifications = notifications
-        self.__servers = servers
+        RemoteCheckManager.__init__(self, servers=servers, checkserver=checkserver, notifications=notifications)
         self.__check_ping = True
         self.__check_open_ports = True
         self.__open_ports = []
@@ -100,15 +99,8 @@ class DefaultRemoteChecks:
     def get_allowed_ports(self):
         return self.__open_ports
 
-    def apply_check(self, check):
-        for notification in self.__notifications:
-            check.add_notification(notification)
-
-        for checkserver in self.__checkserver:
-            checkserver.add_check(check)
-
     def apply(self):
-        for server in self.__servers:
+        for server in self.get_servers():
             base_id = 'remote_checks_' + server.get_id()
             ipv4 = server.get_ipv4()
             ipv6 = server.get_ipv6()

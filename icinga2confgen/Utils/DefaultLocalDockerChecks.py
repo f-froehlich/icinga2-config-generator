@@ -23,7 +23,6 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.Utils.DefaultLocalChecks import DefaultLocalChecks
 from icinga2confgen.ValueChecker import ValueChecker
 
@@ -67,10 +66,9 @@ class DefaultLocalDockerChecks(DefaultLocalChecks):
         if self.__inherit:
             DefaultLocalChecks.apply(self)
 
-        for server in DefaultLocalChecks.get_server(self):
+        for server in DefaultLocalChecks.get_servers(self):
             if True is self.__check_docker_running:
-                self.create_running_check_arguments('docker', 'dockerd', server)
+                self.create_running_check_arguments('docker', 'dockerd', server, ['docker'])
 
             if True is self.__check_containerd_running:
-                check = self.create_running_check_arguments('containerd', 'containerd', server)
-                check.add_service_group(ServiceGroup.create('docker'))
+                self.create_running_check_arguments('containerd', 'containerd', server, ['docker'])

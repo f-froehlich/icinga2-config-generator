@@ -23,7 +23,6 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.Utils.DefaultLocalChecks import DefaultLocalChecks
 from icinga2confgen.ValueChecker import ValueChecker
 
@@ -57,7 +56,6 @@ class DefaultLocalDNSServerChecks(DefaultLocalChecks):
         if self.__inherit:
             DefaultLocalChecks.apply(self)
 
-        for server in DefaultLocalChecks.get_server(self):
+        for server in DefaultLocalChecks.get_servers(self):
             if True is self.__check_bind_running:
-                check = self.create_running_check_arguments('bind', 'named', server)
-                check.add_service_group(ServiceGroup.create('dns'))
+                self.create_running_check_arguments('bind', 'named', server, ['dns'])
