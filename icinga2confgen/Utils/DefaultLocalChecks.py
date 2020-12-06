@@ -57,6 +57,7 @@ class DefaultLocalChecks:
         self.__check_swap = True
         self.__check_ntp_time = True
         self.__check_disk = True
+        self.__check_reboot_required = True
         self.__check_sshd_security = True
         self.__check_sshd_running = True
         self.__check_mysqld_running = False
@@ -89,6 +90,15 @@ class DefaultLocalChecks:
 
     def is_checking_load(self):
         return self.__check_load
+
+    def check_reboot_required(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__check_reboot_required = enabled
+
+        return self
+
+    def is_checking_reboot_required(self):
+        return self.__check_reboot_required
 
     def check_procs(self, enabled):
         ValueChecker.is_bool(enabled)
@@ -430,6 +440,12 @@ class DefaultLocalChecks:
 
             if True is self.__check_load:
                 check = CheckLoad.create('load_' + server.get_id()) \
+                    .set_check_type(self.__check_type)
+                self.apply_notification_to_check(check)
+                server.add_check(check)
+
+            if True is self.__check_reboot_required:
+                check = CheckLoad.create('reboot_required_' + server.get_id()) \
                     .set_check_type(self.__check_type)
                 self.apply_notification_to_check(check)
                 server.add_check(check)

@@ -23,15 +23,15 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Commands.Command import Command
+from icinga2confgen.Commands.MonitoringPlugins.MonitoringPluginCommand import MonitoringPluginCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
 
 
-class SPFCommand(Command):
+class SPFCommand(MonitoringPluginCommand):
 
     def __init__(self, id):
-        Command.__init__(self, id)
+        MonitoringPluginCommand.__init__(self, id)
 
     @staticmethod
     def create(id, force_create=False):
@@ -45,9 +45,6 @@ class SPFCommand(Command):
 
     def get_command(self):
         return 'check_spf.py'
-
-    def get_command_definition(self):
-        return '[ "$monitoring_plugin_dir$" + "/' + self.get_command() + '"]'
 
     def get_arguments(self):
         config = """{

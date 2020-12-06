@@ -23,44 +23,42 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Commands.MonitoringPlugins.MonitoringPluginCommand import MonitoringPluginCommand
+from icinga2confgen.Checks.Check import Check
+from icinga2confgen.Commands.MonitoringPlugins.RebootRequiredCommand import RebootRequiredCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.ValueChecker import ValueChecker
 
 
-class DenyTlsVersionCommand(MonitoringPluginCommand):
+class CheckRebootRequired(Check):
 
     def __init__(self, id):
-        MonitoringPluginCommand.__init__(self, id)
+        Check.__init__(self, id, 'CheckRebootRequired', 'reboot_required')
+        self.__exit_critical = False
+        self.set_check_interval('15m')
+        self.add_service_group(ServiceGroup.create('reboot'))
+        self.add_service_group(ServiceGroup.create('system_health'))
+
+    def set_exit_critical(self, exit_critical):
+        ValueChecker.is_bool(exit_critical)
+        self.__exit_critical = exit_critical
+        return self
+
+    def get_exit_critical(self):
+        return self.__exit_critical
 
     @staticmethod
     def create(id, force_create=False):
         ValueChecker.validate_id(id)
-        command = None if force_create else ConfigBuilder.get_command(id)
-        if None is command:
-            command = DenyTlsVersionCommand(id)
-            ConfigBuilder.add_command(id, command)
+        check = None if force_create else ConfigBuilder.get_check(id)
+        if None is check:
+            check = CheckRebootRequired(id)
+            ConfigBuilder.add_check(id, check)
 
-        return command
+        if None is ConfigBuilder.get_command('reboot_required'):
+            RebootRequiredCommand.create('reboot_required')
 
-    def get_command(self):
-        return 'check_deny_tls_version.sh'
+        return check
 
-    def get_arguments(self):
-        config = """{
-    "-p" = {
-      value = "$command_deny_tls_version_protocol$"
-      required = true
-    }
-    "-d" = {
-      value = "$command_deny_tls_version_domain$"
-      required = true
-    }
-    "-a" = {
-      value = "$command_deny_tls_version_address$"
-      set_if = {{ macro("$command_deny_tls_version_address$") != false }}
-    }
-  }
-"""
-
-        return config
+    def validate(self):
+        pass

@@ -23,15 +23,15 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Commands.Command import Command
+from icinga2confgen.Commands.MonitoringPlugins.MonitoringPluginCommand import MonitoringPluginCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
 
 
-class PageContentCommand(Command):
+class PageContentCommand(MonitoringPluginCommand):
 
     def __init__(self, id):
-        Command.__init__(self, id)
+        MonitoringPluginCommand.__init__(self, id)
 
     @staticmethod
     def create(id, force_create=False):
@@ -42,9 +42,6 @@ class PageContentCommand(Command):
             ConfigBuilder.add_command(id, command)
 
         return command
-
-    def get_command_definition(self):
-        return '[ "$monitoring_plugin_dir$" + "/' + self.get_command() + '"]'
 
     def get_command(self):
         return 'check_page_content.py'

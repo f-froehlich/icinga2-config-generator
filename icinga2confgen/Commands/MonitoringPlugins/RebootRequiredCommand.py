@@ -28,7 +28,7 @@ from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
 
 
-class DenyTlsVersionCommand(MonitoringPluginCommand):
+class RebootRequiredCommand(MonitoringPluginCommand):
 
     def __init__(self, id):
         MonitoringPluginCommand.__init__(self, id)
@@ -38,29 +38,19 @@ class DenyTlsVersionCommand(MonitoringPluginCommand):
         ValueChecker.validate_id(id)
         command = None if force_create else ConfigBuilder.get_command(id)
         if None is command:
-            command = DenyTlsVersionCommand(id)
+            command = RebootRequiredCommand(id)
             ConfigBuilder.add_command(id, command)
 
         return command
 
     def get_command(self):
-        return 'check_deny_tls_version.sh'
+        return 'check_reboot_required.py'
 
     def get_arguments(self):
         config = """{
-    "-p" = {
-      value = "$command_deny_tls_version_protocol$"
-      required = true
-    }
-    "-d" = {
-      value = "$command_deny_tls_version_domain$"
-      required = true
-    }
-    "-a" = {
-      value = "$command_deny_tls_version_address$"
-      set_if = {{ macro("$command_deny_tls_version_address$") != false }}
+    "--exit-critical" = {
+      set_if = {{ macro("$command_reboot_required_exit_critical$") != false }}
     }
   }
 """
-
         return config

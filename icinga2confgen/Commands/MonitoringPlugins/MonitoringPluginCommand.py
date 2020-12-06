@@ -23,41 +23,13 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Commands.MonitoringPlugins.MonitoringPluginCommand import MonitoringPluginCommand
-from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Commands.Command import Command
 
 
-class PathExistCommand(MonitoringPluginCommand):
+class MonitoringPluginCommand(Command):
 
     def __init__(self, id):
-        MonitoringPluginCommand.__init__(self, id)
+        Command.__init__(self, id)
 
-    @staticmethod
-    def create(id, force_create=False):
-        ValueChecker.validate_id(id)
-        command = None if force_create else ConfigBuilder.get_command(id)
-        if None is command:
-            command = PathExistCommand(id)
-            ConfigBuilder.add_command(id, command)
-
-        return command
-
-    def get_command(self):
-        return 'check_path_exist.sh'
-
-    def get_arguments(self):
-        config = """{
-    "-f" = {
-      value = "$command_path_exist_file$"
-    }
-    "-d" = {
-      value = "$command_path_exist_dir$"
-    }
-    "-i" = {
-      set_if = "$command_path_exist_invert$"
-    }
-  }
-"""
-
-        return config
+    def get_command_definition(self):
+        return '[ "$monitoring_plugin_dir$" + "/' + self.get_command() + '"]'

@@ -23,13 +23,13 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Commands.Command import Command
+from icinga2confgen.Commands.MonitoringPlugins.MonitoringPluginCommand import MonitoringPluginCommand
 
 
-class NmapCommand(Command):
+class NmapCommand(MonitoringPluginCommand):
 
     def __init__(self, id, command_name, only_udp=False, only_tcp=False, pn=False, fast=False):
-        Command.__init__(self, id)
+        MonitoringPluginCommand.__init__(self, id)
         self.__command_name = command_name
         self.__only_udp = only_udp
         self.__only_tcp = only_tcp
@@ -39,9 +39,6 @@ class NmapCommand(Command):
     @staticmethod
     def create(id, force_create=False):
         raise Exception('Can\'t create NmapCommand, use child classes instead.')
-
-    def get_command_definition(self):
-        return '[ "$monitoring_plugin_dir$" + "/' + self.get_command() + '"]'
 
     def get_arguments(self):
         config = """
