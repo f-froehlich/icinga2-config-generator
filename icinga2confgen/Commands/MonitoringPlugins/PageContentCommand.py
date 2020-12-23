@@ -40,6 +40,8 @@ class PageContentCommand(MonitoringPluginCommand):
         if None is command:
             command = PageContentCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, PageContentCommand):
+            raise Exception('Id must be for an instance of PageContentCommand but other instance is returned')
 
         return command
 

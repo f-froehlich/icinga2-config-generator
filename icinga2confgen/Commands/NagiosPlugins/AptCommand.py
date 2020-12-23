@@ -40,6 +40,8 @@ class AptCommand(Command):
         if None is command:
             command = AptCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, AptCommand):
+            raise Exception('Id must be for an instance of AptCommand but other instance is returned')
 
         return command
 

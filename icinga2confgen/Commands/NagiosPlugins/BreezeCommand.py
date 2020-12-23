@@ -40,6 +40,8 @@ class BreezeCommand(Command):
         if None is command:
             command = BreezeCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, BreezeCommand):
+            raise Exception('Id must be for an instance of BreezeCommand but other instance is returned')
 
         return command
 

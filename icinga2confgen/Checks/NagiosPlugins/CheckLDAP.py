@@ -196,6 +196,8 @@ class CheckLDAP(Check):
         if None is check:
             check = CheckLDAP(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckLDAP):
+            raise Exception('Id must be for an instance of CheckLDAP but other instance is returned')
 
         if None is ConfigBuilder.get_command('ldap'):
             LDAPCommand.create('ldap')

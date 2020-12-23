@@ -402,6 +402,8 @@ class CheckHttp(Check):
         if None is check:
             check = CheckHttp(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckHttp):
+            raise Exception('Id must be for an instance of CheckHttp but other instance is returned')
 
         if None is ConfigBuilder.get_command('http'):
             HttpCommand.create('http')

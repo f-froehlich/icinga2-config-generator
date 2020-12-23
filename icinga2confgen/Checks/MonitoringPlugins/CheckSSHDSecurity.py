@@ -125,6 +125,8 @@ class CheckSSHDSecurity(Check):
         if None is check:
             check = CheckSSHDSecurity(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckSSHDSecurity):
+            raise Exception('Id must be for an instance of CheckSSHDSecurity but other instance is returned')
 
         if None is ConfigBuilder.get_command('sshd_security'):
             SSHDSecurityCommand.create('sshd_security')

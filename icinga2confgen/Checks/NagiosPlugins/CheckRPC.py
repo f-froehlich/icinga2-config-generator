@@ -79,6 +79,8 @@ class CheckRPC(Check):
         if None is check:
             check = CheckRPC(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckRPC):
+            raise Exception('Id must be for an instance of CheckRPC but other instance is returned')
 
         if None is ConfigBuilder.get_command('rpc'):
             RPCCommand.create('rpc')

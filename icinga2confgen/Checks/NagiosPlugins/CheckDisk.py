@@ -361,6 +361,8 @@ class CheckDisk(Check):
                 .set_check_interval('15m') \
                 .add_service_group(ServiceGroup.create('disk').set_display_name('Disk'))
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckDisk):
+            raise Exception('Id must be for an instance of CheckDisk but other instance is returned')
 
         if None is ConfigBuilder.get_command('disk'):
             DiskCommand.create('disk')

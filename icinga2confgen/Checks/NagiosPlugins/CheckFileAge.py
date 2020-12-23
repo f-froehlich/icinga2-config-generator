@@ -97,6 +97,8 @@ class CheckFileAge(Check):
         if None is check:
             check = CheckFileAge(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckFileAge):
+            raise Exception('Id must be for an instance of CheckFileAge but other instance is returned')
 
         if None is ConfigBuilder.get_command('file_age'):
             FileAgeCommand.create('file_age')

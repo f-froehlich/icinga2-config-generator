@@ -40,6 +40,8 @@ class DockerLoginCommand(MonitoringPluginCommand):
         if None is command:
             command = DockerLoginCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, DockerLoginCommand):
+            raise Exception('Id must be for an instance of DockerLoginCommand but other instance is returned')
 
         return command
 

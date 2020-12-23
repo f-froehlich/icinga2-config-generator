@@ -40,6 +40,8 @@ class ProcsCommand(Command):
         if None is command:
             command = ProcsCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, ProcsCommand):
+            raise Exception('Id must be for an instance of ProcsCommand but other instance is returned')
 
         return command
 

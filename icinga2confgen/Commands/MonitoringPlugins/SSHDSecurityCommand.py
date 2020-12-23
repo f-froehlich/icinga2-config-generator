@@ -40,6 +40,8 @@ class SSHDSecurityCommand(MonitoringPluginCommand):
         if None is command:
             command = SSHDSecurityCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, SSHDSecurityCommand):
+            raise Exception('Id must be for an instance of SSHDSecurityCommand but other instance is returned')
 
         return command
 

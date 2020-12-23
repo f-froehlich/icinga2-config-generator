@@ -242,6 +242,8 @@ class CheckSPOP(Check):
         if None is check:
             check = CheckSPOP(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckSPOP):
+            raise Exception('Id must be for an instance of CheckSPOP but other instance is returned')
 
         if None is ConfigBuilder.get_command('spop'):
             SPOPCommand.create('spop')

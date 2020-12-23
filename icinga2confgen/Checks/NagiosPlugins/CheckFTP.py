@@ -241,6 +241,8 @@ class CheckFTP(Check):
         if None is check:
             check = CheckFTP(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckFTP):
+            raise Exception('Id must be for an instance of CheckFTP but other instance is returned')
 
         if None is ConfigBuilder.get_command('ftp'):
             FTPCommand.create('ftp')

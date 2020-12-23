@@ -143,6 +143,8 @@ class CheckMysqlQuery(Check):
         if None is check:
             check = CheckMysqlQuery(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckMysqlQuery):
+            raise Exception('Id must be for an instance of CheckMySQLQuery but other instance is returned')
 
         if None is ConfigBuilder.get_command('mysql_query'):
             MySQLQueryCommand.create('mysql_query')

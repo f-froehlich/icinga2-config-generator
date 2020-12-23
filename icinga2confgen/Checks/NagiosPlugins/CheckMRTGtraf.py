@@ -88,6 +88,8 @@ class CheckMRTGtraf(Check):
         if None is check:
             check = CheckMRTGtraf(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckMRTGtraf):
+            raise Exception('Id must be for an instance of CheckMRTGtraf but other instance is returned')
 
         if None is ConfigBuilder.get_command('mrt_gtraf'):
             MRTGtrafCommand.create('mrt_gtraf')

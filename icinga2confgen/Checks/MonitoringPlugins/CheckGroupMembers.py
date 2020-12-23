@@ -67,6 +67,8 @@ class CheckGroupMembers(Check):
         if None is check:
             check = CheckGroupMembers(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckGroupMembers):
+            raise Exception('Id must be for an instance of CheckGroupMembers but other instance is returned')
 
         if None is ConfigBuilder.get_command('group_members'):
             GroupMembersCommand.create('group_members')

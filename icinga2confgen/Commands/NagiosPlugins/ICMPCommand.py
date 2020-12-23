@@ -40,6 +40,8 @@ class ICMPCommand(Command):
         if None is command:
             command = ICMPCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, ICMPCommand):
+            raise Exception('Id must be for an instance of ICMPCommand but other instance is returned')
 
         return command
 

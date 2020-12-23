@@ -40,6 +40,8 @@ class FlexlmCommand(Command):
         if None is command:
             command = FlexlmCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, FlexlmCommand):
+            raise Exception('Id must be for an instance of FlexlmCommand but other instance is returned')
 
         return command
 

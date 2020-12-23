@@ -40,6 +40,8 @@ class IrcdCommand(Command):
         if None is command:
             command = IrcdCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, IrcdCommand):
+            raise Exception('Id must be for an instance of IrcdCommand but other instance is returned')
 
         return command
 

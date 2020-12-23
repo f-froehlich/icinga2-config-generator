@@ -115,6 +115,8 @@ class CheckDNSSECExpire(Check):
         if None is check:
             check = CheckDNSSECExpire(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckDNSSECExpire):
+            raise Exception('Id must be for an instance of CheckDNSSECExpire but other instance is returned')
 
         if None is ConfigBuilder.get_command('dnssec_expiry'):
             DNSSECExpireCommand.create('dnssec_expiry')

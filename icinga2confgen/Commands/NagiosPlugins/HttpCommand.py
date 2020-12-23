@@ -40,6 +40,8 @@ class HttpCommand(Command):
         if None is command:
             command = HttpCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, HttpCommand):
+            raise Exception('Id must be for an instance of HttpCommand but other instance is returned')
 
         return command
 

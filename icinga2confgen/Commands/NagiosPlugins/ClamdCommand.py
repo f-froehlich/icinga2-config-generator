@@ -40,6 +40,8 @@ class ClamdCommand(Command):
         if None is command:
             command = ClamdCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, ClamdCommand):
+            raise Exception('Id must be for an instance of ClamdCommand but other instance is returned')
 
         return command
 

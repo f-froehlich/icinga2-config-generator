@@ -40,6 +40,8 @@ class PingCommand(Command):
         if None is command:
             command = PingCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, PingCommand):
+            raise Exception('Id must be for an instance of PingCommand but other instance is returned')
 
         return command
 

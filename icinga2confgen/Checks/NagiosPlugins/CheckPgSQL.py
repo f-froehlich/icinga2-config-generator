@@ -152,6 +152,8 @@ class CheckPgSQL(Check):
         if None is check:
             check = CheckPgSQL(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckPgSQL):
+            raise Exception('Id must be for an instance of CheckPgSQL but other instance is returned')
 
         if None is ConfigBuilder.get_command('pgsql'):
             PgSQLCommand.create('pgsql')

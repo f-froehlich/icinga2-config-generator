@@ -40,6 +40,8 @@ class RadiusCommand(Command):
         if None is command:
             command = RadiusCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, RadiusCommand):
+            raise Exception('Id must be for an instance of RadiusCommand but other instance is returned')
 
         return command
 

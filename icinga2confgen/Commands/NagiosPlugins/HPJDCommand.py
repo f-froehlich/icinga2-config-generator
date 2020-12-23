@@ -40,6 +40,8 @@ class HPJDCommand(Command):
         if None is command:
             command = HPJDCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, HPJDCommand):
+            raise Exception('Id must be for an instance of HPJDCommand but other instance is returned')
 
         return command
 

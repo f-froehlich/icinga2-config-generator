@@ -40,6 +40,8 @@ class MySQLCommand(Command):
         if None is command:
             command = MySQLCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, MySQLCommand):
+            raise Exception('Id must be for an instance of MySQLCommand but other instance is returned')
 
         return command
 

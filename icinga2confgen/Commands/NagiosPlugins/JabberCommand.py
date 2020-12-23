@@ -40,6 +40,8 @@ class JabberCommand(Command):
         if None is command:
             command = JabberCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, JabberCommand):
+            raise Exception('Id must be for an instance of JabberCommand but other instance is returned')
 
         return command
 

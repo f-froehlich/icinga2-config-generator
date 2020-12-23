@@ -106,6 +106,8 @@ class CheckSSH(Check):
         if None is check:
             check = CheckSSH(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckSSH):
+            raise Exception('Id must be for an instance of CheckSSH but other instance is returned')
 
         if None is ConfigBuilder.get_command('ssh'):
             SSHCommand.create('ssh')

@@ -40,6 +40,8 @@ class SNMPCommand(Command):
         if None is command:
             command = SNMPCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, SNMPCommand):
+            raise Exception('Id must be for an instance of SNMPCommand but other instance is returned')
 
         return command
 

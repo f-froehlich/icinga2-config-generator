@@ -196,6 +196,8 @@ class CheckLDAPS(Check):
         if None is check:
             check = CheckLDAPS(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckLDAPS):
+            raise Exception('Id must be for an instance of CheckLDAPS but other instance is returned')
 
         if None is ConfigBuilder.get_command('ldaps'):
             LDAPSCommand.create('ldaps')

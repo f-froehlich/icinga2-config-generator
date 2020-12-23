@@ -54,6 +54,8 @@ class CheckIdeSmart(Check):
         if None is check:
             check = CheckIdeSmart(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckIdeSmart):
+            raise Exception('Id must be for an instance of CheckIdeSmart but other instance is returned')
 
         if None is ConfigBuilder.get_command('ide_smart'):
             IdeSmartCommand.create('ide_smart')

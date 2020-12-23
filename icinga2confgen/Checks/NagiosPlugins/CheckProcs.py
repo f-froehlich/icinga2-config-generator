@@ -161,6 +161,8 @@ class CheckProcs(Check):
         if None is check:
             check = CheckProcs(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckProcs):
+            raise Exception('Id must be for an instance of CheckProcs but other instance is returned')
 
         if None is ConfigBuilder.get_command('procs'):
             ProcsCommand.create('procs')

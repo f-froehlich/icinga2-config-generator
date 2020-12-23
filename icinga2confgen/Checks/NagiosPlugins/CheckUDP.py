@@ -241,6 +241,8 @@ class CheckUDP(Check):
         if None is check:
             check = CheckUDP(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckUDP):
+            raise Exception('Id must be for an instance of CheckUDP but other instance is returned')
 
         if None is ConfigBuilder.get_command('udp'):
             UDPCommand.create('udp')

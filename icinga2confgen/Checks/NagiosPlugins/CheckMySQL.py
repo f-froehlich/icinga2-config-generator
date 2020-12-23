@@ -206,6 +206,8 @@ class CheckMySQL(Check):
         if None is check:
             check = CheckMySQL(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckMySQL):
+            raise Exception('Id must be for an instance of CheckMySQL but other instance is returned')
 
         if None is ConfigBuilder.get_command('mysql'):
             MySQLCommand.create('mysql')

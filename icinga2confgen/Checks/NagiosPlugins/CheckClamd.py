@@ -241,6 +241,8 @@ class CheckClamd(Check):
         if None is check:
             check = CheckClamd(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckClamd):
+            raise Exception('Id must be for an instance of CheckClamd but other instance is returned')
 
         if None is ConfigBuilder.get_command('clamd'):
             ClamdCommand.create('clamd')

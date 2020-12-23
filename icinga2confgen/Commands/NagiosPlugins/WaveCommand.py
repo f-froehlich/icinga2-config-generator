@@ -40,6 +40,8 @@ class WaveCommand(Command):
         if None is command:
             command = WaveCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, WaveCommand):
+            raise Exception('Id must be for an instance of WaveCommand but other instance is returned')
 
         return command
 

@@ -40,6 +40,8 @@ class LogCommand(Command):
         if None is command:
             command = LogCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, LogCommand):
+            raise Exception('Id must be for an instance of LogCommand but other instance is returned')
 
         return command
 

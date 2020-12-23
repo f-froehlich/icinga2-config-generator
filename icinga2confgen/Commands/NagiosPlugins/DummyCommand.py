@@ -40,6 +40,8 @@ class DummyCommand(Command):
         if None is command:
             command = DummyCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, DummyCommand):
+            raise Exception('Id must be for an instance of DummyCommand but other instance is returned')
 
         return command
 

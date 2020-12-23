@@ -40,6 +40,8 @@ class SPOPCommand(Command):
         if None is command:
             command = SPOPCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, SPOPCommand):
+            raise Exception('Id must be for an instance of SPOPCommand but other instance is returned')
 
         return command
 

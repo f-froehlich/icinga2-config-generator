@@ -145,6 +145,8 @@ class CheckDig(Check):
         if None is check:
             check = CheckDig(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckDig):
+            raise Exception('Id must be for an instance of CheckDig but other instance is returned')
 
         if None is ConfigBuilder.get_command('dig'):
             DigCommand.create('dig')

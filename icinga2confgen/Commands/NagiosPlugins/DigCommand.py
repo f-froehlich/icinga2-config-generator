@@ -40,6 +40,8 @@ class DigCommand(Command):
         if None is command:
             command = DigCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, DigCommand):
+            raise Exception('Id must be for an instance of DigCommand but other instance is returned')
 
         return command
 

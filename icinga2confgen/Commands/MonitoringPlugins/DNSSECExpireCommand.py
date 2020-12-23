@@ -40,6 +40,8 @@ class DNSSECExpireCommand(MonitoringPluginCommand):
         if None is command:
             command = DNSSECExpireCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, DNSSECExpireCommand):
+            raise Exception('Id must be for an instance of DNSSECExpireCommand but other instance is returned')
 
         return command
 

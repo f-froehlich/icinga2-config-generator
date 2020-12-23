@@ -40,6 +40,8 @@ class GroupMembersCommand(MonitoringPluginCommand):
         if None is command:
             command = GroupMembersCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, GroupMembersCommand):
+            raise Exception('Id must be for an instance of GroupMembersCommand but other instance is returned')
 
         return command
 

@@ -106,6 +106,8 @@ class CheckNT(Check):
         if None is check:
             check = CheckNT(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckNT):
+            raise Exception('Id must be for an instance of CheckNT but other instance is returned')
 
         if None is ConfigBuilder.get_command('nt'):
             NTCommand.create('nt')

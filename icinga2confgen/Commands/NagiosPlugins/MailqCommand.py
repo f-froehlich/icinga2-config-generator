@@ -40,6 +40,8 @@ class MailqCommand(Command):
         if None is command:
             command = MailqCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, MailqCommand):
+            raise Exception('Id must be for an instance of MailqCommand but other instance is returned')
 
         return command
 

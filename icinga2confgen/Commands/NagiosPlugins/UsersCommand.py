@@ -40,6 +40,8 @@ class UsersCommand(Command):
         if None is command:
             command = UsersCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, UsersCommand):
+            raise Exception('Id must be for an instance of UsersCommand but other instance is returned')
 
         return command
 

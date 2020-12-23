@@ -40,6 +40,8 @@ class YumCommand(Command):
         if None is command:
             command = YumCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, YumCommand):
+            raise Exception('Id must be for an instance of YumCommand but other instance is returned')
 
         return command
 

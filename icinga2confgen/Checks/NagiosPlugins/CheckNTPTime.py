@@ -152,6 +152,8 @@ class CheckNTPTime(Check):
         if None is check:
             check = CheckNTPTime(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckNTPTime):
+            raise Exception('Id must be for an instance of CheckNTPTime but other instance is returned')
 
         if None is ConfigBuilder.get_command('ntp_time'):
             NTPTimeCommand.create('ntp_time')

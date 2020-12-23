@@ -40,6 +40,8 @@ class UFWStatusCommand(MonitoringPluginCommand):
         if None is command:
             command = UFWStatusCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, UFWStatusCommand):
+            raise Exception('Id must be for an instance of UFWStatusCommand but other instance is returned')
 
         return command
 

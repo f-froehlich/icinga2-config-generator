@@ -40,6 +40,8 @@ class DiskSMBCommand(Command):
         if None is command:
             command = DiskSMBCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, DiskSMBCommand):
+            raise Exception('Id must be for an instance of DiskSMBCommand but other instance is returned')
 
         return command
 

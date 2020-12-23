@@ -40,6 +40,8 @@ class SWAPCommand(Command):
         if None is command:
             command = SWAPCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, SWAPCommand):
+            raise Exception('Id must be for an instance of SWAPCommand but other instance is returned')
 
         return command
 

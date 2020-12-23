@@ -40,6 +40,8 @@ class PgSQLCommand(Command):
         if None is command:
             command = PgSQLCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, PgSQLCommand):
+            raise Exception('Id must be for an instance of PgSQLCommand but other instance is returned')
 
         return command
 

@@ -40,6 +40,8 @@ class PathExistCommand(MonitoringPluginCommand):
         if None is command:
             command = PathExistCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, PathExistCommand):
+            raise Exception('Id must be for an instance of PathExistCommand but other instance is returned')
 
         return command
 

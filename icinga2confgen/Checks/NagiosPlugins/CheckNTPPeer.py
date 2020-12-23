@@ -146,6 +146,8 @@ class CheckNTPPeer(Check):
         if None is check:
             check = CheckNTPPeer(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckNTPPeer):
+            raise Exception('Id must be for an instance of CheckNTPPeer but other instance is returned')
 
         if None is ConfigBuilder.get_command('ntp_peer'):
             NTPPeerCommand.create('ntp_peer')

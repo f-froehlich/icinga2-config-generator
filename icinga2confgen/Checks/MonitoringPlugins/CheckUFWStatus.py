@@ -119,6 +119,8 @@ class CheckUFWStatus(Check):
         if None is check:
             check = CheckUFWStatus(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckUFWStatus):
+            raise Exception('Id must be for an instance of CheckUFWStatus but other instance is returned')
 
         if None is ConfigBuilder.get_command('ufw_status'):
             UFWStatusCommand.create('ufw_status')

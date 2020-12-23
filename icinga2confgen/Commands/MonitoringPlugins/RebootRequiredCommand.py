@@ -40,6 +40,8 @@ class RebootRequiredCommand(MonitoringPluginCommand):
         if None is command:
             command = RebootRequiredCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, RebootRequiredCommand):
+            raise Exception('Id must be for an instance of RebootRequiredCommand but other instance is returned')
 
         return command
 

@@ -79,6 +79,8 @@ class CheckBreeze(Check):
         if None is check:
             check = CheckBreeze(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckBreeze):
+            raise Exception('Id must be for an instance of CheckBreeze but other instance is returned')
 
         if None is ConfigBuilder.get_command('breeze'):
             BreezeCommand.create('breeze')

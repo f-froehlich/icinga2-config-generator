@@ -40,6 +40,8 @@ class SIMAPCommand(Command):
         if None is command:
             command = SIMAPCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, SIMAPCommand):
+            raise Exception('Id must be for an instance of SIMAPCommand but other instance is returned')
 
         return command
 

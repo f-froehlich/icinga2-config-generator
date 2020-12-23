@@ -89,6 +89,8 @@ class CheckExistingUsers(Check):
         if None is check:
             check = CheckExistingUsers(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckExistingUsers):
+            raise Exception('Id must be for an instance of CheckExistingUsers but other instance is returned')
 
         if None is ConfigBuilder.get_command('existing_users'):
             ExistingUsersCommand.create('existing_users')

@@ -45,6 +45,8 @@ class CheckPing6(CheckPing):
         if None is check:
             check = CheckPing6(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckPing6):
+            raise Exception('Id must be for an instance of CheckPing6 but other instance is returned')
 
         if None is ConfigBuilder.get_command('ping'):
             PingCommand.create('ping')

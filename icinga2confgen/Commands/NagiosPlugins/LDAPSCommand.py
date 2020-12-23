@@ -40,6 +40,8 @@ class LDAPSCommand(Command):
         if None is command:
             command = LDAPSCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, LDAPSCommand):
+            raise Exception('Id must be for an instance of LDAPSCommand but other instance is returned')
 
         return command
 

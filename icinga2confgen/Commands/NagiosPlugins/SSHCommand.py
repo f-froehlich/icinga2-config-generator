@@ -40,6 +40,8 @@ class SSHCommand(Command):
         if None is command:
             command = SSHCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, SSHCommand):
+            raise Exception('Id must be for an instance of SSHCommand but other instance is returned')
 
         return command
 

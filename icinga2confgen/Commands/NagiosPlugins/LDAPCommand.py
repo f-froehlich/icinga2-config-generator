@@ -40,6 +40,8 @@ class LDAPCommand(Command):
         if None is command:
             command = LDAPCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, LDAPCommand):
+            raise Exception('Id must be for an instance of LDAPCommand but other instance is returned')
 
         return command
 

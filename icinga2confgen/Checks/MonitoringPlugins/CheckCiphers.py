@@ -322,6 +322,8 @@ class CheckCiphers(NmapBase, NmapOnlyUDP, NmapNotOnlyTCP, NmapPN, NmapFast):
         if None is check:
             check = CheckCiphers(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckCiphers):
+            raise Exception('Id must be for an instance of CheckCiphers but other instance is returned')
 
         if None is ConfigBuilder.get_command('ciphers'):
             CiphersCommand.create('ciphers')

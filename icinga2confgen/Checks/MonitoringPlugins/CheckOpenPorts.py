@@ -79,6 +79,8 @@ class CheckOpenPorts(NmapBase, NmapOnlyUDP, NmapOnlyTCP, NmapPN, NmapFast):
         if None is check:
             check = CheckOpenPorts(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckOpenPorts):
+            raise Exception('Id must be for an instance of CheckOpenPorts but other instance is returned')
 
         if None is ConfigBuilder.get_command('open_ports'):
             OpenPortsCommand.create('open_ports')

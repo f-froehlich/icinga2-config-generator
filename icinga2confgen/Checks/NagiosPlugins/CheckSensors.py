@@ -44,6 +44,8 @@ class CheckSensors(Check):
         if None is check:
             check = CheckSensors(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckSensors):
+            raise Exception('Id must be for an instance of CheckSensors but other instance is returned')
 
         if None is ConfigBuilder.get_command('sensors'):
             SensorsCommand.create('sensors')

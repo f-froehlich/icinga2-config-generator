@@ -40,6 +40,8 @@ class IMAPCommand(Command):
         if None is command:
             command = IMAPCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, IMAPCommand):
+            raise Exception('Id must be for an instance of IMAPCommand but other instance is returned')
 
         return command
 

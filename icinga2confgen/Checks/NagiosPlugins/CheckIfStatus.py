@@ -197,6 +197,8 @@ class CheckIfStatus(Check):
         if None is check:
             check = CheckIfStatus(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckIfStatus):
+            raise Exception('Id must be for an instance of CheckIfStatus but other instance is returned')
 
         if None is ConfigBuilder.get_command('ifstatus'):
             IfStatusCommand.create('ifstatus')

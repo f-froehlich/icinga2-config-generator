@@ -242,6 +242,8 @@ class CheckNNTP(Check):
         if None is check:
             check = CheckNNTP(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckNNTP):
+            raise Exception('Id must be for an instance of CheckNNTP but other instance is returned')
 
         if None is ConfigBuilder.get_command('nntp'):
             NNTPCommand.create('nntp')

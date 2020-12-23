@@ -40,6 +40,8 @@ class SMTPCommand(Command):
         if None is command:
             command = SMTPCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, SMTPCommand):
+            raise Exception('Id must be for an instance of SMTPCommand but other instance is returned')
 
         return command
 

@@ -40,6 +40,8 @@ class LoadCommand(Command):
         if None is command:
             command = LoadCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, LoadCommand):
+            raise Exception('Id must be for an instance of LoadCommand but other instance is returned')
 
         return command
 

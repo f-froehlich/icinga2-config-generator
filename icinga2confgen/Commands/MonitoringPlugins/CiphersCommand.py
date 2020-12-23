@@ -40,6 +40,8 @@ class CiphersCommand(NmapCommand):
         if None is command:
             command = CiphersCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, CiphersCommand):
+            raise Exception('Id must be for an instance of CiphersCommand but other instance is returned')
 
         return command
 

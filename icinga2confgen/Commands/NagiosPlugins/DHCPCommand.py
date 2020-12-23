@@ -40,6 +40,8 @@ class DHCPCommand(Command):
         if None is command:
             command = DHCPCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, DHCPCommand):
+            raise Exception('Id must be for an instance of DHCPCommand but other instance is returned')
 
         return command
 

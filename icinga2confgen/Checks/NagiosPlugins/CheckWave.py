@@ -70,6 +70,8 @@ class CheckWave(Check):
         if None is check:
             check = CheckWave(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckWave):
+            raise Exception('Id must be for an instance of CheckWave but other instance is returned')
 
         if None is ConfigBuilder.get_command('wave'):
             WaveCommand.create('wave')

@@ -98,6 +98,8 @@ class CheckDHCP(Check):
         if None is check:
             check = CheckDHCP(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckDHCP):
+            raise Exception('Id must be for an instance of CheckDHCP but other instance is returned')
 
         if None is ConfigBuilder.get_command('dhcp'):
             DHCPCommand.create('dhcp')

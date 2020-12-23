@@ -70,6 +70,8 @@ class CheckLog(Check):
         if None is check:
             check = CheckLog(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckLog):
+            raise Exception('Id must be for an instance of CheckLog but other instance is returned')
 
         if None is ConfigBuilder.get_command('log'):
             LogCommand.create('log')

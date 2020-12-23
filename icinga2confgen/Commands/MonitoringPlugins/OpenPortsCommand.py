@@ -40,6 +40,8 @@ class OpenPortsCommand(NmapCommand):
         if None is command:
             command = OpenPortsCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, OpenPortsCommand):
+            raise Exception('Id must be for an instance of OpenPortsCommand but other instance is returned')
 
         return command
 

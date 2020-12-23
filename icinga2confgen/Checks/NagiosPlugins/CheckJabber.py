@@ -241,6 +241,8 @@ class CheckJabber(Check):
         if None is check:
             check = CheckJabber(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckJabber):
+            raise Exception('Id must be for an instance of CheckJabber but other instance is returned')
 
         if None is ConfigBuilder.get_command('jabber'):
             JabberCommand.create('jabber')

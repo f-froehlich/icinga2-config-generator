@@ -61,6 +61,8 @@ class CheckFlexlm(Check):
         if None is check:
             check = CheckFlexlm(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckFlexlm):
+            raise Exception('Id must be for an instance of CheckFlexlm but other instance is returned')
 
         if None is ConfigBuilder.get_command('flexlm'):
             FlexlmCommand.create('flexlm')

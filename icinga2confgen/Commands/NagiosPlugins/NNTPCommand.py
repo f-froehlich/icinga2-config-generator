@@ -40,6 +40,8 @@ class NNTPCommand(Command):
         if None is command:
             command = NNTPCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, NNTPCommand):
+            raise Exception('Id must be for an instance of NNTPCommand but other instance is returned')
 
         return command
 

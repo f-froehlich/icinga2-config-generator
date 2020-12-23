@@ -40,6 +40,8 @@ class DiskCommand(Command):
         if None is command:
             command = DiskCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, DiskCommand):
+            raise Exception('Id must be for an instance of DiskCommand but other instance is returned')
 
         return command
 

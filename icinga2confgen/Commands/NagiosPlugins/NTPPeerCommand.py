@@ -40,6 +40,8 @@ class NTPPeerCommand(Command):
         if None is command:
             command = NTPPeerCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, NTPPeerCommand):
+            raise Exception('Id must be for an instance of NTPPeerCommand but other instance is returned')
 
         return command
 

@@ -124,6 +124,8 @@ class CheckDiskSMB(Check):
         if None is check:
             check = CheckDiskSMB(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckDiskSMB):
+            raise Exception('Id must be for an instance of CheckDiskSMB but other instance is returned')
 
         if None is ConfigBuilder.get_command('disk_smb'):
             DiskSMBCommand.create('disk_smb')

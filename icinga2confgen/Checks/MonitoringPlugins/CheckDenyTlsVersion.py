@@ -75,6 +75,8 @@ class CheckDenyTlsVersion(Check):
         if None is check:
             check = CheckDenyTlsVersion(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckDenyTlsVersion):
+            raise Exception('Id must be for an instance of CheckDenyTlsVersion but other instance is returned')
 
         if None is ConfigBuilder.get_command('deny_tls_version'):
             DenyTlsVersionCommand.create('deny_tls_version')

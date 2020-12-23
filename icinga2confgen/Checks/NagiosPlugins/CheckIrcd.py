@@ -79,6 +79,8 @@ class CheckIrcd(Check):
         if None is check:
             check = CheckIrcd(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckIrcd):
+            raise Exception('Id must be for an instance of CheckIrcd but other instance is returned')
 
         if None is ConfigBuilder.get_command('ircd'):
             IrcdCommand.create('ircd')

@@ -40,6 +40,8 @@ class SPFCommand(MonitoringPluginCommand):
         if None is command:
             command = SPFCommand(id)
             ConfigBuilder.add_command(id, command)
+        elif not isinstance(command, SPFCommand):
+            raise Exception('Id must be for an instance of SPFCommand but other instance is returned')
 
         return command
 

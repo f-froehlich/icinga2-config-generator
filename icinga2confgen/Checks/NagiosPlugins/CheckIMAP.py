@@ -242,6 +242,8 @@ class CheckIMAP(Check):
         if None is check:
             check = CheckIMAP(id)
             ConfigBuilder.add_check(id, check)
+        elif not isinstance(check, CheckIMAP):
+            raise Exception('Id must be for an instance of CheckIMAP but other instance is returned')
 
         if None is ConfigBuilder.get_command('imap'):
             IMAPCommand.create('imap')
