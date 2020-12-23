@@ -35,6 +35,35 @@ class DefaultScheduledDowntimes:
             .add_period("friday", "09:00-17:00")
 
     @staticmethod
+    def weekend(id='weekend', display_name='Weekend'):
+        return ScheduledDowntime.create(id) \
+            .set_display_name(display_name) \
+            .add_period("saturday", "00:00-24:00") \
+            .add_period("sunday", "00:00-24:00")
+
+    @staticmethod
+    def weekday_backup(id='weekday_backup', display_name='Weekday backup'):
+        return ScheduledDowntime.create(id) \
+            .set_display_name(display_name) \
+            .add_period("monday", "00:00-3:00") \
+            .add_period("tuesday", "00:00-3:00") \
+            .add_period("wednesday", "00:00-3:00") \
+            .add_period("thursday", "00:00-3:00") \
+            .add_period("friday", "00:00-3:00")
+
+    @staticmethod
+    def daily_backup(id='daily_backup', display_name='Daily backup'):
+        return ScheduledDowntime.create(id) \
+            .set_display_name(display_name) \
+            .add_period("monday", "00:00-3:00") \
+            .add_period("tuesday", "00:00-3:00") \
+            .add_period("wednesday", "00:00-3:00") \
+            .add_period("thursday", "00:00-3:00") \
+            .add_period("friday", "00:00-3:00") \
+            .add_period("saturday", "00:00-3:00") \
+            .add_period("sunday", "00:00-3:00")
+
+    @staticmethod
     def continuously(id='24_7', display_name='24/7'):
         return ScheduledDowntime.create(id) \
             .set_display_name(display_name) \
@@ -42,4 +71,6 @@ class DefaultScheduledDowntimes:
             .add_period("tuesday", "00:00-24:00") \
             .add_period("wednesday", "00:00-24:00") \
             .add_period("thursday", "00:00-24:00") \
-            .add_period("friday", "00:00-24:00")
+            .add_period("friday", "00:00-24:00") \
+            .add_period("saturday", "00:00-24:00") \
+            .add_period("sunday", "00:00-24:00")

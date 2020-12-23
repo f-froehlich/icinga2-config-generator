@@ -94,14 +94,14 @@ class Check(Checkable):
     def get_config(self):
         self.validate()
 
-        config = 'apply Service "check_' + self.get_id() + '" {\n'
+        config = 'apply Service "' + self.get_id() + '" {\n'
         config += '  check_command = "command_' + self.__command_name + '_' + self.__check_type + '"\n'
         config += self.get_property_default_config()
         config += self.get_custom_property_config()
         config += self.get_custom_config()
         config += self.get_group_config()
         config += Checkable.get_config(self)
-        config += '  assign where "check_' + self.get_id() + '" in host.vars.checks\n'
+        config += '  assign where "' + self.get_id() + '" in host.vars.checks\n'
         config += '}\n'
 
         return config

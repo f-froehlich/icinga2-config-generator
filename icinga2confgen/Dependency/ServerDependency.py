@@ -45,10 +45,10 @@ class ServerDependency(Dependency):
         return dependency
 
     def get_allowed_states(self):
-        raise Exception("You have to override get_allowed_states!")
+        return ['Up', 'Down']
 
     def get_default_states(self):
-        raise Exception("You have to override get_default_states!")
+        return ['Up']
 
     def get_config(self):
         self.validate()

@@ -47,7 +47,7 @@ class CheckDependency(Dependency):
         return dependency
 
     def get_allowed_states(self):
-        return ['OK', 'Warning', 'Critical', 'Unknown', 'Up', 'Down']
+        return ['OK', 'Warning', 'Critical', 'Unknown']
 
     def get_default_states(self):
         return ['OK', 'Warning']
@@ -79,7 +79,7 @@ class CheckDependency(Dependency):
         config = Dependency.get_config(self)
         config += 'apply Dependency "servicedependency_' + self.get_id() + '" to Service {\n'
         config += '  import "dependency_' + self.get_id() + '"\n'
-        config += ValueMapper.parse_var('parent_service_name', self.__parent_service_name, value_prefix='check_')
+        config += ValueMapper.parse_var('parent_service_name', self.__parent_service_name)
         config += '  assign where "dependency_' + self.get_id() + '" in service.vars.dependencies\n'
         config += '}\n'
 

@@ -25,13 +25,14 @@
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Helpers.Nameable import Nameable
 
 
-class TimePeriod:
+class TimePeriod(Nameable):
 
     def __init__(self, id):
+        Nameable.__init__(self)
         self.__id = id
-        self.__display_name = None
         self.__ranges = []
 
     @staticmethod
@@ -48,14 +49,6 @@ class TimePeriod:
     def get_id(self):
         return self.__id
 
-    def set_display_name(self, display_name):
-        ValueChecker.is_string(display_name)
-        self.__display_name = display_name
-        return self
-
-    def get_display_name(self):
-        return self.__display_name
-
     def add_period(self, day, range):
         ValueChecker.is_string(day)
         ValueChecker.is_string(range)
@@ -68,12 +61,12 @@ class TimePeriod:
         self.__ranges.remove((day, range))
         return self
 
+    def get_period(self):
+        return self.__ranges
+
     def get_config(self):
         config = 'object TimePeriod "time_period_' + self.__id + '" {\n'
-
-        if None is not self.__display_name:
-            config += '  display_name = "' + self.__display_name + '"\n'
-
+        config += Nameable.get_config(self)
         config += '  ranges = {\n'
         for range in self.__ranges:
             config += '    "' + range[0] + '" = "' + range[1] + '"\n'

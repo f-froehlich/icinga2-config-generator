@@ -289,7 +289,7 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable, CustomVars):
         config += Checkable.get_config(self)
         config += ValueMapper.parse_var('address', self.__ipv4)
         config += ValueMapper.parse_var('address6', self.__ipv6)
-        config += ValueMapper.parse_var('vars.checks', self.__checks, value_prefix='check_')
+        config += ValueMapper.parse_var('vars.checks', self.__checks)
         config += ValueMapper.parse_var('vars.groups', self.__groups, value_prefix='hostgroup_')
         config += PluginDirs.get_config(self)
         config += ScriptDirs.get_config(self)
