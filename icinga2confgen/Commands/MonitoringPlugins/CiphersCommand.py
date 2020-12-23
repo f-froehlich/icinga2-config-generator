@@ -31,7 +31,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CiphersCommand(NmapCommand):
 
     def __init__(self, id):
-        NmapCommand.__init__(self, id, 'ciphers', only_tcp=True)
+        NmapCommand.__init__(self, id, 'ciphers', scan_udp=False)
 
     @staticmethod
     def create(id, force_create=False):
@@ -52,69 +52,29 @@ class CiphersCommand(NmapCommand):
         config = '{\n'
         config += NmapCommand.get_arguments(self)
         config += """
-    "--allowed-tlsv1-0-ciphers" = {
-      value = "$command_ciphers_allowed_tlsv1_0_ciphers$"
-      set_if = {{ macro("$command_ciphers_allowed_tlsv1_0_ciphers$") != false }}
+    "--allowed-cipher" = {
+      value = "$command_ciphers_allowed_ciphers$"
+      set_if = {{ macro("$command_ciphers_allowed_ciphers$") != false }}
       repeat_key = true
     }
-    "--allowed-tlsv1-1-ciphers" = {
-      value = "$command_ciphers_allowed_tlsv1_1_ciphers$"
-      set_if = {{ macro("$command_ciphers_allowed_tlsv1_1_ciphers$") != false }}
+    "--least-protocol-strength" = {
+      value = "$command_ciphers_least_protocol_strength$"
+      set_if = {{ macro("$command_ciphers_least_protocol_strength$") != false }}
       repeat_key = true
     }
-    "--allowed-tlsv1-2-ciphers" = {
-      value = "$command_ciphers_allowed_tlsv1_2_ciphers$"
-      set_if = {{ macro("$command_ciphers_allowed_tlsv1_2_ciphers$") != false }}
-      repeat_key = true
-    }
-    "--allowed-tlsv1-3-ciphers" = {
-      value = "$command_ciphers_allowed_tlsv1_3_ciphers$"
-      set_if = {{ macro("$command_ciphers_allowed_tlsv1_3_ciphers$") != false }}
-      repeat_key = true
-    }
-    "--least-tlsv1-0-strength" = {
-      value = "$command_ciphers_least_tlsv1_0_strength$"
-      set_if = {{ macro("$command_ciphers_least_tlsv1_0_strength$") != false }}
-      repeat_key = true
-    }
-    "--least-tlsv1-1-strength" = {
-      value = "$command_ciphers_least_tlsv1_1_strength$"
-      set_if = {{ macro("$command_ciphers_least_tlsv1_1_strength$") != false }}
-      repeat_key = true
-    }
-    "--least-tlsv1-2-strength" = {
-      value = "$command_ciphers_least_tlsv1_2_strength$"
-      set_if = {{ macro("$command_ciphers_least_tlsv1_2_strength$") != false }}
-      repeat_key = true
-    }
-    "--least-tlsv1-3-strength" = {
-      value = "$command_ciphers_least_tlsv1_3_strength$"
-      set_if = {{ macro("$command_ciphers_least_tlsv1_3_strength$") != false }}
-      repeat_key = true
-    }
-    "--least-strength" = {
-      value = "$command_ciphers_least_strength$"
-      set_if = {{ macro("$command_ciphers_least_strength$") != false }}
-      repeat_key = true
-    }
-    "--least-strength-overall" = {
-      value = "$command_ciphers_least_strength_overall$"
-      set_if = {{ macro("$command_ciphers_least_strength_overall$") != false }}
+    "--least-port-strength = {
+      value = "$command_ciphers_least_port_strength$"
+      set_if = {{ macro("$command_ciphers_least_port_strength$") != false }}
       repeat_key = true
     }
     "--ignore-cipher-name" = {
       set_if = "$command_ciphers_ignore_cipher_name$"
     }
-    "--ignore-cipher-strength" = {
-      set_if = "$command_ciphers_ignore_cipher_strength$"
+    "--ignore-protocol-strength" = {
+      set_if = "$command_ciphers_ignore_protocol_strength$"
     }
     "--ignore-strength" = {
       set_if = "$command_ciphers_ignore_strength$"
-    }
-    "--ignore-port" = {
-      value = "$command_ciphers_ignore_port$"
-      set_if = {{ macro("$command_ciphers_ignore_port$") != false }}
-      repeat_key = true
     }
   }
 """

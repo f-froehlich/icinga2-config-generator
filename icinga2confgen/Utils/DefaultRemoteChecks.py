@@ -120,14 +120,14 @@ class DefaultRemoteChecks(RemoteCheckManager):
             if True is self.__check_open_ports:
                 if None is not ipv4:
                     check = CheckOpenPorts.create('open_ports4_' + base_id)
-                    check.set_host(ipv4)
+                    check.add_host(ipv4)
                     for config in self.__open_ports:
                         check.add_allowed_port(config[0], config[1])
                     self.apply_check(check)
 
                 if None is not ipv6:
                     check = CheckOpenPorts.create('open_ports6_' + base_id)
-                    check.set_host(ipv6)
+                    check.add_host(ipv6)
                     for config in self.__open_ports:
                         check.add_allowed_port(config[0], config[1])
                     self.apply_check(check)

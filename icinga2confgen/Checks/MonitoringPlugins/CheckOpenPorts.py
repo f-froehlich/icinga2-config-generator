@@ -26,19 +26,66 @@
 from icinga2confgen.Commands.MonitoringPlugins.OpenPortsCommand import OpenPortsCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.Helpers.Nmap import NmapBase, NmapOnlyTCP, NmapOnlyUDP, NmapPN, NmapFast
+from icinga2confgen.Helpers.Nmap import NmapBase, \
+    NmapScanTCP, \
+    NmapScanUDP, \
+    NmapN, \
+    NmapR, \
+    Nmapr, \
+    NmapSystemDns, \
+    NmapTraceroute, \
+    NmapF, \
+    NmapSV, \
+    NmapVersionLight, \
+    NmapVersionAll, \
+    NmapVersionTrace, \
+    NmapSC, \
+    NmapScriptTrace, \
+    NmapO, \
+    NmapOsscanGuess, \
+    NmapBadsum, \
+    Nmap6, \
+    NmapA, \
+    NmapSendEth, \
+    NmapSendIp, \
+    NmapPrivileged, \
+    NmapPn, \
+    NmapUnprivileged
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
 
-class CheckOpenPorts(NmapBase, NmapOnlyUDP, NmapOnlyTCP, NmapPN, NmapFast):
+class CheckOpenPorts(NmapBase, NmapScanUDP, NmapScanTCP, NmapN, NmapSystemDns, NmapTraceroute, NmapF, Nmapr, NmapR,
+                     NmapSV, NmapVersionLight, NmapVersionAll, NmapVersionTrace, NmapSC, NmapScriptTrace, NmapO,
+                     NmapOsscanGuess, NmapBadsum, Nmap6, NmapA, NmapSendEth, NmapSendIp, NmapPrivileged, NmapPn,
+                     NmapUnprivileged):
 
     def __init__(self, id):
         NmapBase.__init__(self, id, 'CheckOpenPorts', 'open_ports')
-        NmapOnlyUDP.__init__(self, 'open_ports')
-        NmapOnlyTCP.__init__(self, 'open_ports')
-        NmapPN.__init__(self, 'open_ports')
-        NmapFast.__init__(self, 'open_ports')
+        NmapScanUDP.__init__(self, 'open_ports')
+        NmapScanTCP.__init__(self, 'open_ports')
+        NmapN.__init__(self, 'open_ports')
+        Nmapr.__init__(self, 'open_ports')
+        NmapSystemDns.__init__(self, 'open_ports')
+        NmapTraceroute.__init__(self, 'open_ports')
+        NmapF.__init__(self, 'open_ports')
+        NmapR.__init__(self, 'open_ports')
+        NmapSV.__init__(self, 'open_ports')
+        NmapVersionLight.__init__(self, 'open_ports')
+        NmapVersionAll.__init__(self, 'open_ports')
+        NmapVersionTrace.__init__(self, 'open_ports')
+        NmapSC.__init__(self, 'open_ports')
+        NmapScriptTrace.__init__(self, 'open_ports')
+        NmapO.__init__(self, 'open_ports')
+        NmapOsscanGuess.__init__(self, 'open_ports')
+        NmapBadsum.__init__(self, 'open_ports')
+        Nmap6.__init__(self, 'open_ports')
+        NmapA.__init__(self, 'open_ports')
+        NmapSendEth.__init__(self, 'open_ports')
+        NmapSendIp.__init__(self, 'open_ports')
+        NmapPrivileged.__init__(self, 'open_ports')
+        NmapPn.__init__(self, 'open_ports')
+        NmapUnprivileged.__init__(self, 'open_ports')
         self.add_service_group(ServiceGroup.create('open_ports'))
         self.__allowed_ports = []
 
@@ -91,10 +138,30 @@ class CheckOpenPorts(NmapBase, NmapOnlyUDP, NmapOnlyTCP, NmapPN, NmapFast):
         return NmapBase.get_config(self)
 
     def get_custom_config(self):
-        config = NmapOnlyUDP.get_config(self)
-        config += NmapOnlyTCP.get_config(self)
-        config += NmapPN.get_config(self)
-        config += NmapFast.get_config(self)
+        config = NmapScanUDP.get_config(self)
+        config += NmapScanTCP.get_config(self)
+        config += NmapN.get_config(self)
+        config += Nmapr.get_config(self)
+        config += NmapSystemDns.get_config(self)
+        config += NmapTraceroute.get_config(self)
+        config += NmapF.get_config(self)
+        config += NmapR.get_config(self)
+        config += NmapSV.get_config(self)
+        config += NmapVersionLight.get_config(self)
+        config += NmapVersionAll.get_config(self)
+        config += NmapVersionTrace.get_config(self)
+        config += NmapSC.get_config(self)
+        config += NmapScriptTrace.get_config(self)
+        config += NmapO.get_config(self)
+        config += NmapOsscanGuess.get_config(self)
+        config += NmapBadsum.get_config(self)
+        config += Nmap6.get_config(self)
+        config += NmapA.get_config(self)
+        config += NmapSendEth.get_config(self)
+        config += NmapSendIp.get_config(self)
+        config += NmapPrivileged.get_config(self)
+        config += NmapPn.get_config(self)
+        config += NmapUnprivileged.get_config(self)
         config += ValueMapper.parse_var('vars.allowed_ports', self.__allowed_ports)
         config += NmapBase.get_custom_config(self)
 
@@ -102,7 +169,27 @@ class CheckOpenPorts(NmapBase, NmapOnlyUDP, NmapOnlyTCP, NmapPN, NmapFast):
 
     def validate(self):
         NmapBase.validate(self)
-        NmapOnlyUDP.validate(self)
-        NmapOnlyTCP.validate(self)
-        NmapPN.validate(self)
-        NmapFast.validate(self)
+        NmapScanUDP.validate(self)
+        NmapScanTCP.validate(self)
+        NmapN.validate(self)
+        Nmapr.validate(self)
+        NmapSystemDns.validate(self)
+        NmapTraceroute.validate(self)
+        NmapF.validate(self)
+        NmapR.validate(self)
+        NmapSV.validate(self)
+        NmapVersionLight.validate(self)
+        NmapVersionAll.validate(self)
+        NmapVersionTrace.validate(self)
+        NmapSC.validate(self)
+        NmapScriptTrace.validate(self)
+        NmapO.validate(self)
+        NmapOsscanGuess.validate(self)
+        NmapBadsum.validate(self)
+        Nmap6.validate(self)
+        NmapA.validate(self)
+        NmapSendEth.validate(self)
+        NmapSendIp.validate(self)
+        NmapPrivileged.validate(self)
+        NmapPn.validate(self)
+        NmapUnprivileged.validate(self)

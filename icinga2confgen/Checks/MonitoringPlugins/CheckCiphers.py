@@ -26,125 +26,100 @@
 from icinga2confgen.Commands.MonitoringPlugins.CiphersCommand import CiphersCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.Helpers.Nmap import NmapBase, NmapNotOnlyTCP, NmapOnlyUDP, NmapPN, NmapFast
+from icinga2confgen.Helpers.Nmap import NmapBase, \
+    NmapScanTCP, \
+    NmapNotScanUDP, \
+    NmapN, \
+    Nmapr, \
+    NmapSystemDns, \
+    NmapTraceroute, \
+    NmapF, \
+    NmapR, \
+    NmapSV, \
+    NmapVersionLight, \
+    NmapVersionAll, \
+    NmapVersionTrace, \
+    NmapSC, \
+    NmapScriptTrace, \
+    NmapO, \
+    NmapOsscanGuess, \
+    NmapBadsum, \
+    Nmap6, \
+    NmapA, \
+    NmapSendEth, \
+    NmapSendIp, \
+    NmapPrivileged, \
+    NmapPn, \
+    NmapUnprivileged, \
+    NmapScriptExecutor
 from icinga2confgen.ValueChecker import ValueChecker
 
 
-class CheckCiphers(NmapBase, NmapOnlyUDP, NmapNotOnlyTCP, NmapPN, NmapFast):
+class CheckCiphers(NmapBase, NmapScriptExecutor, NmapNotScanUDP, NmapScanTCP, NmapN, NmapR, Nmapr, NmapSystemDns,
+                   NmapTraceroute, NmapF, NmapSV, NmapVersionLight, NmapVersionAll, NmapVersionTrace, NmapSC,
+                   NmapScriptTrace, NmapO, NmapOsscanGuess, NmapBadsum, Nmap6, NmapA, NmapSendEth, NmapSendIp,
+                   NmapPrivileged, NmapPn, NmapUnprivileged):
 
     def __init__(self, id):
         NmapBase.__init__(self, id, 'CheckCiphers', 'ciphers')
-        NmapOnlyUDP.__init__(self, 'ciphers')
-        NmapNotOnlyTCP.__init__(self, 'ciphers')
-        NmapPN.__init__(self, 'ciphers')
-        NmapFast.__init__(self, 'ciphers')
+        NmapNotScanUDP.__init__(self, 'ciphers')
+        NmapScanTCP.__init__(self, 'ciphers')
+        NmapN.__init__(self, 'ciphers')
+        NmapR.__init__(self, 'ciphers')
+        NmapSystemDns.__init__(self, 'ciphers')
+        NmapTraceroute.__init__(self, 'ciphers')
+        NmapF.__init__(self, 'ciphers')
+        Nmapr.__init__(self, 'ciphers')
+        NmapSV.__init__(self, 'ciphers')
+        NmapVersionLight.__init__(self, 'ciphers')
+        NmapVersionAll.__init__(self, 'ciphers')
+        NmapVersionTrace.__init__(self, 'ciphers')
+        NmapSC.__init__(self, 'ciphers')
+        NmapScriptTrace.__init__(self, 'ciphers')
+        NmapO.__init__(self, 'ciphers')
+        NmapOsscanGuess.__init__(self, 'ciphers')
+        NmapBadsum.__init__(self, 'ciphers')
+        Nmap6.__init__(self, 'ciphers')
+        NmapA.__init__(self, 'ciphers')
+        NmapSendEth.__init__(self, 'ciphers')
+        NmapSendIp.__init__(self, 'ciphers')
+        NmapPrivileged.__init__(self, 'ciphers')
+        NmapPn.__init__(self, 'ciphers')
+        NmapUnprivileged.__init__(self, 'ciphers')
+
+        NmapScriptExecutor.__init__(self, 'ciphers')
         self.add_service_group(ServiceGroup.create('ciphers'))
 
-        self.__allowed_tlsv1_0_ciphers = []
-        self.__allowed_tlsv1_1_ciphers = []
-        self.__allowed_tlsv1_2_ciphers = []
-        self.__allowed_tlsv1_3_ciphers = []
-
-        self.__least_tlsv1_0_strength = []
-        self.__least_tlsv1_1_strength = []
-        self.__least_tlsv1_2_strength = []
-        self.__least_tlsv1_3_strength = []
-
-        self.__least_strength = []
-        self.__least_strength_overall = None
-
+        self.__allowed_ciphers = []
+        self.__least_protocol_strength = []
+        self.__least_port_strength = []
         self.__ignore_cipher_name = False
-        self.__ignore_cipher_strength = False
+        self.__ignore_protocol_strength = False
         self.__ignore_strength = False
-        self.__ignore_port = []
 
-    def add_allowed_tlsv1_0_cipher(self, port, cipher_names):
+    def add_allowed_cipher(self, port, protocol, cipher_names):
         ValueChecker.is_number(port)
+        ValueChecker.is_string(protocol)
         ValueChecker.is_array(cipher_names)
 
-        config = str(port) + ':' + ','.join(cipher_names)
-        if config not in self.__allowed_tlsv1_0_ciphers:
-            self.__allowed_tlsv1_0_ciphers.append(config)
+        config = str(port) + '/' + protocol + '/' + ','.join(cipher_names)
+        if config not in self.__allowed_ciphers:
+            self.__allowed_ciphers.append(config)
 
         return self
 
-    def remove_allowed_tlsv1_0_cipher(self, port, cipher_names):
+    def remove_allowed_cipher(self, port, protocol, cipher_names):
         ValueChecker.is_number(port)
+        ValueChecker.is_string(protocol)
         ValueChecker.is_array(cipher_names)
 
-        config = str(port) + ':' + ','.join(cipher_names)
-        self.__allowed_tlsv1_0_ciphers.remove(config)
+        config = str(port) + '/' + protocol + '/' + ','.join(cipher_names)
+        self.__allowed_ciphers.remove(config)
 
         return self
 
-    def get_allowed_tlsv1_0_ciphers(self):
-        return self.__allowed_tlsv1_0_ciphers
-
-    def add_allowed_tlsv1_1_cipher(self, port, cipher_names):
-        ValueChecker.is_number(port)
-        ValueChecker.is_array(cipher_names)
-
-        config = str(port) + ':' + ','.join(cipher_names)
-        if config not in self.__allowed_tlsv1_1_ciphers:
-            self.__allowed_tlsv1_1_ciphers.append(config)
-
-        return self
-
-    def remove_allowed_tlsv1_1_cipher(self, port, cipher_names):
-        ValueChecker.is_number(port)
-        ValueChecker.is_array(cipher_names)
-
-        config = str(port) + ':' + ','.join(cipher_names)
-        self.__allowed_tlsv1_1_ciphers.remove(config)
-
-        return self
-
-    def get_allowed_tlsv1_1_ciphers(self):
-        return self.__allowed_tlsv1_1_ciphers
-
-    def add_allowed_tlsv1_2_cipher(self, port, cipher_names):
-        ValueChecker.is_number(port)
-        ValueChecker.is_array(cipher_names)
-
-        config = str(port) + ':' + ','.join(cipher_names)
-        if config not in self.__allowed_tlsv1_2_ciphers:
-            self.__allowed_tlsv1_2_ciphers.append(config)
-
-        return self
-
-    def remove_allowed_tlsv1_2_cipher(self, port, cipher_names):
-        ValueChecker.is_number(port)
-        ValueChecker.is_array(cipher_names)
-
-        config = str(port) + ':' + ','.join(cipher_names)
-        self.__allowed_tlsv1_2_ciphers.remove(config)
-
-        return self
-
-    def get_allowed_tlsv1_2_ciphers(self):
-        return self.__allowed_tlsv1_2_ciphers
-
-    def add_allowed_tlsv1_3_cipher(self, port, cipher_names):
-        ValueChecker.is_number(port)
-        ValueChecker.is_array(cipher_names)
-
-        config = str(port) + ':' + ','.join(cipher_names)
-        if config not in self.__allowed_tlsv1_3_ciphers:
-            self.__allowed_tlsv1_3_ciphers.append(config)
-
-        return self
-
-    def remove_allowed_tlsv1_3_cipher(self, port, cipher_names):
-        ValueChecker.is_number(port)
-        ValueChecker.is_array(cipher_names)
-
-        config = str(port) + ':' + ','.join(cipher_names)
-        self.__allowed_tlsv1_3_ciphers.remove(config)
-
-        return self
-
-    def get_allowed_tlsv1_3_ciphers(self):
-        return self.__allowed_tlsv1_3_ciphers
+    def get_allowed_ciphers(self):
+        return self.__allowed_ciphers
 
     def validate_strength(self, strength):
         ValueChecker.is_string(strength)
@@ -152,124 +127,51 @@ class CheckCiphers(NmapBase, NmapOnlyUDP, NmapNotOnlyTCP, NmapPN, NmapFast):
         if strength not in ['A', 'B', 'C', 'D', 'E', 'F']:
             raise Exception('Invalid strength "' + strength + '" detected in ' + self.get_id())
 
-    def add_least_tlsv1_0_strength(self, port, strength):
+    def add_least_protocol_strength(self, port, protocol, strength):
+        ValueChecker.is_number(port)
+        ValueChecker.is_string(protocol)
+        self.validate_strength(strength)
+
+        config = str(port) + '/' + protocol + '/' + strength
+        if config not in self.__least_protocol_strength:
+            self.__least_protocol_strength.append(config)
+
+        return self
+
+    def remove_least_protocol_strength(self, port, protocol, strength):
+        ValueChecker.is_number(port)
+        ValueChecker.is_string(protocol)
+        self.validate_strength(strength)
+
+        config = str(port) + '/' + protocol + '/' + strength
+        self.__least_protocol_strength.remove(config)
+
+        return self
+
+    def get_least_protocol_strength(self):
+        return self.__least_protocol_strength
+
+    def add_least_port_strength(self, port, strength):
         ValueChecker.is_number(port)
         self.validate_strength(strength)
 
-        config = str(port) + ':' + strength
-        if config not in self.__least_tlsv1_0_strength:
-            self.__least_tlsv1_0_strength.append(config)
+        config = str(port) + '/' + strength
+        if config not in self.__least_port_strength:
+            self.__least_port_strength.append(config)
 
         return self
 
-    def remove_least_tlsv1_0_strength(self, port, strength):
+    def remove_least_port_strength(self, port, strength):
         ValueChecker.is_number(port)
         self.validate_strength(strength)
 
-        config = str(port) + ':' + strength
-        self.__least_tlsv1_0_strength.remove(config)
+        config = str(port) + '/' + '/' + strength
+        self.__least_port_strength.remove(config)
 
         return self
 
-    def get_least_tlsv1_0_strength(self):
-        return self.__least_tlsv1_0_strength
-
-    def add_least_tlsv1_1_strength(self, port, strength):
-        ValueChecker.is_number(port)
-        self.validate_strength(strength)
-
-        config = str(port) + ':' + strength
-        if config not in self.__least_tlsv1_1_strength:
-            self.__least_tlsv1_1_strength.append(config)
-
-        return self
-
-    def remove_least_tlsv1_1_strength(self, port, strength):
-        ValueChecker.is_number(port)
-        self.validate_strength(strength)
-
-        config = str(port) + ':' + strength
-        self.__least_tlsv1_1_strength.remove(config)
-
-        return self
-
-    def get_least_tlsv1_1_strength(self):
-        return self.__least_tlsv1_1_strength
-
-    def add_least_tlsv1_2_strength(self, port, strength):
-        ValueChecker.is_number(port)
-        self.validate_strength(strength)
-
-        config = str(port) + ':' + strength
-        if config not in self.__least_tlsv1_2_strength:
-            self.__least_tlsv1_2_strength.append(config)
-
-        return self
-
-    def remove_least_tlsv1_2_strength(self, port, strength):
-        ValueChecker.is_number(port)
-        self.validate_strength(strength)
-
-        config = str(port) + ':' + strength
-        self.__least_tlsv1_2_strength.remove(config)
-
-        return self
-
-    def get_least_tlsv1_2_strength(self):
-        return self.__least_tlsv1_2_strength
-
-    def add_least_tlsv1_3_strength(self, port, strength):
-        ValueChecker.is_number(port)
-        self.validate_strength(strength)
-
-        config = str(port) + ':' + strength
-        if config not in self.__least_tlsv1_3_strength:
-            self.__least_tlsv1_3_strength.append(config)
-
-        return self
-
-    def remove_least_tlsv1_3_strength(self, port, strength):
-        ValueChecker.is_number(port)
-        self.validate_strength(strength)
-
-        config = str(port) + ':' + strength
-        self.__least_tlsv1_3_strength.remove(config)
-
-        return self
-
-    def get_least_tlsv1_3_strength(self):
-        return self.__least_tlsv1_3_strength
-
-    def add_least_strength(self, port, strength):
-        ValueChecker.is_number(port)
-        self.validate_strength(strength)
-
-        config = str(port) + ':' + strength
-        if config not in self.__least_strength:
-            self.__least_strength.append(config)
-
-        return self
-
-    def remove_least_strength(self, port, strength):
-        ValueChecker.is_number(port)
-        self.validate_strength(strength)
-
-        config = str(port) + ':' + strength
-        self.__least_strength.remove(config)
-
-        return self
-
-    def get_least_strength(self):
-        return self.__least_strength
-
-    def set_least_strength_overall(self, strength):
-        self.validate_strength(strength)
-        self.__least_strength_overall = strength
-
-        return self
-
-    def get_least_strength_overall(self):
-        return self.__least_strength_overall
+    def get_least_port_strength(self):
+        return self.__least_port_strength
 
     def set_ignore_cipher_name(self, ignore):
         ValueChecker.is_bool(ignore)
@@ -280,14 +182,14 @@ class CheckCiphers(NmapBase, NmapOnlyUDP, NmapNotOnlyTCP, NmapPN, NmapFast):
     def get_ignore_cipher_name(self):
         return self.__ignore_cipher_name
 
-    def set_ignore_cipher_strength(self, ignore):
+    def set_ignore_protocol_strength(self, ignore):
         ValueChecker.is_bool(ignore)
-        self.__ignore_cipher_strength = ignore
+        self.__ignore_protocol_strength = ignore
 
         return self
 
-    def get_ignore_cipher_strength(self):
-        return self.__ignore_cipher_strength
+    def get_ignore_protocol_strength(self):
+        return self.__ignore_protocol_strength
 
     def set_ignore_strength(self, ignore):
         ValueChecker.is_bool(ignore)
@@ -297,23 +199,6 @@ class CheckCiphers(NmapBase, NmapOnlyUDP, NmapNotOnlyTCP, NmapPN, NmapFast):
 
     def get_ignore_strength(self):
         return self.__ignore_strength
-
-    def add_ignore_port(self, port):
-        ValueChecker.is_number(port)
-
-        if port not in self.__ignore_port:
-            self.__ignore_port.append(port)
-
-        return self
-
-    def remove_ignore_port(self, port):
-        ValueChecker.is_number(port)
-        self.__ignore_port.remove(port)
-
-        return self
-
-    def get_ignore_port(self):
-        return self.__ignore_port
 
     @staticmethod
     def create(id, force_create=False):
@@ -334,16 +219,58 @@ class CheckCiphers(NmapBase, NmapOnlyUDP, NmapNotOnlyTCP, NmapPN, NmapFast):
         return NmapBase.get_config(self)
 
     def get_custom_config(self):
-        config = NmapOnlyUDP.get_config(self)
-        config += NmapNotOnlyTCP.get_config(self)
-        config += NmapPN.get_config(self)
-        config += NmapFast.get_config(self)
+        config = NmapNotScanUDP.get_config(self)
+        config += NmapScanTCP.get_config(self)
+        config += NmapN.get_config(self)
+        config += Nmapr.get_config(self)
+        config += NmapSystemDns.get_config(self)
+        config += NmapTraceroute.get_config(self)
+        config += NmapF.get_config(self)
+        config += NmapR.get_config(self)
+        config += NmapSV.get_config(self)
+        config += NmapVersionLight.get_config(self)
+        config += NmapVersionAll.get_config(self)
+        config += NmapVersionTrace.get_config(self)
+        config += NmapSC.get_config(self)
+        config += NmapScriptTrace.get_config(self)
+        config += NmapO.get_config(self)
+        config += NmapOsscanGuess.get_config(self)
+        config += NmapBadsum.get_config(self)
+        config += Nmap6.get_config(self)
+        config += NmapA.get_config(self)
+        config += NmapSendEth.get_config(self)
+        config += NmapSendIp.get_config(self)
+        config += NmapPrivileged.get_config(self)
+        config += NmapPn.get_config(self)
+        config += NmapUnprivileged.get_config(self)
         config += NmapBase.get_custom_config(self)
+        config += NmapScriptExecutor.get_config(self)
 
         return config
 
     def validate(self):
-        NmapOnlyUDP.validate(self)
-        NmapNotOnlyTCP.validate(self)
-        NmapPN.validate(self)
-        NmapFast.validate(self)
+        NmapNotScanUDP.validate(self)
+        NmapScanTCP.validate(self)
+        NmapN.validate(self)
+        Nmapr.validate(self)
+        NmapSystemDns.validate(self)
+        NmapTraceroute.validate(self)
+        NmapF.validate(self)
+        NmapR.validate(self)
+        NmapSV.validate(self)
+        NmapVersionLight.validate(self)
+        NmapVersionAll.validate(self)
+        NmapVersionTrace.validate(self)
+        NmapSC.validate(self)
+        NmapScriptTrace.validate(self)
+        NmapO.validate(self)
+        NmapOsscanGuess.validate(self)
+        NmapBadsum.validate(self)
+        Nmap6.validate(self)
+        NmapA.validate(self)
+        NmapSendEth.validate(self)
+        NmapSendIp.validate(self)
+        NmapPrivileged.validate(self)
+        NmapPn.validate(self)
+        NmapUnprivileged.validate(self)
+        NmapScriptExecutor.validate(self)
