@@ -26,6 +26,7 @@
 from icinga2confgen.Checks.HariSekhonNagiosPlugins.CheckYum import CheckYum
 from icinga2confgen.Checks.MonitoringPlugins.CheckExistingUsers import CheckExistingUsers
 from icinga2confgen.Checks.MonitoringPlugins.CheckGroupMembers import CheckGroupMembers
+from icinga2confgen.Checks.MonitoringPlugins.CheckRebootRequired import CheckRebootRequired
 from icinga2confgen.Checks.MonitoringPlugins.CheckSSHDSecurity import CheckSSHDSecurity
 from icinga2confgen.Checks.MonitoringPlugins.CheckUFWStatus import CheckUFWStatus
 from icinga2confgen.Checks.NagiosPlugins.CheckApt import CheckApt
@@ -397,7 +398,7 @@ class DefaultLocalChecks(LocalCheckManager):
                 self.apply_check(check)
 
             if True is self.__check_reboot_required:
-                check = CheckLoad.create('reboot_required_' + server.get_id())
+                check = CheckRebootRequired.create('reboot_required_' + server.get_id())
                 self.apply_check(check)
 
             if True is self.__check_procs:
