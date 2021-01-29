@@ -31,7 +31,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CiphersCommand(NmapCommand):
 
     def __init__(self, id):
-        NmapCommand.__init__(self, id, 'ciphers', scan_udp=False)
+        NmapCommand.__init__(self, id, 'ciphers', scan_udp=False, single_host=False)
 
     @staticmethod
     def create(id, force_create=False):
@@ -62,7 +62,7 @@ class CiphersCommand(NmapCommand):
       set_if = {{ macro("$command_ciphers_least_protocol_strength$") != false }}
       repeat_key = true
     }
-    "--least-port-strength = {
+    "--least-port-strength" = {
       value = "$command_ciphers_least_port_strength$"
       set_if = {{ macro("$command_ciphers_least_port_strength$") != false }}
       repeat_key = true

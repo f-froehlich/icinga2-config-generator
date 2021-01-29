@@ -4,7 +4,7 @@ Icinga2 configuration file generator for hosts, commands, checks, ... in python
 
 Copyright (c) 2020 Fabian Fröhlich <mail@icinga2.confgen.org> [https://icinga2.confgen.org](https://icinga2.confgen.org)
 
-Full License Information see  [https://github.com/f-froehlich/icinga2-config-generator/blob/master/LICENSE](LICENSE) file in root directory of this source code and License section of this File.
+Full License Information see  [LICENSE](https://github.com/f-froehlich/icinga2-config-generator/blob/master/LICENSE) file in root directory of this source code and License section of this File.
 
 # Donate
 This project needs donations. Please check out [https://icinga2.confgen.org/Donate](https://icinga2.confgen.org/Donate) for details.
@@ -13,7 +13,7 @@ This project needs donations. Please check out [https://icinga2.confgen.org/Dona
 See our [documentation](https://icinga2.confgen.org) for details.
 
 ## Prerequisite
-* install check plugins, that you need e.g. [our Plugins](https://github.com/f-froehlich/icinga2-config-generator/tree/master/plugins), [Monitoring Plugins](https://www.monitoring-plugins.org) or [Nagios Plugins](https://github.com/harisekhon/nagios-plugins)
+* install check plugins, that you need e.g. [https://github.com/f-froehlich/monitoring-plugins](https://github.com/f-froehlich/monitoring-plugins), [https://www.monitoring-plugins.org](https://www.monitoring-plugins.org) or [https://github.com/harisekhon/nagios-plugins](https://github.com/harisekhon/nagios-plugins)
 * install icinga2
 * install icingaweb2
 
@@ -40,9 +40,9 @@ Because there are many different check plugin libraries we sort our commands and
 # License
 This section contains the additional terms of the AGPLv3 license agreement, a copy of the AGPLv3 is included in the [LICENSE](https://github.com/f-froehlich/icinga2-config-generator/blob/master/LICENSE) file.
 
-1. Adaptation of the [https://github.com/f-froehlich/icinga2-config-generator/blob/master/REDME.md](README.md) is prohibited. The file must also be included with each copy without any modification. 
+1. Adaptation of the [README.md](https://github.com/f-froehlich/icinga2-config-generator/blob/master/README.md) is prohibited. The file must also be included with each copy without any modification. 
 
-2. Adjustments of any kind must be listed in the attached [https://github.com/f-froehlich/icinga2-config-generator/blob/master/CHANGELOG.md](CHANGELOG.md) file. It is sufficient to name the change and the reason for the change here and to give appropriate references to the processing in the source code at the appropriate place.
+2. Adjustments of any kind must be listed in the attached [CHANGELOG.md](https://github.com/f-froehlich/icinga2-config-generator/blob/master/CHANGELOG.md) file. It is sufficient to name the change and the reason for the change here and to give appropriate references to the processing in the source code at the appropriate place.
 
 3. All edited copies must be made available on [github](https://github.com). You have to fork the original repository or use a fork from the original repository.
 

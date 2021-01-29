@@ -97,23 +97,25 @@ class CheckCiphers(NmapBase, NmapScriptExecutor, NmapNotScanUDP, NmapScanTCP, Nm
         self.__ignore_protocol_strength = False
         self.__ignore_strength = False
 
-    def add_allowed_cipher(self, port, protocol, cipher_names):
+    def add_allowed_cipher(self, ip, port, protocol, cipher_names):
         ValueChecker.is_number(port)
+        ValueChecker.is_string(ip)
         ValueChecker.is_string(protocol)
         ValueChecker.is_array(cipher_names)
 
-        config = str(port) + '/' + protocol + '/' + ','.join(cipher_names)
+        config = ip + '/' + str(port) + '/' + protocol + '/' + ','.join(cipher_names)
         if config not in self.__allowed_ciphers:
             self.__allowed_ciphers.append(config)
 
         return self
 
-    def remove_allowed_cipher(self, port, protocol, cipher_names):
+    def remove_allowed_cipher(self, ip, port, protocol, cipher_names):
         ValueChecker.is_number(port)
         ValueChecker.is_string(protocol)
+        ValueChecker.is_string(ip)
         ValueChecker.is_array(cipher_names)
 
-        config = str(port) + '/' + protocol + '/' + ','.join(cipher_names)
+        config = ip + '/' + str(port) + '/' + protocol + '/' + ','.join(cipher_names)
         self.__allowed_ciphers.remove(config)
 
         return self
@@ -127,23 +129,25 @@ class CheckCiphers(NmapBase, NmapScriptExecutor, NmapNotScanUDP, NmapScanTCP, Nm
         if strength not in ['A', 'B', 'C', 'D', 'E', 'F']:
             raise Exception('Invalid strength "' + strength + '" detected in ' + self.get_id())
 
-    def add_least_protocol_strength(self, port, protocol, strength):
+    def add_least_protocol_strength(self, ip, port, protocol, strength):
         ValueChecker.is_number(port)
         ValueChecker.is_string(protocol)
+        ValueChecker.is_string(ip)
         self.validate_strength(strength)
 
-        config = str(port) + '/' + protocol + '/' + strength
+        config = ip + '/' + str(port) + '/' + protocol + '/' + strength
         if config not in self.__least_protocol_strength:
             self.__least_protocol_strength.append(config)
 
         return self
 
-    def remove_least_protocol_strength(self, port, protocol, strength):
+    def remove_least_protocol_strength(self, ip, port, protocol, strength):
         ValueChecker.is_number(port)
         ValueChecker.is_string(protocol)
+        ValueChecker.is_string(ip)
         self.validate_strength(strength)
 
-        config = str(port) + '/' + protocol + '/' + strength
+        config = ip + '/' + str(port) + '/' + protocol + '/' + strength
         self.__least_protocol_strength.remove(config)
 
         return self
@@ -151,21 +155,23 @@ class CheckCiphers(NmapBase, NmapScriptExecutor, NmapNotScanUDP, NmapScanTCP, Nm
     def get_least_protocol_strength(self):
         return self.__least_protocol_strength
 
-    def add_least_port_strength(self, port, strength):
+    def add_least_port_strength(self, ip, port, strength):
         ValueChecker.is_number(port)
+        ValueChecker.is_string(ip)
         self.validate_strength(strength)
 
-        config = str(port) + '/' + strength
+        config = ip + '/' + str(port) + '/' + strength
         if config not in self.__least_port_strength:
             self.__least_port_strength.append(config)
 
         return self
 
-    def remove_least_port_strength(self, port, strength):
+    def remove_least_port_strength(self, ip, port, strength):
         ValueChecker.is_number(port)
+        ValueChecker.is_string(ip)
         self.validate_strength(strength)
 
-        config = str(port) + '/' + '/' + strength
+        config = ip + '/' + str(port) + '/' + '/' + strength
         self.__least_port_strength.remove(config)
 
         return self

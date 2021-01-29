@@ -455,7 +455,7 @@ class DefaultLocalChecks(LocalCheckManager):
                 self.create_running_check('httpd', 'httpd', server, ['webserver'])
 
             if True is self.__check_tomcat_running:
-                self.create_running_check('tomcat', 'tomcat', server, ['webserver'])
+                self.create_running_check_arguments('tomcat', 'tomcat', server, ['webserver'])
 
             if True is self.__check_php_fpm_running:
                 self.create_running_check('php_fpm', 'php-fpm', server, ['webserver'])
