@@ -131,6 +131,22 @@ class CheckHttp(Check):
     def get_sni(self):
         return self.__sni
 
+    def set_ipv4(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__use_ipv4 = enabled
+        return self
+
+    def get_ipv4(self):
+        return self.__use_ipv4
+
+    def set_ipv6(self, enabled):
+        ValueChecker.is_bool(enabled)
+        self.__use_ipv6 = enabled
+        return self
+
+    def get_ipv6(self):
+        return self.__use_ipv6
+
     def set_certificate_check(self, enabled):
         ValueChecker.is_bool(enabled)
         self.__certificate = enabled

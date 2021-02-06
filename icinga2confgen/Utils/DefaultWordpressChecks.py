@@ -249,6 +249,7 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
         if None is not server.get_ipv6():
             check = CheckHttp.create('web_access_deny_' + name + '_ipv6_' + base_id)
             check.set_ip(server.get_ipv6()) \
+                .set_ipv6(True) \
                 .set_vhost(domain) \
                 .set_uri(uri) \
                 .set_ssl(True) \
@@ -308,4 +309,3 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
                     self.create_wp_check('wp_activate', service_baseid, base_id, server, domain, '/wp-activate.php')
                 if True is self.__validate_deny_wp_links_opml:
                     self.create_wp_check('wp_links_opml', service_baseid, base_id, server, domain, '/wp-links-opml.php')
-

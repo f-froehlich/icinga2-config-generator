@@ -73,9 +73,9 @@ class NmapBase(Check):
         self.__spoof_mac = None
         self.__datadir = None
 
-        self.__timeout = 300
-        self.set_timeout(300)
-        self.set_check_interval('1h')
+        self.__timeout = 12000
+        self.set_timeout(12000)
+        self.set_check_interval('24h')
         self.add_service_group(ServiceGroup.create('nmap'))
         self.add_service_group(ServiceGroup.create('security'))
 
@@ -251,7 +251,7 @@ class NmapBase(Check):
         return self.__iR
 
     def set_top_ports(self, top_ports):
-        ValueChecker.is_string(top_ports)
+        ValueChecker.is_number(top_ports)
         self.__top_ports = top_ports
 
         return self
@@ -260,7 +260,7 @@ class NmapBase(Check):
         return self.__top_ports
 
     def set_port_ratio(self, port_ratio):
-        ValueChecker.is_string(port_ratio)
+        ValueChecker.is_number(port_ratio)
         self.__port_ratio = port_ratio
 
         return self

@@ -202,6 +202,7 @@ class DefaultWebserverChecks(RemoteCheckManager):
                 if None is not server_ipv6:
                     default_ipv6_http_check = CheckHttp.create('web_access_default_ipv6_' + base_id)
                     default_ipv6_http_check.set_ip(server_ipv6) \
+                        .set_ipv6(True) \
                         .set_vhost(domain) \
                         .set_uri(uri) \
                         .set_ssl(True) \
@@ -231,6 +232,7 @@ class DefaultWebserverChecks(RemoteCheckManager):
                     if None is not server_ipv6:
                         certificate_check = CheckHttp.create('web_access_certificate_ipv6_' + base_id)
                         certificate_check.set_ip(server_ipv6) \
+                            .set_ipv6(True) \
                             .set_vhost(domain) \
                             .set_uri(uri) \
                             .set_ssl(True) \
@@ -264,6 +266,7 @@ class DefaultWebserverChecks(RemoteCheckManager):
                     if None is not server_ipv6:
                         redirect_check = CheckHttp.create('web_access_http_redirect_ipv6_' + base_id)
                         redirect_check.set_ip(server_ipv6) \
+                            .set_ipv6(True) \
                             .set_vhost(domain) \
                             .set_uri(uri) \
                             .set_ssl(False) \

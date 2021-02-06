@@ -500,6 +500,8 @@ class DefaultLocalChecks(LocalCheckManager):
                     .set_incoming(self.__ufw_defaults[0]) \
                     .set_outgoing(self.__ufw_defaults[1]) \
                     .set_routing(self.__ufw_defaults[2])
+
+                check.set_display_name(check.get_display_name() + ' ' + server.get_display_name())
                 for policy in self.__ufw_rules:
                     check.add_rule(policy[0], policy[1], policy[2])
 

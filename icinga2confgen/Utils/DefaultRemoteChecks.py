@@ -24,6 +24,7 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 from icinga2confgen.Checks.MonitoringPlugins.CheckOpenPorts import CheckOpenPorts
 from icinga2confgen.Checks.NagiosPlugins.CheckPing4 import CheckPing4
+from icinga2confgen.Checks.NagiosPlugins.CheckPing6 import CheckPing6
 from icinga2confgen.Checks.NagiosPlugins.CheckSSH import CheckSSH
 from icinga2confgen.Helpers.RemoteCheckManager import RemoteCheckManager
 from icinga2confgen.ValueChecker import ValueChecker
@@ -34,7 +35,7 @@ class DefaultRemoteChecks(RemoteCheckManager):
     def __init__(self, servers=[], checkserver=[], notifications=[]):
         RemoteCheckManager.__init__(self, servers=servers, checkserver=checkserver, notifications=notifications)
         self.__check_ping = True
-        self.__check_open_ports = True
+        self.__check_open_ports = False
         self.__open_ports = []
         self.__check_ssh = True
         self.__check_ssh_port = 22
@@ -112,7 +113,7 @@ class DefaultRemoteChecks(RemoteCheckManager):
                         .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
                     self.apply_check(check)
                 if None is not ipv6:
-                    check = CheckPing4.create('ping6_' + base_id)
+                    check = CheckPing6.create('ping6_' + base_id)
                     check.set_address(ipv6) \
                         .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
                     self.apply_check(check)
@@ -120,16 +121,22 @@ class DefaultRemoteChecks(RemoteCheckManager):
             if True is self.__check_open_ports:
                 if None is not ipv4:
                     check = CheckOpenPorts.create('open_ports4_' + base_id)
-                    check.add_host(ipv4)
+                    check.add_host(ipv4) \
+                        .set_top_ports(15000)
                     for config in self.__open_ports:
                         check.add_allowed_port(config[0], config[1])
+                    check.set_display_name(check.get_display_name() + ' (ipv4) ' + server.get_display_name())
                     self.apply_check(check)
 
                 if None is not ipv6:
                     check = CheckOpenPorts.create('open_ports6_' + base_id)
-                    check.add_host(ipv6)
+                    check.add_host(ipv6) \
+                        .set_top_ports(15000) \
+                        .set_6(True)
+
                     for config in self.__open_ports:
                         check.add_allowed_port(config[0], config[1])
+                    check.set_display_name(check.get_display_name() + ' (ipv6) ' + server.get_display_name())
                     self.apply_check(check)
 
             if True is self.__check_ssh:
@@ -143,6 +150,7 @@ class DefaultRemoteChecks(RemoteCheckManager):
                 if None is not ipv6:
                     check = CheckSSH.create('ssh_ipv4_' + base_id)
                     check.set_hostname(ipv6) \
+                        .set_force_ipv6(True) \
                         .set_port(self.__check_ssh_port) \
                         .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
                     self.apply_check(check)

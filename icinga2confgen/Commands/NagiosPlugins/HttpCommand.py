@@ -61,10 +61,10 @@ class HttpCommand(Command):
       set_if = {{ macro("$command_http_port$") != false }}
     }
     "--use-ipv4" = {
-      set_if = {{ macro("$command_http_v4$") != false }}
+      set_if = "$command_http_use_ipv4$"
     }
     "--use-ipv6" = {
-      set_if = "$command_http_v6$"
+      set_if = "$command_http_use_ipv6$"
     }
     "-S" = {
       set_if = "$command_http_ssl$"
