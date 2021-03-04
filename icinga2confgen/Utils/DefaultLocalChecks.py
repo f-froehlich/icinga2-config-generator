@@ -387,40 +387,40 @@ class DefaultLocalChecks(LocalCheckManager):
         for server in self.get_servers():
             if True is self.__check_apt:
                 check = CheckApt.create('apt_' + server.get_id())
-                self.apply_check(check)
+                self.apply_check(check, server)
 
             if True is self.__check_yum:
                 check = CheckYum.create('yum_' + server.get_id())
-                self.apply_check(check)
+                self.apply_check(check, server)
 
             if True is self.__check_load:
                 check = CheckLoad.create('load_' + server.get_id())
-                self.apply_check(check)
+                self.apply_check(check, server)
 
             if True is self.__check_reboot_required:
                 check = CheckRebootRequired.create('reboot_required_' + server.get_id())
-                self.apply_check(check)
+                self.apply_check(check, server)
 
             if True is self.__check_procs:
                 check = CheckProcs.create('procs_' + server.get_id())
-                self.apply_check(check)
+                self.apply_check(check, server)
 
             if True is self.__check_sensors:
                 check = CheckSensors.create('sensors_' + server.get_id())
-                self.apply_check(check)
+                self.apply_check(check, server)
 
             if True is self.__check_ntp_time:
                 check = CheckNTPTime.create('ntp_time_' + server.get_id())
-                self.apply_check(check)
+                self.apply_check(check, server)
 
             if True is self.__check_swap:
                 check = CheckSWAP.create('swap_' + server.get_id())
 
-                self.apply_check(check)
+                self.apply_check(check, server)
 
             if True is self.__check_users:
                 check = CheckUsers.create('users_' + server.get_id())
-                self.apply_check(check)
+                self.apply_check(check, server)
 
             sshd_running_check = None
             if True is self.__check_sshd_running:
@@ -428,7 +428,7 @@ class DefaultLocalChecks(LocalCheckManager):
 
             if True is self.__check_sshd_security:
                 check = CheckSSHDSecurity.create('sshd_security_' + server.get_id())
-                self.apply_check(check, sshd_running_check)
+                self.apply_check(check, server, sshd_running_check)
 
             if True is self.__check_mysqld_running:
                 self.create_running_check('mysql', 'mysqld', server, ['database'])
@@ -475,7 +475,7 @@ class DefaultLocalChecks(LocalCheckManager):
                 for user in self.__sudoers:
                     check.append_user(user)
 
-                self.apply_check(check)
+                self.apply_check(check, server)
 
             if True is self.__check_wheel:
                 check = CheckGroupMembers.create('wheel_group_members_' + server.get_id()) \
@@ -484,7 +484,7 @@ class DefaultLocalChecks(LocalCheckManager):
                 for user in self.__sudoers:
                     check.append_user(user)
 
-                self.apply_check(check)
+                self.apply_check(check, server)
 
             if True is self.__check_normal_users:
                 check = CheckExistingUsers.create('existing_users_' + server.get_id())
@@ -493,7 +493,7 @@ class DefaultLocalChecks(LocalCheckManager):
                 for user in self.__additional_users:
                     check.append_existing_users(user)
 
-                self.apply_check(check)
+                self.apply_check(check, server)
 
             if True is self.__check_ufw:
                 check = CheckUFWStatus.create('ufw_status_' + server.get_id()) \
@@ -505,12 +505,12 @@ class DefaultLocalChecks(LocalCheckManager):
                 for policy in self.__ufw_rules:
                     check.add_rule(policy[0], policy[1], policy[2])
 
-                self.apply_check(check)
+                self.apply_check(check, server)
 
             if True is self.__check_disk:
                 if len(self.__check_partitions) == 0:
                     check = CheckDisk.create('disk_' + server.get_id())
-                    self.apply_check(check)
+                    self.apply_check(check, server)
                 else:
                     for config in self.__check_partitions:
                         check = CheckDisk.create('disk_' + config[0] + '_' + server.get_id())
@@ -518,4 +518,4 @@ class DefaultLocalChecks(LocalCheckManager):
                             .set_partition(config[1]) \
                             .set_warning_percent(config[2]) \
                             .set_critical_percent(config[3])
-                        self.apply_check(check)
+                        self.apply_check(check, server)

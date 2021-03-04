@@ -28,7 +28,7 @@ from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
 
 
-class PathExistCommand(MonitoringPluginCommand):
+class PathExistsCommand(MonitoringPluginCommand):
 
     def __init__(self, id):
         MonitoringPluginCommand.__init__(self, id)
@@ -38,15 +38,15 @@ class PathExistCommand(MonitoringPluginCommand):
         ValueChecker.validate_id(id)
         command = None if force_create else ConfigBuilder.get_command(id)
         if None is command:
-            command = PathExistCommand(id)
+            command = PathExistsCommand(id)
             ConfigBuilder.add_command(id, command)
-        elif not isinstance(command, PathExistCommand):
+        elif not isinstance(command, PathExistsCommand):
             raise Exception('Id must be for an instance of PathExistCommand but other instance is returned')
 
         return command
 
     def get_command(self):
-        return 'check_path_exist.sh'
+        return 'check_path_exists.sh'
 
     def get_arguments(self):
         config = """{

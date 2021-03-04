@@ -20,14 +20,16 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from icinga2confgen.Downtimes.ScheduledDowntime import ScheduledDowntime
+from icinga2confgen.User.User import User
 
 
 class DefaultScheduledDowntimes:
 
     @staticmethod
-    def weekday_nine_to_five(id='mo_fr_9_17', display_name='Mo-Fr, 9am - 5pm'):
+    def weekday_nine_to_five(id='mo_fr_9_17', comment='Mo-Fr, 9am - 5pm'):
         return ScheduledDowntime.create(id) \
-            .set_display_name(display_name) \
+            .set_comment(comment) \
+            .set_author(User.create('admin')) \
             .add_period("monday", "09:00-17:00") \
             .add_period("tuesday", "09:00-17:00") \
             .add_period("wednesday", "09:00-17:00") \
@@ -35,16 +37,18 @@ class DefaultScheduledDowntimes:
             .add_period("friday", "09:00-17:00")
 
     @staticmethod
-    def weekend(id='weekend', display_name='Weekend'):
+    def weekend(id='weekend', comment='Weekend'):
         return ScheduledDowntime.create(id) \
-            .set_display_name(display_name) \
+            .set_comment(comment) \
+            .set_author(User.create('admin')) \
             .add_period("saturday", "00:00-24:00") \
             .add_period("sunday", "00:00-24:00")
 
     @staticmethod
-    def weekday_backup(id='weekday_backup', display_name='Weekday backup'):
+    def weekday_backup(id='weekday_backup', comment='Weekday backup'):
         return ScheduledDowntime.create(id) \
-            .set_display_name(display_name) \
+            .set_comment(comment) \
+            .set_author(User.create('admin')) \
             .add_period("monday", "00:00-3:00") \
             .add_period("tuesday", "00:00-3:00") \
             .add_period("wednesday", "00:00-3:00") \
@@ -52,9 +56,10 @@ class DefaultScheduledDowntimes:
             .add_period("friday", "00:00-3:00")
 
     @staticmethod
-    def daily_backup(id='daily_backup', display_name='Daily backup'):
+    def daily_backup(id='daily_backup', comment='Daily backup'):
         return ScheduledDowntime.create(id) \
-            .set_display_name(display_name) \
+            .set_comment(comment) \
+            .set_author(User.create('admin')) \
             .add_period("monday", "00:00-3:00") \
             .add_period("tuesday", "00:00-3:00") \
             .add_period("wednesday", "00:00-3:00") \
@@ -64,9 +69,10 @@ class DefaultScheduledDowntimes:
             .add_period("sunday", "00:00-3:00")
 
     @staticmethod
-    def continuously(id='24_7', display_name='24/7'):
+    def continuously(id='24_7', comment='24/7'):
         return ScheduledDowntime.create(id) \
-            .set_display_name(display_name) \
+            .set_comment(comment) \
+            .set_author(User.create('admin')) \
             .add_period("monday", "00:00-24:00") \
             .add_period("tuesday", "00:00-24:00") \
             .add_period("wednesday", "00:00-24:00") \

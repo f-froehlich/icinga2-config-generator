@@ -124,6 +124,7 @@ class ScheduledDowntime:
             raise Exception('Comment must be set for Downtime ' + self.__id)
 
     def get_config(self):
+        self.validate()
         config = ''
         for type in ['Host', 'Service']:
 

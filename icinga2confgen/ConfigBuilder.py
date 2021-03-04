@@ -69,8 +69,9 @@ class ConfigBuilder:
     @staticmethod
     def apply_utils():
         for util_class in ConfigBuilder.__utils:
-            if util_class.is_auto_apply():
+            if util_class.is_auto_apply() and not util_class.is_auto_applied():
                 util_class.apply()
+                util_class.set_auto_applied(True)
 
     @staticmethod
     def get_config():
@@ -107,7 +108,8 @@ class ConfigBuilder:
             dirpath = "zones.d/global-templates/" + config['dir']
             for conf in config['config']:
                 Path(dirpath).mkdir(parents=True, exist_ok=True)
-                with open(dirpath + '/' + ConfigBuilder.replace_prefixes(conf['id']) + '.conf', "w") as file:
+                with open(dirpath + '/' + ConfigBuilder.replace_prefixes(conf['id']) + '.conf', "w",
+                          encoding='utf-8') as file:
                     file.write(conf['instance'].get_config())
                 pbar.update(1)
 
@@ -117,7 +119,8 @@ class ConfigBuilder:
             dirpath = 'zones.d/' + ConfigBuilder.replace_prefixes(zone.get_id()) + '/'
 
             Path(dirpath).mkdir(parents=True, exist_ok=True)
-            with open(dirpath + '/' + ConfigBuilder.replace_prefixes(conf['id']) + '.conf', "w") as file:
+            with open(dirpath + '/' + ConfigBuilder.replace_prefixes(conf['id']) + '.conf', "w",
+                      encoding='utf-8') as file:
                 file.write(server.get_config())
             pbar.update(1)
 
@@ -128,7 +131,8 @@ class ConfigBuilder:
             dirpath = 'zones.d/' + ConfigBuilder.replace_prefixes(zone.get_id()) + '/dependencies/'
 
             Path(dirpath).mkdir(parents=True, exist_ok=True)
-            with open(dirpath + '/' + ConfigBuilder.replace_prefixes(conf['id']) + '.conf', "w") as file:
+            with open(dirpath + '/' + ConfigBuilder.replace_prefixes(conf['id']) + '.conf', "w",
+                      encoding='utf-8') as file:
                 file.write(dependency.get_config())
             pbar.update(1)
 
@@ -171,6 +175,7 @@ class ConfigBuilder:
             'downtimes': ConfigBuilder.__downtimes,
             'os': ConfigBuilder.__os,
             'package_manager': ConfigBuilder.__package_manager,
+            'zone': ConfigBuilder.__zones,
             'dependencies': ConfigBuilder.__dependencies
         }
 

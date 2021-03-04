@@ -24,7 +24,7 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from icinga2confgen.Checks.Check import Check
-from icinga2confgen.Commands.MonitoringPlugins.PathExistCommand import PathExistCommand
+from icinga2confgen.Commands.MonitoringPlugins.PathExistsCommand import PathExistsCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.ValueChecker import ValueChecker
@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckPathExists(Check):
 
     def __init__(self, id):
-        Check.__init__(self, id, 'CheckPathExists', 'path_exist')
+        Check.__init__(self, id, 'CheckPathExists', 'path_exists')
         self.__file = None
         self.__dir = None
         self.__invert = False
@@ -73,8 +73,8 @@ class CheckPathExists(Check):
         elif not isinstance(check, CheckPathExists):
             raise Exception('Id must be for an instance of CheckPathExist but other instance is returned')
 
-        if None is ConfigBuilder.get_command('path_exist'):
-            PathExistCommand.create('path_exist')
+        if None is ConfigBuilder.get_command('path_exists'):
+            PathExistsCommand.create('path_exists')
 
         return check
 

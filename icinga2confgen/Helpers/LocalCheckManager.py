@@ -37,6 +37,7 @@ class LocalCheckManager:
         self.__check_type = 'local'
         self.__callback_function = None
         self.__auto_apply = True
+        self.__auto_applied = False
 
         ConfigBuilder.add_util_class(self)
 
@@ -53,6 +54,13 @@ class LocalCheckManager:
 
     def is_auto_apply(self):
         return self.__auto_apply
+
+    def set_auto_applied(self, applied):
+        ValueChecker.is_bool(applied)
+        self.__auto_applied = applied
+
+    def is_auto_applied(self):
+        return self.__auto_applied
 
     def get_servers(self):
         return self.__servers
@@ -90,13 +98,12 @@ class LocalCheckManager:
                 .set_check(depends_on)
             check.add_dependency(dependency)
 
-    def apply_check(self, check, depends_on=None):
+    def apply_check(self, check, server, depends_on=None):
 
         self.apply_notification_to_check(check)
         check.set_check_type(self.__check_type)
-        for server in self.__servers:
-            server.add_check(check)
-            self.apply_dependency(check, server, depends_on)
+        server.add_check(check)
+        self.apply_dependency(check, server, depends_on)
 
         self.handle_callback(check)
 
@@ -109,7 +116,7 @@ class LocalCheckManager:
         for service_group in service_groups:
             check.add_service_group(ServiceGroup.create(service_group))
 
-        self.apply_check(check)
+        self.apply_check(check, server)
 
         return check
 
@@ -122,6 +129,6 @@ class LocalCheckManager:
         for service_group in service_groups:
             check.add_service_group(ServiceGroup.create(service_group))
 
-        self.apply_check(check)
+        self.apply_check(check, server)
 
         return check
