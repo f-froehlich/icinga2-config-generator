@@ -29,19 +29,19 @@ from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
 
 
-class StorecenterCommand(Command):
+class StorcenterCommand(Command):
 
     def __init__(self, id):
         Command.__init__(self, id)
 
     @staticmethod
-    def create(id: str, force_create: bool = False) -> StorecenterCommand:
+    def create(id: str, force_create: bool = False) -> StorcenterCommand:
         ValueChecker.validate_id(id)
         command = None if force_create else ConfigBuilder.get_command(id)
         if None is command:
-            command = StorecenterCommand(id)
+            command = StorcenterCommand(id)
             ConfigBuilder.add_command(id, command)
-        elif not isinstance(command, StorecenterCommand):
+        elif not isinstance(command, StorcenterCommand):
             raise Exception('Id must be for an instance of StorecenterCommand but other instance is returned')
 
         return command
@@ -58,13 +58,13 @@ class StorecenterCommand(Command):
       value = "$command_storcenter_host$"
     }
     "-U" = {
-      value = "$command_storcenter_username$"
+      value = "$command_storcenter_user$"
     }
     "-P" = {
       value = "$command_storcenter_password$"
     }
     "-t" = {
-      value = "$command_storcenter_checktype$"
+      value = "$command_storcenter_type$"
     }
     "-w" = {
       value = "$command_storcenter_warning$"

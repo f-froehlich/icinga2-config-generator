@@ -27,16 +27,16 @@ from __future__ import annotations
 from typing import Union
 
 from icinga2confgen.Checks.Check import Check
-from icinga2confgen.Commands.ClaudioKuenzler.StorecenterCommand import StorecenterCommand
+from icinga2confgen.Commands.ClaudioKuenzler.StorcenterCommand import StorcenterCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.ValueChecker import ValueChecker
 
 
-class CheckStorecenter(Check):
+class CheckStorcenter(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckStorecenter', 'storecenter')
+        Check.__init__(self, id, 'CheckStorcenter', 'storcenter')
         self.__host: Union[str, None] = None
         self.__user: Union[str, None] = None
         self.__password: Union[str, None] = None
@@ -45,30 +45,30 @@ class CheckStorecenter(Check):
         self.__warning: Union[int, None] = None
         self.__critical: Union[int, None] = None
 
-        self.add_service_group(ServiceGroup.create('storecenter'))
+        self.add_service_group(ServiceGroup.create('storcenter'))
 
-    def set_host(self, host: str) -> CheckStorecenter:
+    def set_host(self, host: str) -> CheckStorcenter:
         self.__host = host
         return self
 
     def get_host(self) -> Union[str, None]:
         return self.__host
 
-    def set_user(self, user: str) -> CheckStorecenter:
+    def set_user(self, user: str) -> CheckStorcenter:
         self.__user = user
         return self
 
     def get_user(self) -> Union[str, None]:
         return self.__user
 
-    def set_password(self, password: str) -> CheckStorecenter:
+    def set_password(self, password: str) -> CheckStorcenter:
         self.__password = password
         return self
 
     def get_password(self) -> Union[str, None]:
         return self.__password
 
-    def set_type(self, type: str) -> CheckStorecenter:
+    def set_type(self, type: str) -> CheckStorcenter:
         types = ['disk', 'raid', 'cpu', 'mem', 'info']
         if type not in types:
             raise Exception('Type must be in ' + ', '.join(types))
@@ -79,14 +79,14 @@ class CheckStorecenter(Check):
     def get_type(self) -> Union[str, None]:
         return self.__type
 
-    def set_warning(self, warning: int) -> CheckStorecenter:
+    def set_warning(self, warning: int) -> CheckStorcenter:
         self.__warning = warning
         return self
 
     def get_warning(self) -> Union[int, None]:
         return self.__warning
 
-    def set_critical(self, critical: int) -> CheckStorecenter:
+    def set_critical(self, critical: int) -> CheckStorcenter:
         self.__critical = critical
         return self
 
@@ -107,23 +107,17 @@ class CheckStorecenter(Check):
         if None is self.__type:
             raise Exception('Type must be set')
 
-        if None is self.__warning:
-            raise Exception('Warning must be set')
-
-        if None is self.__critical:
-            raise Exception('Critical must be set')
-
     @staticmethod
-    def create(id: str, force_create: bool = False) -> CheckStorecenter:
+    def create(id: str, force_create: bool = False) -> CheckStorcenter:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:
-            check = CheckStorecenter(id)
+            check = CheckStorcenter(id)
             ConfigBuilder.add_check(id, check)
-        elif not isinstance(check, CheckStorecenter):
-            raise Exception('Id must be for an instance of CheckStorecenter but other instance is returned')
+        elif not isinstance(check, CheckStorcenter):
+            raise Exception('Id must be for an instance of CheckStorecnter but other instance is returned')
 
-        if None is ConfigBuilder.get_command('storecenter'):
-            StorecenterCommand.create('storecenter')
+        if None is ConfigBuilder.get_command('storcenter'):
+            StorcenterCommand.create('storcenter')
 
         return check

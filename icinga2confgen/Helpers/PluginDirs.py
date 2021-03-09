@@ -76,4 +76,5 @@ class PluginDirs:
         config += ValueMapper.parse_var('vars.monitoring_plugin_dir', self.__monitoring_plugin_dir)
         config += ValueMapper.parse_var('vars.harik_sekhon_plugin_dir', self.__harik_sekhon_plugin_dir)
         config += ValueMapper.parse_var('vars.other_plugin_dir', self.__other_plugin_dir)
+        config += ValueMapper.parse_var('vars.claudio_kuenzler_plugin_dir', self.__claudio_kuenzler_dir)
         return config
