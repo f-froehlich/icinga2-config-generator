@@ -24,11 +24,11 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 import shutil
+from _sha256 import sha256
 from pathlib import Path
 
-from tqdm import tqdm
-
 from icinga2confgen.ValueChecker import ValueChecker
+from tqdm import tqdm
 
 
 class ConfigBuilder:
@@ -74,7 +74,7 @@ class ConfigBuilder:
                 util_class.set_auto_applied(True)
 
     @staticmethod
-    def get_config():
+    def get_config(pretty: bool = False):
         ConfigBuilder.apply_utils()
         ConfigBuilder.__pbar.close()
 
@@ -108,7 +108,12 @@ class ConfigBuilder:
             dirpath = "zones.d/global-templates/" + config['dir']
             for conf in config['config']:
                 Path(dirpath).mkdir(parents=True, exist_ok=True)
-                with open(dirpath + '/' + ConfigBuilder.replace_prefixes(conf['id']) + '.conf', "w",
+                if pretty:
+                    name = ConfigBuilder.replace_prefixes(conf['id'])
+                else:
+                    name = sha256(ConfigBuilder.replace_prefixes(conf['id']).encode('utf-8')).hexdigest()
+
+                with open(dirpath + '/' + name + '.conf', "w",
                           encoding='utf-8') as file:
                     file.write(conf['instance'].get_config())
                 pbar.update(1)
@@ -118,8 +123,13 @@ class ConfigBuilder:
             zone = server.get_zone()
             dirpath = 'zones.d/' + ConfigBuilder.replace_prefixes(zone.get_id()) + '/'
 
+            if pretty:
+                name = ConfigBuilder.replace_prefixes(conf['id'])
+            else:
+                name = sha256(ConfigBuilder.replace_prefixes(conf['id']).encode('utf-8')).hexdigest()
+
             Path(dirpath).mkdir(parents=True, exist_ok=True)
-            with open(dirpath + '/' + ConfigBuilder.replace_prefixes(conf['id']) + '.conf', "w",
+            with open(dirpath + '/' + name + '.conf', "w",
                       encoding='utf-8') as file:
                 file.write(server.get_config())
             pbar.update(1)
@@ -130,8 +140,13 @@ class ConfigBuilder:
             zone = server.get_zone()
             dirpath = 'zones.d/' + ConfigBuilder.replace_prefixes(zone.get_id()) + '/dependencies/'
 
+            if pretty:
+                name = ConfigBuilder.replace_prefixes(conf['id'])
+            else:
+                name = sha256(ConfigBuilder.replace_prefixes(conf['id']).encode('utf-8')).hexdigest()
+
             Path(dirpath).mkdir(parents=True, exist_ok=True)
-            with open(dirpath + '/' + ConfigBuilder.replace_prefixes(conf['id']) + '.conf', "w",
+            with open(dirpath + '/' + name + '.conf', "w",
                       encoding='utf-8') as file:
                 file.write(dependency.get_config())
             pbar.update(1)
