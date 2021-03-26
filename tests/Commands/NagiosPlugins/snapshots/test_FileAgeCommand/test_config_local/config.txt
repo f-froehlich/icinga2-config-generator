@@ -1,0 +1,29 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$nagios_plugin_dir$" + "/check_file_age"]
+  arguments = {
+    "-f" = {
+      value = "$command_file_age_file$"
+      required = true
+    }
+    "-w" = {
+      value = "$command_file_age_warning_seconds$"
+      required = true
+    }
+    "-c" = {
+      value = "$command_file_age_critical_seconds$"
+      required = true
+    }
+    "-W" = {
+      value = "$command_file_age_warning_size$"
+      set_if = {{ macro("$command_file_age_warning_size$") != false }}
+    }
+    "-C" = {
+      value = "$command_file_age_critical_size$"
+      set_if = {{ macro("$command_file_age_critical_size$") != false }}
+    }
+    "--ignore-missing" = {
+      set_if = "$command_file_age_ignore_missing$"
+    }
+  }
+
+}

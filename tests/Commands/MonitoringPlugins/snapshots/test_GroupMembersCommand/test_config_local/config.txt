@@ -1,0 +1,15 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$monitoring_plugin_dir$" + "/check_group_members.py"]
+  arguments = {
+    "--group" = {
+      value = "$command_group_members_group$"
+      set_if = {{ macro("$command_group_members_group$") != false }}
+    }
+    "--user" = {
+      value = "$command_group_members_users$"
+      set_if = {{ macro("$command_group_members_users$") != false }}
+      repeat_key = true
+    }
+  }
+
+}

@@ -1,0 +1,80 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$nagios_plugin_dir$" + "/check_jabber"]
+  arguments = {
+    "-H" = {
+      value = "$command_jabber_host$"
+      required = true
+    }
+    "-p" = {
+      value = "$command_jabber_port$"
+      required = true
+    }
+    "-4" = {
+      set_if = "$command_jabber_ipv4$"
+    }
+    "-6" = {
+      set_if = "$command_jabber_ipv6$"
+    }
+    "-E" = {
+      set_if = "$command_jabber_escape$"
+    }
+    "-s" = {
+      value = "$command_jabber_send$"
+      set_if = {{ macro("$command_jabber_send$") != false }}
+    }
+    "-e" = {
+      value = "$command_jabber_expect$"
+      set_if = {{ macro("$command_jabber_expect$") != false }}
+    }
+    "-A" = {
+      set_if = "$command_jabber_all$"
+    }
+    "-q" = {
+      value = "$command_jabber_quit$"
+      set_if = {{ macro("$command_jabber_quit$") != false }}
+    }
+    "-r" = {
+      value = "$command_jabber_refuse_state$"
+      set_if = {{ macro("$command_jabber_refuse_state$") != false }}
+    }
+    "-M" = {
+      value = "$command_jabber_mismatch_state$"
+      set_if = {{ macro("$command_jabber_mismatch_state$") != false }}
+    }
+    "-j" = {
+      set_if = "$command_jabber_jail$"
+    }
+    "-m" = {
+      value = "$command_jabber_maxbytes$"
+      set_if = {{ macro("$command_jabber_maxbytes$") != false }}
+    }
+    "-d" = {
+      value = "$command_jabber_delay$"
+      set_if = {{ macro("$command_jabber_delay$") != false }}
+    }
+    "-D" = {
+      value = "$command_jabber_cert_warning$,$command_jabber_cert_critical$"
+      set_if = {{ macro("$command_jabber_cert$") != false }}
+    }
+    "-S" = {
+      set_if = "$command_jabber_use_ssl$"
+    }
+    "--sni" = {
+      value = "$command_jabber_sni$"
+      set_if = {{ macro("$command_jabber_sni$") != false }}
+    }
+    "-w" = {
+      value = "$command_jabber_warning_time$"
+      set_if = {{ macro("$command_jabber_warning_time$") != false }}
+    }
+    "-c" = {
+      value = "$command_jabber_critical_time$"
+      set_if = {{ macro("$command_jabber_critical_time$") != false }}
+    }
+    "-t" = {
+      value = "$command_jabber_timeout$"
+      set_if = {{ macro("$command_jabber_timeout$") != false }}
+    }
+  }
+
+}

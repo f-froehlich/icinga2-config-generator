@@ -1,0 +1,278 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$harik_sekhon_plugin_dir$" + "/check_yum.py"]
+  arguments = {
+    "--all-updates" = {
+      set_if = "$command_yum_all_updates$"
+    }
+    "--warn-on-any-update" = {
+      set_if = "$command_yum_warn_any_update$"
+    }
+    "--cache-only" = {
+      set_if = "$command_yum_cache_only$"
+    }
+    "--no-warn-on-lock" = {
+      set_if = "$command_yum_no_warn_on_lock$"
+    }
+    "--config" = {
+      value = "$command_yum_config$"
+      set_if = {{ macro("$command_yum_config$") != false }}
+    }
+    "--enablerepo" = {
+      value = "$command_yum_repo_enabled$"
+      set_if = {{ macro("$command_yum_repo_enabled$") != false }}
+    }
+    "--disablerepo" = {
+      value = "$command_yum_repo_disabled$"
+      set_if = {{ macro("$command_yum_repo_disabled$") != false }}
+    }
+    "--disableplugin" = {
+      value = "$command_yum_plugin_disabled$"
+      set_if = {{ macro("$command_yum_plugin_disabled$") != false }}
+    }
+    "--timeout" = {
+      value = "$command_yum_timeout$"
+    }
+  }
+
+}
+object CheckCommand "command_instance_local_negate" {
+  vars.realcmd = [ "$harik_sekhon_plugin_dir$" + "/check_yum.py"]
+  vars.realargs = {
+    "--all-updates" = {
+      set_if = "$command_yum_all_updates$"
+    }
+    "--warn-on-any-update" = {
+      set_if = "$command_yum_warn_any_update$"
+    }
+    "--cache-only" = {
+      set_if = "$command_yum_cache_only$"
+    }
+    "--no-warn-on-lock" = {
+      set_if = "$command_yum_no_warn_on_lock$"
+    }
+    "--config" = {
+      value = "$command_yum_config$"
+      set_if = {{ macro("$command_yum_config$") != false }}
+    }
+    "--enablerepo" = {
+      value = "$command_yum_repo_enabled$"
+      set_if = {{ macro("$command_yum_repo_enabled$") != false }}
+    }
+    "--disablerepo" = {
+      value = "$command_yum_repo_disabled$"
+      set_if = {{ macro("$command_yum_repo_disabled$") != false }}
+    }
+    "--disableplugin" = {
+      value = "$command_yum_plugin_disabled$"
+      set_if = {{ macro("$command_yum_plugin_disabled$") != false }}
+    }
+    "--timeout" = {
+      value = "$command_yum_timeout$"
+    }
+  }
+
+  arguments = {
+  "-t" = {
+    value = "$negation_timeout$"
+    set_if = {{ macro("$negation_timeout$") != false }}
+  }
+  "-o" = {
+    value = "$negation_ok_status$"
+    set_if = {{ macro("$negation_ok_status$") != false }}
+  }
+  "-w" = {
+    value = "$negation_warning_status$"
+    set_if = {{ macro("$negation_warning_status$") != false }}
+  }
+  "-c" = {
+    value = "$negation_critical_status$"
+    set_if = {{ macro("$negation_critical_status$") != false }}
+  }
+  "-u" = {
+    value = "$negation_unknown_status$"
+    set_if = {{ macro("$negation_unknown_status$") != false }}
+  }
+  "-s" = {
+    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+  }
+  "--command" = {
+    value = {{
+      var command = macro("$realcmd$")
+      var arguments = macro("$realargs$")
+      if (typeof(command) == String && !arguments) {
+        return command
+      }
+      var escaped_args = []
+      for (arg in resolve_arguments(command, arguments)) {
+          escaped_args.add(arg.replace(" ", "\\"))
+      }
+      return escaped_args.join(" ")
+    }}
+    skip_key = true
+    required = true
+    order = 99
+  }
+}
+
+  command = ["$nagios_plugin_dir$" + "/negate"]
+}
+object CheckCommand "command_instance_ssh" {
+  vars.sshcmd = [ "$harik_sekhon_plugin_dir$" + "/check_yum.py"]
+  vars.sshargs = {
+    "--all-updates" = {
+      set_if = "$command_yum_all_updates$"
+    }
+    "--warn-on-any-update" = {
+      set_if = "$command_yum_warn_any_update$"
+    }
+    "--cache-only" = {
+      set_if = "$command_yum_cache_only$"
+    }
+    "--no-warn-on-lock" = {
+      set_if = "$command_yum_no_warn_on_lock$"
+    }
+    "--config" = {
+      value = "$command_yum_config$"
+      set_if = {{ macro("$command_yum_config$") != false }}
+    }
+    "--enablerepo" = {
+      value = "$command_yum_repo_enabled$"
+      set_if = {{ macro("$command_yum_repo_enabled$") != false }}
+    }
+    "--disablerepo" = {
+      value = "$command_yum_repo_disabled$"
+      set_if = {{ macro("$command_yum_repo_disabled$") != false }}
+    }
+    "--disableplugin" = {
+      value = "$command_yum_plugin_disabled$"
+      set_if = {{ macro("$command_yum_plugin_disabled$") != false }}
+    }
+    "--timeout" = {
+      value = "$command_yum_timeout$"
+    }
+  }
+
+  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+  arguments = {
+  "-i" = "$command_overssh_identityfile$"
+  "-l" = "$command_overssh_user$"
+  "-p" = "$command_overssh_port$"
+  "-H" = "$command_overssh_host$"
+  "--timeout" = "$command_overssh_timeout$"
+  "-C" = {{
+    var command = macro("$sshcmd$")
+    var arguments = macro("$sshargs$")
+    if (typeof(command) == String && !arguments) {
+      return command
+    }
+    var escaped_args = []
+    for (arg in resolve_arguments(command, arguments)) {
+      escaped_args.add(escape_shell_arg(arg))
+    }
+    return escaped_args.join(" ")
+  }}
+}
+
+}
+object CheckCommand "command_instance_ssh_negate" {
+  vars.realcmd = [ "$harik_sekhon_plugin_dir$" + "/check_yum.py"]
+  vars.realargs = {
+    "--all-updates" = {
+      set_if = "$command_yum_all_updates$"
+    }
+    "--warn-on-any-update" = {
+      set_if = "$command_yum_warn_any_update$"
+    }
+    "--cache-only" = {
+      set_if = "$command_yum_cache_only$"
+    }
+    "--no-warn-on-lock" = {
+      set_if = "$command_yum_no_warn_on_lock$"
+    }
+    "--config" = {
+      value = "$command_yum_config$"
+      set_if = {{ macro("$command_yum_config$") != false }}
+    }
+    "--enablerepo" = {
+      value = "$command_yum_repo_enabled$"
+      set_if = {{ macro("$command_yum_repo_enabled$") != false }}
+    }
+    "--disablerepo" = {
+      value = "$command_yum_repo_disabled$"
+      set_if = {{ macro("$command_yum_repo_disabled$") != false }}
+    }
+    "--disableplugin" = {
+      value = "$command_yum_plugin_disabled$"
+      set_if = {{ macro("$command_yum_plugin_disabled$") != false }}
+    }
+    "--timeout" = {
+      value = "$command_yum_timeout$"
+    }
+  }
+
+  vars.sshargs = {
+  "-t" = {
+    value = "$negation_timeout$"
+    set_if = {{ macro("$negation_timeout$") != false }}
+  }
+  "-o" = {
+    value = "$negation_ok_status$"
+    set_if = {{ macro("$negation_ok_status$") != false }}
+  }
+  "-w" = {
+    value = "$negation_warning_status$"
+    set_if = {{ macro("$negation_warning_status$") != false }}
+  }
+  "-c" = {
+    value = "$negation_critical_status$"
+    set_if = {{ macro("$negation_critical_status$") != false }}
+  }
+  "-u" = {
+    value = "$negation_unknown_status$"
+    set_if = {{ macro("$negation_unknown_status$") != false }}
+  }
+  "-s" = {
+    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+  }
+  "--command" = {
+    value = {{
+      var command = macro("$realcmd$")
+      var arguments = macro("$realargs$")
+      if (typeof(command) == String && !arguments) {
+        return command
+      }
+      var escaped_args = []
+      for (arg in resolve_arguments(command, arguments)) {
+          escaped_args.add(arg.replace(" ", "\\"))
+      }
+      return escaped_args.join(" ")
+    }}
+    skip_key = true
+    required = true
+    order = 99
+  }
+}
+
+  vars.sshcmd = ["$nagios_plugin_dir$" + "/negate"]
+  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+  arguments = {
+  "-i" = "$command_overssh_identityfile$"
+  "-l" = "$command_overssh_user$"
+  "-p" = "$command_overssh_port$"
+  "-H" = "$command_overssh_host$"
+  "--timeout" = "$command_overssh_timeout$"
+  "-C" = {{
+    var command = macro("$sshcmd$")
+    var arguments = macro("$sshargs$")
+    if (typeof(command) == String && !arguments) {
+      return command
+    }
+    var escaped_args = []
+    for (arg in resolve_arguments(command, arguments)) {
+      escaped_args.add(escape_shell_arg(arg))
+    }
+    return escaped_args.join(" ")
+  }}
+}
+
+}

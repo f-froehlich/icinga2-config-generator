@@ -1,0 +1,2 @@
+vars.command_path_exists_file = "file"
+  vars.command_path_exists_invert = false

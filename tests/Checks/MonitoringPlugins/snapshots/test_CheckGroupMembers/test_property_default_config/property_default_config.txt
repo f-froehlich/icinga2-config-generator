@@ -1,0 +1,1 @@
+vars.command_group_members_group = "sudo"

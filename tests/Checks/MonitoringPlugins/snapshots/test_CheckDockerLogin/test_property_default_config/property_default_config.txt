@@ -1,0 +1,5 @@
+vars.command_docker_login_address = "host"
+  vars.command_docker_login_as_sudo = false
+  vars.command_docker_login_credentials = "pwd"
+  vars.command_docker_login_port = "8888"
+  vars.command_docker_login_user = "user"

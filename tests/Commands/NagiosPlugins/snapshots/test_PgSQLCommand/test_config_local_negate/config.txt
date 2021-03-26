@@ -1,0 +1,99 @@
+object CheckCommand "command_instance_local_negate" {
+  vars.realcmd = [ "$nagios_plugin_dir$" + "/check_pgsql"]
+  vars.realargs = {
+    
+    "-H" = {
+      value = "$command_pgsql_host$"
+      set_if = {{ macro("$command_pgsql_host$") != false }}
+    }
+    "-P" = {
+      value = "$command_pgsql_port$"
+      set_if = {{ macro("$command_pgsql_port$") != false }}
+    }
+    "-d" = {
+      value = "$command_pgsql_database$"
+      set_if = {{ macro("$command_pgsql_database$") != false }}
+    }
+    "-l" = {
+      value = "$command_pgsql_logname$"
+      set_if = {{ macro("$command_pgsql_logname$") != false }}
+    }
+    "-p" = {
+      value = "$command_pgsql_password$"
+      set_if = {{ macro("$command_pgsql_password$") != false }}
+    }
+    "-o" = {
+      value = "$command_pgsql_option$"
+      set_if = {{ macro("$command_pgsql_option$") != false }}
+    }
+    "-w" = {
+      value = "$command_pgsql_warning$"
+      set_if = {{ macro("$command_pgsql_warning$") != false }}
+    }
+    "-c" = {
+      value = "$command_pgsql_critical$"
+      set_if = {{ macro("$command_pgsql_critical$") != false }}
+    }
+    "-t" = {
+      value = "$command_pgsql_timeout$"
+      set_if = {{ macro("$command_pgsql_timeout$") != false }}
+    }
+    "-q" = {
+      value = "$command_pgsql_query$"
+      set_if = {{ macro("$command_pgsql_query$") != false }}
+    }
+    "-W" = {
+      value = "$command_pgsql_warning_range$"
+      set_if = {{ macro("$command_pgsql_warning_range$") != false }}
+    }
+    "-C" = {
+      value = "$command_pgsql_critical_range$"
+      set_if = {{ macro("$command_pgsql_critical_range$") != false }}
+    }
+  }
+
+  arguments = {
+  "-t" = {
+    value = "$negation_timeout$"
+    set_if = {{ macro("$negation_timeout$") != false }}
+  }
+  "-o" = {
+    value = "$negation_ok_status$"
+    set_if = {{ macro("$negation_ok_status$") != false }}
+  }
+  "-w" = {
+    value = "$negation_warning_status$"
+    set_if = {{ macro("$negation_warning_status$") != false }}
+  }
+  "-c" = {
+    value = "$negation_critical_status$"
+    set_if = {{ macro("$negation_critical_status$") != false }}
+  }
+  "-u" = {
+    value = "$negation_unknown_status$"
+    set_if = {{ macro("$negation_unknown_status$") != false }}
+  }
+  "-s" = {
+    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+  }
+  "--command" = {
+    value = {{
+      var command = macro("$realcmd$")
+      var arguments = macro("$realargs$")
+      if (typeof(command) == String && !arguments) {
+        return command
+      }
+      var escaped_args = []
+      for (arg in resolve_arguments(command, arguments)) {
+          escaped_args.add(arg.replace(" ", "\\"))
+      }
+      return escaped_args.join(" ")
+    }}
+    skip_key = true
+    required = true
+    order = 99
+  }
+}
+
+  command = ["$nagios_plugin_dir$" + "/negate"]
+}

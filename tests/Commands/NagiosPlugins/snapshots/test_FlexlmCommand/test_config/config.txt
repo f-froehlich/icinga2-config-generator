@@ -1,0 +1,186 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$nagios_plugin_dir$" + "/check_flexlm"]
+  arguments = {
+    "-F" = {
+      value = "$command_flexlm_file$"
+      set_if = {{ macro("$command_flexlm_file$") != false }}
+    }
+    "-t" = {
+      value = "$command_flexlm_timeout$"
+      set_if = {{ macro("$command_flexlm_timeout$") != false }}
+    }
+  }
+
+}
+object CheckCommand "command_instance_local_negate" {
+  vars.realcmd = [ "$nagios_plugin_dir$" + "/check_flexlm"]
+  vars.realargs = {
+    "-F" = {
+      value = "$command_flexlm_file$"
+      set_if = {{ macro("$command_flexlm_file$") != false }}
+    }
+    "-t" = {
+      value = "$command_flexlm_timeout$"
+      set_if = {{ macro("$command_flexlm_timeout$") != false }}
+    }
+  }
+
+  arguments = {
+  "-t" = {
+    value = "$negation_timeout$"
+    set_if = {{ macro("$negation_timeout$") != false }}
+  }
+  "-o" = {
+    value = "$negation_ok_status$"
+    set_if = {{ macro("$negation_ok_status$") != false }}
+  }
+  "-w" = {
+    value = "$negation_warning_status$"
+    set_if = {{ macro("$negation_warning_status$") != false }}
+  }
+  "-c" = {
+    value = "$negation_critical_status$"
+    set_if = {{ macro("$negation_critical_status$") != false }}
+  }
+  "-u" = {
+    value = "$negation_unknown_status$"
+    set_if = {{ macro("$negation_unknown_status$") != false }}
+  }
+  "-s" = {
+    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+  }
+  "--command" = {
+    value = {{
+      var command = macro("$realcmd$")
+      var arguments = macro("$realargs$")
+      if (typeof(command) == String && !arguments) {
+        return command
+      }
+      var escaped_args = []
+      for (arg in resolve_arguments(command, arguments)) {
+          escaped_args.add(arg.replace(" ", "\\"))
+      }
+      return escaped_args.join(" ")
+    }}
+    skip_key = true
+    required = true
+    order = 99
+  }
+}
+
+  command = ["$nagios_plugin_dir$" + "/negate"]
+}
+object CheckCommand "command_instance_ssh" {
+  vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_flexlm"]
+  vars.sshargs = {
+    "-F" = {
+      value = "$command_flexlm_file$"
+      set_if = {{ macro("$command_flexlm_file$") != false }}
+    }
+    "-t" = {
+      value = "$command_flexlm_timeout$"
+      set_if = {{ macro("$command_flexlm_timeout$") != false }}
+    }
+  }
+
+  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+  arguments = {
+  "-i" = "$command_overssh_identityfile$"
+  "-l" = "$command_overssh_user$"
+  "-p" = "$command_overssh_port$"
+  "-H" = "$command_overssh_host$"
+  "--timeout" = "$command_overssh_timeout$"
+  "-C" = {{
+    var command = macro("$sshcmd$")
+    var arguments = macro("$sshargs$")
+    if (typeof(command) == String && !arguments) {
+      return command
+    }
+    var escaped_args = []
+    for (arg in resolve_arguments(command, arguments)) {
+      escaped_args.add(escape_shell_arg(arg))
+    }
+    return escaped_args.join(" ")
+  }}
+}
+
+}
+object CheckCommand "command_instance_ssh_negate" {
+  vars.realcmd = [ "$nagios_plugin_dir$" + "/check_flexlm"]
+  vars.realargs = {
+    "-F" = {
+      value = "$command_flexlm_file$"
+      set_if = {{ macro("$command_flexlm_file$") != false }}
+    }
+    "-t" = {
+      value = "$command_flexlm_timeout$"
+      set_if = {{ macro("$command_flexlm_timeout$") != false }}
+    }
+  }
+
+  vars.sshargs = {
+  "-t" = {
+    value = "$negation_timeout$"
+    set_if = {{ macro("$negation_timeout$") != false }}
+  }
+  "-o" = {
+    value = "$negation_ok_status$"
+    set_if = {{ macro("$negation_ok_status$") != false }}
+  }
+  "-w" = {
+    value = "$negation_warning_status$"
+    set_if = {{ macro("$negation_warning_status$") != false }}
+  }
+  "-c" = {
+    value = "$negation_critical_status$"
+    set_if = {{ macro("$negation_critical_status$") != false }}
+  }
+  "-u" = {
+    value = "$negation_unknown_status$"
+    set_if = {{ macro("$negation_unknown_status$") != false }}
+  }
+  "-s" = {
+    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+  }
+  "--command" = {
+    value = {{
+      var command = macro("$realcmd$")
+      var arguments = macro("$realargs$")
+      if (typeof(command) == String && !arguments) {
+        return command
+      }
+      var escaped_args = []
+      for (arg in resolve_arguments(command, arguments)) {
+          escaped_args.add(arg.replace(" ", "\\"))
+      }
+      return escaped_args.join(" ")
+    }}
+    skip_key = true
+    required = true
+    order = 99
+  }
+}
+
+  vars.sshcmd = ["$nagios_plugin_dir$" + "/negate"]
+  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+  arguments = {
+  "-i" = "$command_overssh_identityfile$"
+  "-l" = "$command_overssh_user$"
+  "-p" = "$command_overssh_port$"
+  "-H" = "$command_overssh_host$"
+  "--timeout" = "$command_overssh_timeout$"
+  "-C" = {{
+    var command = macro("$sshcmd$")
+    var arguments = macro("$sshargs$")
+    if (typeof(command) == String && !arguments) {
+      return command
+    }
+    var escaped_args = []
+    for (arg in resolve_arguments(command, arguments)) {
+      escaped_args.add(escape_shell_arg(arg))
+    }
+    return escaped_args.join(" ")
+  }}
+}
+
+}

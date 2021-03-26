@@ -1,0 +1,346 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$nagios_plugin_dir$" + "/check_procs"]
+  arguments = {
+    "-w" = {
+      value = "$command_procs_warning_range$"
+    }
+    "-c" = {
+      value = "$command_procs_critical_range$"
+    }
+    "-m" = {
+      value = "$command_procs_metric$"
+      set_if = {{ macro("$command_procs_metric$") != false }}
+    }
+    "-t" = {
+      value = "$command_procs_timeout$"
+      set_if = {{ macro("$command_procs_timeout$") != false }}
+    }
+    "-T" = {
+      set_if = "$command_procs_traditional$"
+    }
+    "-s" = {
+      value = "$command_procs_state$"
+      set_if = {{ macro("$command_procs_state$") != false }}
+    }
+    "-p" = {
+      value = "$command_procs_pid$"
+      set_if = {{ macro("$command_procs_pid$") != false }}
+    }
+    "-z" = {
+      value = "$command_procs_vsz$"
+      set_if = {{ macro("$command_procs_vsz$") != false }}
+    }
+    "-u" = {
+      value = "$command_procs_user$"
+      set_if = {{ macro("$command_procs_user$") != false }}
+    }
+    "-a" = {
+      value = "$command_procs_argument$"
+      set_if = {{ macro("$command_procs_argument$") != false }}
+    }
+    "--ereg-argument-array" = {
+      value = "$command_procs_argument_ereg$"
+      set_if = {{ macro("$command_procs_argument_ereg$") != false }}
+    }
+    "-C" = {
+      value = "$command_procs_command$"
+      set_if = {{ macro("$command_procs_command$") != false }}
+    }
+    "-k" = {
+      set_if = "$command_procs_only_non_kernel$"
+    }
+  }
+
+}
+object CheckCommand "command_instance_local_negate" {
+  vars.realcmd = [ "$nagios_plugin_dir$" + "/check_procs"]
+  vars.realargs = {
+    "-w" = {
+      value = "$command_procs_warning_range$"
+    }
+    "-c" = {
+      value = "$command_procs_critical_range$"
+    }
+    "-m" = {
+      value = "$command_procs_metric$"
+      set_if = {{ macro("$command_procs_metric$") != false }}
+    }
+    "-t" = {
+      value = "$command_procs_timeout$"
+      set_if = {{ macro("$command_procs_timeout$") != false }}
+    }
+    "-T" = {
+      set_if = "$command_procs_traditional$"
+    }
+    "-s" = {
+      value = "$command_procs_state$"
+      set_if = {{ macro("$command_procs_state$") != false }}
+    }
+    "-p" = {
+      value = "$command_procs_pid$"
+      set_if = {{ macro("$command_procs_pid$") != false }}
+    }
+    "-z" = {
+      value = "$command_procs_vsz$"
+      set_if = {{ macro("$command_procs_vsz$") != false }}
+    }
+    "-u" = {
+      value = "$command_procs_user$"
+      set_if = {{ macro("$command_procs_user$") != false }}
+    }
+    "-a" = {
+      value = "$command_procs_argument$"
+      set_if = {{ macro("$command_procs_argument$") != false }}
+    }
+    "--ereg-argument-array" = {
+      value = "$command_procs_argument_ereg$"
+      set_if = {{ macro("$command_procs_argument_ereg$") != false }}
+    }
+    "-C" = {
+      value = "$command_procs_command$"
+      set_if = {{ macro("$command_procs_command$") != false }}
+    }
+    "-k" = {
+      set_if = "$command_procs_only_non_kernel$"
+    }
+  }
+
+  arguments = {
+  "-t" = {
+    value = "$negation_timeout$"
+    set_if = {{ macro("$negation_timeout$") != false }}
+  }
+  "-o" = {
+    value = "$negation_ok_status$"
+    set_if = {{ macro("$negation_ok_status$") != false }}
+  }
+  "-w" = {
+    value = "$negation_warning_status$"
+    set_if = {{ macro("$negation_warning_status$") != false }}
+  }
+  "-c" = {
+    value = "$negation_critical_status$"
+    set_if = {{ macro("$negation_critical_status$") != false }}
+  }
+  "-u" = {
+    value = "$negation_unknown_status$"
+    set_if = {{ macro("$negation_unknown_status$") != false }}
+  }
+  "-s" = {
+    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+  }
+  "--command" = {
+    value = {{
+      var command = macro("$realcmd$")
+      var arguments = macro("$realargs$")
+      if (typeof(command) == String && !arguments) {
+        return command
+      }
+      var escaped_args = []
+      for (arg in resolve_arguments(command, arguments)) {
+          escaped_args.add(arg.replace(" ", "\\"))
+      }
+      return escaped_args.join(" ")
+    }}
+    skip_key = true
+    required = true
+    order = 99
+  }
+}
+
+  command = ["$nagios_plugin_dir$" + "/negate"]
+}
+object CheckCommand "command_instance_ssh" {
+  vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_procs"]
+  vars.sshargs = {
+    "-w" = {
+      value = "$command_procs_warning_range$"
+    }
+    "-c" = {
+      value = "$command_procs_critical_range$"
+    }
+    "-m" = {
+      value = "$command_procs_metric$"
+      set_if = {{ macro("$command_procs_metric$") != false }}
+    }
+    "-t" = {
+      value = "$command_procs_timeout$"
+      set_if = {{ macro("$command_procs_timeout$") != false }}
+    }
+    "-T" = {
+      set_if = "$command_procs_traditional$"
+    }
+    "-s" = {
+      value = "$command_procs_state$"
+      set_if = {{ macro("$command_procs_state$") != false }}
+    }
+    "-p" = {
+      value = "$command_procs_pid$"
+      set_if = {{ macro("$command_procs_pid$") != false }}
+    }
+    "-z" = {
+      value = "$command_procs_vsz$"
+      set_if = {{ macro("$command_procs_vsz$") != false }}
+    }
+    "-u" = {
+      value = "$command_procs_user$"
+      set_if = {{ macro("$command_procs_user$") != false }}
+    }
+    "-a" = {
+      value = "$command_procs_argument$"
+      set_if = {{ macro("$command_procs_argument$") != false }}
+    }
+    "--ereg-argument-array" = {
+      value = "$command_procs_argument_ereg$"
+      set_if = {{ macro("$command_procs_argument_ereg$") != false }}
+    }
+    "-C" = {
+      value = "$command_procs_command$"
+      set_if = {{ macro("$command_procs_command$") != false }}
+    }
+    "-k" = {
+      set_if = "$command_procs_only_non_kernel$"
+    }
+  }
+
+  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+  arguments = {
+  "-i" = "$command_overssh_identityfile$"
+  "-l" = "$command_overssh_user$"
+  "-p" = "$command_overssh_port$"
+  "-H" = "$command_overssh_host$"
+  "--timeout" = "$command_overssh_timeout$"
+  "-C" = {{
+    var command = macro("$sshcmd$")
+    var arguments = macro("$sshargs$")
+    if (typeof(command) == String && !arguments) {
+      return command
+    }
+    var escaped_args = []
+    for (arg in resolve_arguments(command, arguments)) {
+      escaped_args.add(escape_shell_arg(arg))
+    }
+    return escaped_args.join(" ")
+  }}
+}
+
+}
+object CheckCommand "command_instance_ssh_negate" {
+  vars.realcmd = [ "$nagios_plugin_dir$" + "/check_procs"]
+  vars.realargs = {
+    "-w" = {
+      value = "$command_procs_warning_range$"
+    }
+    "-c" = {
+      value = "$command_procs_critical_range$"
+    }
+    "-m" = {
+      value = "$command_procs_metric$"
+      set_if = {{ macro("$command_procs_metric$") != false }}
+    }
+    "-t" = {
+      value = "$command_procs_timeout$"
+      set_if = {{ macro("$command_procs_timeout$") != false }}
+    }
+    "-T" = {
+      set_if = "$command_procs_traditional$"
+    }
+    "-s" = {
+      value = "$command_procs_state$"
+      set_if = {{ macro("$command_procs_state$") != false }}
+    }
+    "-p" = {
+      value = "$command_procs_pid$"
+      set_if = {{ macro("$command_procs_pid$") != false }}
+    }
+    "-z" = {
+      value = "$command_procs_vsz$"
+      set_if = {{ macro("$command_procs_vsz$") != false }}
+    }
+    "-u" = {
+      value = "$command_procs_user$"
+      set_if = {{ macro("$command_procs_user$") != false }}
+    }
+    "-a" = {
+      value = "$command_procs_argument$"
+      set_if = {{ macro("$command_procs_argument$") != false }}
+    }
+    "--ereg-argument-array" = {
+      value = "$command_procs_argument_ereg$"
+      set_if = {{ macro("$command_procs_argument_ereg$") != false }}
+    }
+    "-C" = {
+      value = "$command_procs_command$"
+      set_if = {{ macro("$command_procs_command$") != false }}
+    }
+    "-k" = {
+      set_if = "$command_procs_only_non_kernel$"
+    }
+  }
+
+  vars.sshargs = {
+  "-t" = {
+    value = "$negation_timeout$"
+    set_if = {{ macro("$negation_timeout$") != false }}
+  }
+  "-o" = {
+    value = "$negation_ok_status$"
+    set_if = {{ macro("$negation_ok_status$") != false }}
+  }
+  "-w" = {
+    value = "$negation_warning_status$"
+    set_if = {{ macro("$negation_warning_status$") != false }}
+  }
+  "-c" = {
+    value = "$negation_critical_status$"
+    set_if = {{ macro("$negation_critical_status$") != false }}
+  }
+  "-u" = {
+    value = "$negation_unknown_status$"
+    set_if = {{ macro("$negation_unknown_status$") != false }}
+  }
+  "-s" = {
+    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+  }
+  "--command" = {
+    value = {{
+      var command = macro("$realcmd$")
+      var arguments = macro("$realargs$")
+      if (typeof(command) == String && !arguments) {
+        return command
+      }
+      var escaped_args = []
+      for (arg in resolve_arguments(command, arguments)) {
+          escaped_args.add(arg.replace(" ", "\\"))
+      }
+      return escaped_args.join(" ")
+    }}
+    skip_key = true
+    required = true
+    order = 99
+  }
+}
+
+  vars.sshcmd = ["$nagios_plugin_dir$" + "/negate"]
+  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+  arguments = {
+  "-i" = "$command_overssh_identityfile$"
+  "-l" = "$command_overssh_user$"
+  "-p" = "$command_overssh_port$"
+  "-H" = "$command_overssh_host$"
+  "--timeout" = "$command_overssh_timeout$"
+  "-C" = {{
+    var command = macro("$sshcmd$")
+    var arguments = macro("$sshargs$")
+    if (typeof(command) == String && !arguments) {
+      return command
+    }
+    var escaped_args = []
+    for (arg in resolve_arguments(command, arguments)) {
+      escaped_args.add(escape_shell_arg(arg))
+    }
+    return escaped_args.join(" ")
+  }}
+}
+
+}

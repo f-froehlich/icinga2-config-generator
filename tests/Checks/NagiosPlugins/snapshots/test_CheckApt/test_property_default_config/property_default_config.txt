@@ -1,0 +1,1 @@
+vars.command_apt_timeout = 10

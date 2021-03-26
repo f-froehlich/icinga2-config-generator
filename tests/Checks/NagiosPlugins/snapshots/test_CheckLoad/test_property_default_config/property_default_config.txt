@@ -1,0 +1,3 @@
+vars.command_load_critical = "15,12,9"
+  vars.command_load_percpu = true
+  vars.command_load_warning = "10,8,6"

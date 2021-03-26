@@ -1,0 +1,5 @@
+vars.groups += [
+    "servicegroup_security",
+    "servicegroup_dns",
+    "servicegroup_spf",
+  ]

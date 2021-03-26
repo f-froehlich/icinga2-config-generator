@@ -48,6 +48,9 @@ setup_args = dict(
 
 install_requires = [
     'tqdm',
+    # 'pytest',
+    # 'pytest-cov',
+    # 'pytest-snapshot',
 ]
 
 if __name__ == '__main__':

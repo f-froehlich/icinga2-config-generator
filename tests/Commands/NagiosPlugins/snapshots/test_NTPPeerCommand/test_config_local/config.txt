@@ -1,0 +1,61 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$nagios_plugin_dir$" + "/check_ntp_peer"]
+  arguments = {
+    "--use-ipv4" = {
+      value = "$command_ntp_peer_force_ipv4$"
+      set_if = {{ macro("$command_ntp_peer_force_ipv4$") != false }}
+    }
+    "--use-ipv6" = {
+      value = "$command_ntp_peer_force_ipv6$"
+      set_if = {{ macro("$command_ntp_peer_force_ipv6$") != false }}
+    }
+    "--hostname" = {
+      value = "$command_ntp_peer_ntp_server$"
+      required = true
+    }
+    "--port" = {
+      value = "$command_ntp_peer_ntp_server_port$"
+      set_if = {{ macro("$command_ntp_peer_ntp_server_port$") != false }}
+    }
+    "--quiet" = {
+      set_if = "$command_ntp_peer_quiet$"
+    }
+    "--warning" = {
+      value = "$command_ntp_peer_warning$"
+      set_if = {{ macro("$command_ntp_peer_warning$") != false }}
+    }
+    "--critical" = {
+      value = "$command_ntp_peer_critical$"
+      set_if = {{ macro("$command_ntp_peer_critical$") != false }}
+    }
+    "--swarn" = {
+      value = "$command_ntp_peer_swarn$"
+      set_if = {{ macro("$command_ntp_peer_swarn$") != false }}
+    }
+    "--scrit" = {
+      value = "$command_ntp_peer_scrit$"
+      set_if = {{ macro("$command_ntp_peer_scrit$") != false }}
+    }
+    "--jwarn" = {
+      value = "$command_ntp_peer_jwarn$"
+      set_if = {{ macro("$command_ntp_peer_jwarn$") != false }}
+    }
+    "--jcrit" = {
+      value = "$command_ntp_peer_jcrit$"
+      set_if = {{ macro("$command_ntp_peer_jcrit$") != false }}
+    }
+    "--twarn" = {
+      value = "$command_ntp_peer_twarn$"
+      set_if = {{ macro("$command_ntp_peer_twarn$") != false }}
+    }
+    "--tcrit" = {
+      value = "$command_ntp_peer_tcrit$"
+      set_if = {{ macro("$command_ntp_peer_tcrit$") != false }}
+    }
+    "--timeout" = {
+      value = "$command_ntp_peer_timeout$"
+      set_if = {{ macro("$command_ntp_peer_timeout$") != false }}
+    }
+  }
+
+}

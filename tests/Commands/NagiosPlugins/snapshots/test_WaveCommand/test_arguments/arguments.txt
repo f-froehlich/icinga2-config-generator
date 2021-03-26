@@ -1,0 +1,14 @@
+{
+    "-H" = {
+      value = "$command_wave_host$"
+      required = true
+    }
+    "-w" = {
+      value = "$command_wave_warning$"
+      set_if = {{ macro("$command_wave_warning$") != false }}
+    }
+    "-c" = {
+      value = "$command_wave_critical$"
+      set_if = {{ macro("$command_wave_critical$") != false }}
+    }
+  }

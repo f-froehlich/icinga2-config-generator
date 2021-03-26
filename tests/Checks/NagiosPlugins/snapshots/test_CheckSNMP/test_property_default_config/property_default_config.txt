@@ -1,0 +1,11 @@
+vars.command_snmp_host = "host"
+  vars.command_snmp_invert = false
+  vars.command_snmp_oids = "oid"
+  vars.command_snmp_over_ipv4 = false
+  vars.command_snmp_over_ipv6 = false
+  vars.command_snmp_perf_oids = false
+  vars.command_snmp_port = 161
+  vars.command_snmp_rate = false
+  vars.command_snmp_retries = 2
+  vars.command_snmp_snmp_getnext = false
+  vars.command_snmp_timeout = 10

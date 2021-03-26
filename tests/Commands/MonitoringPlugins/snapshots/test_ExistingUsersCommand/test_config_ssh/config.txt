@@ -1,0 +1,45 @@
+object CheckCommand "command_instance_ssh" {
+  vars.sshcmd = [ "$monitoring_plugin_dir$" + "/check_existing_users.py"]
+  vars.sshargs = {
+    "--uid-min" = {
+      value = "$command_existing_users_uid_min$"
+      set_if = {{ macro("$command_existing_users_uid_min$") != false }}
+    }
+    "--uid-max" = {
+      value = "$command_existing_users_uid_max$"
+      set_if = {{ macro("$command_existing_users_uid_max$") != false }}
+    }
+    "--user" = {
+      value = "$command_existing_users_users$"
+      set_if = {{ macro("$command_existing_users_users$") != false }}
+      repeat_key = true
+    }
+    "--filter-shell" = {
+      value = "$command_existing_users_shell_filter$"
+      set_if = {{ macro("$command_existing_users_shell_filter$") != false }}
+      repeat_key = true
+    }
+  }
+
+  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+  arguments = {
+  "-i" = "$command_overssh_identityfile$"
+  "-l" = "$command_overssh_user$"
+  "-p" = "$command_overssh_port$"
+  "-H" = "$command_overssh_host$"
+  "--timeout" = "$command_overssh_timeout$"
+  "-C" = {{
+    var command = macro("$sshcmd$")
+    var arguments = macro("$sshargs$")
+    if (typeof(command) == String && !arguments) {
+      return command
+    }
+    var escaped_args = []
+    for (arg in resolve_arguments(command, arguments)) {
+      escaped_args.add(escape_shell_arg(arg))
+    }
+    return escaped_args.join(" ")
+  }}
+}
+
+}

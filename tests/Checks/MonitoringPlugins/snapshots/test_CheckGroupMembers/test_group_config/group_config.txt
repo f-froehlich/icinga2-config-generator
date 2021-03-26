@@ -1,0 +1,4 @@
+vars.groups += [
+    "servicegroup_security",
+    "servicegroup_group_members",
+  ]

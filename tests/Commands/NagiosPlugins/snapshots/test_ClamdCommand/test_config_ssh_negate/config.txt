@@ -1,0 +1,145 @@
+object CheckCommand "command_instance_ssh_negate" {
+  vars.realcmd = [ "$nagios_plugin_dir$" + "/check_clamd"]
+  vars.realargs = {
+    "-H" = {
+      value = "$command_clamd_host$"
+      required = true
+    }
+    "-p" = {
+      value = "$command_clamd_port$"
+      required = true
+    }
+    "-4" = {
+      set_if = "$command_clamd_ipv4$"
+    }
+    "-6" = {
+      set_if = "$command_clamd_ipv6$"
+    }
+    "-E" = {
+      set_if = "$command_clamd_escape$"
+    }
+    "-s" = {
+      value = "$command_clamd_send$"
+      set_if = {{ macro("$command_clamd_send$") != false }}
+    }
+    "-e" = {
+      value = "$command_clamd_expect$"
+      set_if = {{ macro("$command_clamd_expect$") != false }}
+    }
+    "-A" = {
+      set_if = "$command_clamd_all$"
+    }
+    "-q" = {
+      value = "$command_clamd_quit$"
+      set_if = {{ macro("$command_clamd_quit$") != false }}
+    }
+    "-r" = {
+      value = "$command_clamd_refuse_state$"
+      set_if = {{ macro("$command_clamd_refuse_state$") != false }}
+    }
+    "-M" = {
+      value = "$command_clamd_mismatch_state$"
+      set_if = {{ macro("$command_clamd_mismatch_state$") != false }}
+    }
+    "-j" = {
+      set_if = "$command_clamd_jail$"
+    }
+    "-m" = {
+      value = "$command_clamd_maxbytes$"
+      set_if = {{ macro("$command_clamd_maxbytes$") != false }}
+    }
+    "-d" = {
+      value = "$command_clamd_delay$"
+      set_if = {{ macro("$command_clamd_delay$") != false }}
+    }
+    "-D" = {
+      value = "$command_clamd_cert_warning$,$command_clamd_cert_critical$"
+      set_if = {{ macro("$command_clamd_cert$") != false }}
+    }
+    "-S" = {
+      set_if = "$command_clamd_use_ssl$"
+    }
+    "--sni" = {
+      value = "$command_clamd_sni$"
+      set_if = {{ macro("$command_clamd_sni$") != false }}
+    }
+    "-w" = {
+      value = "$command_clamd_warning_time$"
+      set_if = {{ macro("$command_clamd_warning_time$") != false }}
+    }
+    "-c" = {
+      value = "$command_clamd_critical_time$"
+      set_if = {{ macro("$command_clamd_critical_time$") != false }}
+    }
+    "-t" = {
+      value = "$command_clamd_timeout$"
+      set_if = {{ macro("$command_clamd_timeout$") != false }}
+    }
+  }
+
+  vars.sshargs = {
+  "-t" = {
+    value = "$negation_timeout$"
+    set_if = {{ macro("$negation_timeout$") != false }}
+  }
+  "-o" = {
+    value = "$negation_ok_status$"
+    set_if = {{ macro("$negation_ok_status$") != false }}
+  }
+  "-w" = {
+    value = "$negation_warning_status$"
+    set_if = {{ macro("$negation_warning_status$") != false }}
+  }
+  "-c" = {
+    value = "$negation_critical_status$"
+    set_if = {{ macro("$negation_critical_status$") != false }}
+  }
+  "-u" = {
+    value = "$negation_unknown_status$"
+    set_if = {{ macro("$negation_unknown_status$") != false }}
+  }
+  "-s" = {
+    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+  }
+  "--command" = {
+    value = {{
+      var command = macro("$realcmd$")
+      var arguments = macro("$realargs$")
+      if (typeof(command) == String && !arguments) {
+        return command
+      }
+      var escaped_args = []
+      for (arg in resolve_arguments(command, arguments)) {
+          escaped_args.add(arg.replace(" ", "\\"))
+      }
+      return escaped_args.join(" ")
+    }}
+    skip_key = true
+    required = true
+    order = 99
+  }
+}
+
+  vars.sshcmd = ["$nagios_plugin_dir$" + "/negate"]
+  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+  arguments = {
+  "-i" = "$command_overssh_identityfile$"
+  "-l" = "$command_overssh_user$"
+  "-p" = "$command_overssh_port$"
+  "-H" = "$command_overssh_host$"
+  "--timeout" = "$command_overssh_timeout$"
+  "-C" = {{
+    var command = macro("$sshcmd$")
+    var arguments = macro("$sshargs$")
+    if (typeof(command) == String && !arguments) {
+      return command
+    }
+    var escaped_args = []
+    for (arg in resolve_arguments(command, arguments)) {
+      escaped_args.add(escape_shell_arg(arg))
+    }
+    return escaped_args.join(" ")
+  }}
+}
+
+}

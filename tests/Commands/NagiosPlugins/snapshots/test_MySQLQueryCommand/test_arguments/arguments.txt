@@ -1,0 +1,46 @@
+{
+    "-q" = {
+      value = "$command_mysql_query_query$"
+      required = true
+    }
+    "-w" = {
+      value = "$command_mysql_query_warning$"
+      set_if = {{ macro("$command_mysql_query_warning$") != false }}
+    }
+    "-c" = {
+      value = "$command_mysql_query_critical$"
+      set_if = {{ macro("$command_mysql_query_critical$") != false }}
+    }
+    "-H" = {
+      value = "$command_mysql_query_host$"
+      set_if = {{ macro("$command_mysql_query_host$") != false }}
+    }
+    "-P" = {
+      value = "$command_mysql_query_port$"
+      set_if = {{ macro("$command_mysql_query_port$") != false }}
+    }
+    "-s" = {
+      value = "$command_mysql_query_socket$"
+      set_if = {{ macro("$command_mysql_query_socket$") != false }}
+    }
+    "-d" = {
+      value = "$command_mysql_query_database$"
+      set_if = {{ macro("$command_mysql_query_database$") != false }}
+    }
+    "-f" = {
+      value = "$command_mysql_query_file$"
+      set_if = {{ macro("$command_mysql_query_file$") != false }}
+    }
+    "-g" = {
+      value = "$command_mysql_query_group$"
+      set_if = {{ macro("$command_mysql_query_group$") != false }}
+    }
+    "-u" = {
+      value = "$command_mysql_query_user$"
+      set_if = {{ macro("$command_mysql_query_user$") != false }}
+    }
+    "-p" = {
+      value = "$command_mysql_query_password$"
+      set_if = {{ macro("$command_mysql_query_password$") != false }}
+    }
+  }

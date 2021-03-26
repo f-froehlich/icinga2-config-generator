@@ -1,0 +1,50 @@
+object CheckCommand "command_instance_ssh" {
+  vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_file_age"]
+  vars.sshargs = {
+    "-f" = {
+      value = "$command_file_age_file$"
+      required = true
+    }
+    "-w" = {
+      value = "$command_file_age_warning_seconds$"
+      required = true
+    }
+    "-c" = {
+      value = "$command_file_age_critical_seconds$"
+      required = true
+    }
+    "-W" = {
+      value = "$command_file_age_warning_size$"
+      set_if = {{ macro("$command_file_age_warning_size$") != false }}
+    }
+    "-C" = {
+      value = "$command_file_age_critical_size$"
+      set_if = {{ macro("$command_file_age_critical_size$") != false }}
+    }
+    "--ignore-missing" = {
+      set_if = "$command_file_age_ignore_missing$"
+    }
+  }
+
+  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+  arguments = {
+  "-i" = "$command_overssh_identityfile$"
+  "-l" = "$command_overssh_user$"
+  "-p" = "$command_overssh_port$"
+  "-H" = "$command_overssh_host$"
+  "--timeout" = "$command_overssh_timeout$"
+  "-C" = {{
+    var command = macro("$sshcmd$")
+    var arguments = macro("$sshargs$")
+    if (typeof(command) == String && !arguments) {
+      return command
+    }
+    var escaped_args = []
+    for (arg in resolve_arguments(command, arguments)) {
+      escaped_args.add(escape_shell_arg(arg))
+    }
+    return escaped_args.join(" ")
+  }}
+}
+
+}

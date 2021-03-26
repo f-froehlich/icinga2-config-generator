@@ -1,0 +1,14 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$nagios_plugin_dir$" + "/check_users"]
+  arguments = {
+    "--warning" = {
+      value = "$command_users_warning$"
+      required = true
+    }
+    "--critical" = {
+      value = "$command_users_critical$"
+      required = true
+    }
+  }
+
+}

@@ -1,0 +1,50 @@
+object CheckCommand "command_instance_ssh" {
+  vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_dhcp"]
+  vars.sshargs = {
+    "-s" = {
+      value = "$command_dhcp_server$"
+      set_if = {{ macro("$command_dhcp_server$") != false }}
+    }
+    "-r" = {
+      value = "$command_dhcp_requested_ip$"
+      set_if = {{ macro("$command_dhcp_requested_ip$") != false }}
+    }
+    "-t" = {
+      value = "$command_dhcp_timeout$"
+      set_if = {{ macro("$command_dhcp_timeout$") != false }}
+    }
+    "-i" = {
+      value = "$command_dhcp_interface$"
+      set_if = {{ macro("$command_dhcp_interface$") != false }}
+    }
+    "-m" = {
+      value = "$command_dhcp_mac$"
+      set_if = {{ macro("$command_dhcp_mac$") != false }}
+    }
+    "-u" = {
+      set_if = "$command_dhcp_unicast$"
+    }
+  }
+
+  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+  arguments = {
+  "-i" = "$command_overssh_identityfile$"
+  "-l" = "$command_overssh_user$"
+  "-p" = "$command_overssh_port$"
+  "-H" = "$command_overssh_host$"
+  "--timeout" = "$command_overssh_timeout$"
+  "-C" = {{
+    var command = macro("$sshcmd$")
+    var arguments = macro("$sshargs$")
+    if (typeof(command) == String && !arguments) {
+      return command
+    }
+    var escaped_args = []
+    for (arg in resolve_arguments(command, arguments)) {
+      escaped_args.add(escape_shell_arg(arg))
+    }
+    return escaped_args.join(" ")
+  }}
+}
+
+}

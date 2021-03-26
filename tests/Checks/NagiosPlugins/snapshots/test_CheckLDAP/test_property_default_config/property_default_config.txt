@@ -1,0 +1,9 @@
+vars.command_ldap_base = "base"
+  vars.command_ldap_host = "host"
+  vars.command_ldap_protocol_v2 = false
+  vars.command_ldap_protocol_v3 = false
+  vars.command_ldap_ssl = true
+  vars.command_ldap_starttls = false
+  vars.command_ldap_timeout = 10
+  vars.command_ldap_use_ipv4 = false
+  vars.command_ldap_use_ipv6 = false

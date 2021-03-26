@@ -1,0 +1,7 @@
+vars.command_disk_smb_critical = 95
+  vars.command_disk_smb_ip = "ip"
+  vars.command_disk_smb_password = "password"
+  vars.command_disk_smb_port = 445
+  vars.command_disk_smb_share = "share"
+  vars.command_disk_smb_user = "user"
+  vars.command_disk_smb_warning = 85

@@ -1,0 +1,39 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$monitoring_plugin_dir$" + "/check_ufw_status.py"]
+  arguments = {
+    "-s" = {
+      value = "$command_ufw_status_status$"
+      set_if = {{ macro("$command_ufw_status_ststus$") != false }}
+    }
+    "--warn-inactive" = {
+      value = "$command_ufw_status_warninactive$"
+      set_if = {{ macro("$command_ufw_status_warninactive$") != false }}
+    }
+    "-l" = {
+      value = "$command_ufw_status_logging$"
+      set_if = {{ macro("$command_ufw_status_logging$") != false }}
+    }
+    "-L" = {
+      value = "$command_ufw_status_loggingpolicy$"
+      set_if = {{ macro("$command_ufw_status_loggingpolicy$") != false }}
+    }
+    "-I" = {
+      value = "$command_ufw_status_incoming$"
+      set_if = {{ macro("$command_ufw_status_incoming$") != false }}
+    }
+    "-O" = {
+      value = "$command_ufw_status_outgoing$"
+      set_if = {{ macro("$command_ufw_status_outgoing$") != false }}
+    }
+    "-R" = {
+      value = "$command_ufw_status_routing$"
+      set_if = {{ macro("$command_ufw_status_routing$") != false }}
+    }
+    "-r" = {
+      value = "$command_ufw_status_rule$"
+      set_if = {{ macro("$command_ufw_status_rule$") != false }}
+      repeat_key = true
+    }
+  }
+
+}

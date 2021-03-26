@@ -1,0 +1,11 @@
+{
+    "-f" = {
+      value = "$command_path_exists_file$"
+    }
+    "-d" = {
+      value = "$command_path_exists_dir$"
+    }
+    "-i" = {
+      set_if = "$command_path_exists_invert$"
+    }
+  }

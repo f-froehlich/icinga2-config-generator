@@ -1,0 +1,5 @@
+vars.command_ntp_peer_force_ipv4 = false
+  vars.command_ntp_peer_force_ipv6 = false
+  vars.command_ntp_peer_ntp_server = "ntp_server"
+  vars.command_ntp_peer_ntp_server_port = 123
+  vars.command_ntp_peer_timeout = 10

@@ -1,0 +1,51 @@
+{
+    
+    "-H" = {
+      value = "$command_pgsql_host$"
+      set_if = {{ macro("$command_pgsql_host$") != false }}
+    }
+    "-P" = {
+      value = "$command_pgsql_port$"
+      set_if = {{ macro("$command_pgsql_port$") != false }}
+    }
+    "-d" = {
+      value = "$command_pgsql_database$"
+      set_if = {{ macro("$command_pgsql_database$") != false }}
+    }
+    "-l" = {
+      value = "$command_pgsql_logname$"
+      set_if = {{ macro("$command_pgsql_logname$") != false }}
+    }
+    "-p" = {
+      value = "$command_pgsql_password$"
+      set_if = {{ macro("$command_pgsql_password$") != false }}
+    }
+    "-o" = {
+      value = "$command_pgsql_option$"
+      set_if = {{ macro("$command_pgsql_option$") != false }}
+    }
+    "-w" = {
+      value = "$command_pgsql_warning$"
+      set_if = {{ macro("$command_pgsql_warning$") != false }}
+    }
+    "-c" = {
+      value = "$command_pgsql_critical$"
+      set_if = {{ macro("$command_pgsql_critical$") != false }}
+    }
+    "-t" = {
+      value = "$command_pgsql_timeout$"
+      set_if = {{ macro("$command_pgsql_timeout$") != false }}
+    }
+    "-q" = {
+      value = "$command_pgsql_query$"
+      set_if = {{ macro("$command_pgsql_query$") != false }}
+    }
+    "-W" = {
+      value = "$command_pgsql_warning_range$"
+      set_if = {{ macro("$command_pgsql_warning_range$") != false }}
+    }
+    "-C" = {
+      value = "$command_pgsql_critical_range$"
+      set_if = {{ macro("$command_pgsql_critical_range$") != false }}
+    }
+  }

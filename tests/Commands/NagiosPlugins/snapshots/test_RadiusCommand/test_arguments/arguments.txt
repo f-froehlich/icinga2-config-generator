@@ -1,0 +1,42 @@
+{
+    "-H" = {
+      value = "$command_radius_host$"
+      required = true
+    }
+    "-P" = {
+      value = "$command_radius_port$"
+      set_if = {{ macro("$command_radius_port$") != false }}
+    }
+    "-u" = {
+      value = "$command_radius_username$"
+      required = true
+    }
+    "-p" = {
+      value = "$command_radius_password$"
+      required = true
+    }
+    "-n" = {
+      value = "$command_radius_nas_id$"
+      set_if = {{ macro("$command_radius_nas_id$") != false }}
+    }
+    "-N" = {
+      value = "$command_radius_nas_ip$"
+      set_if = {{ macro("$command_radius_nas_ip$") != false }}
+    }
+    "-F" = {
+      value = "$command_radius_config_file$"
+      required = true
+    }
+    "-e" = {
+      value = "$command_radius_expect$"
+      set_if = {{ macro("$command_radius_expect$") != false }}
+    }
+    "-r" = {
+      value = "$command_radius_retries$"
+      set_if = {{ macro("$command_radius_retries$") != false }}
+    }
+    "-t" = {
+      value = "$command_radius_timeout$"
+      set_if = {{ macro("$command_radius_timeout$") != false }}
+    }
+  }

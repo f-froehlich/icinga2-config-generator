@@ -1,0 +1,5 @@
+vars.command_yum_all_updates = false
+  vars.command_yum_cache_only = false
+  vars.command_yum_no_warn_on_lock = false
+  vars.command_yum_timeout = 30
+  vars.command_yum_warn_any_update = true

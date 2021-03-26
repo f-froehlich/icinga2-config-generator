@@ -1,0 +1,1 @@
+[ "$monitoring_plugin_dir$" + "/check_docker_login.sh"]

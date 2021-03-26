@@ -1,0 +1,1 @@
+[ "$other_plugin_dir$" + "/check_snmp_synology"]

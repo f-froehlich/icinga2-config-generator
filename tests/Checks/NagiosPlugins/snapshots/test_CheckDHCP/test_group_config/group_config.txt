@@ -1,0 +1,4 @@
+vars.groups += [
+    "servicegroup_dhcp",
+    "servicegroup_network",
+  ]

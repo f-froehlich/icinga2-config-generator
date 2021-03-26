@@ -1,0 +1,9 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$monitoring_plugin_dir$" + "/check_reboot_required.py"]
+  arguments = {
+    "--exit-critical" = {
+      set_if = {{ macro("$command_reboot_required_exit_critical$") != false }}
+    }
+  }
+
+}

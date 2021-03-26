@@ -1,0 +1,1 @@
+['vars.command_ping_v6 = true']

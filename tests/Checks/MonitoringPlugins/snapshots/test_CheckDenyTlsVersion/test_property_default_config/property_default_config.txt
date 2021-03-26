@@ -1,0 +1,2 @@
+vars.command_deny_tls_version_domain = "host"
+  vars.command_deny_tls_version_protocol = "1.1"

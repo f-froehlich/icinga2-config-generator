@@ -1,0 +1,1 @@
+[ "$harik_sekhon_plugin_dir$" + "/check_yum.py"]

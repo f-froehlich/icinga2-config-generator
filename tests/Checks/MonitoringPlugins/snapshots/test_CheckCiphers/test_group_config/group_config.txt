@@ -1,0 +1,5 @@
+vars.groups += [
+    "servicegroup_nmap",
+    "servicegroup_security",
+    "servicegroup_ciphers",
+  ]

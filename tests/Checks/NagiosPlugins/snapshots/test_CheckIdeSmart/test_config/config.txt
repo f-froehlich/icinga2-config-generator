@@ -1,0 +1,16 @@
+apply Service "instance" {
+  check_command = "command_ide_smart_local"
+  vars.groups += [
+    "servicegroup_smart",
+    "servicegroup_disk",
+  ]
+  display_name = "SMART"
+  zone = host.vars.zone_name
+  command_endpoint = host.vars.endpoint_name
+  check_interval = 24h
+  retry_interval = 15s
+  max_check_attempts = 3
+  enable_perfdata = true
+  check_timeout = 30
+  assign where "instance" in host.vars.checks
+}

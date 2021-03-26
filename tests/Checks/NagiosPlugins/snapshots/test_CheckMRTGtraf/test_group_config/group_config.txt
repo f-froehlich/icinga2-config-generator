@@ -1,0 +1,3 @@
+vars.groups += [
+    "servicegroup_mrt_gtraf",
+  ]

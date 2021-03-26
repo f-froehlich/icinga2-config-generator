@@ -1,0 +1,23 @@
+apply Service "instance" {
+  check_command = "command_icmp_local"
+  vars.command_icmp_bytes = 76
+  vars.command_icmp_host = "host"
+  vars.command_icmp_packets = 2
+  vars.command_icmp_timeout = 10
+  vars.command_icmp_ttl = 5
+  vars.command_icmp_use_ipv4 = false
+  vars.command_icmp_use_ipv6 = false
+  vars.groups += [
+    "servicegroup_icmp",
+    "servicegroup_network",
+  ]
+  display_name = "ICMP"
+  zone = host.vars.zone_name
+  command_endpoint = host.vars.endpoint_name
+  check_interval = 1m
+  retry_interval = 15s
+  max_check_attempts = 3
+  enable_perfdata = true
+  check_timeout = 30
+  assign where "instance" in host.vars.checks
+}

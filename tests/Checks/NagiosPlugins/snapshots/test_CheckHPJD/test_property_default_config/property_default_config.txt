@@ -1,0 +1,2 @@
+vars.command_hpjd_host = "host"
+  vars.command_hpjd_paper_check = false

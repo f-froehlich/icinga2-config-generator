@@ -1,0 +1,17 @@
+apply Service "instance" {
+  check_command = "command_ufw_status_local"
+  vars.groups += [
+    "servicegroup_security",
+    "servicegroup_ufw",
+    "servicegroup_firewall",
+  ]
+  display_name = "UFW Status"
+  zone = host.vars.zone_name
+  command_endpoint = host.vars.endpoint_name
+  check_interval = 15m
+  retry_interval = 15s
+  max_check_attempts = 3
+  enable_perfdata = true
+  check_timeout = 30
+  assign where "instance" in host.vars.checks
+}

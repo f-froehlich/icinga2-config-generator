@@ -1,0 +1,150 @@
+object CheckCommand "command_instance_ssh" {
+  vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_disk"]
+  vars.sshargs = {
+    "--warning" = {
+      value = "$command_disk_warning$"
+      required = true
+    }
+    "--critical" = {
+      value = "$command_disk_critical$"
+      required = true
+    }
+    "--iwarning" = {
+      value = "$command_disk_inode_warning$%"
+      required = true
+    }
+    "--icritical" = {
+      value = "$command_disk_inode_critical$%"
+      required = true
+    }
+    "--combined-thresholds" = {
+      set_if = "$command_disk_combined_thresholds$"
+    }
+    "--path" = {
+      value = "$command_disk_path$"
+      set_if = {{ macro("$command_disk_path$") != false }}
+      repeat_key = true
+    }
+    "--partition" = {
+      value = "$command_disk_partition$"
+      set_if = {{ macro("$command_disk_partition$") != false }}
+    }
+    "--exclude_device" = {
+      value = "$command_disk_exclude_device$"
+      set_if = {{ macro("$command_disk_exclude_device$") != false }}
+    }
+    "--clear" = {
+      set_if = "$command_disk_clear_thresholds$"
+    }
+    "--exact-match" = {
+      set_if = "$command_disk_exact_match$"
+    }
+    "--errors-only" = {
+      set_if = "$command_disk_errors_only$"
+    }
+    "--freespace-ignore-reserved" = {
+      set_if = "$command_disk_freespace_ignore_reserved$"
+    }
+    "--group" = {
+      value = "$command_disk_group$"
+      set_if = {{ macro("$command_disk_group$") != false }}
+    }
+    "--local" = {
+      set_if = "$command_disk_local$"
+    }
+    "--skip-fake-fs" = {
+      set_if = "$command_disk_skip_fake_fs$"
+    }
+    "--inode-perfdata" = {
+      set_if = "$command_disk_inode_perfdata$"
+    }
+    "--stat-remote-fs" = {
+      set_if = "$command_disk_stat_remote_fs$"
+    }
+    "--mountpoint" = {
+      set_if = "$command_disk_display_mountpoint$"
+    }
+    "--all" = {
+      set_if = "$command_disk_all$"
+    }
+    "--eregi-path" = {
+      value = "$command_disk_eregi_path$"
+      set_if = {{ macro("$command_disk_eregi_path$") != false }}
+      repeat_key = true
+    }
+    "--eregi-partition" = {
+      value = "$command_disk_eregi_partition$"
+      set_if = {{ macro("$command_disk_eregi_partition$") != false }}
+    }
+    "--ignore-eregi-path" = {
+      value = "$command_disk_ignore_eregi_path$"
+      set_if = {{ macro("$command_disk_ignore_eregi_path$") != false }}
+      repeat_key = true
+    }
+    "--ignore-eregi-partition" = {
+      value = "$command_disk_ignore_eregi_partition$"
+      set_if = {{ macro("$command_disk_ignore_eregi_partition$") != false }}
+    }
+    "--ereg-path" = {
+      value = "$command_disk_ereg_path$"
+      set_if = {{ macro("$command_disk_ereg_path$") != false }}
+      repeat_key = true
+    }
+    "--ereg-partition" = {
+      value = "$command_disk_ereg_partition$"
+      set_if = {{ macro("$command_disk_ereg_partition$") != false }}
+    }
+    "--ignore-ereg-path" = {
+      value = "$command_disk_ignore_ereg_path$"
+      set_if = {{ macro("$command_disk_ignore_ereg_path$") != false }}
+      repeat_key = true
+    }
+    "--ignore-ereg-partition" = {
+      value = "$command_disk_ignore_ereg_partition$"
+      set_if = {{ macro("$command_disk_ignore_ereg_partition$") != false }}
+    }
+    "--timeout" = {
+      value = "$command_disk_timeout$"
+      set_if = {{ macro("$command_disk_timeout$") != false }}
+    }
+    "--units" = {
+      value = "$command_disk_units$"
+      set_if = {{ macro("$command_disk_units$") != false }}
+    }
+    "--exclude-type" = {
+      value = "$command_disk_exclude_type$"
+      set_if = {{ macro("$command_disk_exclude_type$") != false }}
+      repeat_key = true
+  }
+    "--include-type" = {
+      value = "$command_disk_include_type$"
+      set_if = {{ macro("$command_disk_include_type$") != false }}
+      repeat_key = true
+    }
+    "--newlines" = {
+      set_if = "$command_disk_newlines$"
+    }
+  }
+
+  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+  arguments = {
+  "-i" = "$command_overssh_identityfile$"
+  "-l" = "$command_overssh_user$"
+  "-p" = "$command_overssh_port$"
+  "-H" = "$command_overssh_host$"
+  "--timeout" = "$command_overssh_timeout$"
+  "-C" = {{
+    var command = macro("$sshcmd$")
+    var arguments = macro("$sshargs$")
+    if (typeof(command) == String && !arguments) {
+      return command
+    }
+    var escaped_args = []
+    for (arg in resolve_arguments(command, arguments)) {
+      escaped_args.add(escape_shell_arg(arg))
+    }
+    return escaped_args.join(" ")
+  }}
+}
+
+}

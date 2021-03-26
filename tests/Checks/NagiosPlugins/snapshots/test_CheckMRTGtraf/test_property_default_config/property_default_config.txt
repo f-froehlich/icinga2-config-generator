@@ -1,0 +1,4 @@
+vars.command_mrt_gtraf_aggregation = "aggregation"
+  vars.command_mrt_gtraf_critical = "40"
+  vars.command_mrt_gtraf_file = "file"
+  vars.command_mrt_gtraf_warning = "30"

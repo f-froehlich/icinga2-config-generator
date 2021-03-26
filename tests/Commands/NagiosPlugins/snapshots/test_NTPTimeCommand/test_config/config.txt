@@ -1,0 +1,334 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$nagios_plugin_dir$" + "/check_ntp_time"]
+  arguments = {
+    "--use-ipv4" = {
+      value = "$command_ntp_time_force_ipv4$"
+      set_if = {{ macro("$command_ntp_time_force_ipv4$") != false }}
+    }
+    "--use-ipv6" = {
+      value = "$command_ntp_time_force_ipv6$"
+      set_if = {{ macro("$command_ntp_time_force_ipv6$") != false }}
+    }
+    "--hostname" = {
+      value = "$command_ntp_time_ntp_server$"
+      required = true
+    }
+    "--port" = {
+      value = "$command_ntp_time_ntp_server_port$"
+      set_if = {{ macro("$command_ntp_time_ntp_server_port$") != false }}
+    }
+    "--quiet" = {
+      set_if = "$command_ntp_time_quiet$"
+    }
+    "--warning" = {
+      value = "$command_ntp_time_warning$"
+    }
+    "--critical" = {
+      value = "$command_ntp_time_critical$"
+    }
+    "--time_offset" = {
+      value = "$command_ntp_time_time_offset$"
+      set_if = {{ macro("$command_ntp_time_time_offset$") != false }}
+    }
+    "--delay" = {
+      value = "$command_ntp_time_delay$"
+      set_if = "$command_ntp_time_delay$"
+    }
+    "--stratum-warn" = {
+      value = "$command_ntp_time_stratum_warn$"
+      set_if = {{ macro("$command_ntp_time_stratum_warn$") != false }}
+    }
+    "--stratum-crit" = {
+      value = "$command_ntp_time_stratum_crit$"
+      set_if = {{ macro("$command_ntp_time_stratum_crit$") != false }}
+    }
+    "--timeout" = {
+      value = "$command_ntp_time_timeout$"
+      set_if = {{ macro("$command_ntp_time_timeout$") != false }}
+    }
+  }
+
+}
+object CheckCommand "command_instance_local_negate" {
+  vars.realcmd = [ "$nagios_plugin_dir$" + "/check_ntp_time"]
+  vars.realargs = {
+    "--use-ipv4" = {
+      value = "$command_ntp_time_force_ipv4$"
+      set_if = {{ macro("$command_ntp_time_force_ipv4$") != false }}
+    }
+    "--use-ipv6" = {
+      value = "$command_ntp_time_force_ipv6$"
+      set_if = {{ macro("$command_ntp_time_force_ipv6$") != false }}
+    }
+    "--hostname" = {
+      value = "$command_ntp_time_ntp_server$"
+      required = true
+    }
+    "--port" = {
+      value = "$command_ntp_time_ntp_server_port$"
+      set_if = {{ macro("$command_ntp_time_ntp_server_port$") != false }}
+    }
+    "--quiet" = {
+      set_if = "$command_ntp_time_quiet$"
+    }
+    "--warning" = {
+      value = "$command_ntp_time_warning$"
+    }
+    "--critical" = {
+      value = "$command_ntp_time_critical$"
+    }
+    "--time_offset" = {
+      value = "$command_ntp_time_time_offset$"
+      set_if = {{ macro("$command_ntp_time_time_offset$") != false }}
+    }
+    "--delay" = {
+      value = "$command_ntp_time_delay$"
+      set_if = "$command_ntp_time_delay$"
+    }
+    "--stratum-warn" = {
+      value = "$command_ntp_time_stratum_warn$"
+      set_if = {{ macro("$command_ntp_time_stratum_warn$") != false }}
+    }
+    "--stratum-crit" = {
+      value = "$command_ntp_time_stratum_crit$"
+      set_if = {{ macro("$command_ntp_time_stratum_crit$") != false }}
+    }
+    "--timeout" = {
+      value = "$command_ntp_time_timeout$"
+      set_if = {{ macro("$command_ntp_time_timeout$") != false }}
+    }
+  }
+
+  arguments = {
+  "-t" = {
+    value = "$negation_timeout$"
+    set_if = {{ macro("$negation_timeout$") != false }}
+  }
+  "-o" = {
+    value = "$negation_ok_status$"
+    set_if = {{ macro("$negation_ok_status$") != false }}
+  }
+  "-w" = {
+    value = "$negation_warning_status$"
+    set_if = {{ macro("$negation_warning_status$") != false }}
+  }
+  "-c" = {
+    value = "$negation_critical_status$"
+    set_if = {{ macro("$negation_critical_status$") != false }}
+  }
+  "-u" = {
+    value = "$negation_unknown_status$"
+    set_if = {{ macro("$negation_unknown_status$") != false }}
+  }
+  "-s" = {
+    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+  }
+  "--command" = {
+    value = {{
+      var command = macro("$realcmd$")
+      var arguments = macro("$realargs$")
+      if (typeof(command) == String && !arguments) {
+        return command
+      }
+      var escaped_args = []
+      for (arg in resolve_arguments(command, arguments)) {
+          escaped_args.add(arg.replace(" ", "\\"))
+      }
+      return escaped_args.join(" ")
+    }}
+    skip_key = true
+    required = true
+    order = 99
+  }
+}
+
+  command = ["$nagios_plugin_dir$" + "/negate"]
+}
+object CheckCommand "command_instance_ssh" {
+  vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_ntp_time"]
+  vars.sshargs = {
+    "--use-ipv4" = {
+      value = "$command_ntp_time_force_ipv4$"
+      set_if = {{ macro("$command_ntp_time_force_ipv4$") != false }}
+    }
+    "--use-ipv6" = {
+      value = "$command_ntp_time_force_ipv6$"
+      set_if = {{ macro("$command_ntp_time_force_ipv6$") != false }}
+    }
+    "--hostname" = {
+      value = "$command_ntp_time_ntp_server$"
+      required = true
+    }
+    "--port" = {
+      value = "$command_ntp_time_ntp_server_port$"
+      set_if = {{ macro("$command_ntp_time_ntp_server_port$") != false }}
+    }
+    "--quiet" = {
+      set_if = "$command_ntp_time_quiet$"
+    }
+    "--warning" = {
+      value = "$command_ntp_time_warning$"
+    }
+    "--critical" = {
+      value = "$command_ntp_time_critical$"
+    }
+    "--time_offset" = {
+      value = "$command_ntp_time_time_offset$"
+      set_if = {{ macro("$command_ntp_time_time_offset$") != false }}
+    }
+    "--delay" = {
+      value = "$command_ntp_time_delay$"
+      set_if = "$command_ntp_time_delay$"
+    }
+    "--stratum-warn" = {
+      value = "$command_ntp_time_stratum_warn$"
+      set_if = {{ macro("$command_ntp_time_stratum_warn$") != false }}
+    }
+    "--stratum-crit" = {
+      value = "$command_ntp_time_stratum_crit$"
+      set_if = {{ macro("$command_ntp_time_stratum_crit$") != false }}
+    }
+    "--timeout" = {
+      value = "$command_ntp_time_timeout$"
+      set_if = {{ macro("$command_ntp_time_timeout$") != false }}
+    }
+  }
+
+  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+  arguments = {
+  "-i" = "$command_overssh_identityfile$"
+  "-l" = "$command_overssh_user$"
+  "-p" = "$command_overssh_port$"
+  "-H" = "$command_overssh_host$"
+  "--timeout" = "$command_overssh_timeout$"
+  "-C" = {{
+    var command = macro("$sshcmd$")
+    var arguments = macro("$sshargs$")
+    if (typeof(command) == String && !arguments) {
+      return command
+    }
+    var escaped_args = []
+    for (arg in resolve_arguments(command, arguments)) {
+      escaped_args.add(escape_shell_arg(arg))
+    }
+    return escaped_args.join(" ")
+  }}
+}
+
+}
+object CheckCommand "command_instance_ssh_negate" {
+  vars.realcmd = [ "$nagios_plugin_dir$" + "/check_ntp_time"]
+  vars.realargs = {
+    "--use-ipv4" = {
+      value = "$command_ntp_time_force_ipv4$"
+      set_if = {{ macro("$command_ntp_time_force_ipv4$") != false }}
+    }
+    "--use-ipv6" = {
+      value = "$command_ntp_time_force_ipv6$"
+      set_if = {{ macro("$command_ntp_time_force_ipv6$") != false }}
+    }
+    "--hostname" = {
+      value = "$command_ntp_time_ntp_server$"
+      required = true
+    }
+    "--port" = {
+      value = "$command_ntp_time_ntp_server_port$"
+      set_if = {{ macro("$command_ntp_time_ntp_server_port$") != false }}
+    }
+    "--quiet" = {
+      set_if = "$command_ntp_time_quiet$"
+    }
+    "--warning" = {
+      value = "$command_ntp_time_warning$"
+    }
+    "--critical" = {
+      value = "$command_ntp_time_critical$"
+    }
+    "--time_offset" = {
+      value = "$command_ntp_time_time_offset$"
+      set_if = {{ macro("$command_ntp_time_time_offset$") != false }}
+    }
+    "--delay" = {
+      value = "$command_ntp_time_delay$"
+      set_if = "$command_ntp_time_delay$"
+    }
+    "--stratum-warn" = {
+      value = "$command_ntp_time_stratum_warn$"
+      set_if = {{ macro("$command_ntp_time_stratum_warn$") != false }}
+    }
+    "--stratum-crit" = {
+      value = "$command_ntp_time_stratum_crit$"
+      set_if = {{ macro("$command_ntp_time_stratum_crit$") != false }}
+    }
+    "--timeout" = {
+      value = "$command_ntp_time_timeout$"
+      set_if = {{ macro("$command_ntp_time_timeout$") != false }}
+    }
+  }
+
+  vars.sshargs = {
+  "-t" = {
+    value = "$negation_timeout$"
+    set_if = {{ macro("$negation_timeout$") != false }}
+  }
+  "-o" = {
+    value = "$negation_ok_status$"
+    set_if = {{ macro("$negation_ok_status$") != false }}
+  }
+  "-w" = {
+    value = "$negation_warning_status$"
+    set_if = {{ macro("$negation_warning_status$") != false }}
+  }
+  "-c" = {
+    value = "$negation_critical_status$"
+    set_if = {{ macro("$negation_critical_status$") != false }}
+  }
+  "-u" = {
+    value = "$negation_unknown_status$"
+    set_if = {{ macro("$negation_unknown_status$") != false }}
+  }
+  "-s" = {
+    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+  }
+  "--command" = {
+    value = {{
+      var command = macro("$realcmd$")
+      var arguments = macro("$realargs$")
+      if (typeof(command) == String && !arguments) {
+        return command
+      }
+      var escaped_args = []
+      for (arg in resolve_arguments(command, arguments)) {
+          escaped_args.add(arg.replace(" ", "\\"))
+      }
+      return escaped_args.join(" ")
+    }}
+    skip_key = true
+    required = true
+    order = 99
+  }
+}
+
+  vars.sshcmd = ["$nagios_plugin_dir$" + "/negate"]
+  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+  arguments = {
+  "-i" = "$command_overssh_identityfile$"
+  "-l" = "$command_overssh_user$"
+  "-p" = "$command_overssh_port$"
+  "-H" = "$command_overssh_host$"
+  "--timeout" = "$command_overssh_timeout$"
+  "-C" = {{
+    var command = macro("$sshcmd$")
+    var arguments = macro("$sshargs$")
+    if (typeof(command) == String && !arguments) {
+      return command
+    }
+    var escaped_args = []
+    for (arg in resolve_arguments(command, arguments)) {
+      escaped_args.add(escape_shell_arg(arg))
+    }
+    return escaped_args.join(" ")
+  }}
+}
+
+}

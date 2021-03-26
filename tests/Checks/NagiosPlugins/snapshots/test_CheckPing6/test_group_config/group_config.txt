@@ -1,0 +1,4 @@
+vars.groups += [
+    "servicegroup_ping",
+    "servicegroup_network",
+  ]

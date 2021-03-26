@@ -1,0 +1,17 @@
+{
+    "-H" = {
+      value = "$command_hpjd_host$"
+      required = true
+    }
+    "-c" = {
+      value = "$command_hpjd_community$"
+      set_if = {{ macro("$command_hpjd_community$") != false }}
+    }
+    "-p" = {
+      value = "$command_hpjd_port$"
+      set_if = {{ macro("$command_hpjd_port$") != false }}
+    }
+    "-D" = {
+      set_if = "$command_hpjd_paper_check$"
+    }
+  }

@@ -1,0 +1,3 @@
+vars.command_breeze_critical = "40"
+  vars.command_breeze_host = "host"
+  vars.command_breeze_warning = "30"

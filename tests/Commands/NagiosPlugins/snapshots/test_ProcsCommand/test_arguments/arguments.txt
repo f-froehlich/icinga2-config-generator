@@ -1,0 +1,50 @@
+{
+    "-w" = {
+      value = "$command_procs_warning_range$"
+    }
+    "-c" = {
+      value = "$command_procs_critical_range$"
+    }
+    "-m" = {
+      value = "$command_procs_metric$"
+      set_if = {{ macro("$command_procs_metric$") != false }}
+    }
+    "-t" = {
+      value = "$command_procs_timeout$"
+      set_if = {{ macro("$command_procs_timeout$") != false }}
+    }
+    "-T" = {
+      set_if = "$command_procs_traditional$"
+    }
+    "-s" = {
+      value = "$command_procs_state$"
+      set_if = {{ macro("$command_procs_state$") != false }}
+    }
+    "-p" = {
+      value = "$command_procs_pid$"
+      set_if = {{ macro("$command_procs_pid$") != false }}
+    }
+    "-z" = {
+      value = "$command_procs_vsz$"
+      set_if = {{ macro("$command_procs_vsz$") != false }}
+    }
+    "-u" = {
+      value = "$command_procs_user$"
+      set_if = {{ macro("$command_procs_user$") != false }}
+    }
+    "-a" = {
+      value = "$command_procs_argument$"
+      set_if = {{ macro("$command_procs_argument$") != false }}
+    }
+    "--ereg-argument-array" = {
+      value = "$command_procs_argument_ereg$"
+      set_if = {{ macro("$command_procs_argument_ereg$") != false }}
+    }
+    "-C" = {
+      value = "$command_procs_command$"
+      set_if = {{ macro("$command_procs_command$") != false }}
+    }
+    "-k" = {
+      set_if = "$command_procs_only_non_kernel$"
+    }
+  }

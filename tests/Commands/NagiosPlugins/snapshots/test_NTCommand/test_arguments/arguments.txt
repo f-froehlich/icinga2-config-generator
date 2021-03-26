@@ -1,0 +1,30 @@
+{
+    "-H" = {
+      value = "$command_nt_host$"
+      required = true
+    }
+    "-v" = {
+      value = "$command_nt_variable$"
+      required = true
+    }
+    "-w" = {
+      value = "$command_nt_warning$"
+      set_if = {{ macro("$command_nt_warning$") != false }}
+    }
+    "-c" = {
+      value = "$command_nt_critical$"
+      set_if = {{ macro("$command_nt_critical$") != false }}
+    }
+    "-t" = {
+      value = "$command_nt_timeout$"
+      set_if = {{ macro("$command_nt_timeout$") != false }}
+    }
+    "--params" = {
+      value = "$command_nt_params$"
+      set_if = {{ macro("$command_nt_params$") != false }}
+    }
+    "--display" = {
+      value = ""
+      set_if = {{ macro("$command_nt_display$") != false }}
+    }
+  }

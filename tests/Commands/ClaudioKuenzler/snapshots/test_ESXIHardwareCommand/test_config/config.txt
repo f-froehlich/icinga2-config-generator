@@ -1,0 +1,442 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$claudio_kuenzler_plugin_dir$" + "/check_esxi_hardware.py"]
+  arguments = {
+    "-H" = {
+      value = "$command_esxi_hardware_host$"
+      required = true
+      description = "report on HOST"
+    }
+    "-U" = {
+      value = "$command_esxi_hardware_user$"
+      required = true
+      description = "user to connect as"
+    }
+    "-P" = {
+      value = "$command_esxi_hardware_password$"
+      required = true
+      description = "password"
+    }
+    "-C" = {
+      value = "$command_esxi_hardware_port$"
+      description = "cim port"
+    }
+    "-S" = {
+      value = "$command_esxi_hardware_sslproto$"
+      description = "ssl/tls protocol"
+    }
+    "-V" = {
+      value = "$command_esxi_hardware_vendor$"
+      description = "Vendor code: auto, dell, hp, ibm, intel, or unknown"
+    }
+    "-I" = {
+      value = "$command_esxi_hardware_html$"
+      set_if = {{ macro("$command_esxi_hardware_html$") != false }}
+      description = "generate html links for country XX"
+    }
+    "-i" = {
+      value = "$command_esxi_hardware_ignore$"
+      description = "comma-separated list of elements to ignore"
+    }
+    "-r" = {
+      set_if = "$command_esxi_hardware_regex$"
+      description = "Allow regular expression lookups of elements in ignore list"
+    }
+    "-p" = {
+      set_if = "$command_esxi_hardware_perfdata$"
+      description = "collect performance data for pnp4nagios"
+    }
+    "--no-power" = {
+      set_if = "$command_esxi_hardware_nopower$"
+      description = "don't collect power performance data"
+    }
+    "--no-volts" = {
+      set_if = "$command_esxi_hardware_novolts$"
+      description = "don't collect voltage performance data"
+    }
+    "--no-current" = {
+      set_if = "$command_esxi_hardware_nocurrent$"
+      description = "don't collect current performance data"
+    }
+    "--no-temp" = {
+      set_if = "$command_esxi_hardware_notemp$"
+      description = "don't collect temperature performance data"
+    }
+    "--no-fan" = {
+      set_if = "$command_esxi_hardware_nofan$"
+      description = "don't collect fan performance data"
+    }
+    "--no-lcd" = {
+      set_if = "$command_esxi_hardware_nolcd$"
+      description = "don't collect lcd/front display status data"
+    }
+    "--no-intrusion" = {
+      set_if = "$command_esxi_hardware_nointrusion$"
+      description = "don't collect chassic intrusion status data"
+    }
+}
+
+}
+object CheckCommand "command_instance_local_negate" {
+  vars.realcmd = [ "$claudio_kuenzler_plugin_dir$" + "/check_esxi_hardware.py"]
+  vars.realargs = {
+    "-H" = {
+      value = "$command_esxi_hardware_host$"
+      required = true
+      description = "report on HOST"
+    }
+    "-U" = {
+      value = "$command_esxi_hardware_user$"
+      required = true
+      description = "user to connect as"
+    }
+    "-P" = {
+      value = "$command_esxi_hardware_password$"
+      required = true
+      description = "password"
+    }
+    "-C" = {
+      value = "$command_esxi_hardware_port$"
+      description = "cim port"
+    }
+    "-S" = {
+      value = "$command_esxi_hardware_sslproto$"
+      description = "ssl/tls protocol"
+    }
+    "-V" = {
+      value = "$command_esxi_hardware_vendor$"
+      description = "Vendor code: auto, dell, hp, ibm, intel, or unknown"
+    }
+    "-I" = {
+      value = "$command_esxi_hardware_html$"
+      set_if = {{ macro("$command_esxi_hardware_html$") != false }}
+      description = "generate html links for country XX"
+    }
+    "-i" = {
+      value = "$command_esxi_hardware_ignore$"
+      description = "comma-separated list of elements to ignore"
+    }
+    "-r" = {
+      set_if = "$command_esxi_hardware_regex$"
+      description = "Allow regular expression lookups of elements in ignore list"
+    }
+    "-p" = {
+      set_if = "$command_esxi_hardware_perfdata$"
+      description = "collect performance data for pnp4nagios"
+    }
+    "--no-power" = {
+      set_if = "$command_esxi_hardware_nopower$"
+      description = "don't collect power performance data"
+    }
+    "--no-volts" = {
+      set_if = "$command_esxi_hardware_novolts$"
+      description = "don't collect voltage performance data"
+    }
+    "--no-current" = {
+      set_if = "$command_esxi_hardware_nocurrent$"
+      description = "don't collect current performance data"
+    }
+    "--no-temp" = {
+      set_if = "$command_esxi_hardware_notemp$"
+      description = "don't collect temperature performance data"
+    }
+    "--no-fan" = {
+      set_if = "$command_esxi_hardware_nofan$"
+      description = "don't collect fan performance data"
+    }
+    "--no-lcd" = {
+      set_if = "$command_esxi_hardware_nolcd$"
+      description = "don't collect lcd/front display status data"
+    }
+    "--no-intrusion" = {
+      set_if = "$command_esxi_hardware_nointrusion$"
+      description = "don't collect chassic intrusion status data"
+    }
+}
+
+  arguments = {
+  "-t" = {
+    value = "$negation_timeout$"
+    set_if = {{ macro("$negation_timeout$") != false }}
+  }
+  "-o" = {
+    value = "$negation_ok_status$"
+    set_if = {{ macro("$negation_ok_status$") != false }}
+  }
+  "-w" = {
+    value = "$negation_warning_status$"
+    set_if = {{ macro("$negation_warning_status$") != false }}
+  }
+  "-c" = {
+    value = "$negation_critical_status$"
+    set_if = {{ macro("$negation_critical_status$") != false }}
+  }
+  "-u" = {
+    value = "$negation_unknown_status$"
+    set_if = {{ macro("$negation_unknown_status$") != false }}
+  }
+  "-s" = {
+    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+  }
+  "--command" = {
+    value = {{
+      var command = macro("$realcmd$")
+      var arguments = macro("$realargs$")
+      if (typeof(command) == String && !arguments) {
+        return command
+      }
+      var escaped_args = []
+      for (arg in resolve_arguments(command, arguments)) {
+          escaped_args.add(arg.replace(" ", "\\"))
+      }
+      return escaped_args.join(" ")
+    }}
+    skip_key = true
+    required = true
+    order = 99
+  }
+}
+
+  command = ["$nagios_plugin_dir$" + "/negate"]
+}
+object CheckCommand "command_instance_ssh" {
+  vars.sshcmd = [ "$claudio_kuenzler_plugin_dir$" + "/check_esxi_hardware.py"]
+  vars.sshargs = {
+    "-H" = {
+      value = "$command_esxi_hardware_host$"
+      required = true
+      description = "report on HOST"
+    }
+    "-U" = {
+      value = "$command_esxi_hardware_user$"
+      required = true
+      description = "user to connect as"
+    }
+    "-P" = {
+      value = "$command_esxi_hardware_password$"
+      required = true
+      description = "password"
+    }
+    "-C" = {
+      value = "$command_esxi_hardware_port$"
+      description = "cim port"
+    }
+    "-S" = {
+      value = "$command_esxi_hardware_sslproto$"
+      description = "ssl/tls protocol"
+    }
+    "-V" = {
+      value = "$command_esxi_hardware_vendor$"
+      description = "Vendor code: auto, dell, hp, ibm, intel, or unknown"
+    }
+    "-I" = {
+      value = "$command_esxi_hardware_html$"
+      set_if = {{ macro("$command_esxi_hardware_html$") != false }}
+      description = "generate html links for country XX"
+    }
+    "-i" = {
+      value = "$command_esxi_hardware_ignore$"
+      description = "comma-separated list of elements to ignore"
+    }
+    "-r" = {
+      set_if = "$command_esxi_hardware_regex$"
+      description = "Allow regular expression lookups of elements in ignore list"
+    }
+    "-p" = {
+      set_if = "$command_esxi_hardware_perfdata$"
+      description = "collect performance data for pnp4nagios"
+    }
+    "--no-power" = {
+      set_if = "$command_esxi_hardware_nopower$"
+      description = "don't collect power performance data"
+    }
+    "--no-volts" = {
+      set_if = "$command_esxi_hardware_novolts$"
+      description = "don't collect voltage performance data"
+    }
+    "--no-current" = {
+      set_if = "$command_esxi_hardware_nocurrent$"
+      description = "don't collect current performance data"
+    }
+    "--no-temp" = {
+      set_if = "$command_esxi_hardware_notemp$"
+      description = "don't collect temperature performance data"
+    }
+    "--no-fan" = {
+      set_if = "$command_esxi_hardware_nofan$"
+      description = "don't collect fan performance data"
+    }
+    "--no-lcd" = {
+      set_if = "$command_esxi_hardware_nolcd$"
+      description = "don't collect lcd/front display status data"
+    }
+    "--no-intrusion" = {
+      set_if = "$command_esxi_hardware_nointrusion$"
+      description = "don't collect chassic intrusion status data"
+    }
+}
+
+  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+  arguments = {
+  "-i" = "$command_overssh_identityfile$"
+  "-l" = "$command_overssh_user$"
+  "-p" = "$command_overssh_port$"
+  "-H" = "$command_overssh_host$"
+  "--timeout" = "$command_overssh_timeout$"
+  "-C" = {{
+    var command = macro("$sshcmd$")
+    var arguments = macro("$sshargs$")
+    if (typeof(command) == String && !arguments) {
+      return command
+    }
+    var escaped_args = []
+    for (arg in resolve_arguments(command, arguments)) {
+      escaped_args.add(escape_shell_arg(arg))
+    }
+    return escaped_args.join(" ")
+  }}
+}
+
+}
+object CheckCommand "command_instance_ssh_negate" {
+  vars.realcmd = [ "$claudio_kuenzler_plugin_dir$" + "/check_esxi_hardware.py"]
+  vars.realargs = {
+    "-H" = {
+      value = "$command_esxi_hardware_host$"
+      required = true
+      description = "report on HOST"
+    }
+    "-U" = {
+      value = "$command_esxi_hardware_user$"
+      required = true
+      description = "user to connect as"
+    }
+    "-P" = {
+      value = "$command_esxi_hardware_password$"
+      required = true
+      description = "password"
+    }
+    "-C" = {
+      value = "$command_esxi_hardware_port$"
+      description = "cim port"
+    }
+    "-S" = {
+      value = "$command_esxi_hardware_sslproto$"
+      description = "ssl/tls protocol"
+    }
+    "-V" = {
+      value = "$command_esxi_hardware_vendor$"
+      description = "Vendor code: auto, dell, hp, ibm, intel, or unknown"
+    }
+    "-I" = {
+      value = "$command_esxi_hardware_html$"
+      set_if = {{ macro("$command_esxi_hardware_html$") != false }}
+      description = "generate html links for country XX"
+    }
+    "-i" = {
+      value = "$command_esxi_hardware_ignore$"
+      description = "comma-separated list of elements to ignore"
+    }
+    "-r" = {
+      set_if = "$command_esxi_hardware_regex$"
+      description = "Allow regular expression lookups of elements in ignore list"
+    }
+    "-p" = {
+      set_if = "$command_esxi_hardware_perfdata$"
+      description = "collect performance data for pnp4nagios"
+    }
+    "--no-power" = {
+      set_if = "$command_esxi_hardware_nopower$"
+      description = "don't collect power performance data"
+    }
+    "--no-volts" = {
+      set_if = "$command_esxi_hardware_novolts$"
+      description = "don't collect voltage performance data"
+    }
+    "--no-current" = {
+      set_if = "$command_esxi_hardware_nocurrent$"
+      description = "don't collect current performance data"
+    }
+    "--no-temp" = {
+      set_if = "$command_esxi_hardware_notemp$"
+      description = "don't collect temperature performance data"
+    }
+    "--no-fan" = {
+      set_if = "$command_esxi_hardware_nofan$"
+      description = "don't collect fan performance data"
+    }
+    "--no-lcd" = {
+      set_if = "$command_esxi_hardware_nolcd$"
+      description = "don't collect lcd/front display status data"
+    }
+    "--no-intrusion" = {
+      set_if = "$command_esxi_hardware_nointrusion$"
+      description = "don't collect chassic intrusion status data"
+    }
+}
+
+  vars.sshargs = {
+  "-t" = {
+    value = "$negation_timeout$"
+    set_if = {{ macro("$negation_timeout$") != false }}
+  }
+  "-o" = {
+    value = "$negation_ok_status$"
+    set_if = {{ macro("$negation_ok_status$") != false }}
+  }
+  "-w" = {
+    value = "$negation_warning_status$"
+    set_if = {{ macro("$negation_warning_status$") != false }}
+  }
+  "-c" = {
+    value = "$negation_critical_status$"
+    set_if = {{ macro("$negation_critical_status$") != false }}
+  }
+  "-u" = {
+    value = "$negation_unknown_status$"
+    set_if = {{ macro("$negation_unknown_status$") != false }}
+  }
+  "-s" = {
+    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+  }
+  "--command" = {
+    value = {{
+      var command = macro("$realcmd$")
+      var arguments = macro("$realargs$")
+      if (typeof(command) == String && !arguments) {
+        return command
+      }
+      var escaped_args = []
+      for (arg in resolve_arguments(command, arguments)) {
+          escaped_args.add(arg.replace(" ", "\\"))
+      }
+      return escaped_args.join(" ")
+    }}
+    skip_key = true
+    required = true
+    order = 99
+  }
+}
+
+  vars.sshcmd = ["$nagios_plugin_dir$" + "/negate"]
+  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+  arguments = {
+  "-i" = "$command_overssh_identityfile$"
+  "-l" = "$command_overssh_user$"
+  "-p" = "$command_overssh_port$"
+  "-H" = "$command_overssh_host$"
+  "--timeout" = "$command_overssh_timeout$"
+  "-C" = {{
+    var command = macro("$sshcmd$")
+    var arguments = macro("$sshargs$")
+    if (typeof(command) == String && !arguments) {
+      return command
+    }
+    var escaped_args = []
+    for (arg in resolve_arguments(command, arguments)) {
+      escaped_args.add(escape_shell_arg(arg))
+    }
+    return escaped_args.join(" ")
+  }}
+}
+
+}

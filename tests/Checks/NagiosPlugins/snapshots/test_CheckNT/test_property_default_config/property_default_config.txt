@@ -1,0 +1,2 @@
+vars.command_nt_host = "host"
+  vars.command_nt_variable = "variable"

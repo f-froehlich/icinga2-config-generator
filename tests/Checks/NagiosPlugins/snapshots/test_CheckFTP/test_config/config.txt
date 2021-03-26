@@ -1,0 +1,27 @@
+apply Service "instance" {
+  check_command = "command_ftp_local"
+  vars.command_ftp_all = false
+  vars.command_ftp_cert = true
+  vars.command_ftp_cert_critical = 15
+  vars.command_ftp_cert_warning = 29
+  vars.command_ftp_escape = false
+  vars.command_ftp_host = "host"
+  vars.command_ftp_ipv4 = false
+  vars.command_ftp_ipv6 = false
+  vars.command_ftp_jail = false
+  vars.command_ftp_port = 21
+  vars.command_ftp_timeout = 10
+  vars.command_ftp_use_ssl = false
+  vars.groups += [
+    "servicegroup_ftp",
+  ]
+  display_name = "FTP"
+  zone = host.vars.zone_name
+  command_endpoint = host.vars.endpoint_name
+  check_interval = 1m
+  retry_interval = 15s
+  max_check_attempts = 3
+  enable_perfdata = true
+  check_timeout = 30
+  assign where "instance" in host.vars.checks
+}

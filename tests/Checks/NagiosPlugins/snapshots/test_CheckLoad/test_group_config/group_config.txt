@@ -1,0 +1,4 @@
+vars.groups += [
+    "servicegroup_load",
+    "servicegroup_system_health",
+  ]

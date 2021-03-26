@@ -1,0 +1,1 @@
+vars.command_sensor_ds18b20_device = "device"

@@ -1,0 +1,120 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$nagios_plugin_dir$" + "/check_snmp"]
+  arguments = {
+    "-4" = {
+      set_if = "$command_snmp_over_ipv4$"
+    }
+    "-6" = {
+      set_if = "$command_snmp_over_ipv6$"
+    }
+    "-H" = {
+      value = "$command_snmp_host$"
+      required = true
+    }
+    "-p" = {
+      value = "$command_snmp_port$"
+      set_if = {{ macro("$command_snmp_port$") != false }}
+    }
+    "-n" = {
+      set_if = "$command_snmp_snmp_getnext$"
+    }
+    "-P" = {
+      value = "$command_snmp_protocol$"
+      set_if = {{ macro("$command_snmp_protocol$") != false }}
+    }
+    "-N" = {
+      value = "$command_snmp_context$"
+      set_if = {{ macro("$command_snmp_context$") != false }}
+    }
+    "-L" = {
+      value = "$command_snmp_seclevel$"
+      set_if = {{ macro("$command_snmp_seclevel$") != false }}
+    }
+    "-a" = {
+      value = "$command_snmp_authproto$"
+      set_if = {{ macro("$command_snmp_authproto$") != false }}
+    }
+    "-x" = {
+      value = "$command_snmp_privproto$"
+      set_if = {{ macro("$command_snmp_privproto$") != false }}
+    }
+    "-C" = {
+      value = "$command_snmp_community$"
+      set_if = {{ macro("$command_snmp_community$") != false }}
+    }
+    "-U" = {
+      value = "$command_snmp_username$"
+      set_if = {{ macro("$command_snmp_username$") != false }}
+    }
+    "-A" = {
+      value = "$command_snmp_authpassword$"
+      set_if = {{ macro("$command_snmp_authpassword$") != false }}
+    }
+    "-X" = {
+      value = "$command_snmp_privpassword$"
+      set_if = {{ macro("$command_snmp_privpassword$") != false }}
+    }
+    "-o" = {
+      value = "$command_snmp_oids$"
+      required = true
+    }
+    "-d" = {
+      value = "$command_snmp_delimiter$"
+      set_if = {{ macro("$command_snmp_delimiter$") != false }}
+    }
+    "-w" = {
+      value = "$command_snmp_warning$"
+      set_if = {{ macro("$command_snmp_warning$") != false }}
+    }
+    "-c" = {
+      value = "$command_snmp_critical$"
+      set_if = {{ macro("$command_snmp_critical$") != false }}
+    }
+    "--rate" = {
+      set_if = "$command_snmp_rate$"
+    }
+    "--rate-multiplier" = {
+      value = "$command_snmp_rate_multiplier$"
+      set_if = {{ macro("$command_snmp_rate_multiplier$") != false }}
+    }
+    "--offset" = {
+      value = "$command_snmp_offset$"
+      set_if = {{ macro("$command_snmp_offset$") != false }}
+    }
+    "--string" = {
+      value = "$command_snmp_string$"
+      set_if = {{ macro("$command_snmp_string$") != false }}
+    }
+    "--ereg" = {
+      value = "$command_snmp_ereg$"
+      set_if = {{ macro("$command_snmp_ereg$") != false }}
+    }
+    "--invert-search" = {
+      set_if = "$command_snmp_invert$"
+    }
+    "--label" = {
+      value = "$command_snmp_label$"
+      set_if = {{ macro("$command_snmp_label$") != false }}
+    }
+    "--units" = {
+      value = "$command_snmp_units$"
+      set_if = {{ macro("$command_snmp_units$") != false }}
+    }
+    "--output-delimiter" = {
+      value = "$command_snmp_output_delimiter$"
+      set_if = {{ macro("$command_snmp_output_delimiter$") != false }}
+    }
+    "--timeout" = {
+      value = "$command_snmp_timeout$"
+      set_if = {{ macro("$command_snmp_timeout$") != false }}
+    }
+    "--retries" = {
+      value = "$command_snmp_retries$"
+      set_if = {{ macro("$command_snmp_retries$") != false }}
+    }
+    "--perf-oids" = {
+      set_if = "$command_snmp_perf_oids$"
+    }
+  }
+
+}

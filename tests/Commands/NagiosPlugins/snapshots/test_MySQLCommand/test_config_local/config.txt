@@ -1,0 +1,75 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$nagios_plugin_dir$" + "/check_mysql"]
+  arguments = {
+    "-H" = {
+      value = "$command_mysql_host$"
+      set_if = {{ macro("$command_mysql_host$") != false }}
+    }
+    "-P" = {
+      value = "$command_mysql_port$"
+      set_if = {{ macro("$command_mysql_port$") != false }}
+    }
+    "-n" = {
+      set_if = "$command_mysql_ignore_auth$"
+    }
+    "-s" = {
+      value = "$command_mysql_socket$"
+      set_if = {{ macro("$command_mysql_socket$") != false }}
+    }
+    "-d" = {
+      value = "$command_mysql_database$"
+      set_if = {{ macro("$command_mysql_database$") != false }}
+    }
+    "-f" = {
+      value = "$command_mysql_file$"
+      set_if = {{ macro("$command_mysql_file$") != false }}
+    }
+    "-g" = {
+      value = "$command_mysql_group$"
+      set_if = {{ macro("$command_mysql_group$") != false }}
+    }
+    "-u" = {
+      value = "$command_mysql_user$"
+      set_if = {{ macro("$command_mysql_user$") != false }}
+    }
+    "-p" = {
+      value = "$command_mysql_password$"
+      set_if = {{ macro("$command_mysql_password$") != false }}
+    }
+    "-S" = {
+      set_if = "$command_mysql_check_slave$"
+    }
+    "-w" = {
+      value = "$command_mysql_slave_warning$"
+      set_if = {{ macro("$command_mysql_slave_warning$") != false }}
+    }
+    "-c" = {
+      value = "$command_mysql_slave_critical$"
+      set_if = {{ macro("$command_mysql_slave_critical$") != false }}
+    }
+    "-l" = {
+      set_if = "$command_mysql_use_ssl$"
+    }
+    "-L" = {
+      value = "$command_mysql_ssl_ciphers$"
+      set_if = {{ macro("$command_mysql_ssl_ciphers$") != false }}
+    }
+    "-C" = {
+      value = "$command_mysql_ca_cert$"
+      set_if = {{ macro("$command_mysql_ca_cert$") != false }}
+    }
+    "-D" = {
+      value = "$command_mysql_ca_dir$"
+      set_if = {{ macro("$command_mysql_ca_dir$") != false }}
+    }
+    "-a" = {
+      value = "$command_mysql_cert$"
+      set_if = {{ macro("$command_mysql_cert$") != false }}
+    }
+    "-k" = {
+      value = "$command_mysql_key$"
+      set_if = {{ macro("$command_mysql_key$") != false }}
+    }
+  }
+
+}

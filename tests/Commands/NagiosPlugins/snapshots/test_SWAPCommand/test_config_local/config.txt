@@ -1,0 +1,22 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$nagios_plugin_dir$" + "/check_swap"]
+  arguments = {
+    "--warning" = {
+      value = "$command_swap_warning$%"
+      required = true
+    }
+    "--critical" = {
+      value = "$command_swap_critical$%"
+      required = true
+    }
+    "--allswaps" = {
+      value = "$command_swap_allswaps$"
+      set_if = {{ macro("$command_swap_allswaps$") != false }}
+    }
+    "--no-swap" = {
+      value = "$command_swap_no_swap$"
+      set_if = {{ macro("$command_swap_no_swap$") != false }}
+    }
+  }
+
+}

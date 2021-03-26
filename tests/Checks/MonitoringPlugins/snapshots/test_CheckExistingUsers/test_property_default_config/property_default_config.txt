@@ -1,0 +1,9 @@
+vars.command_existing_users_shell_filter += [
+    "/bin/false",
+    "/bin/sync",
+    "/sbin/nologin",
+    "/usr/sbin/nologin",
+  ]
+  vars.command_existing_users_users += [
+    "root",
+  ]

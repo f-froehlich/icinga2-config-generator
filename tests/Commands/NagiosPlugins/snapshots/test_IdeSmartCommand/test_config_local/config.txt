@@ -1,0 +1,10 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$nagios_plugin_dir$" + "/check_ide_smart"]
+  arguments = {
+    "-d" = {
+      value = "$command_ide_smart_device$"
+      set_if = {{ macro("$command_ide_smart_device$") != false }}
+    }
+  }
+
+}

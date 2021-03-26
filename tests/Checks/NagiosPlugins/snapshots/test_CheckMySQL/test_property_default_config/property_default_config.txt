@@ -1,0 +1,5 @@
+vars.command_mysql_check_slave = false
+  vars.command_mysql_host = "127.0.0.1"
+  vars.command_mysql_ignore_auth = false
+  vars.command_mysql_port = 3306
+  vars.command_mysql_use_ssl = false

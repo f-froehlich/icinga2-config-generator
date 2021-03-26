@@ -1,0 +1,22 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$nagios_plugin_dir$" + "/check_breeze"]
+  arguments = {
+    "-H" = {
+      value = "$command_breeze_host$"
+      required = true
+    }
+    "-w" = {
+      value = "$command_breeze_warning$"
+      required = true
+    }
+    "-c" = {
+      value = "$command_breeze_critical$"
+      required = true
+    }
+    "-p" = {
+      value = "$command_breeze_community$"
+      set_if = {{ macro("$command_breeze_community$") != false }}
+    }
+  }
+
+}

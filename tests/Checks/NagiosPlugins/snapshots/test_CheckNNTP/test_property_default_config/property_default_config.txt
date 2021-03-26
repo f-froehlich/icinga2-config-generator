@@ -1,0 +1,12 @@
+vars.command_nntp_all = false
+  vars.command_nntp_cert = true
+  vars.command_nntp_cert_critical = 15
+  vars.command_nntp_cert_warning = 29
+  vars.command_nntp_escape = false
+  vars.command_nntp_host = "host"
+  vars.command_nntp_ipv4 = false
+  vars.command_nntp_ipv6 = false
+  vars.command_nntp_jail = false
+  vars.command_nntp_port = 8888
+  vars.command_nntp_timeout = 10
+  vars.command_nntp_use_ssl = false

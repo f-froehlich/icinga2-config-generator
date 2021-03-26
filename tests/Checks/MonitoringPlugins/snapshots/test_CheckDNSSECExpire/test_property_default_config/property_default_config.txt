@@ -1,0 +1,6 @@
+vars.command_dnssec_expiry_critical = 5
+  vars.command_dnssec_expiry_ignore_root = true
+  vars.command_dnssec_expiry_ignore_tld = true
+  vars.command_dnssec_expiry_resolver = "1.1.1.1"
+  vars.command_dnssec_expiry_timeout = 30
+  vars.command_dnssec_expiry_warning = 10

@@ -1,0 +1,80 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$nagios_plugin_dir$" + "/check_nntp"]
+  arguments = {
+    "-H" = {
+      value = "$command_nntp_host$"
+      required = true
+    }
+    "-p" = {
+      value = "$command_nntp_port$"
+      required = true
+    }
+    "-4" = {
+      set_if = "$command_nntp_ipv4$"
+    }
+    "-6" = {
+      set_if = "$command_nntp_ipv6$"
+    }
+    "-E" = {
+      set_if = "$command_nntp_escape$"
+    }
+    "-s" = {
+      value = "$command_nntp_send$"
+      set_if = {{ macro("$command_nntp_send$") != false }}
+    }
+    "-e" = {
+      value = "$command_nntp_expect$"
+      set_if = {{ macro("$command_nntp_expect$") != false }}
+    }
+    "-A" = {
+      set_if = "$command_nntp_all$"
+    }
+    "-q" = {
+      value = "$command_nntp_quit$"
+      set_if = {{ macro("$command_nntp_quit$") != false }}
+    }
+    "-r" = {
+      value = "$command_nntp_refuse_state$"
+      set_if = {{ macro("$command_nntp_refuse_state$") != false }}
+    }
+    "-M" = {
+      value = "$command_nntp_mismatch_state$"
+      set_if = {{ macro("$command_nntp_mismatch_state$") != false }}
+    }
+    "-j" = {
+      set_if = "$command_nntp_jail$"
+    }
+    "-m" = {
+      value = "$command_nntp_maxbytes$"
+      set_if = {{ macro("$command_nntp_maxbytes$") != false }}
+    }
+    "-d" = {
+      value = "$command_nntp_delay$"
+      set_if = {{ macro("$command_nntp_delay$") != false }}
+    }
+    "-D" = {
+      value = "$command_nntp_cert_warning$,$command_nntp_cert_critical$"
+      set_if = {{ macro("$command_nntp_cert$") != false }}
+    }
+    "-S" = {
+      set_if = "$command_nntp_use_ssl$"
+    }
+    "--sni" = {
+      value = "$command_nntp_sni$"
+      set_if = {{ macro("$command_nntp_sni$") != false }}
+    }
+    "-w" = {
+      value = "$command_nntp_warning_time$"
+      set_if = {{ macro("$command_nntp_warning_time$") != false }}
+    }
+    "-c" = {
+      value = "$command_nntp_critical_time$"
+      set_if = {{ macro("$command_nntp_critical_time$") != false }}
+    }
+    "-t" = {
+      value = "$command_nntp_timeout$"
+      set_if = {{ macro("$command_nntp_timeout$") != false }}
+    }
+  }
+
+}

@@ -1,0 +1,1 @@
+[ "$nagios_plugin_dir$" + "/check_dummy", "$command_dummy_state$", "$command_dummy_text$"]

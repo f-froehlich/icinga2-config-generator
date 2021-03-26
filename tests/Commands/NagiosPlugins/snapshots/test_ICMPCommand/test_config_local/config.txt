@@ -1,0 +1,52 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$nagios_plugin_dir$" + "/check_icmp"]
+  arguments = {
+    "-H" = {
+      value = "$command_icmp_host$"
+      required = true
+    }
+    "-4" = {
+      set_if = "$command_icmp_use_ipv4$"
+    }
+    "-6" = {
+      set_if = "$command_icmp_use_ipv6$"
+    }
+    "-w" = {
+      value = "$command_icmp_warning$"
+      set_if = {{ macro("$command_icmp_warning$") != false }}
+    }
+    "-c" = {
+      value = "$command_icmp_critical$"
+      set_if = {{ macro("$command_icmp_critical$") != false }}
+    }
+    "-s" = {
+      value = "$command_icmp_source$"
+      set_if = {{ macro("$command_icmp_source$") != false }}
+    }
+    "-n" = {
+      value = "$command_icmp_packets$"
+      set_if = {{ macro("$command_icmp_packets$") != false }}
+    }
+    "-i" = {
+      value = "$command_icmp_packet_interval$"
+      set_if = {{ macro("$command_icmp_packet_interval$") != false }}
+    }
+    "-m" = {
+      value = "$command_icmp_minimum_hosts$"
+      set_if = {{ macro("$command_icmp_minimum_hosts$") != false }}
+    }
+    "-l" = {
+      value = "$command_icmp_ttl$"
+      set_if = {{ macro("$command_icmp_ttl$") != false }}
+    }
+    "-t" = {
+      value = "$command_icmp_timeout$"
+      set_if = {{ macro("$command_icmp_timeout$") != false }}
+    }
+    "-b" = {
+      value = "$command_icmp_bytes$"
+      set_if = {{ macro("$command_icmp_bytes$") != false }}
+    }
+  }
+
+}

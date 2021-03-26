@@ -1,0 +1,1 @@
+vars.command_wave_host = "host"

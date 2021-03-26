@@ -1,0 +1,1 @@
+[ "$claudio_kuenzler_plugin_dir$" + "/check_storcenter.sh"]

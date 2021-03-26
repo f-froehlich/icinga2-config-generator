@@ -1,0 +1,4 @@
+vars.groups += [
+    "servicegroup_pop",
+    "servicegroup_mail",
+  ]

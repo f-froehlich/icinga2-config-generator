@@ -1,0 +1,1 @@
+vars.command_ssh_hostname = "host"

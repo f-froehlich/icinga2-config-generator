@@ -1,0 +1,33 @@
+{
+    "--all-updates" = {
+      set_if = "$command_yum_all_updates$"
+    }
+    "--warn-on-any-update" = {
+      set_if = "$command_yum_warn_any_update$"
+    }
+    "--cache-only" = {
+      set_if = "$command_yum_cache_only$"
+    }
+    "--no-warn-on-lock" = {
+      set_if = "$command_yum_no_warn_on_lock$"
+    }
+    "--config" = {
+      value = "$command_yum_config$"
+      set_if = {{ macro("$command_yum_config$") != false }}
+    }
+    "--enablerepo" = {
+      value = "$command_yum_repo_enabled$"
+      set_if = {{ macro("$command_yum_repo_enabled$") != false }}
+    }
+    "--disablerepo" = {
+      value = "$command_yum_repo_disabled$"
+      set_if = {{ macro("$command_yum_repo_disabled$") != false }}
+    }
+    "--disableplugin" = {
+      value = "$command_yum_plugin_disabled$"
+      set_if = {{ macro("$command_yum_plugin_disabled$") != false }}
+    }
+    "--timeout" = {
+      value = "$command_yum_timeout$"
+    }
+  }

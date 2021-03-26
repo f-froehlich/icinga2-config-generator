@@ -1,0 +1,3 @@
+vars.command_log_file = "file"
+  vars.command_log_oldfile = "oldfile"
+  vars.command_log_query = "query"

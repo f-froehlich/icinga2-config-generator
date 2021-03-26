@@ -1,0 +1,18 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$monitoring_plugin_dir$" + "/check_deny_tls_version.sh"]
+  arguments = {
+    "-p" = {
+      value = "$command_deny_tls_version_protocol$"
+      required = true
+    }
+    "-d" = {
+      value = "$command_deny_tls_version_domain$"
+      required = true
+    }
+    "-a" = {
+      value = "$command_deny_tls_version_address$"
+      set_if = {{ macro("$command_deny_tls_version_address$") != false }}
+    }
+  }
+
+}

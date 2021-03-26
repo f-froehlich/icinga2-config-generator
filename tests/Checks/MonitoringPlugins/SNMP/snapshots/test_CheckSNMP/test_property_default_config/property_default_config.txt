@@ -1,0 +1,8 @@
+vars.command_check_allowed_check_types += [
+    "local",
+    "ssh",
+  ]
+  vars.command_check_check_type = "local"
+  vars.command_check_class_name = "Check"
+  vars.command_check_command_name = "check"
+  vars.command_check_id = "instance"

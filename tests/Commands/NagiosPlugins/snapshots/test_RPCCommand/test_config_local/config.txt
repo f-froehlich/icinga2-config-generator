@@ -1,0 +1,22 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$nagios_plugin_dir$" + "/check_rpc"]
+  arguments = {
+    "-H" = {
+      value = "$command_rpc_host$"
+      required = true
+    }
+    "-C" = {
+      value = "$command_rpc_command$"
+      required = true
+    }
+    "-p" = {
+      value = "$command_rpc_port$"
+      set_if = {{ macro("$command_rpc_port$") != false }}
+    }
+    "-c" = {
+      value = "$command_rpc_version$"
+      set_if = {{ macro("$command_rpc_version$") != false }}
+    }
+  }
+
+}

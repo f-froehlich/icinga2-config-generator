@@ -1,0 +1,45 @@
+{
+    "--ok-content" = {
+      value = "$command_page_content_ok$"
+      set_if = {{ macro("$command_page_content_ok$") != false }}
+      repeat_key = true
+    }
+    "--warning-content" = {
+      value = "$command_page_content_warning$"
+      set_if = {{ macro("$command_page_content_warning$") != false }}
+      repeat_key = true
+    }
+    "--critical-content" = {
+      value = "$command_page_content_critical$"
+      set_if = {{ macro("$command_page_content_critical$") != false }}
+      repeat_key = true
+    }
+    "--header" = {
+      value = "$command_page_content_header$"
+      set_if = {{ macro("$command_page_content_header$") != false }}
+      repeat_key = true
+    }
+    "--uri" = {
+      value = "$command_page_content_uri$"
+      set_if = {{ macro("$command_page_content_uri$") != false }}
+    }
+    "--domain" = {
+      value = "$command_page_content_domain$"
+      required = true
+    }
+    "--port" = {
+      value = "$command_page_content_port$"
+      set_if = {{ macro("$command_page_content_port$") != false }}
+    }
+    "--ssl" = {
+      set_if = "$command_page_content_ssl$"
+    }
+    "--client-cert" = {
+      value = "$command_page_content_client_cert$"
+      set_if = {{ macro("$command_page_content_client_cert$") != false }}
+    }
+    "--client-key" = {
+      value = "$command_page_content_client_key$"
+      set_if = {{ macro("$command_page_content_client_key$") != false }}
+    }
+  }

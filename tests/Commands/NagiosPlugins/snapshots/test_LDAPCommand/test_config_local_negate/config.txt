@@ -1,0 +1,112 @@
+object CheckCommand "command_instance_local_negate" {
+  vars.realcmd = [ "$nagios_plugin_dir$" + "/check_ldap"]
+  vars.realargs = {
+    "-H" = {
+      value = "$command_ldap_host$"
+      required = true
+    }
+    "-p" = {
+      value = "$command_ldap_port$"
+      set_if = {{ macro("$command_ldap_port$") != false }}
+    }
+    "-4" = {
+      set_if = "$command_ldap_use_ipv4$"
+    }
+    "-6" = {
+      set_if = "$command_ldap_use_ipv6$"
+    }
+    "-a" = {
+      value = "$command_ldap_attr$"
+      set_if = {{ macro("$command_ldap_attr$") != false }}
+    }
+    "-b" = {
+      value = "$command_ldap_base$"
+      required = true
+    }
+    "-D" = {
+      value = "$command_ldap_dn$"
+      set_if = {{ macro("$command_ldap_dn$") != false }}
+    }
+    "-P" = {
+      value = "$command_ldap_pass$"
+      set_if = {{ macro("$command_ldap_pass$") != false }}
+    }
+    "-T" = {
+      set_if = "$command_ldap_starttls$"
+    }
+    "-S" = {
+      set_if = "$command_ldap_ssl$"
+    }
+    "-2" = {
+      set_if = "$command_ldap_protocol_v2$"
+    }
+    "-3" = {
+      set_if = "$command_ldap_protocol_v3$"
+    }
+    "-w" = {
+      value = "$command_ldap_warning$"
+      set_if = {{ macro("$command_ldap_warning$") != false }}
+    }
+    "-c" = {
+      value = "$command_ldap_critical$"
+      set_if = {{ macro("$command_ldap_critical$") != false }}
+    }
+    "-W" = {
+      value = "$command_ldap_warning_entries$"
+      set_if = {{ macro("$command_ldap_warning$") != false }}
+    }
+    "-C" = {
+      value = "$command_ldap_critical_entries$"
+      set_if = {{ macro("$command_ldap_critical$") != false }}
+    }
+    "-t" = {
+      value = "$command_ldap_timeout$"
+      set_if = {{ macro("$command_ldap_timeout$") != false }}
+    }
+  }
+
+  arguments = {
+  "-t" = {
+    value = "$negation_timeout$"
+    set_if = {{ macro("$negation_timeout$") != false }}
+  }
+  "-o" = {
+    value = "$negation_ok_status$"
+    set_if = {{ macro("$negation_ok_status$") != false }}
+  }
+  "-w" = {
+    value = "$negation_warning_status$"
+    set_if = {{ macro("$negation_warning_status$") != false }}
+  }
+  "-c" = {
+    value = "$negation_critical_status$"
+    set_if = {{ macro("$negation_critical_status$") != false }}
+  }
+  "-u" = {
+    value = "$negation_unknown_status$"
+    set_if = {{ macro("$negation_unknown_status$") != false }}
+  }
+  "-s" = {
+    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+  }
+  "--command" = {
+    value = {{
+      var command = macro("$realcmd$")
+      var arguments = macro("$realargs$")
+      if (typeof(command) == String && !arguments) {
+        return command
+      }
+      var escaped_args = []
+      for (arg in resolve_arguments(command, arguments)) {
+          escaped_args.add(arg.replace(" ", "\\"))
+      }
+      return escaped_args.join(" ")
+    }}
+    skip_key = true
+    required = true
+    order = 99
+  }
+}
+
+  command = ["$nagios_plugin_dir$" + "/negate"]
+}

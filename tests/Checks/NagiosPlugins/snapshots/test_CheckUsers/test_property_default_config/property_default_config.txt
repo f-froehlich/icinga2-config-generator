@@ -1,0 +1,2 @@
+vars.command_users_critical = 10
+  vars.command_users_warning = 5

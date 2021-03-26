@@ -1,0 +1,7 @@
+vars.command_icmp_bytes = 76
+  vars.command_icmp_host = "host"
+  vars.command_icmp_packets = 2
+  vars.command_icmp_timeout = 10
+  vars.command_icmp_ttl = 5
+  vars.command_icmp_use_ipv4 = false
+  vars.command_icmp_use_ipv6 = false
