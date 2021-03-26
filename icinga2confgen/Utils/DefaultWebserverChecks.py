@@ -97,7 +97,6 @@ class DefaultWebserverChecks(RemoteCheckManager):
         return self
 
     def is_validating_deny_tls1(self):
-        ValueChecker.is_bool(enabled)
         return self.__validate_deny_tls1
 
     def validate_allow_tls1_1(self, enabled):
@@ -177,143 +176,144 @@ class DefaultWebserverChecks(RemoteCheckManager):
             uri = config[2]
 
             for server in self.get_servers():
-                base_id = service_baseid + '_' + server.get_id() + '_' + ValueMapper.canonicalize_for_id(domain)
-                server_ipv4 = server.get_ipv4()
-                server_ipv6 = server.get_ipv6()
+                for checkserver in self.get_checkservers():
+                    base_id = service_baseid + '_' + server.get_id() + '_' + ValueMapper.canonicalize_for_id(domain)
+                    server_ipv4 = server.get_ipv4()
+                    server_ipv6 = server.get_ipv6()
 
-                if None is server_ipv4 and None is server_ipv6:
-                    raise Exception('It is required to set the ipv4 or ipv6 on the server with id "' +
-                                    server.get_id() + '", before you can apply this checks!')
+                    if None is server_ipv4 and None is server_ipv6:
+                        raise Exception('It is required to set the ipv4 or ipv6 on the server with id "' +
+                                        server.get_id() + '", before you can apply this checks!')
 
-                server.add_hostgroup(HostGroup.create('webserver'))
+                    server.add_hostgroup(HostGroup.create('webserver'))
 
-                default_ipv4_http_check = None
-                default_ipv6_http_check = None
-                if None is not server_ipv4:
-                    default_ipv4_http_check = CheckHttp.create('web_access_default_ipv4_' + base_id)
-                    default_ipv4_http_check.set_ip(server_ipv4) \
-                        .set_vhost(domain) \
-                        .set_uri(uri) \
-                        .set_ssl(True) \
-                        .set_sni(self.__sni) \
-                        .set_display_name(default_ipv4_http_check.get_display_name() + ' ' + domain)
-                    self.apply_check(default_ipv4_http_check)
-
-                if None is not server_ipv6:
-                    default_ipv6_http_check = CheckHttp.create('web_access_default_ipv6_' + base_id)
-                    default_ipv6_http_check.set_ip(server_ipv6) \
-                        .set_ipv6(True) \
-                        .set_vhost(domain) \
-                        .set_uri(uri) \
-                        .set_ssl(True) \
-                        .set_sni(self.__sni) \
-                        .set_display_name(default_ipv6_http_check.get_display_name() + ' ' + domain)
-                    self.apply_check(default_ipv6_http_check)
-
-                if None == default_ipv4_http_check and None == default_ipv6_http_check:
-                    raise Exception('Server "' + server.get_id()
-                                    + '" has no IPv4 and no IPv6 address set. Can\'t go further right now.')
-
-                if True is self.__validate_certificate:
+                    default_ipv4_http_check = None
+                    default_ipv6_http_check = None
                     if None is not server_ipv4:
-                        certificate_check = CheckHttp.create('web_access_certificate_ipv4_' + base_id)
-                        certificate_check.set_ip(server_ipv4) \
+                        default_ipv4_http_check = CheckHttp.create('web_access_default_ipv4_' + base_id)
+                        default_ipv4_http_check.set_ip(server_ipv4) \
                             .set_vhost(domain) \
                             .set_uri(uri) \
                             .set_ssl(True) \
                             .set_sni(self.__sni) \
-                            .set_certificate_check(True) \
-                            .set_check_interval('15m') \
-                            .add_service_group(ServiceGroup.create('certificate_check')) \
-                            .set_display_name(certificate_check.get_display_name() + ' ' + domain)
-
-                        self.apply_check(certificate_check, default_ipv4_http_check)
+                            .set_display_name(default_ipv4_http_check.get_display_name() + ' ' + domain)
+                        self.apply_check(default_ipv4_http_check, server, checkserver)
 
                     if None is not server_ipv6:
-                        certificate_check = CheckHttp.create('web_access_certificate_ipv6_' + base_id)
-                        certificate_check.set_ip(server_ipv6) \
+                        default_ipv6_http_check = CheckHttp.create('web_access_default_ipv6_' + base_id)
+                        default_ipv6_http_check.set_ip(server_ipv6) \
                             .set_ipv6(True) \
                             .set_vhost(domain) \
                             .set_uri(uri) \
                             .set_ssl(True) \
                             .set_sni(self.__sni) \
-                            .set_certificate_check(True) \
+                            .set_display_name(default_ipv6_http_check.get_display_name() + ' ' + domain)
+                        self.apply_check(default_ipv6_http_check, server, checkserver)
+
+                    if None == default_ipv4_http_check and None == default_ipv6_http_check:
+                        raise Exception('Server "' + server.get_id()
+                                        + '" has no IPv4 and no IPv6 address set. Can\'t go further right now.')
+
+                    if True is self.__validate_certificate:
+                        if None is not server_ipv4:
+                            certificate_check = CheckHttp.create('web_access_certificate_ipv4_' + base_id)
+                            certificate_check.set_ip(server_ipv4) \
+                                .set_vhost(domain) \
+                                .set_uri(uri) \
+                                .set_ssl(True) \
+                                .set_sni(self.__sni) \
+                                .set_certificate_check(True) \
+                                .set_check_interval('15m') \
+                                .add_service_group(ServiceGroup.create('certificate_check')) \
+                                .set_display_name(certificate_check.get_display_name() + ' ' + domain)
+
+                            self.apply_check(certificate_check, server, checkserver, default_ipv4_http_check)
+
+                        if None is not server_ipv6:
+                            certificate_check = CheckHttp.create('web_access_certificate_ipv6_' + base_id)
+                            certificate_check.set_ip(server_ipv6) \
+                                .set_ipv6(True) \
+                                .set_vhost(domain) \
+                                .set_uri(uri) \
+                                .set_ssl(True) \
+                                .set_sni(self.__sni) \
+                                .set_certificate_check(True) \
+                                .set_check_interval('15m') \
+                                .add_service_group(ServiceGroup.create('certificate_check')) \
+                                .set_display_name(certificate_check.get_display_name() + ' ' + domain)
+
+                            self.apply_check(certificate_check, server, checkserver, default_ipv6_http_check)
+
+                    else:
+                        server.add_hostgroup(HostGroup.create('no_certificate_check'))
+
+                    if True is self.__validate_http_redirect:
+                        if None is not server_ipv4:
+                            redirect_check = CheckHttp.create('web_access_http_redirect_ipv4_' + base_id)
+                            redirect_check.set_ip(server_ipv4) \
+                                .set_vhost(domain) \
+                                .set_uri(uri) \
+                                .set_ssl(False) \
+                                .set_sni(self.__sni) \
+                                .set_port(80) \
+                                .set_expect('HTTP/1.1 30') \
+                                .set_check_interval('15m') \
+                                .add_service_group(ServiceGroup.create('http_redirect')) \
+                                .set_display_name(redirect_check.get_display_name() + ' ' + domain)
+
+                            self.apply_check(redirect_check, server, checkserver, default_ipv4_http_check)
+
+                        if None is not server_ipv6:
+                            redirect_check = CheckHttp.create('web_access_http_redirect_ipv6_' + base_id)
+                            redirect_check.set_ip(server_ipv6) \
+                                .set_ipv6(True) \
+                                .set_vhost(domain) \
+                                .set_uri(uri) \
+                                .set_ssl(False) \
+                                .set_sni(self.__sni) \
+                                .set_port(80) \
+                                .set_expect('HTTP/1.1 30') \
+                                .set_check_interval('15m') \
+                                .add_service_group(ServiceGroup.create('http_redirect')) \
+                                .set_display_name(redirect_check.get_display_name() + ' ' + domain)
+
+                            self.apply_check(redirect_check, server, checkserver, default_ipv6_http_check)
+
+                        server.add_hostgroup(HostGroup.create('http_redirect'))
+
+                    elif True is self.__warn_no_http_redirect:
+                        redirect_check = CheckDummy.create('web_access_missing_http_redirect_' + base_id)
+                        redirect_check.set_state(1) \
+                            .set_text(redirect_check.get_display_name() + ' ' + domain) \
                             .set_check_interval('15m') \
-                            .add_service_group(ServiceGroup.create('certificate_check')) \
-                            .set_display_name(certificate_check.get_display_name() + ' ' + domain)
-
-                        self.apply_check(certificate_check, default_ipv6_http_check)
-
-                else:
-                    server.add_hostgroup(HostGroup.create('no_certificate_check'))
-
-                if True is self.__validate_http_redirect:
-                    if None is not server_ipv4:
-                        redirect_check = CheckHttp.create('web_access_http_redirect_ipv4_' + base_id)
-                        redirect_check.set_ip(server_ipv4) \
-                            .set_vhost(domain) \
-                            .set_uri(uri) \
-                            .set_ssl(False) \
-                            .set_sni(self.__sni) \
-                            .set_port(80) \
-                            .set_expect('HTTP/1.1 30') \
-                            .set_check_interval('15m') \
-                            .add_service_group(ServiceGroup.create('http_redirect')) \
+                            .add_service_group(ServiceGroup.create('missing_http_redirect_check')) \
+                            .add_service_group(ServiceGroup.create('webserver')) \
                             .set_display_name(redirect_check.get_display_name() + ' ' + domain)
 
-                        self.apply_check(redirect_check, default_ipv4_http_check)
+                        self.apply_check(redirect_check, server, checkserver)
+                        server.add_hostgroup(HostGroup.create('no_http_redirect'))
 
-                    if None is not server_ipv6:
-                        redirect_check = CheckHttp.create('web_access_http_redirect_ipv6_' + base_id)
-                        redirect_check.set_ip(server_ipv6) \
-                            .set_ipv6(True) \
-                            .set_vhost(domain) \
-                            .set_uri(uri) \
-                            .set_ssl(False) \
-                            .set_sni(self.__sni) \
-                            .set_port(80) \
-                            .set_expect('HTTP/1.1 30') \
-                            .set_check_interval('15m') \
-                            .add_service_group(ServiceGroup.create('http_redirect')) \
-                            .set_display_name(redirect_check.get_display_name() + ' ' + domain)
+                    else:
+                        server.add_hostgroup(HostGroup.create('http_redirect_unchecked'))
 
-                        self.apply_check(redirect_check, default_ipv6_http_check)
+                    self.add_tls_check(base_id, default_ipv4_http_check, default_ipv6_http_check, domain,
+                                       server, checkserver, server_ipv4, server_ipv6, uri, '1.0',
+                                       self.__validate_allow_tls1, self.__validate_deny_tls1, True)
 
-                    server.add_hostgroup(HostGroup.create('http_redirect'))
+                    self.add_tls_check(base_id, default_ipv4_http_check, default_ipv6_http_check, domain,
+                                       server, checkserver, server_ipv4, server_ipv6, uri, '1.1',
+                                       self.__validate_allow_tls1_1, self.__validate_deny_tls1_1, True)
 
-                elif True is self.__warn_no_http_redirect:
-                    redirect_check = CheckDummy.create('web_access_missing_http_redirect_' + base_id)
-                    redirect_check.set_state(1) \
-                        .set_text(redirect_check.get_display_name() + ' ' + domain) \
-                        .set_check_interval('15m') \
-                        .add_service_group(ServiceGroup.create('missing_http_redirect_check')) \
-                        .add_service_group(ServiceGroup.create('webserver')) \
-                        .set_display_name(redirect_check.get_display_name() + ' ' + domain)
+                    self.add_tls_check(base_id, default_ipv4_http_check, default_ipv6_http_check, domain,
+                                       server, checkserver, server_ipv4, server_ipv6, uri, '1.2',
+                                       self.__validate_allow_tls1_2, self.__validate_deny_tls1_2, False)
 
-                    self.apply_check(redirect_check)
-                    server.add_hostgroup(HostGroup.create('no_http_redirect'))
-
-                else:
-                    server.add_hostgroup(HostGroup.create('http_redirect_unchecked'))
-
-                self.add_tls_check(base_id, default_ipv4_http_check, default_ipv6_http_check, domain,
-                                   server, server_ipv4, server_ipv6, uri, '1.0', self.__validate_allow_tls1,
-                                   self.__validate_deny_tls1, True)
-
-                self.add_tls_check(base_id, default_ipv4_http_check, default_ipv6_http_check, domain,
-                                   server, server_ipv4, server_ipv6, uri, '1.1', self.__validate_allow_tls1_1,
-                                   self.__validate_deny_tls1_1, True)
-
-                self.add_tls_check(base_id, default_ipv4_http_check, default_ipv6_http_check, domain,
-                                   server, server_ipv4, server_ipv6, uri, '1.2', self.__validate_allow_tls1_2,
-                                   self.__validate_deny_tls1_2, False)
-
-                self.add_tls_check(base_id, default_ipv4_http_check, default_ipv6_http_check, domain,
-                                   server, server_ipv4, server_ipv6, uri, '1.3', self.__validate_allow_tls1_3,
-                                   self.__validate_deny_tls1_3, False)
+                    self.add_tls_check(base_id, default_ipv4_http_check, default_ipv6_http_check, domain,
+                                       server, checkserver, server_ipv4, server_ipv6, uri, '1.3',
+                                       self.__validate_allow_tls1_3, self.__validate_deny_tls1_3, False)
 
     def add_tls_check(self, base_id, default_ipv4_http_check, default_ipv6_http_check, domain, server,
-                      server_ipv4, server_ipv6, uri, protocol, allow, deny, insecure):
+                      checkserver, server_ipv4, server_ipv6, uri, protocol, allow, deny, insecure):
         protocol_id = protocol.replace('.', '_')
 
         if insecure:
@@ -334,7 +334,7 @@ class DefaultWebserverChecks(RemoteCheckManager):
                     .add_service_group(ServiceGroup.create('tls')) \
                     .set_display_name(tls_check.get_display_name() + ' ' + domain)
 
-                self.apply_check(tls_check, default_ipv4_http_check)
+                self.apply_check(tls_check, server, checkserver, default_ipv4_http_check)
 
             if None is not server_ipv6:
                 tls_check = CheckHttp.create('web_access_allow_tls' + protocol_id + '_ipv6_' + base_id)
@@ -348,7 +348,7 @@ class DefaultWebserverChecks(RemoteCheckManager):
                     .add_service_group(ServiceGroup.create('tls')) \
                     .set_display_name(tls_check.get_display_name() + ' ' + domain)
 
-                self.apply_check(tls_check, default_ipv6_http_check)
+                self.apply_check(tls_check, server, checkserver, default_ipv6_http_check)
 
             if insecure:
                 server.add_hostgroup(HostGroup.create('insecure_webserver'))
@@ -367,7 +367,7 @@ class DefaultWebserverChecks(RemoteCheckManager):
                     .add_service_group(ServiceGroup.create('tls_' + protocol_id + '_check')) \
                     .set_display_name(tls_check.get_display_name() + ' ' + domain)
 
-                self.apply_check(tls_check, default_ipv4_http_check)
+                self.apply_check(tls_check, server, checkserver, default_ipv4_http_check)
 
             if None is not server_ipv6:
                 tls_check = CheckDenyTlsVersion.create('web_access_deny_tls' + protocol_id + '_ipv6_' + base_id)
@@ -377,7 +377,7 @@ class DefaultWebserverChecks(RemoteCheckManager):
                     .set_check_interval('15m') \
                     .add_service_group(ServiceGroup.create('tls_' + protocol_id + '_check')) \
                     .set_display_name(tls_check.get_display_name() + ' ' + domain)
-                self.apply_check(tls_check, default_ipv6_http_check)
+                self.apply_check(tls_check, server, checkserver, default_ipv6_http_check)
 
             server.add_hostgroup(HostGroup.create('deny_insecure_TLSv' + protocol_id + '_webserver'))
 

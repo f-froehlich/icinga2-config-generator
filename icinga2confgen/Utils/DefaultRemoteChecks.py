@@ -102,55 +102,56 @@ class DefaultRemoteChecks(RemoteCheckManager):
 
     def apply(self):
         for server in self.get_servers():
-            base_id = 'remote_checks_' + server.get_id()
-            ipv4 = server.get_ipv4()
-            ipv6 = server.get_ipv6()
+            for checkserver in self.get_checkservers():
+                base_id = 'remote_checks_' + server.get_id() + '_' + checkserver.get_id()
+                ipv4 = server.get_ipv4()
+                ipv6 = server.get_ipv6()
 
-            if True is self.__check_ping:
-                if None is not ipv4:
-                    check = CheckPing4.create('ping4_' + base_id)
-                    check.set_address(ipv4) \
-                        .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
-                    self.apply_check(check)
-                if None is not ipv6:
-                    check = CheckPing6.create('ping6_' + base_id)
-                    check.set_address(ipv6) \
-                        .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
-                    self.apply_check(check)
+                if True is self.__check_ping:
+                    if None is not ipv4:
+                        check = CheckPing4.create('ping4_' + base_id)
+                        check.set_address(ipv4) \
+                            .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
+                        self.apply_check(check, server, checkserver)
+                    if None is not ipv6:
+                        check = CheckPing6.create('ping6_' + base_id)
+                        check.set_address(ipv6) \
+                            .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
+                        self.apply_check(check, server, checkserver)
 
-            if True is self.__check_open_ports:
-                if None is not ipv4:
-                    check = CheckOpenPorts.create('open_ports4_' + base_id)
-                    check.add_host(ipv4) \
-                        .set_top_ports(15000)
-                    for config in self.__open_ports:
-                        check.add_allowed_port(config[0], config[1])
-                    check.set_display_name(check.get_display_name() + ' (ipv4) ' + server.get_display_name())
-                    self.apply_check(check)
+                if True is self.__check_open_ports:
+                    if None is not ipv4:
+                        check = CheckOpenPorts.create('open_ports4_' + base_id)
+                        check.add_host(ipv4) \
+                            .set_top_ports(15000)
+                        for config in self.__open_ports:
+                            check.add_allowed_port(config[0], config[1])
+                        check.set_display_name(check.get_display_name() + ' (ipv4) ' + server.get_display_name())
+                        self.apply_check(check, server, checkserver)
 
-                if None is not ipv6:
-                    check = CheckOpenPorts.create('open_ports6_' + base_id)
-                    check.add_host(ipv6) \
-                        .set_top_ports(15000) \
-                        .set_6(True)
+                    if None is not ipv6:
+                        check = CheckOpenPorts.create('open_ports6_' + base_id)
+                        check.add_host(ipv6) \
+                            .set_top_ports(15000) \
+                            .set_6(True)
 
-                    for config in self.__open_ports:
-                        check.add_allowed_port(config[0], config[1])
-                    check.set_display_name(check.get_display_name() + ' (ipv6) ' + server.get_display_name())
-                    self.apply_check(check)
+                        for config in self.__open_ports:
+                            check.add_allowed_port(config[0], config[1])
+                        check.set_display_name(check.get_display_name() + ' (ipv6) ' + server.get_display_name())
+                        self.apply_check(check, server, checkserver)
 
-            if True is self.__check_ssh:
-                if None is not ipv4:
-                    check = CheckSSH.create('ssh_ipv4_' + base_id)
-                    check.set_hostname(ipv4) \
-                        .set_port(self.__check_ssh_port) \
-                        .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
-                    self.apply_check(check)
+                if True is self.__check_ssh:
+                    if None is not ipv4:
+                        check = CheckSSH.create('ssh_ipv4_' + base_id)
+                        check.set_hostname(ipv4) \
+                            .set_port(self.__check_ssh_port) \
+                            .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
+                        self.apply_check(check, server, checkserver)
 
-                if None is not ipv6:
-                    check = CheckSSH.create('ssh_ipv4_' + base_id)
-                    check.set_hostname(ipv6) \
-                        .set_force_ipv6(True) \
-                        .set_port(self.__check_ssh_port) \
-                        .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
-                    self.apply_check(check)
+                    if None is not ipv6:
+                        check = CheckSSH.create('ssh_ipv4_' + base_id)
+                        check.set_hostname(ipv6) \
+                            .set_force_ipv6(True) \
+                            .set_port(self.__check_ssh_port) \
+                            .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
+                        self.apply_check(check, server, checkserver)

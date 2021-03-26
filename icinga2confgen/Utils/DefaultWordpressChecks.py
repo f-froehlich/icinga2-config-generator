@@ -225,7 +225,7 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
     def is_validating_deny_wp_links_opml(self):
         return self.__validate_deny_wp_links_opml
 
-    def create_wp_check(self, name, service_baseid, base_id, server, domain, uri):
+    def create_wp_check(self, name, service_baseid, base_id, server, checkserver, domain, uri):
 
         if None is server.get_ipv4() and None is server.get_ipv6():
             raise Exception('It is required to set the ipv4 or ipv6 on the server with id "' +
@@ -244,7 +244,7 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
                 .set_display_name(check.get_display_name() + ' ' + domain) \
                 .add_service_group(ServiceGroup.create('wordpress'))
 
-            self.apply_check(check, default_access_checks['ipv4'])
+            self.apply_check(check, server, checkserver, default_access_checks['ipv4'])
 
         if None is not server.get_ipv6():
             check = CheckHttp.create('web_access_deny_' + name + '_ipv6_' + base_id)
@@ -259,7 +259,7 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
                 .set_display_name(check.get_display_name() + ' ' + domain) \
                 .add_service_group(ServiceGroup.create('wordpress'))
 
-            self.apply_check(check, default_access_checks['ipv6'])
+            self.apply_check(check, server, checkserver, default_access_checks['ipv6'])
 
     def apply(self):
         if self.__inherit:
@@ -270,42 +270,59 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
             domain = config[1]
 
             for server in DefaultWebserverChecks.get_servers(self):
-                server.add_hostgroup(HostGroup.create('wordpress'))
-                base_id = service_baseid + '_' + server.get_id() + '_' + ValueMapper.canonicalize_for_id(domain)
+                for checkserver in DefaultWebserverChecks.get_checkservers(self):
+                    server.add_hostgroup(HostGroup.create('wordpress'))
+                    base_id = service_baseid + '_' + server.get_id() + '_' + ValueMapper.canonicalize_for_id(
+                        domain) + '_' + checkserver.get_id()
 
-                if True is self.__validate_deny_license:
-                    self.create_wp_check('license', service_baseid, base_id, server, domain, '/license.txt')
-                if True is self.__validate_deny_readme:
-                    self.create_wp_check('readme', service_baseid, base_id, server, domain, '/readme.html')
-                if True is self.__validate_deny_wp_admin:
-                    self.create_wp_check('wp_admin', service_baseid, base_id, server, domain, '/wp-admin/')
-                if True is self.__validate_deny_wp_content:
-                    self.create_wp_check('wp_includes', service_baseid, base_id, server, domain, '/wp-includes/')
-                if True is self.__validate_deny_wp_content:
-                    self.create_wp_check('wp_content', service_baseid, base_id, server, domain, '/wp-content/')
-                if True is self.__validate_deny_wp_login:
-                    self.create_wp_check('wp_login', service_baseid, base_id, server, domain, '/wp-login.php')
-                if True is self.__validate_deny_wp_cron:
-                    self.create_wp_check('wp_cron', service_baseid, base_id, server, domain, '/wp-cron.php')
-                if True is self.__validate_deny_wp_load:
-                    self.create_wp_check('wp_load', service_baseid, base_id, server, domain, '/wp-load.php')
-                if True is self.__validate_deny_wp_mail:
-                    self.create_wp_check('wp_mail', service_baseid, base_id, server, domain, '/wp-mail.php')
-                if True is self.__validate_deny_wp_signup:
-                    self.create_wp_check('wp_signup', service_baseid, base_id, server, domain, '/wp-signup.php')
-                if True is self.__validate_deny_wp_trackback:
-                    self.create_wp_check('wp_trackback', service_baseid, base_id, server, domain, '/wp-trackback.php')
-                if True is self.__validate_deny_wp_xmlrpc:
-                    self.create_wp_check('wp_xmlrpc', service_baseid, base_id, server, domain, '/xmlrpc.php')
-                if True is self.__validate_deny_wp_config:
-                    self.create_wp_check('wp_config', service_baseid, base_id, server, domain, '/wp-config.php')
-                if True is self.__validate_deny_wp_config_sample:
-                    self.create_wp_check('wp_config_sample', service_baseid, base_id, server, domain,
-                                         '/wp-config-sample.php')
-                if True is self.__validate_deny_wp_blog_header:
-                    self.create_wp_check('wp_blog_header', service_baseid, base_id, server, domain,
-                                         '/wp-blog-header.php')
-                if True is self.__validate_deny_wp_activate:
-                    self.create_wp_check('wp_activate', service_baseid, base_id, server, domain, '/wp-activate.php')
-                if True is self.__validate_deny_wp_links_opml:
-                    self.create_wp_check('wp_links_opml', service_baseid, base_id, server, domain, '/wp-links-opml.php')
+                    if True is self.__validate_deny_license:
+                        self.create_wp_check('license', service_baseid, base_id, server, checkserver, domain,
+                                             '/license.txt')
+                    if True is self.__validate_deny_readme:
+                        self.create_wp_check('readme', service_baseid, base_id, server, checkserver, domain,
+                                             '/readme.html')
+                    if True is self.__validate_deny_wp_admin:
+                        self.create_wp_check('wp_admin', service_baseid, base_id, server, checkserver, domain,
+                                             '/wp-admin/')
+                    if True is self.__validate_deny_wp_content:
+                        self.create_wp_check('wp_includes', service_baseid, base_id, server, checkserver, domain,
+                                             '/wp-includes/')
+                    if True is self.__validate_deny_wp_content:
+                        self.create_wp_check('wp_content', service_baseid, base_id, server, checkserver, domain,
+                                             '/wp-content/')
+                    if True is self.__validate_deny_wp_login:
+                        self.create_wp_check('wp_login', service_baseid, base_id, server, checkserver, domain,
+                                             '/wp-login.php')
+                    if True is self.__validate_deny_wp_cron:
+                        self.create_wp_check('wp_cron', service_baseid, base_id, server, checkserver, domain,
+                                             '/wp-cron.php')
+                    if True is self.__validate_deny_wp_load:
+                        self.create_wp_check('wp_load', service_baseid, base_id, server, checkserver, domain,
+                                             '/wp-load.php')
+                    if True is self.__validate_deny_wp_mail:
+                        self.create_wp_check('wp_mail', service_baseid, base_id, server, checkserver, domain,
+                                             '/wp-mail.php')
+                    if True is self.__validate_deny_wp_signup:
+                        self.create_wp_check('wp_signup', service_baseid, base_id, server, checkserver, domain,
+                                             '/wp-signup.php')
+                    if True is self.__validate_deny_wp_trackback:
+                        self.create_wp_check('wp_trackback', service_baseid, base_id, server, checkserver, domain,
+                                             '/wp-trackback.php')
+                    if True is self.__validate_deny_wp_xmlrpc:
+                        self.create_wp_check('wp_xmlrpc', service_baseid, base_id, server, checkserver, domain,
+                                             '/xmlrpc.php')
+                    if True is self.__validate_deny_wp_config:
+                        self.create_wp_check('wp_config', service_baseid, base_id, server, checkserver, domain,
+                                             '/wp-config.php')
+                    if True is self.__validate_deny_wp_config_sample:
+                        self.create_wp_check('wp_config_sample', service_baseid, base_id, server, checkserver, domain,
+                                             '/wp-config-sample.php')
+                    if True is self.__validate_deny_wp_blog_header:
+                        self.create_wp_check('wp_blog_header', service_baseid, base_id, server, checkserver, domain,
+                                             '/wp-blog-header.php')
+                    if True is self.__validate_deny_wp_activate:
+                        self.create_wp_check('wp_activate', service_baseid, base_id, server, checkserver, domain,
+                                             '/wp-activate.php')
+                    if True is self.__validate_deny_wp_links_opml:
+                        self.create_wp_check('wp_links_opml', service_baseid, base_id, server, checkserver, domain,
+                                             '/wp-links-opml.php')

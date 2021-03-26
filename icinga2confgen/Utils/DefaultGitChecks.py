@@ -71,15 +71,17 @@ class DefaultGitChecks(DefaultWebserverChecks):
             domain = config[1]
 
             for server in DefaultWebserverChecks.get_servers(self):
-                base_id = service_baseid
+                for checkserver in DefaultWebserverChecks.get_checkservers(self):
+                    base_id = service_baseid + '_' + checkserver.get_id()
 
-                if True is self.__validate_deny_git:
-                    self.create_git_check('gitdir', service_baseid, base_id, domain, server, '/.git/')
+                    if True is self.__validate_deny_git:
+                        self.create_git_check('gitdir', service_baseid, base_id, domain, server, checkserver, '/.git/')
 
-                if True is self.__validate_deny_gitignore:
-                    self.create_git_check('gitignore', service_baseid, base_id, domain, server, '/.gitignore')
+                    if True is self.__validate_deny_gitignore:
+                        self.create_git_check('gitignore', service_baseid, base_id, domain, server, checkserver,
+                                              '/.gitignore')
 
-    def create_git_check(self, name, base_id, service_baseid, domain, server, uri):
+    def create_git_check(self, name, base_id, service_baseid, domain, server, checkserver, uri):
 
         if None is server.get_ipv4() and None is server.get_ipv6():
             raise Exception('It is required to set the ipv4 or ipv6 on the server with id "' +
@@ -96,7 +98,7 @@ class DefaultGitChecks(DefaultWebserverChecks):
                 .set_expect('40') \
                 .set_check_interval('15m') \
                 .set_display_name(git_check.get_display_name() + ' ' + domain)
-            self.apply_check(git_check, default_access_checks['ipv4'])
+            self.apply_check(git_check, server, checkserver, default_access_checks['ipv4'])
 
         if None is not server.get_ipv6():
             git_check = CheckHttp.create('web_access_deny_' + name + '_ipv6_' + base_id)
@@ -108,4 +110,4 @@ class DefaultGitChecks(DefaultWebserverChecks):
                 .set_expect('40') \
                 .set_check_interval('15m') \
                 .set_display_name(git_check.get_display_name() + ' ' + domain)
-            self.apply_check(git_check, default_access_checks['ipv4'])
+            self.apply_check(git_check, server, checkserver, default_access_checks['ipv4'])

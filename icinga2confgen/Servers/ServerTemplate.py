@@ -166,9 +166,16 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable, CustomVars):
 
         return self
 
-    def get_check(self):
+    def get_checks(self):
 
         return self.__checks
+
+    def get_all_checks(self):
+        checks = self.get_checks()
+        for template in self.get_templates():
+            checks += template.get_all_checks()
+
+        return checks
 
     def remove_check(self, check):
         if isinstance(check, Check):

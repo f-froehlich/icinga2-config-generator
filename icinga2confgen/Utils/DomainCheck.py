@@ -22,8 +22,6 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-from icinga2confgen.Checks.MonitoringPlugins.CheckDNSSECExpire import CheckDNSSECExpire
-from icinga2confgen.Checks.NagiosPlugins.CheckDig import CheckDig
 from icinga2confgen.Helpers.RemoteCheckManager import RemoteCheckManager
 
 
@@ -43,27 +41,28 @@ class DomainCheck(RemoteCheckManager):
             ipv4 = config[1]
             ipv6 = config[2]
             dnssec = config[3]
-            base_id = ''.join(e for e in domain if e.isalnum())
+            for checkserver in self.get_checkservers():
+                base_id = ''.join(e for e in domain if e.isalnum()) + '_' + checkserver.get_id()
 
-            if True is dnssec:
-                dnssec_check = CheckDNSSECExpire.create('dnssec_expiry') \
-                    .add_dns_domain(domain)
-
-                self.apply_check(dnssec_check)
-
-            if None is not ipv4:
-                ipv4_check = CheckDig.create('domain_address_ipv4_' + base_id)
-                ipv4_check.set_record_type('A') \
-                    .set_question(domain) \
-                    .set_expected_address(ipv4) \
-                    .set_display_name(ipv4_check.get_display_name() + ' ' + domain)
-
-                self.apply_check(ipv4_check)
-
-            if None is not ipv6:
-                ipv6_check = CheckDig.create('domain_address_ipv6_' + base_id)
-                ipv6_check.set_record_type('AAAA') \
-                    .set_question(domain) \
-                    .set_expected_address(ipv6) \
-                    .set_display_name(ipv6_check.get_display_name() + ' ' + domain)
-                self.apply_check(ipv6_check)
+                # if True is dnssec:
+                #     dnssec_check = CheckDNSSECExpire.create('dnssec_expiry') \
+                #         .add_dns_domain(domain)
+                #
+                #     self.apply_check(dnssec_check, checkserver)
+                #
+                # if None is not ipv4:
+                #     ipv4_check = CheckDig.create('domain_address_ipv4_' + base_id)
+                #     ipv4_check.set_record_type('A') \
+                #         .set_question(domain) \
+                #         .set_expected_address(ipv4) \
+                #         .set_display_name(ipv4_check.get_display_name() + ' ' + domain)
+                #
+                #     self.apply_check(ipv4_check, checkserver)
+                #
+                # if None is not ipv6:
+                #     ipv6_check = CheckDig.create('domain_address_ipv6_' + base_id)
+                #     ipv6_check.set_record_type('AAAA') \
+                #         .set_question(domain) \
+                #         .set_expected_address(ipv6) \
+                #         .set_display_name(ipv6_check.get_display_name() + ' ' + domain)
+                #     self.apply_check(ipv6_check, checkserver)

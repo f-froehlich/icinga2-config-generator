@@ -22,9 +22,12 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+from typing import Union
+
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Dependency.Dependency import Dependency
 from icinga2confgen.Downtimes.ScheduledDowntime import ScheduledDowntime
+from icinga2confgen.Helpers.CustomVars import CustomVars
 from icinga2confgen.Helpers.Nameable import Nameable
 from icinga2confgen.Notification.Notification import Notification
 from icinga2confgen.Servers.Zone import Zone
@@ -32,10 +35,11 @@ from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
 
-class Checkable(Nameable):
+class Checkable(Nameable, CustomVars):
 
     def __init__(self, is_check=True):
         Nameable.__init__(self)
+        CustomVars.__init__(self)
         self.__is_check = is_check
         self.__max_check_attempts = 3
         self.__check_interval = '1m'
@@ -57,6 +61,14 @@ class Checkable(Nameable):
 
     def get_max_check_attempts(self):
         return self.__max_check_attempts
+
+    def set_generated(self, generated):
+        ValueChecker.is_bool(generated)
+        self.__generated = generated
+        return self
+
+    def is_generated(self):
+        return self.__generated
 
     def set_check_timeout(self, check_timeout):
         ValueChecker.is_number(check_timeout)
@@ -204,6 +216,7 @@ class Checkable(Nameable):
     def get_config(self):
 
         config = Nameable.get_config(self)
+        config += CustomVars.get_config(self)
         if not self.__is_check:
             config += ValueMapper.parse_var('vars.zone_name', self.__dns_zone)
         elif self.__override_zone:
