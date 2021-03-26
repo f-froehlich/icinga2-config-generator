@@ -37,11 +37,17 @@ class RemoteCheckManager(LocalCheckManager):
     def add_checkserver(self, checkserver):
         self.__checkserver.append(checkserver)
 
-    def apply_check(self, check, depends_on=None):
+    def apply_check(self, check, server, checkserver, depends_on=None):
         self.apply_notification_to_check(check)
         check.set_check_type(self.get_check_type())
-        for checkserver in self.__checkserver:
-            checkserver.add_check(check)
-            self.apply_dependency(check, checkserver, depends_on)
+        check.set_generated(True)
+        check.set_zone(checkserver.get_zone())
+        check.add_custom_var('nagios_plugin_dir', checkserver.get_nagios_plugindir())
+        check.add_custom_var('monitoring_plugin_dir', checkserver.get_monitoring_plugindir())
+        check.add_custom_var('harik_sekhon_plugin_dir', checkserver.get_harik_sekhon_plugindir())
+        check.add_custom_var('other_plugin_dir', checkserver.get_other_plugindir())
+        check.add_custom_var('claudio_kuenzler_plugin_dir', checkserver.get_claudio_kuenzler_plugindir())
+        server.add_check(check)
+        self.apply_dependency(check, server, depends_on)
 
         self.handle_callback(check)

@@ -102,6 +102,8 @@ class LocalCheckManager:
 
         self.apply_notification_to_check(check)
         check.set_check_type(self.__check_type)
+        check.set_generated(True)
+        check.set_zone(server.get_zone())
         server.add_check(check)
         self.apply_dependency(check, server, depends_on)
 

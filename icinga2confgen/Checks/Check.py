@@ -95,9 +95,12 @@ class Check(Checkable):
 
     def get_config(self):
         self.validate()
+        command_name = 'command_' + self.__command_name + '_' + self.__check_type
+        if self.is_using_negation():
+            command_name += '_negate'
 
         config = 'apply Service "' + self.get_id() + '" {\n'
-        config += '  check_command = "command_' + self.__command_name + '_' + self.__check_type + '"\n'
+        config += '  check_command = "' + command_name + '"\n'
         config += self.get_property_default_config()
         config += self.get_custom_property_config()
         config += self.get_custom_config()

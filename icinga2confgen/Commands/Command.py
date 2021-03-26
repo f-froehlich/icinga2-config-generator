@@ -40,7 +40,9 @@ class Command:
 
     def get_config(self):
         config = self.get_config_local()
+        config += self.get_config_local_negate()
         config += self.get_config_ssh()
+        config += self.get_config_ssh_negate()
 
         return config
 
@@ -55,18 +57,65 @@ class Command:
 
         return config
 
-    def get_config_ssh(self):
-        config = 'object CheckCommand "command_' + self.get_id() + '_ssh" {\n'
+    def get_config_local_negate(self):
+        config = 'object CheckCommand "command_' + self.get_id() + '_local_negate" {\n'
         config += '  vars.realcmd = ' + self.get_command_definition() + '\n'
         config += '  vars.realargs = ' + self.get_arguments() + '\n'
-        config += """  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
-  arguments = {
-    "-i" = "$command_overssh_identityfile$"
-    "-l" = "$command_overssh_user$"
-    "-p" = "$command_overssh_port$"
-    "-H" = "$command_overssh_host$"
-    "--timeout" = "$command_overssh_timeout$"
-    "-C" = {{
+        config += '  arguments = ' + self.__get_negate_args() + '\n'
+        config += '  command = ["$nagios_plugin_dir$" + "/negate"]\n'
+        config += '}\n'
+
+        return config
+
+    def get_config_ssh(self):
+        config = 'object CheckCommand "command_' + self.get_id() + '_ssh" {\n'
+        config += '  vars.sshcmd = ' + self.get_command_definition() + '\n'
+        config += '  vars.sshargs = ' + self.get_arguments() + '\n'
+        config += '  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]\n'
+        config += '  arguments = ' + self.__get_ssh_args() + '\n'
+        config += '}\n'
+
+        return config
+
+    def get_config_ssh_negate(self):
+        config = 'object CheckCommand "command_' + self.get_id() + '_ssh_negate" {\n'
+        config += '  vars.realcmd = ' + self.get_command_definition() + '\n'
+        config += '  vars.realargs = ' + self.get_arguments() + '\n'
+        config += '  vars.sshargs = ' + self.__get_negate_args() + '\n'
+        config += '  vars.sshcmd = ["$nagios_plugin_dir$" + "/negate"]\n'
+        config += '  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]\n'
+        config += '  arguments = ' + self.__get_ssh_args() + '\n'
+        config += '}\n'
+
+        return config
+
+    def __get_negate_args(self):
+        return """{
+  "-t" = {
+    value = "$negation_timeout$"
+    set_if = {{ macro("$negation_timeout$") != false }}
+  }
+  "-o" = {
+    value = "$negation_ok_status$"
+    set_if = {{ macro("$negation_ok_status$") != false }}
+  }
+  "-w" = {
+    value = "$negation_warning_status$"
+    set_if = {{ macro("$negation_warning_status$") != false }}
+  }
+  "-c" = {
+    value = "$negation_critical_status$"
+    set_if = {{ macro("$negation_critical_status$") != false }}
+  }
+  "-u" = {
+    value = "$negation_unknown_status$"
+    set_if = {{ macro("$negation_unknown_status$") != false }}
+  }
+  "-s" = {
+    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+  }
+  "--command" = {
+    value = {{
       var command = macro("$realcmd$")
       var arguments = macro("$realargs$")
       if (typeof(command) == String && !arguments) {
@@ -74,11 +123,35 @@ class Command:
       }
       var escaped_args = []
       for (arg in resolve_arguments(command, arguments)) {
-        escaped_args.add(escape_shell_arg(arg))
+          escaped_args.add(arg.replace(" ", "\\\\"))
       }
       return escaped_args.join(" ")
     }}
+    skip_key = true
+    required = true
+    order = 99
   }
 }
 """
-        return config
+
+    def __get_ssh_args(self):
+        return """{
+  "-i" = "$command_overssh_identityfile$"
+  "-l" = "$command_overssh_user$"
+  "-p" = "$command_overssh_port$"
+  "-H" = "$command_overssh_host$"
+  "--timeout" = "$command_overssh_timeout$"
+  "-C" = {{
+    var command = macro("$sshcmd$")
+    var arguments = macro("$sshargs$")
+    if (typeof(command) == String && !arguments) {
+      return command
+    }
+    var escaped_args = []
+    for (arg in resolve_arguments(command, arguments)) {
+      escaped_args.add(escape_shell_arg(arg))
+    }
+    return escaped_args.join(" ")
+  }}
+}
+"""

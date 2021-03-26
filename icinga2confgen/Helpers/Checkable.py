@@ -53,6 +53,75 @@ class Checkable(Nameable, CustomVars):
         self.__override_zone = False
         self.__command_endpoint = None
         self.__override_endpoint = False
+        self.__generated = False
+        self.__use_negation: bool = False
+        self.__negation_ok_status: Union[str, None] = None
+        self.__negation_warning_status: Union[str, None] = None
+        self.__negation_critical_status: Union[str, None] = None
+        self.__negation_unknown_status: Union[str, None] = None
+        self.__negation_substitute: Union[bool, None] = None
+        self.__negation_timeout: Union[int, None] = None
+        self.__allowed_negation_states = ['OK', 'WARNING', 'CRITICAL', 'UNKNOWN']
+
+    def check_negation_status(self, status: Union[str, None]):
+        if None is status:
+            return
+        if status not in self.__allowed_negation_states:
+            raise Exception('Negation status must be in {allowed} but {given} was given'.format(
+                allowed=', '.join(self.__allowed_negation_states), given=status))
+
+    def use_negation(self, enabled: bool):
+        self.__use_negation = enabled
+        return self
+
+    def is_using_negation(self) -> bool:
+        return self.__use_negation
+
+    def use_negation_substitute(self, enabled: bool):
+        self.__negation_substitute = enabled
+        return self
+
+    def is_using_negation_substitute(self) -> bool:
+        return self.__negation_substitute
+
+    def set_ok_status(self, status: Union[str, None]):
+        self.check_negation_status(status)
+        self.__negation_ok_status = status
+        return self
+
+    def get_ok_status(self) -> Union[str, None]:
+        return self.__negation_ok_status
+
+    def set_warning_status(self, status: Union[str, None]):
+        self.check_negation_status(status)
+        self.__negation_warning_status = status
+        return self
+
+    def get_warning_status(self) -> Union[str, None]:
+        return self.__negation_warning_status
+
+    def set_critical_status(self, status: Union[str, None]):
+        self.check_negation_status(status)
+        self.__negation_critical_status = status
+        return self
+
+    def get_critical_status(self) -> Union[str, None]:
+        return self.__negation_critical_status
+
+    def set_unknown_status(self, status: Union[str, None]):
+        self.check_negation_status(status)
+        self.__negation_unknown_status = status
+        return self
+
+    def get_unknown_status(self) -> Union[str, None]:
+        return self.__negation_unknown_status
+
+    def set_negation_timeout(self, timeout: Union[int, None]):
+        self.__negation_timeout = timeout
+        return self
+
+    def get_negation_timeout(self) -> Union[int, None]:
+        return self.__negation_timeout
 
     def set_max_check_attempts(self, max_check_attempts):
         ValueChecker.is_number(max_check_attempts)
@@ -239,5 +308,12 @@ class Checkable(Nameable, CustomVars):
         config += ValueMapper.parse_var('vars.notification', self.__notifications, value_prefix='notification_')
         config += ValueMapper.parse_var('vars.downtime', self.__downtimes, value_prefix='downtime_')
         config += ValueMapper.parse_var('vars.dependencies', self.__dependencies, value_prefix='dependency_')
+        if self.__use_negation:
+            config += ValueMapper.parse_var('vars.negation_ok_status', self.__negation_ok_status)
+            config += ValueMapper.parse_var('vars.negation_warning_status', self.__negation_warning_status)
+            config += ValueMapper.parse_var('vars.negation_critical_status', self.__negation_critical_status)
+            config += ValueMapper.parse_var('vars.negation_unknown_status', self.__negation_unknown_status)
+            config += ValueMapper.parse_var('vars.negation_substitute', self.__negation_substitute)
+            config += ValueMapper.parse_var('vars.negation_timeout', self.__negation_timeout)
 
         return config
