@@ -30,7 +30,7 @@ from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.ValueChecker import ValueChecker
 
 
-class CheckMysqlQuery(Check):
+class CheckMySQLQuery(Check):
 
     def __init__(self, id):
         Check.__init__(self, id, 'CheckMysqlQuery', 'mysql_query')
@@ -141,9 +141,9 @@ class CheckMysqlQuery(Check):
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:
-            check = CheckMysqlQuery(id)
+            check = CheckMySQLQuery(id)
             ConfigBuilder.add_check(id, check)
-        elif not isinstance(check, CheckMysqlQuery):
+        elif not isinstance(check, CheckMySQLQuery):
             raise Exception('Id must be for an instance of CheckMySQLQuery but other instance is returned')
 
         if None is ConfigBuilder.get_command('mysql_query'):

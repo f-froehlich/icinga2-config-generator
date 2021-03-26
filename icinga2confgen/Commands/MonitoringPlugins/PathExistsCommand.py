@@ -41,7 +41,7 @@ class PathExistsCommand(MonitoringPluginCommand):
             command = PathExistsCommand(id)
             ConfigBuilder.add_command(id, command)
         elif not isinstance(command, PathExistsCommand):
-            raise Exception('Id must be for an instance of PathExistCommand but other instance is returned')
+            raise Exception('Id must be for an instance of PathExistsCommand but other instance is returned')
 
         return command
 
@@ -51,13 +51,13 @@ class PathExistsCommand(MonitoringPluginCommand):
     def get_arguments(self):
         config = """{
     "-f" = {
-      value = "$command_path_exist_file$"
+      value = "$command_path_exists_file$"
     }
     "-d" = {
-      value = "$command_path_exist_dir$"
+      value = "$command_path_exists_dir$"
     }
     "-i" = {
-      set_if = "$command_path_exist_invert$"
+      set_if = "$command_path_exists_invert$"
     }
   }
 """

@@ -48,7 +48,7 @@ class CheckSynologyStatus(Check):
         self.__ignore_update: bool = False
         self.__ups: bool = False
 
-        self.add_service_group(ServiceGroup.create('synology_status'))
+        self.add_service_group(ServiceGroup.create('synology'))
 
     def set_host(self, host: str) -> CheckSynologyStatus:
         self.__host = host

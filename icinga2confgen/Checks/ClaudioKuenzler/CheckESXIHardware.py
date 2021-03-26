@@ -45,8 +45,8 @@ class CheckESXIHardware(Check):
         self.__sslproto: Union[str, None] = None
         self.__ignore: Union[str, None] = None
         self.__port: int = 5989
+        self.__html: Union[str, None] = None
 
-        self.__html: bool = False
         self.__regex: bool = False
         self.__perfdata: bool = True
         self.__nopower: bool = False
@@ -112,11 +112,11 @@ class CheckESXIHardware(Check):
     def get_port(self) -> int:
         return self.__port
 
-    def set_html(self, enabled: bool) -> CheckESXIHardware:
-        self.__html = enabled
+    def set_html(self, lang: Union[str, None]) -> CheckESXIHardware:
+        self.__html = lang
         return self
 
-    def get_html(self) -> bool:
+    def get_html(self) -> Union[str, None]:
         return self.__html
 
     def set_regex(self, enabled: bool) -> CheckESXIHardware:

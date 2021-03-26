@@ -43,7 +43,7 @@ class CheckDig(Check):
         self.__question = None
         self.__timeout = 10
         self.__record_type = 'A'
-        self.__expected_address = 'set expected address!'
+        self.__expected_address = None
         self.__question_arguments = None
         self.set_check_interval('15m')
         self.add_service_group(ServiceGroup.create('dns'))

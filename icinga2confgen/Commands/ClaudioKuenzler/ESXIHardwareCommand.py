@@ -65,7 +65,7 @@ class ESXIHardwareCommand(Command):
       description = "user to connect as"
     }
     "-P" = {
-      value = "$command_esxi_hardware_pass$"
+      value = "$command_esxi_hardware_password$"
       required = true
       description = "password"
     }
@@ -81,8 +81,9 @@ class ESXIHardwareCommand(Command):
       value = "$command_esxi_hardware_vendor$"
       description = "Vendor code: auto, dell, hp, ibm, intel, or unknown"
     }
-    "-l" = {
+    "-I" = {
       value = "$command_esxi_hardware_html$"
+      set_if = {{ macro("$command_esxi_hardware_html$") != false }}
       description = "generate html links for country XX"
     }
     "-i" = {

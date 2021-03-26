@@ -59,7 +59,7 @@ class LoadCommand(Command):
       required = true
     }
     "--percpu" = {
-      value = "$command_load_percpu$"
+      set_if = "$command_load_percpu$"
     }
     "--procs-to-show" = {
       value = "$command_load_procs_to_show$"

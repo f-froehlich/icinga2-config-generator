@@ -59,11 +59,13 @@ class Check(Checkable):
 
     def add_service_group(self, group):
         if isinstance(group, ServiceGroup):
-            self.__service_groups.append(group.get_id())
+            if group not in self.__service_groups:
+                self.__service_groups.append(group)
         elif isinstance(group, str):
-            if None is ConfigBuilder.get_servicegroup(group):
+            group = ConfigBuilder.get_servicegroup(group)
+            if None is group:
                 raise Exception('ServiceGroup does not exist yet!')
-            self.__service_groups.append('servicegroup_' + group)
+            self.add_service_group(group)
         else:
             raise Exception('Can only add Servicegroup or id of Servicegroup!')
 

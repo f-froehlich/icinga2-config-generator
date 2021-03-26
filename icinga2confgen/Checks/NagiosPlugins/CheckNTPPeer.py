@@ -51,6 +51,22 @@ class CheckNTPPeer(Check):
         self.add_service_group(ServiceGroup.create('ntp'))
         self.add_service_group(ServiceGroup.create('network'))
 
+    def set_ntp_server(self, ntp_server):
+        ValueChecker.is_string(ntp_server)
+        self.__ntp_server = ntp_server
+        return self
+
+    def get_ntp_server(self):
+        return self.__ntp_server
+
+    def set_ntp_server_port(self, ntp_server_port):
+        ValueChecker.is_number(ntp_server_port)
+        self.__ntp_server_port = ntp_server_port
+        return self
+
+    def get_ntp_server_port(self):
+        return self.__ntp_server_port
+
     def set_warning(self, seconds):
         ValueChecker.is_number(seconds)
         self.__warning = seconds
