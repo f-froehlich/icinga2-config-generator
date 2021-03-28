@@ -1,0 +1,299 @@
+object CheckCommand "command_instance_ssh" {
+vars.sshcmd = [ "$monitoring_plugin_dir$" + "/get_command_mock"]
+vars.sshargs = 
+"--ignore-port" = {
+value = "$command_command_name_ignored_ports$"
+set_if = {{ macro("$command_command_name_ignored_ports$") != false }}
+repeat_key = true
+}
+"--timeout" = {
+value = "$command_command_name_timeout$"
+set_if = {{ macro("$command_command_name_timeout$") != false }}
+}
+ "--host" = {
+value = "$command_command_name_host$"
+set_if = {{ macro("$command_command_name_host$") != false }}
+repeat_key = true
+}
+"--exclude" = {
+value = "$command_command_name_exclude$"
+set_if = {{ macro("$command_command_name_exclude$") != false }}
+repeat_key = true
+}
+"--dns-servers" = {
+value = "$command_command_name_dns_servers$"
+set_if = {{ macro("$command_command_name_dns_servers$") != false }}
+repeat_key = true
+}
+"-p" = {
+value = "$command_command_name_p$"
+set_if = {{ macro("$command_command_name_p$") != false }}
+repeat_key = true
+}
+"--exclude-ports" = {
+value = "$command_command_name_exclude_ports$"
+set_if = {{ macro("$command_command_name_exclude_ports$") != false }}
+repeat_key = true
+}
+"--script" = {
+value = "$command_command_name_script$"
+set_if = {{ macro("$command_command_name_script$") != false }}
+repeat_key = true
+}
+"--script-args" = {
+value = "$command_command_name_script_args$"
+set_if = {{ macro("$command_command_name_script_args$") != false }}
+repeat_key = true
+}
+"-D" = {
+value = "$command_command_name_D$"
+set_if = {{ macro("$command_command_name_D$") != false }}
+repeat_key = true
+}
+"--proxies" = {
+value = "$command_command_name_proxies$"
+set_if = {{ macro("$command_command_name_proxies$") != false }}
+repeat_key = true
+}
+"-iR" = {
+value = "$command_command_name_iR$"
+set_if = {{ macro("$command_command_name_iR$") != false }}
+}
+"--top-ports" = {
+value = "$command_command_name_top_ports$"
+set_if = {{ macro("$command_command_name_top_ports$") != false }}
+}
+"--port-ratio" = {
+value = "$command_command_name_port_ratio$"
+set_if = {{ macro("$command_command_name_port_ratio$") != false }}
+}
+"--version-intensity" = {
+value = "$command_command_name_version_intensity$"
+set_if = {{ macro("$command_command_name_version_intensity$") != false }}
+}
+"--osscan-limit" = {
+value = "$command_command_name_osscan_limit$"
+set_if = {{ macro("$command_command_name_osscan_limit$") != false }}
+}
+"-T" = {
+value = "$command_command_name_T$"
+set_if = {{ macro("$command_command_name_T$") != false }}
+}
+"--min-hostgroup" = {
+value = "$command_command_name_min_hostgroup$"
+set_if = {{ macro("$command_command_name_min_hostgroup$") != false }}
+}
+"--max-hostgroup" = {
+value = "$command_command_name_max_hostgroup$"
+set_if = {{ macro("$command_command_name_max_hostgroup$") != false }}
+}
+"--min-rate" = {
+value = "$command_command_name_min_rate$"
+set_if = {{ macro("$command_command_name_min_rate$") != false }}
+}
+"--max-rate" = {
+value = "$command_command_name_max_rate$"
+set_if = {{ macro("$command_command_name_max_rate$") != false }}
+}
+"--min-parallelism" = {
+value = "$command_command_name_min_parallelism$"
+set_if = {{ macro("$command_command_name_min_parallelism$") != false }}
+}
+"--max-parallelism" = {
+value = "$command_command_name_max_parallelism$"
+set_if = {{ macro("$command_command_name_max_parallelism$") != false }}
+}
+"-g" = {
+value = "$command_command_name_g$"
+set_if = {{ macro("$command_command_name_g$") != false }}
+}
+"--data-length" = {
+value = "$command_command_name_data_length$"
+set_if = {{ macro("$command_command_name_data_length$") != false }}
+}
+"--ttl" = {
+value = "$command_command_name_ttl$"
+set_if = {{ macro("$command_command_name_ttl$") != false }}
+}
+"--min-rtt-timeout" = {
+value = "$command_command_name_min_rtt_timeout$"
+set_if = {{ macro("$command_command_name_min_rtt_timeout$") != false }}
+}
+"--max-rtt-timeout" = {
+value = "$command_command_name_max_rtt_timeout$"
+set_if = {{ macro("$command_command_name_max_rtt_timeout$") != false }}
+}
+"--initial-rtt-timeout" = {
+value = "$command_command_name_initial_rtt_timeout$"
+set_if = {{ macro("$command_command_name_initial_rtt_timeout$") != false }}
+}
+"--max-retries" = {
+value = "$command_command_name_max_retries$"
+set_if = {{ macro("$command_command_name_max_retries$") != false }}
+}
+"--host-timeout" = {
+value = "$command_command_name_host_timeout$"
+set_if = {{ macro("$command_command_name_host_timeout$") != false }}
+}
+"--scan-delay" = {
+value = "$command_command_name_scan_delay$"
+set_if = {{ macro("$command_command_name_scan_delay$") != false }}
+}
+"--max-scan-delay" = {
+value = "$command_command_name_max_scan_delay$"
+set_if = {{ macro("$command_command_name_max_scan_delay$") != false }}
+}
+"--mtu" = {
+value = "$command_command_name_mtu$"
+set_if = {{ macro("$command_command_name_mtu$") != false }}
+}
+"-S" = {
+value = "$command_command_name_S$"
+set_if = {{ macro("$command_command_name_S$") != false }}
+}
+"-e" = {
+value = "$command_command_name_e$"
+set_if = {{ macro("$command_command_name_e$") != false }}
+}
+"--data" = {
+value = "$command_command_name_data$"
+set_if = {{ macro("$command_command_name_data$") != false }}
+}
+"--data-string" = {
+value = "$command_command_name_data_string$"
+set_if = {{ macro("$command_command_name_data_string$") != false }}
+}
+"--ip-options" = {
+value = "$command_command_name_ip_options$"
+set_if = {{ macro("$command_command_name_ip_options$") != false }}
+}
+"--spoof-mac" = {
+value = "$command_command_name_spoof_mac$"
+set_if = {{ macro("$command_command_name_spoof_mac$") != false }}
+}
+"--datadir" = {
+value = "$command_command_name_datadir$"
+set_if = {{ macro("$command_command_name_datadir$") != false }}
+}
+
+
+"--single-host" = {}
+
+"--scan-udp" = {
+set_if = "$command_command_name_scan_udp$"
+}
+
+"--scan-tcp" = {
+set_if = "$command_command_name_scan_tcp$"
+}
+
+"-n" = {
+set_if = "$command_command_name_n$"
+}
+
+"-R" = {
+set_if = "$command_command_name_R$"
+}
+
+"--system-dns" = {
+set_if = "$command_command_name_system_dns$"
+}
+
+"--traceroute" = {
+set_if = "$command_command_name_traceroute$"
+}
+
+"-F" = {
+set_if = "$command_command_name_F$"
+}
+
+"-r" = {
+set_if = "$command_command_name_r$"
+}
+
+"-sV" = {
+set_if = "$command_command_name_sV$"
+}
+
+"--version-light" = {
+set_if = "$command_command_name_version_light$"
+}
+
+"--version-all" = {
+set_if = "$command_command_name_version_all$"
+}
+
+"--version-trace" = {
+set_if = "$command_command_name_version_trace$"
+}
+
+"-sC" = {
+set_if = "$command_command_name_sC$"
+}
+
+"--not-script-trace" = {
+set_if = "$command_command_name_not_script_trace$"
+}
+
+"-O" = {
+set_if = "$command_command_name_O$"
+}
+
+"--osscan-guess" = {
+set_if = "$command_command_name_osscan_guess$"
+}
+
+"--badsum" = {
+set_if = "$command_command_name_badsum$"
+}
+
+"-6" = {
+set_if = "$command_command_name_6$"
+}
+
+"-A" = {
+set_if = "$command_command_name_A$"
+}
+
+"--send-eth" = {
+set_if = "$command_command_name_send_eth$"
+}
+
+"--send-ip" = {
+set_if = "$command_command_name_send_ip$"
+}
+
+"--privileged" = {
+set_if = "$command_command_name_privileged$"
+}
+
+"-Pn" = {
+set_if = "$command_command_name_Pn$"
+}
+
+"--unprivileged" = {
+set_if = "$command_command_name_unprivileged$"
+}
+
+command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+arguments = {
+"-i" = "$command_overssh_identityfile$"
+"-l" = "$command_overssh_user$"
+"-p" = "$command_overssh_port$"
+"-H" = "$command_overssh_host$"
+"--timeout" = "$command_overssh_timeout$"
+"-C" = {{
+var command = macro("$sshcmd$")
+var arguments = macro("$sshargs$")
+if (typeof(command) == String && !arguments) {
+return command
+}
+var escaped_args = []
+for (arg in resolve_arguments(command, arguments)) {
+escaped_args.add(escape_shell_arg(arg))
+}
+return escaped_args.join(" ")
+}}
+}
+
+}

@@ -1,8 +1,8 @@
 from icinga2confgen.Commands.MonitoringPlugins.CiphersCommand import CiphersCommand
-from tests.BaseCommandTest import BaseCommandTest
+from tests.BaseNMAPCommandTest import BaseNMAPCommandTest
 
 
-class TestCiphersCommand(BaseCommandTest):
+class TestCiphersCommand(BaseNMAPCommandTest):
 
     def get_instance_class(self):
         return CiphersCommand

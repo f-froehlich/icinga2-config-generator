@@ -28,11 +28,14 @@ from icinga2confgen.Commands.MonitoringPlugins.MonitoringPluginCommand import Mo
 
 class NmapCommand(MonitoringPluginCommand):
 
-    def __init__(self, id, command_name, single_host=True, scan_udp=True, scan_tcp=True, n=True, R=True,
-                 system_dns=True, traceroute=True, F=True, r=True, sV=True, version_light=True, version_all=True,
-                 version_trace=True, sC=True, script_trace=True, O=True, osscan_guess=True, badsum=True, ipv6=True,
-                 A=True,
-                 send_eth=True, send_ip=True, privileged=True, Pn=True, unprivileged=True):
+    def __init__(self, id: str, command_name: str, single_host: bool = True, scan_udp: bool = True,
+                 scan_tcp: bool = True, n: bool = True, R: bool = True, system_dns: bool = True,
+                 traceroute: bool = True, F: bool = True, r: bool = True, sV: bool = True, version_light: bool = True,
+                 version_all: bool = True, version_trace: bool = True, sC: bool = True, script_trace: bool = True,
+                 O: bool = True, osscan_guess: bool = True, badsum: bool = True, ipv6: bool = True, A: bool = True,
+                 send_eth: bool = True, send_ip: bool = True, privileged: bool = True, Pn: bool = True,
+                 unprivileged: bool = True):
+
         MonitoringPluginCommand.__init__(self, id)
         self.__command_name = command_name
         self.__single_host = single_host

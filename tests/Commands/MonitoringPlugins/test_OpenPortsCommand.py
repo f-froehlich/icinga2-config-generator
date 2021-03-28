@@ -1,8 +1,8 @@
 from icinga2confgen.Commands.MonitoringPlugins.OpenPortsCommand import OpenPortsCommand
-from tests.BaseCommandTest import BaseCommandTest
+from tests.BaseNMAPCommandTest import BaseNMAPCommandTest
 
 
-class TestOpenPortsCommand(BaseCommandTest):
+class TestOpenPortsCommand(BaseNMAPCommandTest):
 
     def get_instance_class(self):
         return OpenPortsCommand
