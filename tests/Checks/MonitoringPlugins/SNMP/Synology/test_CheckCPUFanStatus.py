@@ -1,10 +1,11 @@
 from icinga2confgen.Checks.MonitoringPlugins.SNMP.Synology.CheckCPUFanStatus import CheckCPUFanStatus
 from icinga2confgen.Commands.MonitoringPlugins.SNMP.Synology.CPUFanStatusCommand import CPUFanStatusCommand
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from tests.BaseCheckSNMPTest import BaseCheckSNMPTest
 from tests.BaseCheckTest import BaseCheckTest
 
 
-class TestCheckCPUFanStatus(BaseCheckTest):
+class TestCheckCPUFanStatus(BaseCheckSNMPTest):
 
     def get_instance_class(self):
         return CheckCPUFanStatus

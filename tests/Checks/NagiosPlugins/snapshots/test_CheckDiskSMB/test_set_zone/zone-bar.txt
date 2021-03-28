@@ -1,0 +1,22 @@
+apply Service "instance" {
+check_command = "command_disk_smb_local"
+vars.command_disk_smb_critical = 95
+vars.command_disk_smb_ip = "ip"
+vars.command_disk_smb_password = "password"
+vars.command_disk_smb_port = 445
+vars.command_disk_smb_share = "share"
+vars.command_disk_smb_user = "user"
+vars.command_disk_smb_warning = 85
+vars.groups += [
+"servicegroup_disk",
+]
+display_name = "Disk SMB"
+zone = "bar_zone"
+command_endpoint = host.vars.endpoint_name
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+assign where "instance" in host.vars.checks
+}

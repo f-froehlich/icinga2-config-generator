@@ -1,0 +1,28 @@
+apply Service "instance" {
+check_command = "command_spop_local"
+vars.command_spop_all = false
+vars.command_spop_cert = true
+vars.command_spop_cert_critical = 15
+vars.command_spop_cert_warning = 29
+vars.command_spop_escape = false
+vars.command_spop_host = "host"
+vars.command_spop_ipv4 = false
+vars.command_spop_ipv6 = false
+vars.command_spop_jail = false
+vars.command_spop_port = 8888
+vars.command_spop_timeout = 10
+vars.command_spop_use_ssl = false
+vars.groups += [
+"servicegroup_pop",
+"servicegroup_mail",
+]
+display_name = "POPS"
+zone = host.vars.zone_name
+command_endpoint = "endpoint"
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+assign where "instance" in host.vars.checks
+}

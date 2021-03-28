@@ -1,0 +1,21 @@
+apply Service "instance" {
+check_command = "command_ifstatus_local"
+vars.command_ifstatus_community = "community"
+vars.command_ifstatus_host = "host"
+vars.command_ifstatus_if_mib = false
+vars.command_ifstatus_port = 161
+vars.command_ifstatus_timeout = 10
+vars.groups += [
+"servicegroup_network",
+"servicegroup_ifstatus",
+]
+display_name = "Interface status"
+zone = host.vars.zone_name
+command_endpoint = "endpoint"
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+assign where "instance" in host.vars.checks
+}

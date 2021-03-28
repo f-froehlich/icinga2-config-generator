@@ -1,0 +1,27 @@
+apply Service "instance" {
+check_command = "command_snmp_local"
+vars.command_snmp_host = "host"
+vars.command_snmp_invert = false
+vars.command_snmp_oids = "oid"
+vars.command_snmp_over_ipv4 = false
+vars.command_snmp_over_ipv6 = false
+vars.command_snmp_perf_oids = false
+vars.command_snmp_port = 161
+vars.command_snmp_rate = false
+vars.command_snmp_retries = 2
+vars.command_snmp_snmp_getnext = false
+vars.command_snmp_timeout = 10
+vars.groups += [
+"servicegroup_snmp",
+"servicegroup_network",
+]
+display_name = "SNMP"
+zone = host.vars.zone_name
+command_endpoint = host.vars.endpoint_name
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+assign where "instance" in host.vars.checks
+}

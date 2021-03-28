@@ -12,6 +12,9 @@ class TestCheckIdeSmart(BaseCheckTest):
     def get_command_class(self):
         return IdeSmartCommand
 
+    def get_default_check_interval(self) -> str:
+        return '24h'
+
     def get_default_service_groups(self):
         return [
             ServiceGroup.create('smart'),

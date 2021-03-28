@@ -1,0 +1,41 @@
+apply Service "instance" {
+check_command = "command_http_local_negate"
+vars.command_http_authorization = false
+vars.command_http_certificate = false
+vars.command_http_certificate_critical_days = 15
+vars.command_http_certificate_warning_days = 29
+vars.command_http_continue_after_certificate = false
+vars.command_http_critical = 15
+vars.command_http_expect = "HTTP/1.1 200"
+vars.command_http_extended_perfdata = false
+vars.command_http_invert_regex = false
+vars.command_http_linespan = false
+vars.command_http_link = false
+vars.command_http_no_body = false
+vars.command_http_proxy_authorization = false
+vars.command_http_show_url = false
+vars.command_http_sni = false
+vars.command_http_ssl = false
+vars.command_http_timeout = 10
+vars.command_http_uri = "/"
+vars.command_http_use_ipv4 = false
+vars.command_http_use_ipv6 = false
+vars.command_http_vhost = "host"
+vars.command_http_warning = 7
+vars.groups += [
+"servicegroup_webserver",
+]
+display_name = "Http"
+zone = host.vars.zone_name
+command_endpoint = host.vars.endpoint_name
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+vars.negation_ok_status = "OK"
+vars.negation_warning_status = "WARNING"
+vars.negation_unknown_status = "UNKNOWN"
+vars.negation_substitute = true
+assign where "instance" in host.vars.checks
+}

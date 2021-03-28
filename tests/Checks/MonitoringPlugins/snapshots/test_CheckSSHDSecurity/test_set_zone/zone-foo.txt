@@ -1,0 +1,17 @@
+apply Service "instance" {
+check_command = "command_sshd_security_local"
+vars.groups += [
+"servicegroup_security",
+"servicegroup_sshd",
+"servicegroup_sshd_security",
+]
+display_name = "SSHD security"
+zone = "foo_zone"
+command_endpoint = host.vars.endpoint_name
+check_interval = 15m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+assign where "instance" in host.vars.checks
+}

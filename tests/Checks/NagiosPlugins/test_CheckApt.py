@@ -12,6 +12,9 @@ class TestCheckApt(BaseCheckTest):
     def get_command_class(self):
         return AptCommand
 
+    def get_default_check_interval(self) -> str:
+        return '15m'
+
     def get_default_service_groups(self):
         return [
             ServiceGroup.create('apt'),

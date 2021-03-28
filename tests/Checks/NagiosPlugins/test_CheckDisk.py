@@ -12,6 +12,9 @@ class TestCheckDisk(BaseCheckTest):
     def get_command_class(self):
         return DiskCommand
 
+    def get_default_check_interval(self) -> str:
+        return '30m'
+
     def get_default_service_groups(self):
         return [
             ServiceGroup.create('disk'),

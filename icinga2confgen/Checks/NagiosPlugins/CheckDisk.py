@@ -358,7 +358,6 @@ class CheckDisk(Check):
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:
             check = CheckDisk(id) \
-                .set_check_interval('15m') \
                 .add_service_group(ServiceGroup.create('disk').set_display_name('Disk'))
             ConfigBuilder.add_check(id, check)
         elif not isinstance(check, CheckDisk):

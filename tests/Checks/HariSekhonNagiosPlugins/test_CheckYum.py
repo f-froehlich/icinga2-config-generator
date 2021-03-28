@@ -12,6 +12,9 @@ class TestCheckYum(BaseCheckTest):
     def get_command_class(self):
         return YumCommand
 
+    def get_default_check_interval(self) -> str:
+        return '15m'
+
     def get_default_service_groups(self):
         return [
             ServiceGroup.create('yum'),

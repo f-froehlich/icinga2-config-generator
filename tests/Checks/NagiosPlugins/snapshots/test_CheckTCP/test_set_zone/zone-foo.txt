@@ -1,0 +1,27 @@
+apply Service "instance" {
+check_command = "command_tcp_local"
+vars.command_tcp_all = false
+vars.command_tcp_cert = true
+vars.command_tcp_cert_critical = 15
+vars.command_tcp_cert_warning = 29
+vars.command_tcp_escape = false
+vars.command_tcp_host = "host"
+vars.command_tcp_ipv4 = false
+vars.command_tcp_ipv6 = false
+vars.command_tcp_jail = false
+vars.command_tcp_port = 8888
+vars.command_tcp_timeout = 10
+vars.command_tcp_use_ssl = false
+vars.groups += [
+"servicegroup_tcp",
+]
+display_name = "TCP"
+zone = "foo_zone"
+command_endpoint = host.vars.endpoint_name
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+assign where "instance" in host.vars.checks
+}

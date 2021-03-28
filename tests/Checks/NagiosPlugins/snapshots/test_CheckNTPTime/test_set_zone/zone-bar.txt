@@ -1,0 +1,21 @@
+apply Service "instance" {
+check_command = "command_ntp_time_local"
+vars.command_ntp_time_critical = "1"
+vars.command_ntp_time_force_ipv4 = false
+vars.command_ntp_time_force_ipv6 = false
+vars.command_ntp_time_ntp_server = "0.pool.ntp.org"
+vars.command_ntp_time_warning = "0.5"
+vars.groups += [
+"servicegroup_ntp",
+"servicegroup_network",
+]
+display_name = "NTP time"
+zone = "bar_zone"
+command_endpoint = host.vars.endpoint_name
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+assign where "instance" in host.vars.checks
+}

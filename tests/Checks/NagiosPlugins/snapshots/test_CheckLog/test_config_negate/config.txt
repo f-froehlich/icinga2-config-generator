@@ -1,0 +1,22 @@
+apply Service "instance" {
+check_command = "command_log_local_negate"
+vars.command_log_file = "file"
+vars.command_log_oldfile = "oldfile"
+vars.command_log_query = "query"
+vars.groups += [
+"servicegroup_log",
+]
+display_name = "Log"
+zone = host.vars.zone_name
+command_endpoint = host.vars.endpoint_name
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+vars.negation_ok_status = "OK"
+vars.negation_warning_status = "WARNING"
+vars.negation_unknown_status = "UNKNOWN"
+vars.negation_substitute = true
+assign where "instance" in host.vars.checks
+}

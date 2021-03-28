@@ -1,0 +1,29 @@
+apply Service "instance" {
+check_command = "command_existing_users_local_negate"
+vars.command_existing_users_shell_filter += [
+"/bin/false",
+"/bin/sync",
+"/sbin/nologin",
+"/usr/sbin/nologin",
+]
+vars.command_existing_users_users += [
+"root",
+]
+vars.groups += [
+"servicegroup_security",
+"servicegroup_existing_user",
+]
+display_name = "Existing users"
+zone = host.vars.zone_name
+command_endpoint = host.vars.endpoint_name
+check_interval = 15m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+vars.negation_ok_status = "OK"
+vars.negation_warning_status = "WARNING"
+vars.negation_unknown_status = "UNKNOWN"
+vars.negation_substitute = true
+assign where "instance" in host.vars.checks
+}

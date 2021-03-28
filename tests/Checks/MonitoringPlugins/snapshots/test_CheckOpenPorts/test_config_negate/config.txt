@@ -1,0 +1,49 @@
+apply Service "instance" {
+check_command = "command_open_ports_local_negate"
+vars.command_open_ports_scan_udp = false
+vars.command_open_ports_scan_tcp = false
+vars.command_open_ports_n = false
+vars.command_open_ports_r = false
+vars.command_open_ports_system_dns = false
+vars.command_open_ports_traceroute = false
+vars.command_open_ports_F = false
+vars.command_open_ports_r = false
+vars.command_open_ports_sV = false
+vars.command_open_ports_version_light = false
+vars.command_open_ports_version_all = false
+vars.command_open_ports_version_trace = false
+vars.command_open_ports_sC = false
+vars.command_open_ports_script_trace = false
+vars.command_open_ports_O = false
+vars.command_open_ports_osscan_guess = false
+vars.command_open_ports_badsum = false
+vars.command_open_ports_6 = false
+vars.command_open_ports_A = false
+vars.command_open_ports_send_eth = false
+vars.command_open_ports_send_ip = false
+vars.command_open_ports_privileged = false
+vars.command_open_ports_Pn = false
+vars.command_open_ports_unprivileged = false
+vars.command_open_ports_host += [
+"host",
+]
+vars.command_open_ports_timeout = 12000
+vars.groups += [
+"servicegroup_nmap",
+"servicegroup_security",
+"servicegroup_open_ports",
+]
+display_name = "Open ports"
+zone = host.vars.zone_name
+command_endpoint = host.vars.endpoint_name
+check_interval = 24h
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 12000
+vars.negation_ok_status = "OK"
+vars.negation_warning_status = "WARNING"
+vars.negation_unknown_status = "UNKNOWN"
+vars.negation_substitute = true
+assign where "instance" in host.vars.checks
+}

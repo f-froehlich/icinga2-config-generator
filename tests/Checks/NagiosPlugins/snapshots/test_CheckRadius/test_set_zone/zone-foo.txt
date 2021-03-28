@@ -1,0 +1,22 @@
+apply Service "instance" {
+check_command = "command_radius_local"
+vars.command_radius_config_file = "config_file"
+vars.command_radius_host = "host"
+vars.command_radius_password = "password"
+vars.command_radius_port = 1645
+vars.command_radius_retries = 2
+vars.command_radius_timeout = 10
+vars.command_radius_username = "username"
+vars.groups += [
+"servicegroup_radius",
+]
+display_name = "RADIUS"
+zone = "foo_zone"
+command_endpoint = host.vars.endpoint_name
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+assign where "instance" in host.vars.checks
+}

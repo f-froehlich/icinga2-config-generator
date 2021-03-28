@@ -1,0 +1,21 @@
+apply Service "instance" {
+check_command = "command_synology_status_local"
+vars.command_synology_status_host = "host"
+vars.command_synology_status_ignore_update = false
+vars.command_synology_status_password = "pwd"
+vars.command_synology_status_ups = false
+vars.command_synology_status_user = "user"
+vars.command_synology_status_v2 = false
+vars.groups += [
+"servicegroup_synology",
+]
+display_name = "Synology Status"
+zone = host.vars.zone_name
+command_endpoint = "endpoint"
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+assign where "instance" in host.vars.checks
+}

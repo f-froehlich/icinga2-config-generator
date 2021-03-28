@@ -1,0 +1,17 @@
+apply Service "instance" {
+check_command = "command_hpjd_local"
+vars.command_hpjd_host = "host"
+vars.command_hpjd_paper_check = false
+vars.groups += [
+"servicegroup_hpjd",
+]
+display_name = "HP JD"
+zone = "bar_zone"
+command_endpoint = host.vars.endpoint_name
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+assign where "instance" in host.vars.checks
+}

@@ -1,0 +1,20 @@
+apply Service "instance" {
+check_command = "command_ssh_local_negate"
+vars.command_ssh_hostname = "host"
+vars.groups += [
+"servicegroup_sshd",
+]
+display_name = "SSH"
+zone = host.vars.zone_name
+command_endpoint = host.vars.endpoint_name
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+vars.negation_ok_status = "OK"
+vars.negation_warning_status = "WARNING"
+vars.negation_unknown_status = "UNKNOWN"
+vars.negation_substitute = true
+assign where "instance" in host.vars.checks
+}

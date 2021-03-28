@@ -1,0 +1,17 @@
+apply Service "instance" {
+check_command = "command_dummy_local"
+vars.command_dummy_state = 1
+vars.command_dummy_text = ""
+vars.groups += [
+"servicegroup_dummy",
+]
+display_name = "Dummy"
+zone = host.vars.zone_name
+command_endpoint = host.vars.endpoint_name
+check_interval = 15m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+assign where "instance" in host.vars.checks
+}
