@@ -31,10 +31,8 @@ class CustomVars:
     def __init__(self):
         self.__custom_vars = []
 
-    def add_custom_var(self, key, value):
-        # todo check allowed values
-        # todo check key
-        self.__custom_vars.append({'key': key, 'value': value})
+    def add_custom_var(self, key, value, internal_use=True):
+        self.__custom_vars.append({'key': key, 'value': value, 'internal_use': internal_use})
         return self
 
     def remove_custom_var(self, key):
@@ -84,7 +82,8 @@ class CustomVars:
         config = ''
 
         for custom_var in self.__custom_vars:
-            config += ValueMapper.parse_var('vars.' + custom_var['key'], custom_var['value'])
+            if not custom_var['internal_use']:
+                config += ValueMapper.parse_var('vars.' + custom_var['key'], custom_var['value'])
 
         return config
 
