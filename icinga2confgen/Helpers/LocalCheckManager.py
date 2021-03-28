@@ -72,13 +72,13 @@ class LocalCheckManager:
     def get_notifications(self):
         return self.__notifications
 
-    def set_check_type(self, type):
+    def set_check_type(self, type: str):
         if type not in ['local', 'ssh']:
             raise Exception('Check type must be "local" or "ssh"')
         self.__check_type = type
         return self
 
-    def get_check_type(self):
+    def get_check_type(self) -> str:
         return self.__check_type
 
     def apply_notification_to_check(self, check):

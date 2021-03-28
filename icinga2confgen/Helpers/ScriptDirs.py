@@ -49,7 +49,7 @@ class ScriptDirs:
     def get_monitoring_scriptdir(self):
         return self.__monitoring_script_dir
 
-    def get_config(self):
+    def get_config(self) -> str:
         config = ValueMapper.parse_var('vars.icinga_script_dir', self.__icinga_script_dir)
         config += ValueMapper.parse_var('vars.monitoring_script_dir', self.__monitoring_script_dir)
         return config

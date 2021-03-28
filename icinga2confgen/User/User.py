@@ -32,7 +32,7 @@ from icinga2confgen.ValueMapper import ValueMapper
 
 class User(NotificationFunctions):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         NotificationFunctions.__init__(self)
         self.__id = id
         self.__display_name = None
@@ -51,7 +51,7 @@ class User(NotificationFunctions):
         self.__vars = []
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
 
         user = None if force_create else ConfigBuilder.get_user(id)
@@ -61,7 +61,7 @@ class User(NotificationFunctions):
 
         return user
 
-    def get_id(self):
+    def get_id(self) -> str:
         return self.__id
 
     def set_display_name(self, display_name):
@@ -158,7 +158,7 @@ class User(NotificationFunctions):
     def validate(self):
         return
 
-    def get_config(self):
+    def get_config(self) -> str:
         self.validate()
 
         config = 'object User "user_' + self.__id + '" {\n'

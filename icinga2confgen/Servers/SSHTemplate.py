@@ -31,7 +31,7 @@ from icinga2confgen.ValueMapper import ValueMapper
 
 class SSHTemplate(PluginDirs):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         PluginDirs.__init__(self)
         self.__id = id
         self.__host = None
@@ -41,7 +41,7 @@ class SSHTemplate(PluginDirs):
         self.__timeout = 30
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
 
         template = None if force_create else ConfigBuilder.get_ssh_template(id)
@@ -51,7 +51,7 @@ class SSHTemplate(PluginDirs):
 
         return template
 
-    def get_id(self):
+    def get_id(self) -> str:
         return self.__id
 
     def set_hostname(self, hostname):
@@ -90,7 +90,7 @@ class SSHTemplate(PluginDirs):
         if None == self.__host:
             raise Exception('You have to specify the host in SSHTemplate on ' + self.__id)
 
-    def get_config(self):
+    def get_config(self) -> str:
         self.validate()
 
         config = 'template Host "sshtemplate_' + self.__id + '" {\n'

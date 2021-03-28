@@ -60,7 +60,7 @@ class CheckCiphers(NmapBase, NmapScriptExecutor, NmapNotScanUDP, NmapScanTCP, Nm
                    NmapScriptTrace, NmapO, NmapOsscanGuess, NmapBadsum, Nmap6, NmapA, NmapSendEth, NmapSendIp,
                    NmapPrivileged, NmapPn, NmapUnprivileged):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         NmapBase.__init__(self, id, 'CheckCiphers', 'ciphers')
         NmapNotScanUDP.__init__(self, 'ciphers')
         NmapScanTCP.__init__(self, 'ciphers')
@@ -207,7 +207,7 @@ class CheckCiphers(NmapBase, NmapScriptExecutor, NmapNotScanUDP, NmapScanTCP, Nm
         return self.__ignore_strength
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:
@@ -221,10 +221,10 @@ class CheckCiphers(NmapBase, NmapScriptExecutor, NmapNotScanUDP, NmapScanTCP, Nm
 
         return check
 
-    def get_config(self):
+    def get_config(self) -> str:
         return NmapBase.get_config(self)
 
-    def get_custom_config(self):
+    def get_custom_config(self) -> str:
         config = NmapNotScanUDP.get_config(self)
         config += NmapScanTCP.get_config(self)
         config += NmapN.get_config(self)

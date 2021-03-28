@@ -32,7 +32,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class CheckDNSSECExpire(Check):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Check.__init__(self, id, 'CheckDNSSECExpire', 'dnssec_expiry')
         self.__warning = 10
         self.__critical = 5
@@ -109,7 +109,7 @@ class CheckDNSSECExpire(Check):
         return self.__ignore_tld
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

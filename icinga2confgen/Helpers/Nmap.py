@@ -30,7 +30,7 @@ from icinga2confgen.ValueMapper import ValueMapper
 
 class NmapBase(Check):
 
-    def __init__(self, id, class_name, command_name):
+    def __init__(self, id: str, class_name: str, command_name: str):
         Check.__init__(self, id, class_name, command_name)
         self._command_name = command_name
         self.__host = []
@@ -515,13 +515,13 @@ class NmapBase(Check):
         if 0 == len(self.__host):
             raise Exception('You have to set a host.')
 
-    def get_config(self):
+    def get_config(self) -> str:
         self.validate()
         NmapBase.validate(self)
         config = Check.get_config(self)
         return config
 
-    def get_custom_config(self):
+    def get_custom_config(self) -> str:
         return ValueMapper.get_property_default_config(self, 'NmapBase', self._command_name, 'command')
 
 
@@ -551,7 +551,7 @@ class NmapScriptExecutor:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapScriptExecutor.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapScriptExecutor(self)._class_name, self._command_name,
@@ -576,7 +576,7 @@ class NmapScanUDP:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapScanUDP.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapScanUDP(self)._class_name, self._command_name,
@@ -601,7 +601,7 @@ class NmapNotScanUDP:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotScanUDP.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotScanUDP(self)._class_name, self._command_name,
@@ -626,7 +626,7 @@ class NmapScanTCP:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapScanTCP.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapScanTCP(self)._class_name, self._command_name,
@@ -651,7 +651,7 @@ class NmapNotScanTCP:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotScanTCP.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotScanTCP(self)._class_name, self._command_name,
@@ -676,7 +676,7 @@ class NmapN:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapN.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapN(self)._class_name, self._command_name, 'command')
@@ -700,7 +700,7 @@ class NmapNotN:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotN.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotN(self)._class_name, self._command_name, 'command')
@@ -724,7 +724,7 @@ class Nmapr:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         Nmapr.validate(self)
 
         return ValueMapper.get_property_default_config(self, Nmapr(self)._class_name, self._command_name, 'command')
@@ -748,7 +748,7 @@ class NmapNotr:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotr.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotr(self)._class_name, self._command_name, 'command')
@@ -772,7 +772,7 @@ class NmapSystemDns:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapSystemDns.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapSystemDns(self)._class_name, self._command_name,
@@ -797,7 +797,7 @@ class NmapNotSystemDns:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotSystemDns.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotSystemDns(self)._class_name, self._command_name,
@@ -822,7 +822,7 @@ class NmapTraceroute:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapTraceroute.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapTraceroute(self)._class_name, self._command_name,
@@ -847,7 +847,7 @@ class NmapNotTraceroute:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotTraceroute.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotTraceroute(self)._class_name, self._command_name,
@@ -872,7 +872,7 @@ class NmapF:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapF.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapF(self)._class_name, self._command_name, 'command')
@@ -896,7 +896,7 @@ class NmapNotF:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotF.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotF(self)._class_name, self._command_name, 'command')
@@ -920,7 +920,7 @@ class NmapR:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapR.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapR(self)._class_name, self._command_name, 'command')
@@ -944,7 +944,7 @@ class NmapNotR:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotR.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotR(self)._class_name, self._command_name, 'command')
@@ -968,7 +968,7 @@ class NmapSV:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapSV.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapSV(self)._class_name, self._command_name, 'command')
@@ -992,7 +992,7 @@ class NmapNotSV:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotSV.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotSV(self)._class_name, self._command_name, 'command')
@@ -1016,7 +1016,7 @@ class NmapVersionLight:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapVersionLight.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapVersionLight(self)._class_name, self._command_name,
@@ -1041,7 +1041,7 @@ class NmapNotVersionLight:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotVersionLight.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotVersionLight(self)._class_name, self._command_name,
@@ -1066,7 +1066,7 @@ class NmapVersionAll:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapVersionAll.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapVersionAll(self)._class_name, self._command_name,
@@ -1091,7 +1091,7 @@ class NmapNotVersionAll:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotVersionAll.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotVersionAll(self)._class_name, self._command_name,
@@ -1116,7 +1116,7 @@ class NmapVersionTrace:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapVersionTrace.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapVersionTrace(self)._class_name, self._command_name,
@@ -1141,7 +1141,7 @@ class NmapNotVersionTrace:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotVersionTrace.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotVersionTrace(self)._class_name, self._command_name,
@@ -1166,7 +1166,7 @@ class NmapSC:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapSC.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapSC(self)._class_name, self._command_name, 'command')
@@ -1190,7 +1190,7 @@ class NmapNotSC:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotSC.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotSC(self)._class_name, self._command_name, 'command')
@@ -1214,7 +1214,7 @@ class NmapScriptTrace:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapScriptTrace.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapScriptTrace(self)._class_name, self._command_name,
@@ -1239,7 +1239,7 @@ class NmapNotScriptTrace:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotScriptTrace.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotScriptTrace(self)._class_name, self._command_name,
@@ -1264,7 +1264,7 @@ class NmapO:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapO.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapO(self)._class_name, self._command_name, 'command')
@@ -1288,7 +1288,7 @@ class NmapNotO:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotO.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotO(self)._class_name, self._command_name, 'command')
@@ -1312,7 +1312,7 @@ class NmapOsscanGuess:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapOsscanGuess.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapOsscanGuess(self)._class_name, self._command_name,
@@ -1337,7 +1337,7 @@ class NmapNotOsscanGuess:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotOsscanGuess.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotOsscanGuess(self)._class_name, self._command_name,
@@ -1362,7 +1362,7 @@ class NmapBadsum:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapBadsum.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapBadsum(self)._class_name, self._command_name,
@@ -1387,7 +1387,7 @@ class NmapNotBadsum:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotBadsum.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotBadsum(self)._class_name, self._command_name,
@@ -1412,7 +1412,7 @@ class Nmap6:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         Nmap6.validate(self)
 
         return ValueMapper.get_property_default_config(self, Nmap6(self)._class_name, self._command_name, 'command')
@@ -1436,7 +1436,7 @@ class NmapNot6:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNot6.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNot6(self)._class_name, self._command_name, 'command')
@@ -1460,7 +1460,7 @@ class NmapA:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapA.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapA(self)._class_name, self._command_name, 'command')
@@ -1484,7 +1484,7 @@ class NmapNotA:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotA.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotA(self)._class_name, self._command_name, 'command')
@@ -1508,7 +1508,7 @@ class NmapSendEth:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapSendEth.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapSendEth(self)._class_name, self._command_name,
@@ -1533,7 +1533,7 @@ class NmapNotSendEth:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotSendEth.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotSendEth(self)._class_name, self._command_name,
@@ -1558,7 +1558,7 @@ class NmapSendIp:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapSendIp.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapSendIp(self)._class_name, self._command_name,
@@ -1583,7 +1583,7 @@ class NmapNotSendIp:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotSendIp.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotSendIp(self)._class_name, self._command_name,
@@ -1608,7 +1608,7 @@ class NmapPrivileged:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapPrivileged.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapPrivileged(self)._class_name, self._command_name,
@@ -1633,7 +1633,7 @@ class NmapNotPrivileged:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotPrivileged.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotPrivileged(self)._class_name, self._command_name,
@@ -1658,7 +1658,7 @@ class NmapPn:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapPn.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapPn(self)._class_name, self._command_name, 'command')
@@ -1682,7 +1682,7 @@ class NmapNotPn:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotPn.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotPn(self)._class_name, self._command_name, 'command')
@@ -1706,7 +1706,7 @@ class NmapUnprivileged:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapUnprivileged.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapUnprivileged(self)._class_name, self._command_name,
@@ -1731,7 +1731,7 @@ class NmapNotUnprivileged:
     def validate(self):
         pass
 
-    def get_config(self):
+    def get_config(self) -> str:
         NmapNotUnprivileged.validate(self)
 
         return ValueMapper.get_property_default_config(self, NmapNotUnprivileged(self)._class_name, self._command_name,

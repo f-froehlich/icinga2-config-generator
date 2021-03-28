@@ -30,11 +30,11 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class DHCPCommand(Command):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Command.__init__(self, id)
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
         command = None if force_create else ConfigBuilder.get_command(id)
         if None is command:
@@ -45,10 +45,10 @@ class DHCPCommand(Command):
 
         return command
 
-    def get_command(self):
+    def get_command(self) -> str:
         return 'check_dhcp'
 
-    def get_arguments(self):
+    def get_arguments(self) -> str:
         config = """{
     "-s" = {
       value = "$command_dhcp_server$"

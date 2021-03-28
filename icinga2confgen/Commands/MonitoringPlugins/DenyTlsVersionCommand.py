@@ -30,11 +30,11 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class DenyTlsVersionCommand(MonitoringPluginCommand):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         MonitoringPluginCommand.__init__(self, id)
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
         command = None if force_create else ConfigBuilder.get_command(id)
         if None is command:
@@ -45,10 +45,10 @@ class DenyTlsVersionCommand(MonitoringPluginCommand):
 
         return command
 
-    def get_command(self):
+    def get_command(self) -> str:
         return 'check_deny_tls_version.sh'
 
-    def get_arguments(self):
+    def get_arguments(self) -> str:
         config = """{
     "-p" = {
       value = "$command_deny_tls_version_protocol$"

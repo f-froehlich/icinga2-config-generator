@@ -282,7 +282,7 @@ class Checkable(Nameable, CustomVars):
     def get_endpoint(self):
         return self.__command_endpoint
 
-    def get_config(self):
+    def get_config(self) -> str:
 
         config = Nameable.get_config(self)
         config += CustomVars.get_config(self)

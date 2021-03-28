@@ -27,7 +27,7 @@ from icinga2confgen.ValueMapper import ValueMapper
 
 class ScheduledDowntime:
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         self.__id = id
         self.__comment = None
         self.__author = None
@@ -37,7 +37,7 @@ class ScheduledDowntime:
         self.__ranges = []
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
 
         period = None if force_create else ConfigBuilder.get_downtime(id)
@@ -47,7 +47,7 @@ class ScheduledDowntime:
 
         return period
 
-    def get_id(self):
+    def get_id(self) -> str:
         return self.__id
 
     def set_comment(self, comment):
@@ -123,7 +123,7 @@ class ScheduledDowntime:
         if None is self.__comment:
             raise Exception('Comment must be set for Downtime ' + self.__id)
 
-    def get_config(self):
+    def get_config(self) -> str:
         self.validate()
         config = ''
         for type in ['Host', 'Service']:

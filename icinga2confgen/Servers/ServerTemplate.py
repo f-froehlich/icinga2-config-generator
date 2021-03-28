@@ -40,7 +40,7 @@ from icinga2confgen.ValueMapper import ValueMapper
 
 class ServerTemplate(PluginDirs, ScriptDirs, Checkable, CustomVars):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         CustomVars.__init__(self)
         PluginDirs.__init__(self)
         ScriptDirs.__init__(self)
@@ -59,7 +59,7 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable, CustomVars):
         self.__execution_endpoint = None
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
 
         template = None if force_create else ConfigBuilder.get_template(id)
@@ -69,7 +69,7 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable, CustomVars):
 
         return template
 
-    def get_id(self):
+    def get_id(self) -> str:
         return self.__id
 
     def set_execution_zone(self, zone):
@@ -278,7 +278,7 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable, CustomVars):
     def get_package_managers(self):
         return self.__package_manager
 
-    def get_config(self):
+    def get_config(self) -> str:
         config = 'template Host "servertemplate_' + self.__id + '" {\n'
 
         for template in self.__templates:

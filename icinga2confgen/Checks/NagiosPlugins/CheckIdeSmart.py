@@ -32,7 +32,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class CheckIdeSmart(Check):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Check.__init__(self, id, 'CheckIdeSmart', 'ide_smart')
         self.__device = None
         self.set_check_interval('24h')
@@ -48,7 +48,7 @@ class CheckIdeSmart(Check):
         return self.__device
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

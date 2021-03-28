@@ -32,7 +32,7 @@ from icinga2confgen.ValueMapper import ValueMapper
 
 class TelegramNotification(Notification):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Notification.__init__(self, id)
         self.__api_token = None
 
@@ -46,7 +46,7 @@ class TelegramNotification(Notification):
         return self.__api_token
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
 
         notification = None if force_create else ConfigBuilder.get_notification(id)

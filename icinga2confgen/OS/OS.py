@@ -31,7 +31,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class OS:
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         self.__id = id
         self.__os = None
         self.__distro = None
@@ -39,7 +39,7 @@ class OS:
         self.__package_manager = []
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
 
         os = None if force_create else ConfigBuilder.get_os(id)
@@ -49,7 +49,7 @@ class OS:
 
         return os
 
-    def get_id(self):
+    def get_id(self) -> str:
         return self.__id
 
     def set_os(self, os):
@@ -116,7 +116,7 @@ class OS:
         if None is self.__distro:
             raise Exception('You have to specify distro for ' + self.get_id())
 
-    def get_config(self):
+    def get_config(self) -> str:
         self.validate()
 
         config = 'template Host "os_' + self.__id + '" {\n'

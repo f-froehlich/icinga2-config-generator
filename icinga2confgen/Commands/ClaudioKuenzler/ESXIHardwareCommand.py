@@ -31,7 +31,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class ESXIHardwareCommand(Command):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Command.__init__(self, id)
 
     @staticmethod

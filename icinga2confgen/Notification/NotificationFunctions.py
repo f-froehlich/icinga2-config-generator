@@ -91,7 +91,7 @@ class NotificationFunctions:
         self.__phone.remove(phone)
         return self
 
-    def get_config(self):
+    def get_config(self) -> str:
         config = ValueMapper.parse_var('vars.email_addresses', self.__email)
         config += ValueMapper.parse_var('pager', self.__pager)
         config += ValueMapper.parse_var('vars.phone', self.__phone)

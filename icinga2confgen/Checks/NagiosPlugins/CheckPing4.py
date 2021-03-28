@@ -22,6 +22,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+from typing import List
 
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Checks.NagiosPlugins.CheckPing import CheckPing
@@ -33,13 +34,13 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class CheckPing4(CheckPing):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         CheckPing.__init__(self, id)
         self.add_service_group(ServiceGroup.create('ping'))
         self.add_service_group(ServiceGroup.create('network'))
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:
@@ -53,11 +54,11 @@ class CheckPing4(CheckPing):
 
         return check
 
-    def get_custom_definitions(self):
+    def get_custom_definitions(self) -> List[str]:
         return [
             'vars.command_ping_v4 = true',
         ]
 
-    def get_config(self):
+    def get_config(self) -> str:
 
         return Check.get_config(self)

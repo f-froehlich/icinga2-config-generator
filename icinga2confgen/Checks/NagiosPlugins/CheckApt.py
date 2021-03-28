@@ -32,7 +32,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class CheckApt(Check):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Check.__init__(self, id, 'CheckApt', 'apt')
         self.__timeout = 10
         self.__upgrade = None
@@ -129,7 +129,7 @@ class CheckApt(Check):
         return self.__update
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

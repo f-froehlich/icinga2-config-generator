@@ -32,7 +32,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class CheckProcs(Check):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Check.__init__(self, id, 'CheckProcs', 'procs')
         self.__warning_range = None
         self.__critical_range = None
@@ -143,7 +143,7 @@ class CheckProcs(Check):
         self.__command = command
         return self
 
-    def get_command(self):
+    def get_command(self) -> str:
         return self.__command
 
     def set_only_non_kernel(self, only_non_kernel):
@@ -155,7 +155,7 @@ class CheckProcs(Check):
         return self.__only_non_kernel
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

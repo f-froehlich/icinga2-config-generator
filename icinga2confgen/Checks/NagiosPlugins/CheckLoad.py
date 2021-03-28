@@ -32,7 +32,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class CheckLoad(Check):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Check.__init__(self, id, 'CheckLoad', 'load')
         self.__warning = '10,8,6'
         self.__critical = '15,12,9'
@@ -78,7 +78,7 @@ class CheckLoad(Check):
         return self.__procs_to_show
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

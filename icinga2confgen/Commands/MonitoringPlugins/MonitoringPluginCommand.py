@@ -28,8 +28,8 @@ from icinga2confgen.Commands.Command import Command
 
 class MonitoringPluginCommand(Command):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Command.__init__(self, id)
 
-    def get_command_definition(self):
+    def get_command_definition(self) -> str:
         return '[ "$monitoring_plugin_dir$" + "/' + self.get_command() + '"]'

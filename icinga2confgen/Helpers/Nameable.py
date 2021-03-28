@@ -39,5 +39,5 @@ class Nameable:
         self.__display_name = name
         return self
 
-    def get_config(self):
+    def get_config(self) -> str:
         return ValueMapper.parse_var('display_name', self.__display_name)

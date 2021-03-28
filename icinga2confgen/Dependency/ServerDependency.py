@@ -30,11 +30,11 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class ServerDependency(Dependency):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Dependency.__init__(self, id)
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
 
         dependency = None if force_create else ConfigBuilder.get_dependency(id)
@@ -50,7 +50,7 @@ class ServerDependency(Dependency):
     def get_default_states(self):
         return ['Up']
 
-    def get_config(self):
+    def get_config(self) -> str:
         self.validate()
 
         config = Dependency.get_config(self)

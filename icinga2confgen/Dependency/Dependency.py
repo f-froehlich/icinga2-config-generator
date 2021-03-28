@@ -30,7 +30,7 @@ from icinga2confgen.ValueMapper import ValueMapper
 
 class Dependency:
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         self.__id = id
         self.__parent_host_name = None
         self.__disable_checks = True
@@ -41,10 +41,10 @@ class Dependency:
         self.__allowed_states = self.get_allowed_states()
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         raise Exception("You have to override create!")
 
-    def get_id(self):
+    def get_id(self) -> str:
         return self.__id
 
     def get_allowed_states(self):
@@ -126,7 +126,7 @@ class Dependency:
     def get_period(self):
         return self.__period
 
-    def get_config(self):
+    def get_config(self) -> str:
         self.validate()
 
         config = 'template Dependency "dependency_' + self.__id + '" {\n'

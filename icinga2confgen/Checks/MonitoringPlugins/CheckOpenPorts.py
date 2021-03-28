@@ -60,7 +60,7 @@ class CheckOpenPorts(NmapBase, NmapScanUDP, NmapScanTCP, NmapN, NmapSystemDns, N
                      NmapOsscanGuess, NmapBadsum, Nmap6, NmapA, NmapSendEth, NmapSendIp, NmapPrivileged, NmapPn,
                      NmapUnprivileged):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         NmapBase.__init__(self, id, 'CheckOpenPorts', 'open_ports')
         NmapScanUDP.__init__(self, 'open_ports')
         NmapScanTCP.__init__(self, 'open_ports')
@@ -120,7 +120,7 @@ class CheckOpenPorts(NmapBase, NmapScanUDP, NmapScanTCP, NmapN, NmapSystemDns, N
         return self.__allowed_ports
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:
@@ -134,10 +134,10 @@ class CheckOpenPorts(NmapBase, NmapScanUDP, NmapScanTCP, NmapN, NmapSystemDns, N
 
         return check
 
-    def get_config(self):
+    def get_config(self) -> str:
         return NmapBase.get_config(self)
 
-    def get_custom_config(self):
+    def get_custom_config(self) -> str:
         config = NmapScanUDP.get_config(self)
         config += NmapScanTCP.get_config(self)
         config += NmapN.get_config(self)

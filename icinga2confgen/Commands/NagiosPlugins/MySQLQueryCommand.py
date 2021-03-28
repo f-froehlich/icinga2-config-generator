@@ -30,11 +30,11 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class MySQLQueryCommand(Command):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Command.__init__(self, id)
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
         command = None if force_create else ConfigBuilder.get_command(id)
         if None is command:
@@ -45,10 +45,10 @@ class MySQLQueryCommand(Command):
 
         return command
 
-    def get_command(self):
+    def get_command(self) -> str:
         return 'check_mysql_query'
 
-    def get_arguments(self):
+    def get_arguments(self) -> str:
         config = """{
     "-q" = {
       value = "$command_mysql_query_query$"

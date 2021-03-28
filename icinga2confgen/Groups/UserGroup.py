@@ -31,12 +31,12 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class UserGroup(Group, NotificationFunctions):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Group.__init__(self, id, 'user')
         NotificationFunctions.__init__(self)
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
         usergroup = None if force_create else ConfigBuilder.get_usergroup(id)
         if None is usergroup:
@@ -45,10 +45,10 @@ class UserGroup(Group, NotificationFunctions):
 
         return usergroup
 
-    def get_custom_config(self):
+    def get_custom_config(self) -> str:
         return NotificationFunctions.get_config(self)
 
-    def get_config(self):
+    def get_config(self) -> str:
         config = Group.get_config(self)
         config += 'object User "user_group_notification_sender_' + self.get_id() + '" {\n'
         config += '  display_name = "Notification sender of group ' + self.get_display_name() + '"'

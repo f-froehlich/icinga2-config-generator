@@ -29,12 +29,12 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class PackageManager:
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         self.__id = id
         self.__manager = None
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
 
         pm = None if force_create else ConfigBuilder.get_package_manager(id)
@@ -44,7 +44,7 @@ class PackageManager:
 
         return pm
 
-    def get_id(self):
+    def get_id(self) -> str:
         return self.__id
 
     def set_manager(self, manager):
@@ -59,7 +59,7 @@ class PackageManager:
         if None is self.__manager:
             raise Exception('You have to specify Manager for ' + self.get_id())
 
-    def get_config(self):
+    def get_config(self) -> str:
         self.validate()
 
         config = 'template Host "packagemanager_' + self.__id + '" {\n'

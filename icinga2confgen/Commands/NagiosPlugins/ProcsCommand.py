@@ -30,11 +30,11 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class ProcsCommand(Command):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Command.__init__(self, id)
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
         command = None if force_create else ConfigBuilder.get_command(id)
         if None is command:
@@ -45,10 +45,10 @@ class ProcsCommand(Command):
 
         return command
 
-    def get_command(self):
+    def get_command(self) -> str:
         return 'check_procs'
 
-    def get_arguments(self):
+    def get_arguments(self) -> str:
         config = """{
     "-w" = {
       value = "$command_procs_warning_range$"

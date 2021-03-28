@@ -26,10 +26,10 @@
 
 class NotificationCommand:
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         self.__id = id
 
-    def get_id(self):
+    def get_id(self) -> str:
         return self.__id
 
     def validate(self):
@@ -62,7 +62,7 @@ class NotificationCommand:
     def get_command_definition_service(self):
         return '[ "' + self.get_script_dir() + '/' + self.get_command_executable_service() + '"]'
 
-    def get_config(self):
+    def get_config(self) -> str:
         self.validate()
         config = 'object NotificationCommand "command_host_' + self.get_id() + '" {\n'
         config += '  command = ' + self.get_command_definition_host() + '\n'

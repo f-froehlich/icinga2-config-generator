@@ -30,11 +30,11 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class HostGroup(Group):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Group.__init__(self, id, 'host')
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
         hostgroup = None if force_create else ConfigBuilder.get_hostgroup(id)
         if None is hostgroup:

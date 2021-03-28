@@ -33,7 +33,7 @@ from icinga2confgen.ValueMapper import ValueMapper
 class MailNotification(Notification):
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
 
         notification = None if force_create else ConfigBuilder.get_notification(id)

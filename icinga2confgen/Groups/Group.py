@@ -35,13 +35,13 @@ class Group(Nameable):
         self.__id = id
         self.__type = type
 
-    def get_id(self):
+    def get_id(self) -> str:
         return self.__id
 
-    def get_custom_config(self):
+    def get_custom_config(self) -> str:
         return ''
 
-    def get_config(self):
+    def get_config(self) -> str:
         config = 'object ' + self.__type.capitalize() + 'Group "' + self.__type + 'group_' + self.get_id() + '" {\n'
         config += Nameable.get_config(self)
         config += self.get_custom_config()

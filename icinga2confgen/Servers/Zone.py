@@ -29,14 +29,14 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class Zone:
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         self.__id = id
 
-    def get_id(self):
+    def get_id(self) -> str:
         return self.__id
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
 
         zone = None if force_create else ConfigBuilder.get_zone(id)
@@ -46,5 +46,5 @@ class Zone:
 
         return zone
 
-    def get_config(self):
+    def get_config(self) -> str:
         return ''

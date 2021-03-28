@@ -34,7 +34,7 @@ from icinga2confgen.ValueMapper import ValueMapper
 
 class Notification:
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         self.__id = id
         self.__interval = '1h'
         self.__command = self.get_command_config()
@@ -65,10 +65,10 @@ class Notification:
         raise Exception('You must override group_config_function')
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         raise Exception('Cannot create Notification, use child classes instead')
 
-    def get_id(self):
+    def get_id(self) -> str:
         return self.__id
 
     def set_interval(self, interval):
@@ -89,7 +89,7 @@ class Notification:
             self.__command = command.get_id()
         return self
 
-    def get_command(self):
+    def get_command(self) -> str:
         return self.__command
 
     def set_time_period(self, time_period):
@@ -218,7 +218,7 @@ class Notification:
         if 0 == len(self.__users) and 0 == len(self.__user_groups):
             raise Exception('You have to add a user or user group for Notification ' + self.__id)
 
-    def get_config(self):
+    def get_config(self) -> str:
         self.validate()
 
         config = 'template Notification "notification_template_host_' + self.__id + '" {\n'

@@ -62,10 +62,10 @@ class NmapCommand(MonitoringPluginCommand):
         self.__unprivileged = unprivileged
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         raise Exception('Can\'t create NmapCommand, use child classes instead.')
 
-    def get_arguments(self):
+    def get_arguments(self) -> str:
         config = """
     "--ignore-port" = {
       value = "$command_""" + self.__command_name + """_ignored_ports$"

@@ -32,7 +32,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class CheckRebootRequired(Check):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Check.__init__(self, id, 'CheckRebootRequired', 'reboot_required')
         self.__exit_critical = False
         self.set_check_interval('15m')
@@ -48,7 +48,7 @@ class CheckRebootRequired(Check):
         return self.__exit_critical
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

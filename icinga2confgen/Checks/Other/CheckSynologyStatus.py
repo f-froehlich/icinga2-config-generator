@@ -35,7 +35,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class CheckSynologyStatus(Check):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Check.__init__(self, id, 'CheckSynologyStatus', 'synology_status')
         self.__host: Union[str, None] = None
         self.__user: Union[str, None] = None

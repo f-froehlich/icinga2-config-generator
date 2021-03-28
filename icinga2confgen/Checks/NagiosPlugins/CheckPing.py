@@ -30,7 +30,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class CheckPing(Check):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Check.__init__(self, id, 'CheckPing', 'ping')
         self.__warning_percent_lost = 5
         self.__warning_average_time = 100
@@ -92,7 +92,7 @@ class CheckPing(Check):
     def get_address(self):
         return self.__address
 
-    def get_config(self):
+    def get_config(self) -> str:
         raise Exception(
             'You can\'t use CheckPing for your configuration directly. Please use CheckPing4 or CheckPing6 instead')
 

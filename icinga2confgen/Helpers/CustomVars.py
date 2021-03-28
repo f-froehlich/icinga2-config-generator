@@ -80,7 +80,7 @@ class CustomVars:
 
         return vars
 
-    def get_config(self):
+    def get_config(self) -> str:
         config = ''
 
         for custom_var in self.__custom_vars:

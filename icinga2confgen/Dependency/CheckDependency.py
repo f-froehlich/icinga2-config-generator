@@ -31,12 +31,12 @@ from icinga2confgen.ValueMapper import ValueMapper
 
 class CheckDependency(Dependency):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Dependency.__init__(self, id)
         self.__parent_service_name = None
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
 
         dependency = None if force_create else ConfigBuilder.get_dependency(id)
@@ -73,7 +73,7 @@ class CheckDependency(Dependency):
     def get_check(self):
         return self.__parent_service_name
 
-    def get_config(self):
+    def get_config(self) -> str:
         self.validate()
 
         config = Dependency.get_config(self)

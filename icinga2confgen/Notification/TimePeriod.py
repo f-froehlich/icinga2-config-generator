@@ -24,19 +24,19 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.Helpers.Nameable import Nameable
+from icinga2confgen.ValueChecker import ValueChecker
 
 
 class TimePeriod(Nameable):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         Nameable.__init__(self)
         self.__id = id
         self.__ranges = []
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
 
         period = None if force_create else ConfigBuilder.get_time_period(id)
@@ -46,7 +46,7 @@ class TimePeriod(Nameable):
 
         return period
 
-    def get_id(self):
+    def get_id(self) -> str:
         return self.__id
 
     def add_period(self, day, range):
@@ -64,7 +64,7 @@ class TimePeriod(Nameable):
     def get_period(self):
         return self.__ranges
 
-    def get_config(self):
+    def get_config(self) -> str:
         config = 'object TimePeriod "time_period_' + self.__id + '" {\n'
         config += Nameable.get_config(self)
         config += '  ranges = {\n'

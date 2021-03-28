@@ -30,15 +30,15 @@ from icinga2confgen.ValueChecker import ValueChecker
 
 class Server(ServerTemplate):
 
-    def __init__(self, id):
+    def __init__(self, id: str):
         ServerTemplate.__init__(self, id)
         self.__id = id
 
-    def get_id(self):
+    def get_id(self) -> str:
         return self.__id
 
     @staticmethod
-    def create(id, force_create=False):
+    def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
 
         server = None if force_create else ConfigBuilder.get_server(id)
@@ -48,7 +48,7 @@ class Server(ServerTemplate):
 
         return server
 
-    def get_config(self):
+    def get_config(self) -> str:
         config = ServerTemplate.get_config(self)
         config += 'object Host "' + self.get_id() + '" {\n'
         config += '  import "servertemplate_' + ServerTemplate.get_id(self) + '"\n'

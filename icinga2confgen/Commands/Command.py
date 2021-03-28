@@ -26,19 +26,19 @@
 
 class Command:
 
-    def __init__(self, id):
-        self.__id = id
+    def __init__(self, id: str):
+        self.__id: str = id
 
-    def get_id(self):
+    def get_id(self) -> str:
         return self.__id
 
-    def get_command(self):
+    def get_command(self) -> str:
         raise Exception("get_command must return command name")
 
-    def get_arguments(self):
+    def get_arguments(self) -> str:
         raise Exception("get_arguments must return arguments")
 
-    def get_config(self):
+    def get_config(self) -> str:
         config = self.get_config_local()
         config += self.get_config_local_negate()
         config += self.get_config_ssh()
@@ -46,10 +46,10 @@ class Command:
 
         return config
 
-    def get_command_definition(self):
+    def get_command_definition(self) -> str:
         return '[ "$nagios_plugin_dir$" + "/' + self.get_command() + '"]'
 
-    def get_config_local(self):
+    def get_config_local(self) -> str:
         config = 'object CheckCommand "command_' + self.get_id() + '_local" {\n'
         config += '  command = ' + self.get_command_definition() + '\n'
         config += '  arguments = ' + self.get_arguments() + '\n'
@@ -57,7 +57,7 @@ class Command:
 
         return config
 
-    def get_config_local_negate(self):
+    def get_config_local_negate(self) -> str:
         config = 'object CheckCommand "command_' + self.get_id() + '_local_negate" {\n'
         config += '  vars.realcmd = ' + self.get_command_definition() + '\n'
         config += '  vars.realargs = ' + self.get_arguments() + '\n'
@@ -67,7 +67,7 @@ class Command:
 
         return config
 
-    def get_config_ssh(self):
+    def get_config_ssh(self) -> str:
         config = 'object CheckCommand "command_' + self.get_id() + '_ssh" {\n'
         config += '  vars.sshcmd = ' + self.get_command_definition() + '\n'
         config += '  vars.sshargs = ' + self.get_arguments() + '\n'
@@ -77,7 +77,7 @@ class Command:
 
         return config
 
-    def get_config_ssh_negate(self):
+    def get_config_ssh_negate(self) -> str:
         config = 'object CheckCommand "command_' + self.get_id() + '_ssh_negate" {\n'
         config += '  vars.realcmd = ' + self.get_command_definition() + '\n'
         config += '  vars.realargs = ' + self.get_arguments() + '\n'
@@ -89,7 +89,7 @@ class Command:
 
         return config
 
-    def __get_negate_args(self):
+    def __get_negate_args(self) -> str:
         return """{
   "-t" = {
     value = "$negation_timeout$"
@@ -134,7 +134,7 @@ class Command:
 }
 """
 
-    def __get_ssh_args(self):
+    def __get_ssh_args(self) -> str:
         return """{
   "-i" = "$command_overssh_identityfile$"
   "-l" = "$command_overssh_user$"
