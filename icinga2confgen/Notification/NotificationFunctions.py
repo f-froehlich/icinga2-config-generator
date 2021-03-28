@@ -22,73 +22,71 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+from __future__ import annotations
 
-from icinga2confgen.ValueChecker import ValueChecker
+from typing import List
+
 from icinga2confgen.ValueMapper import ValueMapper
 
 
 class NotificationFunctions:
 
     def __init__(self):
-        self.__email = []
-        self.__phone = []
-        self.__pager = []
-        self.__telegram = []
+        self.__email: List[str] = []
+        self.__phone: List[str] = []
+        self.__pager: List[str] = []
+        self.__telegram: List[int] = []
 
-    def add_email(self, email):
-        ValueChecker.is_string(email)
+    def add_email(self, email: str) -> NotificationFunctions:
         if email not in self.__email:
             self.__email.append(email)
         return self
 
-    def remove_email(self, email):
-        ValueChecker.is_string(email)
-        self.__email.remove(email)
+    def remove_email(self, email: str) -> NotificationFunctions:
+        if email in self.__email:
+            self.__email.remove(email)
         return self
 
-    def get_email(self):
+    def get_email(self) -> List[str]:
         return self.__email
 
-    def add_telegram_id(self, telegram_id):
-        ValueChecker.is_number(telegram_id)
+    def add_telegram_id(self, telegram_id: int) -> NotificationFunctions:
         if telegram_id not in self.__telegram:
             self.__telegram.append(telegram_id)
         return self
 
-    def remove_telegram_id(self, telegram_id):
-        ValueChecker.is_number(telegram_id)
-        self.__telegram.remove(telegram_id)
+    def remove_telegram_id(self, telegram_id: int) -> NotificationFunctions:
+        if telegram_id in self.__telegram:
+            self.__telegram.remove(telegram_id)
         return self
 
-    def get_telegram_id(self):
+    def get_telegram_id(self) -> List[int]:
         return self.__telegram
 
-    def add_pager(self, pager):
-        ValueChecker.is_string(pager)
+    def add_pager(self, pager: str) -> NotificationFunctions:
         if pager not in self.__pager:
             self.__pager.append(pager)
         return self
 
-    def remove_pager(self, pager):
-        ValueChecker.is_string(pager)
-        self.__pager.remove(pager)
+    def remove_pager(self, pager: str) -> NotificationFunctions:
+        if pager not in self.__pager:
+            self.__pager.remove(pager)
         return self
 
-    def get_pager(self):
+    def get_pager(self) -> List[str]:
         return self.__pager
 
-    def add_phone(self, phone):
-        ValueChecker.is_string(phone)
+    def add_phone(self, phone: str) -> NotificationFunctions:
         if phone not in self.__phone:
             self.__phone.append(phone)
         return self
 
-    def get_phone(self):
+    def get_phone(self) -> List[str]:
         return self.__phone
 
-    def remove_phone(self, phone):
-        ValueChecker.is_string(phone)
-        self.__phone.remove(phone)
+    def remove_phone(self, phone: str) -> NotificationFunctions:
+        if phone in self.__phone:
+            self.__phone.remove(phone)
         return self
 
     def get_config(self) -> str:

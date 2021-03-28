@@ -22,19 +22,25 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+from __future__ import annotations
+
+import typing
+from typing import List
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Dependency.Dependency import Dependency
 from icinga2confgen.ValueChecker import ValueChecker
 
+T = typing.TypeVar('T', bound='ServerDependency')
+
 
 class ServerDependency(Dependency):
 
-    def __init__(self, id: str):
+    def __init__(self: T, id: str):
         Dependency.__init__(self, id)
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
 
         dependency = None if force_create else ConfigBuilder.get_dependency(id)
@@ -44,13 +50,13 @@ class ServerDependency(Dependency):
 
         return dependency
 
-    def get_allowed_states(self):
+    def get_allowed_states(self: T) -> List[str]:
         return ['Up', 'Down']
 
-    def get_default_states(self):
+    def get_default_states(self: T) -> List[str]:
         return ['Up']
 
-    def get_config(self) -> str:
+    def get_config(self: T) -> str:
         self.validate()
 
         config = Dependency.get_config(self)

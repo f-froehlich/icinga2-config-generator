@@ -22,19 +22,24 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+from __future__ import annotations
+
+import typing
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.Group import Group
 from icinga2confgen.ValueChecker import ValueChecker
 
+T = typing.TypeVar('T', bound='HostGroup')
+
 
 class HostGroup(Group):
 
-    def __init__(self, id: str):
+    def __init__(self: T, id: str):
         Group.__init__(self, id, 'host')
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         hostgroup = None if force_create else ConfigBuilder.get_hostgroup(id)
         if None is hostgroup:

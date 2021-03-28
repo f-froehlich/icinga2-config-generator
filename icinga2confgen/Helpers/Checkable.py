@@ -22,7 +22,10 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-from typing import Union
+from __future__ import annotations
+
+import typing
+from typing import Union, List
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Dependency.Dependency import Dependency
@@ -34,10 +37,12 @@ from icinga2confgen.Servers.Zone import Zone
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
+T = typing.TypeVar('T', bound='Checkable')
+
 
 class Checkable(Nameable, CustomVars):
 
-    def __init__(self, is_check=True):
+    def __init__(self: T, is_check: bool = True):
         Nameable.__init__(self)
         CustomVars.__init__(self)
         self.__is_check = is_check
@@ -47,7 +52,7 @@ class Checkable(Nameable, CustomVars):
         self.__check_timeout = 30
         self.__enable_perfdata = True
         self.__notifications = []
-        self.__downtimes = []
+        self.__downtimes: List[ScheduledDowntime] = []
         self.__dependencies = []
         self.__dns_zone = Zone.create('master')
         self.__override_zone = False
@@ -63,115 +68,111 @@ class Checkable(Nameable, CustomVars):
         self.__negation_timeout: Union[int, None] = None
         self.__allowed_negation_states = ['OK', 'WARNING', 'CRITICAL', 'UNKNOWN']
 
-    def check_negation_status(self, status: Union[str, None]):
+    def check_negation_status(self: T, status: Union[str, None]) -> T:
         if None is status:
-            return
+            return self
         if status not in self.__allowed_negation_states:
             raise Exception('Negation status must be in {allowed} but {given} was given'.format(
                 allowed=', '.join(self.__allowed_negation_states), given=status))
+        return self
 
-    def use_negation(self, enabled: bool):
+    def use_negation(self: T, enabled: bool) -> T:
         self.__use_negation = enabled
         return self
 
-    def is_using_negation(self) -> bool:
+    def is_using_negation(self: T) -> bool:
         return self.__use_negation
 
-    def use_negation_substitute(self, enabled: bool):
+    def use_negation_substitute(self: T, enabled: bool) -> T:
         self.__negation_substitute = enabled
         return self
 
-    def is_using_negation_substitute(self) -> bool:
+    def is_using_negation_substitute(self: T) -> bool:
         return self.__negation_substitute
 
-    def set_ok_status(self, status: Union[str, None]):
+    def set_ok_status(self: T, status: Union[str, None]) -> T:
         self.check_negation_status(status)
         self.__negation_ok_status = status
         return self
 
-    def get_ok_status(self) -> Union[str, None]:
+    def get_ok_status(self: T) -> Union[str, None]:
         return self.__negation_ok_status
 
-    def set_warning_status(self, status: Union[str, None]):
+    def set_warning_status(self: T, status: Union[str, None]) -> T:
         self.check_negation_status(status)
         self.__negation_warning_status = status
         return self
 
-    def get_warning_status(self) -> Union[str, None]:
+    def get_warning_status(self: T) -> Union[str, None]:
         return self.__negation_warning_status
 
-    def set_critical_status(self, status: Union[str, None]):
+    def set_critical_status(self: T, status: Union[str, None]) -> T:
         self.check_negation_status(status)
         self.__negation_critical_status = status
         return self
 
-    def get_critical_status(self) -> Union[str, None]:
+    def get_critical_status(self: T) -> Union[str, None]:
         return self.__negation_critical_status
 
-    def set_unknown_status(self, status: Union[str, None]):
+    def set_unknown_status(self: T, status: Union[str, None]) -> T:
         self.check_negation_status(status)
         self.__negation_unknown_status = status
         return self
 
-    def get_unknown_status(self) -> Union[str, None]:
+    def get_unknown_status(self: T) -> Union[str, None]:
         return self.__negation_unknown_status
 
-    def set_negation_timeout(self, timeout: Union[int, None]):
+    def set_negation_timeout(self: T, timeout: Union[int, None]) -> T:
         self.__negation_timeout = timeout
         return self
 
-    def get_negation_timeout(self) -> Union[int, None]:
+    def get_negation_timeout(self: T) -> Union[int, None]:
         return self.__negation_timeout
 
-    def set_max_check_attempts(self, max_check_attempts):
+    def set_max_check_attempts(self: T, max_check_attempts) -> T:
         ValueChecker.is_number(max_check_attempts)
         self.__max_check_attempts = max_check_attempts
         return self
 
-    def get_max_check_attempts(self):
+    def get_max_check_attempts(self: T) -> int:
         return self.__max_check_attempts
 
-    def set_generated(self, generated):
-        ValueChecker.is_bool(generated)
+    def set_generated(self: T, generated: bool) -> T:
         self.__generated = generated
         return self
 
-    def is_generated(self):
+    def is_generated(self: T) -> bool:
         return self.__generated
 
-    def set_check_timeout(self, check_timeout):
-        ValueChecker.is_number(check_timeout)
+    def set_check_timeout(self: T, check_timeout: int) -> T:
         self.__check_timeout = check_timeout
         return self
 
-    def get_check_timeout(self):
+    def get_check_timeout(self: T) -> int:
         return self.__check_timeout
 
-    def set_check_interval(self, check_interval):
-        ValueChecker.is_string(check_interval)
+    def set_check_interval(self: T, check_interval: str) -> T:
         self.__check_interval = check_interval
         return self
 
-    def get_check_interval(self):
+    def get_check_interval(self: T) -> str:
         return self.__check_interval
 
-    def set_retry_interval(self, retry_interval):
-        ValueChecker.is_string(retry_interval)
+    def set_retry_interval(self: T, retry_interval: str) -> T:
         self.__retry_interval = retry_interval
         return self
 
-    def get_retry_interval(self):
+    def get_retry_interval(self: T) -> str:
         return self.__retry_interval
 
-    def set_enable_perfdata(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def set_enable_perfdata(self: T, enabled: bool) -> T:
         self.__enable_perfdata = enabled
         return self
 
-    def get_enable_perfdata(self):
+    def get_enable_perfdata(self: T) -> bool:
         return self.__enable_perfdata
 
-    def add_downtime(self, downtime):
+    def add_downtime(self: T, downtime: Union[ScheduledDowntime, str]) -> T:
         if isinstance(downtime, ScheduledDowntime):
             if downtime not in self.__downtimes:
                 self.__downtimes.append(downtime)
@@ -186,19 +187,21 @@ class Checkable(Nameable, CustomVars):
 
         return self
 
-    def remove_downtime(self, downtime):
+    def remove_downtime(self: T, downtime: Union[ScheduledDowntime, str]) -> T:
         if isinstance(downtime, ScheduledDowntime):
-            self.__downtimes.remove(downtime)
+            if downtime in self.__downtimes:
+                self.__downtimes.remove(downtime)
         elif isinstance(downtime, str):
             downtime = ConfigBuilder.get_downtime(downtime)
-            self.__downtimes.remove(downtime)
+            if downtime in self.__downtimes:
+                self.__downtimes.remove(downtime)
 
         return self
 
-    def get_downtimes(self):
+    def get_downtimes(self: T) -> List[ScheduledDowntime]:
         return self.__downtimes
 
-    def add_dependency(self, dependency):
+    def add_dependency(self: T, dependency: Union[Dependency, str]) -> T:
         if isinstance(dependency, Dependency):
             if dependency not in self.__dependencies:
                 self.__dependencies.append(dependency)
@@ -213,7 +216,7 @@ class Checkable(Nameable, CustomVars):
 
         return self
 
-    def remove_dependency(self, dependency):
+    def remove_dependency(self: T, dependency: Union[Dependency, str]) -> T:
         if isinstance(dependency, Dependency):
             self.__dependencies.remove(dependency)
         elif isinstance(dependency, str):
@@ -222,10 +225,10 @@ class Checkable(Nameable, CustomVars):
 
         return self
 
-    def get_dependencies(self):
+    def get_dependencies(self: T) -> List[Dependency]:
         return self.__dependencies
 
-    def add_notification(self, notification):
+    def add_notification(self: T, notification: Union[Notification, str]) -> T:
         if isinstance(notification, Notification):
             if notification not in self.__notifications:
                 self.__notifications.append(notification)
@@ -239,21 +242,23 @@ class Checkable(Nameable, CustomVars):
             raise Exception('Can only add Notification or id of Notification!')
         return self
 
-    def remove_notification(self, notification):
+    def remove_notification(self: T, notification: Union[Notification, str]) -> T:
 
         if isinstance(notification, Notification):
-            self.__notifications.remove(notification)
+            if notification in self.__notifications:
+                self.__notifications.remove(notification)
 
         elif isinstance(notification, str):
             notification = ConfigBuilder.get_notification(notification)
-            self.__notifications.remove(notification)
+            if notification in self.__notifications:
+                self.__notifications.remove(notification)
 
         return self
 
-    def get_notifications(self):
+    def get_notifications(self: T) -> List[Notification]:
         return self.__notifications
 
-    def set_zone(self, zone):
+    def set_zone(self: T, zone: Union[Zone, str]) -> T:
         if isinstance(zone, Zone):
             self.__dns_zone = zone
             self.__override_zone = True
@@ -267,22 +272,21 @@ class Checkable(Nameable, CustomVars):
             raise Exception('Can only add Zone or id of Zone!')
         return self
 
-    def get_zone(self):
+    def get_zone(self: T) -> Union[Zone, None]:
         if self.__is_check and not self.__override_zone:
             return None
 
         return self.__dns_zone
 
-    def set_endpoint(self, name):
-        ValueChecker.is_string(name)
+    def set_endpoint(self: T, name: str) -> T:
         self.__override_endpoint = True
         self.__command_endpoint = name
         return self
 
-    def get_endpoint(self):
+    def get_endpoint(self: T) -> Union[str, None]:
         return self.__command_endpoint
 
-    def get_config(self) -> str:
+    def get_config(self: T) -> str:
 
         config = Nameable.get_config(self)
         config += CustomVars.get_config(self)

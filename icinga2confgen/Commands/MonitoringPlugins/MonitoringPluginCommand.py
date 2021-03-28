@@ -22,14 +22,17 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+import typing
 
 from icinga2confgen.Commands.Command import Command
+
+T = typing.TypeVar('T', bound='MonitoringPluginCommand')
 
 
 class MonitoringPluginCommand(Command):
 
-    def __init__(self, id: str):
+    def __init__(self: T, id: str):
         Command.__init__(self, id)
 
-    def get_command_definition(self) -> str:
+    def get_command_definition(self: T) -> str:
         return '[ "$monitoring_plugin_dir$" + "/' + self.get_command() + '"]'

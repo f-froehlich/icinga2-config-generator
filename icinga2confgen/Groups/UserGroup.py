@@ -22,21 +22,26 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+from __future__ import annotations
+
+import typing
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.Group import Group
 from icinga2confgen.Notification.NotificationFunctions import NotificationFunctions
 from icinga2confgen.ValueChecker import ValueChecker
 
+T = typing.TypeVar('T', bound='UserGroup')
+
 
 class UserGroup(Group, NotificationFunctions):
 
-    def __init__(self, id: str):
+    def __init__(self: T, id: str):
         Group.__init__(self, id, 'user')
         NotificationFunctions.__init__(self)
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         usergroup = None if force_create else ConfigBuilder.get_usergroup(id)
         if None is usergroup:
@@ -45,10 +50,10 @@ class UserGroup(Group, NotificationFunctions):
 
         return usergroup
 
-    def get_custom_config(self) -> str:
+    def get_custom_config(self: T) -> str:
         return NotificationFunctions.get_config(self)
 
-    def get_config(self) -> str:
+    def get_config(self: T) -> str:
         config = Group.get_config(self)
         config += 'object User "user_group_notification_sender_' + self.get_id() + '" {\n'
         config += '  display_name = "Notification sender of group ' + self.get_display_name() + '"'

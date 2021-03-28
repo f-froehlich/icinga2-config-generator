@@ -24,6 +24,7 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 from __future__ import annotations
 
+import typing
 from ctypes import Union
 from typing import List
 
@@ -34,10 +35,11 @@ from icinga2confgen.Helpers.Checkable import Checkable
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
+T = typing.TypeVar('T', bound='Check')
 
 class Check(Checkable):
 
-    def __init__(self, id: str, class_name: str, command_name: str):
+    def __init__(self: T, id: str, class_name: str, command_name: str):
         Checkable.__init__(self)
         self.__command_name = command_name
         self.__class_name = class_name
@@ -48,7 +50,7 @@ class Check(Checkable):
         self.set_display_name(DefaultNames.get_default_check_name(id, command_name))
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
 
         check = None if force_create else ConfigBuilder.get_check(id)
@@ -58,10 +60,10 @@ class Check(Checkable):
 
         return check
 
-    def validate(self):
+    def validate(self: T):
         raise Exception('Each check must override validate method')
 
-    def add_service_group(self, group: Union[ServiceGroup, str]):
+    def add_service_group(self: T, group: Union[ServiceGroup, str]) -> T:
         if isinstance(group, ServiceGroup):
             if group not in self.__service_groups:
                 self.__service_groups.append(group)
@@ -75,14 +77,14 @@ class Check(Checkable):
 
         return self
 
-    def get_service_groups(self) -> List[ServiceGroup]:
+    def get_service_groups(self: T) -> List[ServiceGroup]:
 
         return self.__service_groups
 
-    def get_id(self) -> str:
+    def get_id(self: T) -> str:
         return self.__id
 
-    def set_check_type(self, type: str):
+    def set_check_type(self: T, type: str) -> T:
         if type in self.__allowed_check_types:
             self.__check_type = type
             return self
@@ -91,13 +93,13 @@ class Check(Checkable):
     def get_check_type(self) -> str:
         return self.__check_type
 
-    def get_custom_definitions(self) -> List[str]:
+    def get_custom_definitions(self: T) -> List[str]:
         return []
 
-    def get_command_name(self) -> str:
+    def get_command_name(self: T) -> str:
         return self.__command_name
 
-    def get_config(self) -> str:
+    def get_config(self: T) -> str:
         self.validate()
         command_name = 'command_' + self.__command_name + '_' + self.__check_type
         if self.is_using_negation():
@@ -115,20 +117,20 @@ class Check(Checkable):
 
         return config
 
-    def get_group_config(self) -> str:
+    def get_group_config(self: T) -> str:
 
         return ValueMapper.parse_var('vars.groups', self.__service_groups, value_prefix='servicegroup_')
 
-    def get_custom_property_config(self) -> str:
+    def get_custom_property_config(self: T) -> str:
         config = ''
         for line in self.get_custom_definitions():
             config += '  ' + line + '\n'
 
         return config
 
-    def get_property_default_config(self) -> str:
+    def get_property_default_config(self: T) -> str:
 
         return ValueMapper.get_property_default_config(self, self.__class_name, self.__command_name, 'command')
 
-    def get_custom_config(self) -> str:
+    def get_custom_config(self: T) -> str:
         return ''

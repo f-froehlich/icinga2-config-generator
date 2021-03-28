@@ -24,7 +24,7 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 
-def get_default_group_name(id):
+def get_default_group_name(id: str) -> str:
     default_names = {
         'amavisd': 'Amavisd',
         'antivirus': 'Antivirus',
@@ -137,7 +137,7 @@ def get_default_group_name(id):
     return default_names.get(id, id.replace('_', ' '))
 
 
-def get_default_check_name(id, command_name):
+def get_default_check_name(id: str, command_name: str) -> str:
     default_names = {
         'apt': 'APT',
         'breeze': 'Breeze',

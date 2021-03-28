@@ -22,20 +22,25 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-from icinga2confgen.ValueChecker import ValueChecker
+from __future__ import annotations
+
+import typing
+from ctypes import Union
+
 from icinga2confgen.ValueMapper import ValueMapper
+
+T = typing.TypeVar('T', bound='Nameable')
 
 
 class Nameable:
 
-    def __init__(self):
-        self.__display_name = None
+    def __init__(self: T):
+        self.__display_name: Union[str, None] = None
 
-    def get_display_name(self):
+    def get_display_name(self: T) -> Union[str, None]:
         return self.__display_name
 
-    def set_display_name(self, name):
-        ValueChecker.is_string(name)
+    def set_display_name(self: T, name: str) -> T:
         self.__display_name = name
         return self
 

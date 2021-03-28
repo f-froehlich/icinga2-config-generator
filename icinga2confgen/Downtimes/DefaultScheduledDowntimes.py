@@ -18,6 +18,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+from __future__ import annotations
 
 from icinga2confgen.Downtimes.ScheduledDowntime import ScheduledDowntime
 from icinga2confgen.User.User import User
@@ -26,7 +27,7 @@ from icinga2confgen.User.User import User
 class DefaultScheduledDowntimes:
 
     @staticmethod
-    def weekday_nine_to_five(id='mo_fr_9_17', comment='Mo-Fr, 9am - 5pm'):
+    def weekday_nine_to_five(id: str = 'mo_fr_9_17', comment: str = 'Mo-Fr, 9am - 5pm') -> ScheduledDowntime:
         return ScheduledDowntime.create(id) \
             .set_comment(comment) \
             .set_author(User.create('admin')) \
@@ -37,7 +38,7 @@ class DefaultScheduledDowntimes:
             .add_period("friday", "09:00-17:00")
 
     @staticmethod
-    def weekend(id='weekend', comment='Weekend'):
+    def weekend(id: str = 'weekend', comment: str = 'Weekend') -> ScheduledDowntime:
         return ScheduledDowntime.create(id) \
             .set_comment(comment) \
             .set_author(User.create('admin')) \
@@ -45,7 +46,7 @@ class DefaultScheduledDowntimes:
             .add_period("sunday", "00:00-24:00")
 
     @staticmethod
-    def weekday_backup(id='weekday_backup', comment='Weekday backup'):
+    def weekday_backup(id: str = 'weekday_backup', comment: str = 'Weekday backup') -> ScheduledDowntime:
         return ScheduledDowntime.create(id) \
             .set_comment(comment) \
             .set_author(User.create('admin')) \
@@ -56,7 +57,7 @@ class DefaultScheduledDowntimes:
             .add_period("friday", "00:00-3:00")
 
     @staticmethod
-    def daily_backup(id='daily_backup', comment='Daily backup'):
+    def daily_backup(id: str = 'daily_backup', comment: str = 'Daily backup') -> ScheduledDowntime:
         return ScheduledDowntime.create(id) \
             .set_comment(comment) \
             .set_author(User.create('admin')) \
@@ -69,7 +70,7 @@ class DefaultScheduledDowntimes:
             .add_period("sunday", "00:00-3:00")
 
     @staticmethod
-    def continuously(id='24_7', comment='24/7'):
+    def continuously(id: str = '24_7', comment: str = '24/7') -> ScheduledDowntime:
         return ScheduledDowntime.create(id) \
             .set_comment(comment) \
             .set_author(User.create('admin')) \

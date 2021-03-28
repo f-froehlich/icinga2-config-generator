@@ -22,26 +22,28 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+import typing
 
 from icinga2confgen.Helpers.DefaultNames import get_default_group_name
 from icinga2confgen.Helpers.Nameable import Nameable
 
+T = typing.TypeVar('T', bound='Group')
 
 class Group(Nameable):
 
-    def __init__(self, id, type):
+    def __init__(self: T, id: str, type: str):
         Nameable.__init__(self)
         self.set_display_name(get_default_group_name(id))
         self.__id = id
         self.__type = type
 
-    def get_id(self) -> str:
+    def get_id(self: T) -> str:
         return self.__id
 
-    def get_custom_config(self) -> str:
+    def get_custom_config(self: T) -> str:
         return ''
 
-    def get_config(self) -> str:
+    def get_config(self: T) -> str:
         config = 'object ' + self.__type.capitalize() + 'Group "' + self.__type + 'group_' + self.get_id() + '" {\n'
         config += Nameable.get_config(self)
         config += self.get_custom_config()

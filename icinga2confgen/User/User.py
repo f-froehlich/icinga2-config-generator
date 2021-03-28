@@ -22,18 +22,21 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+from typing import List
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.UserGroup import UserGroup
+from icinga2confgen.Helpers.Nameable import Nameable
 from icinga2confgen.Notification.NotificationFunctions import NotificationFunctions
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
 
-class User(NotificationFunctions):
+class User(NotificationFunctions, Nameable):
 
     def __init__(self, id: str):
         NotificationFunctions.__init__(self)
+        Nameable.__init__(self)
         self.__id = id
         self.__display_name = None
         self.__enable_notifications = True
@@ -64,14 +67,6 @@ class User(NotificationFunctions):
     def get_id(self) -> str:
         return self.__id
 
-    def set_display_name(self, display_name):
-        ValueChecker.is_string(display_name)
-        self.__display_name = display_name
-        return self
-
-    def get_display_name(self):
-        return self.__display_name
-
     def set_types(self, types):
         for type in types:
             if type not in self.__allowed_types:
@@ -82,14 +77,14 @@ class User(NotificationFunctions):
     def get_types(self):
         return self.__types
 
-    def set_states(self, states):
+    def set_states(self, states: List[str]):
         for state in states:
             if state not in self.__allowed_states:
                 raise Exception('State ' + state + ' is not allowed')
         self.__states = states
         return self
 
-    def get_states(self):
+    def get_states(self) -> List[str]:
         return self.__states
 
     def add_group(self, group):
@@ -163,6 +158,7 @@ class User(NotificationFunctions):
 
         config = 'object User "user_' + self.__id + '" {\n'
         config += ValueMapper.parse_var('display_name', self.__display_name)
+        config += Nameable.get_config(self)
         config += NotificationFunctions.get_config(self)
         config += ValueMapper.parse_var('groups', self.__groups, value_prefix='usergroup_')
         config += ValueMapper.parse_var('states', self.__states)

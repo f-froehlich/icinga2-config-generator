@@ -22,23 +22,25 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+import typing
 
+T = typing.TypeVar('T', bound='Command')
 
 class Command:
 
-    def __init__(self, id: str):
+    def __init__(self: T, id: str):
         self.__id: str = id
 
-    def get_id(self) -> str:
+    def get_id(self: T) -> str:
         return self.__id
 
-    def get_command(self) -> str:
+    def get_command(self: T) -> str:
         raise Exception("get_command must return command name")
 
-    def get_arguments(self) -> str:
+    def get_arguments(self: T) -> str:
         raise Exception("get_arguments must return arguments")
 
-    def get_config(self) -> str:
+    def get_config(self: T) -> str:
         config = self.get_config_local()
         config += self.get_config_local_negate()
         config += self.get_config_ssh()
@@ -46,10 +48,10 @@ class Command:
 
         return config
 
-    def get_command_definition(self) -> str:
+    def get_command_definition(self: T) -> str:
         return '[ "$nagios_plugin_dir$" + "/' + self.get_command() + '"]'
 
-    def get_config_local(self) -> str:
+    def get_config_local(self: T) -> str:
         config = 'object CheckCommand "command_' + self.get_id() + '_local" {\n'
         config += '  command = ' + self.get_command_definition() + '\n'
         config += '  arguments = ' + self.get_arguments() + '\n'
@@ -57,7 +59,7 @@ class Command:
 
         return config
 
-    def get_config_local_negate(self) -> str:
+    def get_config_local_negate(self: T) -> str:
         config = 'object CheckCommand "command_' + self.get_id() + '_local_negate" {\n'
         config += '  vars.realcmd = ' + self.get_command_definition() + '\n'
         config += '  vars.realargs = ' + self.get_arguments() + '\n'
@@ -67,7 +69,7 @@ class Command:
 
         return config
 
-    def get_config_ssh(self) -> str:
+    def get_config_ssh(self: T) -> str:
         config = 'object CheckCommand "command_' + self.get_id() + '_ssh" {\n'
         config += '  vars.sshcmd = ' + self.get_command_definition() + '\n'
         config += '  vars.sshargs = ' + self.get_arguments() + '\n'
@@ -77,7 +79,7 @@ class Command:
 
         return config
 
-    def get_config_ssh_negate(self) -> str:
+    def get_config_ssh_negate(self: T) -> str:
         config = 'object CheckCommand "command_' + self.get_id() + '_ssh_negate" {\n'
         config += '  vars.realcmd = ' + self.get_command_definition() + '\n'
         config += '  vars.realargs = ' + self.get_arguments() + '\n'
@@ -89,7 +91,7 @@ class Command:
 
         return config
 
-    def __get_negate_args(self) -> str:
+    def __get_negate_args(self: T) -> str:
         return """{
   "-t" = {
     value = "$negation_timeout$"
@@ -134,7 +136,7 @@ class Command:
 }
 """
 
-    def __get_ssh_args(self) -> str:
+    def __get_ssh_args(self: T) -> str:
         return """{
   "-i" = "$command_overssh_identityfile$"
   "-l" = "$command_overssh_user$"

@@ -22,21 +22,27 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+from __future__ import annotations
+
+import typing
+from typing import List
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Dependency.Dependency import Dependency
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
+T = typing.TypeVar('T', bound='CheckDependency')
+
 
 class CheckDependency(Dependency):
 
-    def __init__(self, id: str):
+    def __init__(self: T, id: str):
         Dependency.__init__(self, id)
         self.__parent_service_name = None
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
 
         dependency = None if force_create else ConfigBuilder.get_dependency(id)
@@ -46,18 +52,18 @@ class CheckDependency(Dependency):
 
         return dependency
 
-    def get_allowed_states(self):
+    def get_allowed_states(self: T) -> List[str]:
         return ['OK', 'Warning', 'Critical', 'Unknown']
 
-    def get_default_states(self):
+    def get_default_states(self: T) -> List[str]:
         return ['OK', 'Warning']
 
-    def validate(self):
+    def validate(self: T):
         Dependency.validate(self)
         if None == self.__parent_service_name:
             raise Exception('You have to set a check to depends on on dependency with id "' + self.get_id() + '"')
 
-    def set_check(self, check):
+    def set_check(self: T, check):
         if isinstance(check, str):
             check = ConfigBuilder.get_check(check)
             if None is check:
@@ -70,10 +76,10 @@ class CheckDependency(Dependency):
 
         return self
 
-    def get_check(self):
+    def get_check(self: T):
         return self.__parent_service_name
 
-    def get_config(self) -> str:
+    def get_config(self: T) -> str:
         self.validate()
 
         config = Dependency.get_config(self)

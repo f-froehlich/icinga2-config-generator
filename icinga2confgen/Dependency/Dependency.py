@@ -22,76 +22,80 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+from __future__ import annotations
+
+import typing
+from ctypes import Union
+from typing import List
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Notification.TimePeriod import TimePeriod
 from icinga2confgen.ValueMapper import ValueMapper
+
+T = typing.TypeVar('T', bound='Dependency')
 
 
 class Dependency:
 
-    def __init__(self, id: str):
+    def __init__(self: T, id: str):
         self.__id = id
         self.__parent_host_name = None
-        self.__disable_checks = True
-        self.__disable_notifications = True
-        self.__ignore_soft_states = True
-        self.__period = None
-        self.__states = self.get_default_states()
-        self.__allowed_states = self.get_allowed_states()
+        self.__disable_checks: bool = True
+        self.__disable_notifications: bool = True
+        self.__ignore_soft_states: bool = True
+        self.__period: Union[TimePeriod, None] = None
+        self.__states: List[str] = self.get_default_states()
+        self.__allowed_states: List[str] = self.get_allowed_states()
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         raise Exception("You have to override create!")
 
-    def get_id(self) -> str:
+    def get_id(self: T) -> str:
         return self.__id
 
-    def get_allowed_states(self):
+    def get_allowed_states(self: T) -> List[str]:
         raise Exception("You have to override get_allowed_states!")
 
-    def get_default_states(self):
+    def get_default_states(self: T) -> List[str]:
         raise Exception("You have to override get_default_states!")
 
-    def validate(self):
+    def validate(self: T):
         if None == self.__parent_host_name:
             raise Exception('You have to set a Server for the Dependency with id "' + self.__id + '"')
 
-    def set_states(self, states):
+    def set_states(self: T, states: List[str]) -> T:
         for state in states:
             if state not in self.__allowed_states:
                 raise Exception('State ' + state + ' is not allowed')
         self.__states = states
         return self
 
-    def get_states(self):
+    def get_states(self: T) -> List[str]:
         return self.__states
 
-    def set_disable_notifications(self, disable_notifications):
-        ValueChecker.is_bool(disable_notifications)
+    def set_disable_notifications(self: T, disable_notifications: bool) -> T:
         self.__disable_notifications = disable_notifications
         return self
 
-    def get_disable_notifications(self):
+    def get_disable_notifications(self: T) -> bool:
         return self.__disable_notifications
 
-    def set_disable_checks(self, disable_checks):
-        ValueChecker.is_bool(disable_checks)
+    def set_disable_checks(self: T, disable_checks: bool) -> T:
         self.__disable_checks = disable_checks
         return self
 
-    def get_disable_checks(self):
+    def get_disable_checks(self: T) -> bool:
         return self.__disable_checks
 
-    def set_ignore_soft_states(self, ignore_soft_states):
-        ValueChecker.is_bool(ignore_soft_states)
+    def set_ignore_soft_states(self: T, ignore_soft_states: bool) -> T:
         self.__ignore_soft_states = ignore_soft_states
         return self
 
-    def get_ignore_soft_states(self):
+    def get_ignore_soft_states(self: T) -> bool:
         return self.__ignore_soft_states
 
-    def set_server(self, server):
+    def set_server(self: T, server) -> T:
 
         if isinstance(server, str):
             server = ConfigBuilder.get_server(server)
@@ -106,27 +110,27 @@ class Dependency:
 
         return self
 
-    def get_server(self):
+    def get_server(self: T):
         return self.__parent_host_name
 
-    def set_period(self, period):
+    def set_period(self: T, period: Union[TimePeriod, str]):
 
         if isinstance(period, str):
             period = ConfigBuilder.get_time_period(period)
             if None is period:
                 raise Exception('TimePeriod does not exist yet!')
             self.__period = period
-        elif callable(getattr(period, 'get_id', None)):
-            return self.set_period(period.get_id())
+        elif isinstance(period, TimePeriod):
+            self.__period = period
         else:
             raise Exception('Can only add TimePeriod or id of TimePeriod!')
 
         return self
 
-    def get_period(self):
+    def get_period(self: T) -> Union[TimePeriod, None]:
         return self.__period
 
-    def get_config(self) -> str:
+    def get_config(self: T) -> str:
         self.validate()
 
         config = 'template Dependency "dependency_' + self.__id + '" {\n'

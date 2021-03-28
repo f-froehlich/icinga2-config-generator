@@ -22,20 +22,26 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+from __future__ import annotations
+
+import typing
+from typing import List
 
 from icinga2confgen.ValueMapper import ValueMapper
+
+T = typing.TypeVar('T', bound='CustomVars')
 
 
 class CustomVars:
 
-    def __init__(self):
+    def __init__(self: T):
         self.__custom_vars = []
 
-    def add_custom_var(self, key, value, internal_use=True):
+    def add_custom_var(self: T, key: str, value, internal_use: bool = True) -> T:
         self.__custom_vars.append({'key': key, 'value': value, 'internal_use': internal_use})
         return self
 
-    def remove_custom_var(self, key):
+    def remove_custom_var(self: T, key: str) -> T:
         vars = self.__custom_vars
         self.__custom_vars = []
         for var in vars:
@@ -43,7 +49,7 @@ class CustomVars:
                 self.__custom_vars.append(var)
         return self
 
-    def get_custom_var(self, key):
+    def get_custom_var(self: T, key: str):
         for var in self.__custom_vars:
             if var['key'] == key:
                 return var['value']
@@ -58,7 +64,7 @@ class CustomVars:
 
         return last_value
 
-    def get_custom_vars(self):
+    def get_custom_vars(self) -> List:
         vars = []
 
         for template in self.get_templates():
@@ -87,5 +93,5 @@ class CustomVars:
 
         return config
 
-    def get_templates(self):
+    def get_templates(self) -> List:
         return []
