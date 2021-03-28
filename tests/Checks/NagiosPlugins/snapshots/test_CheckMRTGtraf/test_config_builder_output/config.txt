@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_mrt_gtraf_local" {
+object CheckCommand "command_nagios_plugins_mrt_gtraf_local" {
   command = [ "$nagios_plugin_dir$" + "/check_mrt_gtraf"]
   arguments = {
     "-F" = {
@@ -67,7 +67,7 @@ object CheckCommand "command_mrt_gtraf_local" {
   }
 
 }
-object CheckCommand "command_mrt_gtraf_local_negate" {
+object CheckCommand "command_nagios_plugins_mrt_gtraf_local_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_mrt_gtraf"]
   vars.realargs = {
     "-F" = {
@@ -136,7 +136,7 @@ object CheckCommand "command_mrt_gtraf_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_mrt_gtraf_ssh" {
+object CheckCommand "command_nagios_plugins_mrt_gtraf_ssh" {
   vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_mrt_gtraf"]
   vars.sshargs = {
     "-F" = {
@@ -182,7 +182,7 @@ object CheckCommand "command_mrt_gtraf_ssh" {
 }
 
 }
-object CheckCommand "command_mrt_gtraf_ssh_negate" {
+object CheckCommand "command_nagios_plugins_mrt_gtraf_ssh_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_mrt_gtraf"]
   vars.realargs = {
     "-F" = {

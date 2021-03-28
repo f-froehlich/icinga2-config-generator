@@ -73,8 +73,8 @@ class CheckPathExists(Check):
         elif not isinstance(check, CheckPathExists):
             raise Exception('Id must be for an instance of CheckPathExist but other instance is returned')
 
-        if None is ConfigBuilder.get_command('path_exists'):
-            PathExistsCommand.create('path_exists')
+        if None is ConfigBuilder.get_command('monitoring_plugins_path_exists'):
+            PathExistsCommand.create('monitoring_plugins_path_exists')
 
         return check
 

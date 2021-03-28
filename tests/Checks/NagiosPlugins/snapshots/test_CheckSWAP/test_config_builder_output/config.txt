@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_swap_local" {
+object CheckCommand "command_nagios_plugins_swap_local" {
   command = [ "$nagios_plugin_dir$" + "/check_swap"]
   arguments = {
     "--warning" = {
@@ -64,7 +64,7 @@ object CheckCommand "command_swap_local" {
   }
 
 }
-object CheckCommand "command_swap_local_negate" {
+object CheckCommand "command_nagios_plugins_swap_local_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_swap"]
   vars.realargs = {
     "--warning" = {
@@ -130,7 +130,7 @@ object CheckCommand "command_swap_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_swap_ssh" {
+object CheckCommand "command_nagios_plugins_swap_ssh" {
   vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_swap"]
   vars.sshargs = {
     "--warning" = {
@@ -173,7 +173,7 @@ object CheckCommand "command_swap_ssh" {
 }
 
 }
-object CheckCommand "command_swap_ssh_negate" {
+object CheckCommand "command_nagios_plugins_swap_ssh_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_swap"]
   vars.realargs = {
     "--warning" = {

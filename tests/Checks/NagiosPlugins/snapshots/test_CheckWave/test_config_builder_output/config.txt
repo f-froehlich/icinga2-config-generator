@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_wave_local" {
+object CheckCommand "command_nagios_plugins_wave_local" {
   command = [ "$nagios_plugin_dir$" + "/check_wave"]
   arguments = {
     "-H" = {
@@ -60,7 +60,7 @@ object CheckCommand "command_wave_local" {
   }
 
 }
-object CheckCommand "command_wave_local_negate" {
+object CheckCommand "command_nagios_plugins_wave_local_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_wave"]
   vars.realargs = {
     "-H" = {
@@ -122,7 +122,7 @@ object CheckCommand "command_wave_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_wave_ssh" {
+object CheckCommand "command_nagios_plugins_wave_ssh" {
   vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_wave"]
   vars.sshargs = {
     "-H" = {
@@ -161,7 +161,7 @@ object CheckCommand "command_wave_ssh" {
 }
 
 }
-object CheckCommand "command_wave_ssh_negate" {
+object CheckCommand "command_nagios_plugins_wave_ssh_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_wave"]
   vars.realargs = {
     "-H" = {

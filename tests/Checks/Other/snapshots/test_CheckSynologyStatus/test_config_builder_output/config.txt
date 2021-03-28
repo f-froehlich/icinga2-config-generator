@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_synology_status_local" {
+object CheckCommand "command_other_synology_status_local" {
   command = [ "$other_plugin_dir$" + "/check_snmp_synology"]
   arguments = {
     "-h" = {
@@ -85,7 +85,7 @@ object CheckCommand "command_synology_status_local" {
 }
 
 }
-object CheckCommand "command_synology_status_local_negate" {
+object CheckCommand "command_other_synology_status_local_negate" {
   vars.realcmd = [ "$other_plugin_dir$" + "/check_snmp_synology"]
   vars.realargs = {
     "-h" = {
@@ -172,7 +172,7 @@ object CheckCommand "command_synology_status_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_synology_status_ssh" {
+object CheckCommand "command_other_synology_status_ssh" {
   vars.sshcmd = [ "$other_plugin_dir$" + "/check_snmp_synology"]
   vars.sshargs = {
     "-h" = {
@@ -236,7 +236,7 @@ object CheckCommand "command_synology_status_ssh" {
 }
 
 }
-object CheckCommand "command_synology_status_ssh_negate" {
+object CheckCommand "command_other_synology_status_ssh_negate" {
   vars.realcmd = [ "$other_plugin_dir$" + "/check_snmp_synology"]
   vars.realargs = {
     "-h" = {

@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_disk_smb_local" {
+object CheckCommand "command_nagios_plugins_disk_smb_local" {
   command = [ "$nagios_plugin_dir$" + "/check_disk_smb"]
   arguments = {
     "-H" = {
@@ -84,7 +84,7 @@ object CheckCommand "command_disk_smb_local" {
   }
 
 }
-object CheckCommand "command_disk_smb_local_negate" {
+object CheckCommand "command_nagios_plugins_disk_smb_local_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_disk_smb"]
   vars.realargs = {
     "-H" = {
@@ -170,7 +170,7 @@ object CheckCommand "command_disk_smb_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_disk_smb_ssh" {
+object CheckCommand "command_nagios_plugins_disk_smb_ssh" {
   vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_disk_smb"]
   vars.sshargs = {
     "-H" = {
@@ -233,7 +233,7 @@ object CheckCommand "command_disk_smb_ssh" {
 }
 
 }
-object CheckCommand "command_disk_smb_ssh_negate" {
+object CheckCommand "command_nagios_plugins_disk_smb_ssh_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_disk_smb"]
   vars.realargs = {
     "-H" = {

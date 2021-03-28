@@ -73,8 +73,8 @@ class CheckLog(Check):
         elif not isinstance(check, CheckLog):
             raise Exception('Id must be for an instance of CheckLog but other instance is returned')
 
-        if None is ConfigBuilder.get_command('log'):
-            LogCommand.create('log')
+        if None is ConfigBuilder.get_command('nagios_plugins_log'):
+            LogCommand.create('nagios_plugins_log')
 
         return check
 

@@ -109,8 +109,8 @@ class CheckSSH(Check):
         elif not isinstance(check, CheckSSH):
             raise Exception('Id must be for an instance of CheckSSH but other instance is returned')
 
-        if None is ConfigBuilder.get_command('ssh'):
-            SSHCommand.create('ssh')
+        if None is ConfigBuilder.get_command('nagios_plugins_ssh'):
+            SSHCommand.create('nagios_plugins_ssh')
 
         return check
 

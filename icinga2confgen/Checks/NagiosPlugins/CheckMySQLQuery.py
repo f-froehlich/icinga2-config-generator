@@ -146,8 +146,8 @@ class CheckMySQLQuery(Check):
         elif not isinstance(check, CheckMySQLQuery):
             raise Exception('Id must be for an instance of CheckMySQLQuery but other instance is returned')
 
-        if None is ConfigBuilder.get_command('mysql_query'):
-            MySQLQueryCommand.create('mysql_query')
+        if None is ConfigBuilder.get_command('nagios_plugins_mysql_query'):
+            MySQLQueryCommand.create('nagios_plugins_mysql_query')
 
         return check
 

@@ -200,8 +200,8 @@ class CheckIfStatus(Check):
         elif not isinstance(check, CheckIfStatus):
             raise Exception('Id must be for an instance of CheckIfStatus but other instance is returned')
 
-        if None is ConfigBuilder.get_command('ifstatus'):
-            IfStatusCommand.create('ifstatus')
+        if None is ConfigBuilder.get_command('nagios_plugins_ifstatus'):
+            IfStatusCommand.create('nagios_plugins_ifstatus')
 
         return check
 

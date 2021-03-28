@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_cpu_fan_status_local" {
+object CheckCommand "command_monitoring_plugins_snmp_synology_cpu_fan_status_local" {
   command = [ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_cpu_fan_status.py"]
   arguments = {
     "-u" = {
@@ -65,7 +65,7 @@ object CheckCommand "command_cpu_fan_status_local" {
   }
 
 }
-object CheckCommand "command_cpu_fan_status_local_negate" {
+object CheckCommand "command_monitoring_plugins_snmp_synology_cpu_fan_status_local_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_cpu_fan_status.py"]
   vars.realargs = {
     "-u" = {
@@ -132,7 +132,7 @@ object CheckCommand "command_cpu_fan_status_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_cpu_fan_status_ssh" {
+object CheckCommand "command_monitoring_plugins_snmp_synology_cpu_fan_status_ssh" {
   vars.sshcmd = [ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_cpu_fan_status.py"]
   vars.sshargs = {
     "-u" = {
@@ -176,7 +176,7 @@ object CheckCommand "command_cpu_fan_status_ssh" {
 }
 
 }
-object CheckCommand "command_cpu_fan_status_ssh_negate" {
+object CheckCommand "command_monitoring_plugins_snmp_synology_cpu_fan_status_ssh_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_cpu_fan_status.py"]
   vars.realargs = {
     "-u" = {

@@ -245,8 +245,8 @@ class CheckIMAP(Check):
         elif not isinstance(check, CheckIMAP):
             raise Exception('Id must be for an instance of CheckIMAP but other instance is returned')
 
-        if None is ConfigBuilder.get_command('imap'):
-            IMAPCommand.create('imap')
+        if None is ConfigBuilder.get_command('nagios_plugins_imap'):
+            IMAPCommand.create('nagios_plugins_imap')
 
         return check
 

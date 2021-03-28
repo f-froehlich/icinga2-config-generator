@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_docker_login_local" {
+object CheckCommand "command_monitoring_plugins_docker_login_local" {
   command = [ "$monitoring_plugin_dir$" + "/check_docker_login.sh"]
   arguments = {
     "-u" = {
@@ -67,7 +67,7 @@ object CheckCommand "command_docker_login_local" {
   }
 
 }
-object CheckCommand "command_docker_login_local_negate" {
+object CheckCommand "command_monitoring_plugins_docker_login_local_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_docker_login.sh"]
   vars.realargs = {
     "-u" = {
@@ -136,7 +136,7 @@ object CheckCommand "command_docker_login_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_docker_login_ssh" {
+object CheckCommand "command_monitoring_plugins_docker_login_ssh" {
   vars.sshcmd = [ "$monitoring_plugin_dir$" + "/check_docker_login.sh"]
   vars.sshargs = {
     "-u" = {
@@ -182,7 +182,7 @@ object CheckCommand "command_docker_login_ssh" {
 }
 
 }
-object CheckCommand "command_docker_login_ssh_negate" {
+object CheckCommand "command_monitoring_plugins_docker_login_ssh_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_docker_login.sh"]
   vars.realargs = {
     "-u" = {

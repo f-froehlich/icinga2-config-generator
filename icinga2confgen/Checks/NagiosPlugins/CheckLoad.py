@@ -87,8 +87,8 @@ class CheckLoad(Check):
         elif not isinstance(check, CheckLoad):
             raise Exception('Id must be for an instance of CheckLoad but other instance is returned')
 
-        if None is ConfigBuilder.get_command('load'):
-            LoadCommand.create('load')
+        if None is ConfigBuilder.get_command('nagios_plugins_load'):
+            LoadCommand.create('nagios_plugins_load')
 
         return check
 

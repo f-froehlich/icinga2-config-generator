@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_path_exists_local" {
+object CheckCommand "command_monitoring_plugins_path_exists_local" {
   command = [ "$monitoring_plugin_dir$" + "/check_path_exists.sh"]
   arguments = {
     "-f" = {
@@ -57,7 +57,7 @@ object CheckCommand "command_path_exists_local" {
   }
 
 }
-object CheckCommand "command_path_exists_local_negate" {
+object CheckCommand "command_monitoring_plugins_path_exists_local_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_path_exists.sh"]
   vars.realargs = {
     "-f" = {
@@ -116,7 +116,7 @@ object CheckCommand "command_path_exists_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_path_exists_ssh" {
+object CheckCommand "command_monitoring_plugins_path_exists_ssh" {
   vars.sshcmd = [ "$monitoring_plugin_dir$" + "/check_path_exists.sh"]
   vars.sshargs = {
     "-f" = {
@@ -152,7 +152,7 @@ object CheckCommand "command_path_exists_ssh" {
 }
 
 }
-object CheckCommand "command_path_exists_ssh_negate" {
+object CheckCommand "command_monitoring_plugins_path_exists_ssh_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_path_exists.sh"]
   vars.realargs = {
     "-f" = {

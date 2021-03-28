@@ -421,8 +421,8 @@ class CheckHttp(Check):
         elif not isinstance(check, CheckHttp):
             raise Exception('Id must be for an instance of CheckHttp but other instance is returned')
 
-        if None is ConfigBuilder.get_command('http'):
-            HttpCommand.create('http')
+        if None is ConfigBuilder.get_command('nagios_plugins_http'):
+            HttpCommand.create('nagios_plugins_http')
 
         return check
 

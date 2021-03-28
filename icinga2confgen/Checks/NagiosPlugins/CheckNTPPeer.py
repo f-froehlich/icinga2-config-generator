@@ -165,8 +165,8 @@ class CheckNTPPeer(Check):
         elif not isinstance(check, CheckNTPPeer):
             raise Exception('Id must be for an instance of CheckNTPPeer but other instance is returned')
 
-        if None is ConfigBuilder.get_command('ntp_peer'):
-            NTPPeerCommand.create('ntp_peer')
+        if None is ConfigBuilder.get_command('nagios_plugins_ntp_peer'):
+            NTPPeerCommand.create('nagios_plugins_ntp_peer')
 
         return check
 

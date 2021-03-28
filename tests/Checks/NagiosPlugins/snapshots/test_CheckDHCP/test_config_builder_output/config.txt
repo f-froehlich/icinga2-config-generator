@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_dhcp_local" {
+object CheckCommand "command_nagios_plugins_dhcp_local" {
   command = [ "$nagios_plugin_dir$" + "/check_dhcp"]
   arguments = {
     "-s" = {
@@ -71,7 +71,7 @@ object CheckCommand "command_dhcp_local" {
   }
 
 }
-object CheckCommand "command_dhcp_local_negate" {
+object CheckCommand "command_nagios_plugins_dhcp_local_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_dhcp"]
   vars.realargs = {
     "-s" = {
@@ -144,7 +144,7 @@ object CheckCommand "command_dhcp_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_dhcp_ssh" {
+object CheckCommand "command_nagios_plugins_dhcp_ssh" {
   vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_dhcp"]
   vars.sshargs = {
     "-s" = {
@@ -194,7 +194,7 @@ object CheckCommand "command_dhcp_ssh" {
 }
 
 }
-object CheckCommand "command_dhcp_ssh_negate" {
+object CheckCommand "command_nagios_plugins_dhcp_ssh_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_dhcp"]
   vars.realargs = {
     "-s" = {

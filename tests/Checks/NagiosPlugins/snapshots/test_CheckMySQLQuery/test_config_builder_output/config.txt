@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_mysql_query_local" {
+object CheckCommand "command_nagios_plugins_mysql_query_local" {
   command = [ "$nagios_plugin_dir$" + "/check_mysql_query"]
   arguments = {
     "-q" = {
@@ -92,7 +92,7 @@ object CheckCommand "command_mysql_query_local" {
   }
 
 }
-object CheckCommand "command_mysql_query_local_negate" {
+object CheckCommand "command_nagios_plugins_mysql_query_local_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_mysql_query"]
   vars.realargs = {
     "-q" = {
@@ -186,7 +186,7 @@ object CheckCommand "command_mysql_query_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_mysql_query_ssh" {
+object CheckCommand "command_nagios_plugins_mysql_query_ssh" {
   vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_mysql_query"]
   vars.sshargs = {
     "-q" = {
@@ -257,7 +257,7 @@ object CheckCommand "command_mysql_query_ssh" {
 }
 
 }
-object CheckCommand "command_mysql_query_ssh_negate" {
+object CheckCommand "command_nagios_plugins_mysql_query_ssh_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_mysql_query"]
   vars.realargs = {
     "-q" = {

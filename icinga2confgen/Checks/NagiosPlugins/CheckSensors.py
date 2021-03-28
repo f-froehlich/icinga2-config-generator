@@ -47,8 +47,8 @@ class CheckSensors(Check):
         elif not isinstance(check, CheckSensors):
             raise Exception('Id must be for an instance of CheckSensors but other instance is returned')
 
-        if None is ConfigBuilder.get_command('sensors'):
-            SensorsCommand.create('sensors')
+        if None is ConfigBuilder.get_command('nagios_plugins_sensors'):
+            SensorsCommand.create('nagios_plugins_sensors')
 
         return check
 

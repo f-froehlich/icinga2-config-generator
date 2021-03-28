@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_nt_local" {
+object CheckCommand "command_nagios_plugins_nt_local" {
   command = [ "$nagios_plugin_dir$" + "/check_nt"]
   arguments = {
     "-H" = {
@@ -76,7 +76,7 @@ object CheckCommand "command_nt_local" {
   }
 
 }
-object CheckCommand "command_nt_local_negate" {
+object CheckCommand "command_nagios_plugins_nt_local_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_nt"]
   vars.realargs = {
     "-H" = {
@@ -154,7 +154,7 @@ object CheckCommand "command_nt_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_nt_ssh" {
+object CheckCommand "command_nagios_plugins_nt_ssh" {
   vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_nt"]
   vars.sshargs = {
     "-H" = {
@@ -209,7 +209,7 @@ object CheckCommand "command_nt_ssh" {
 }
 
 }
-object CheckCommand "command_nt_ssh_negate" {
+object CheckCommand "command_nagios_plugins_nt_ssh_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_nt"]
   vars.realargs = {
     "-H" = {

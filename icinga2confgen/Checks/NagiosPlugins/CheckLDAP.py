@@ -199,8 +199,8 @@ class CheckLDAP(Check):
         elif not isinstance(check, CheckLDAP):
             raise Exception('Id must be for an instance of CheckLDAP but other instance is returned')
 
-        if None is ConfigBuilder.get_command('ldap'):
-            LDAPCommand.create('ldap')
+        if None is ConfigBuilder.get_command('nagios_plugins_ldap'):
+            LDAPCommand.create('nagios_plugins_ldap')
 
         return check
 

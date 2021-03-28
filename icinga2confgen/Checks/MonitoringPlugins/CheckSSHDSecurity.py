@@ -128,8 +128,8 @@ class CheckSSHDSecurity(Check):
         elif not isinstance(check, CheckSSHDSecurity):
             raise Exception('Id must be for an instance of CheckSSHDSecurity but other instance is returned')
 
-        if None is ConfigBuilder.get_command('sshd_security'):
-            SSHDSecurityCommand.create('sshd_security')
+        if None is ConfigBuilder.get_command('monitoring_plugins_sshd_security'):
+            SSHDSecurityCommand.create('monitoring_plugins_sshd_security')
 
         return check
 

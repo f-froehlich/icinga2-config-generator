@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_reboot_required_local" {
+object CheckCommand "command_monitoring_plugins_reboot_required_local" {
   command = [ "$monitoring_plugin_dir$" + "/check_reboot_required.py"]
   arguments = {
     "--exit-critical" = {
@@ -51,7 +51,7 @@ object CheckCommand "command_reboot_required_local" {
   }
 
 }
-object CheckCommand "command_reboot_required_local_negate" {
+object CheckCommand "command_monitoring_plugins_reboot_required_local_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_reboot_required.py"]
   vars.realargs = {
     "--exit-critical" = {
@@ -104,7 +104,7 @@ object CheckCommand "command_reboot_required_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_reboot_required_ssh" {
+object CheckCommand "command_monitoring_plugins_reboot_required_ssh" {
   vars.sshcmd = [ "$monitoring_plugin_dir$" + "/check_reboot_required.py"]
   vars.sshargs = {
     "--exit-critical" = {
@@ -134,7 +134,7 @@ object CheckCommand "command_reboot_required_ssh" {
 }
 
 }
-object CheckCommand "command_reboot_required_ssh_negate" {
+object CheckCommand "command_monitoring_plugins_reboot_required_ssh_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_reboot_required.py"]
   vars.realargs = {
     "--exit-critical" = {

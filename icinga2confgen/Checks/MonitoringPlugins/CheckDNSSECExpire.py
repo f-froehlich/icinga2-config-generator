@@ -118,8 +118,8 @@ class CheckDNSSECExpire(Check):
         elif not isinstance(check, CheckDNSSECExpire):
             raise Exception('Id must be for an instance of CheckDNSSECExpire but other instance is returned')
 
-        if None is ConfigBuilder.get_command('dnssec_expiry'):
-            DNSSECExpireCommand.create('dnssec_expiry')
+        if None is ConfigBuilder.get_command('monitoring_plugins_dnssec_expiry'):
+            DNSSECExpireCommand.create('monitoring_plugins_dnssec_expiry')
 
         return check
 

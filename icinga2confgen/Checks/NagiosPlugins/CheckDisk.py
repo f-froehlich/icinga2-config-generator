@@ -364,8 +364,8 @@ class CheckDisk(Check):
         elif not isinstance(check, CheckDisk):
             raise Exception('Id must be for an instance of CheckDisk but other instance is returned')
 
-        if None is ConfigBuilder.get_command('disk'):
-            DiskCommand.create('disk')
+        if None is ConfigBuilder.get_command('nagios_plugins_disk'):
+            DiskCommand.create('nagios_plugins_disk')
 
         return check
 

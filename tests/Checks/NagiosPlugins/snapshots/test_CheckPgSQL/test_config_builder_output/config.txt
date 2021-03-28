@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_pgsql_local" {
+object CheckCommand "command_nagios_plugins_pgsql_local" {
   command = [ "$nagios_plugin_dir$" + "/check_pgsql"]
   arguments = {
     
@@ -97,7 +97,7 @@ object CheckCommand "command_pgsql_local" {
   }
 
 }
-object CheckCommand "command_pgsql_local_negate" {
+object CheckCommand "command_nagios_plugins_pgsql_local_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_pgsql"]
   vars.realargs = {
     
@@ -196,7 +196,7 @@ object CheckCommand "command_pgsql_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_pgsql_ssh" {
+object CheckCommand "command_nagios_plugins_pgsql_ssh" {
   vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_pgsql"]
   vars.sshargs = {
     
@@ -272,7 +272,7 @@ object CheckCommand "command_pgsql_ssh" {
 }
 
 }
-object CheckCommand "command_pgsql_ssh_negate" {
+object CheckCommand "command_nagios_plugins_pgsql_ssh_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_pgsql"]
   vars.realargs = {
     

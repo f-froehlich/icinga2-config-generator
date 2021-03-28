@@ -155,8 +155,8 @@ class CheckPgSQL(Check):
         elif not isinstance(check, CheckPgSQL):
             raise Exception('Id must be for an instance of CheckPgSQL but other instance is returned')
 
-        if None is ConfigBuilder.get_command('pgsql'):
-            PgSQLCommand.create('pgsql')
+        if None is ConfigBuilder.get_command('nagios_plugins_pgsql'):
+            PgSQLCommand.create('nagios_plugins_pgsql')
 
         return check
 

@@ -244,8 +244,8 @@ class CheckFTP(Check):
         elif not isinstance(check, CheckFTP):
             raise Exception('Id must be for an instance of CheckFTP but other instance is returned')
 
-        if None is ConfigBuilder.get_command('ftp'):
-            FTPCommand.create('ftp')
+        if None is ConfigBuilder.get_command('nagios_plugins_ftp'):
+            FTPCommand.create('nagios_plugins_ftp')
 
         return check
 

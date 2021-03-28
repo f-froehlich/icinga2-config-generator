@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_open_ports_local" {
+object CheckCommand "command_monitoring_plugins_open_ports_local" {
   command = [ "$monitoring_plugin_dir$" + "/check_open_ports.py"]
   arguments = {
 
@@ -328,7 +328,7 @@ object CheckCommand "command_open_ports_local" {
   }
 
 }
-object CheckCommand "command_open_ports_local_negate" {
+object CheckCommand "command_monitoring_plugins_open_ports_local_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_open_ports.py"]
   vars.realargs = {
 
@@ -658,7 +658,7 @@ object CheckCommand "command_open_ports_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_open_ports_ssh" {
+object CheckCommand "command_monitoring_plugins_open_ports_ssh" {
   vars.sshcmd = [ "$monitoring_plugin_dir$" + "/check_open_ports.py"]
   vars.sshargs = {
 
@@ -965,7 +965,7 @@ object CheckCommand "command_open_ports_ssh" {
 }
 
 }
-object CheckCommand "command_open_ports_ssh_negate" {
+object CheckCommand "command_monitoring_plugins_open_ports_ssh_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_open_ports.py"]
   vars.realargs = {
 

@@ -155,8 +155,8 @@ class CheckNTPTime(Check):
         elif not isinstance(check, CheckNTPTime):
             raise Exception('Id must be for an instance of CheckNTPTime but other instance is returned')
 
-        if None is ConfigBuilder.get_command('ntp_time'):
-            NTPTimeCommand.create('ntp_time')
+        if None is ConfigBuilder.get_command('nagios_plugins_ntp_time'):
+            NTPTimeCommand.create('nagios_plugins_ntp_time')
 
         return check
 

@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_http_local" {
+object CheckCommand "command_nagios_plugins_http_local" {
   command = [ "$nagios_plugin_dir$" + "/check_http"]
   arguments = {
     "--hostname" = {
@@ -182,7 +182,7 @@ object CheckCommand "command_http_local" {
   }
 
 }
-object CheckCommand "command_http_local_negate" {
+object CheckCommand "command_nagios_plugins_http_local_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_http"]
   vars.realargs = {
     "--hostname" = {
@@ -366,7 +366,7 @@ object CheckCommand "command_http_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_http_ssh" {
+object CheckCommand "command_nagios_plugins_http_ssh" {
   vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_http"]
   vars.sshargs = {
     "--hostname" = {
@@ -527,7 +527,7 @@ object CheckCommand "command_http_ssh" {
 }
 
 }
-object CheckCommand "command_http_ssh_negate" {
+object CheckCommand "command_nagios_plugins_http_ssh_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_http"]
   vars.realargs = {
     "--hostname" = {

@@ -245,8 +245,8 @@ class CheckSSMTP(Check):
         elif not isinstance(check, CheckSSMTP):
             raise Exception('Id must be for an instance of CheckSSMTP but other instance is returned')
 
-        if None is ConfigBuilder.get_command('ssmtp'):
-            SSMTPCommand.create('ssmtp')
+        if None is ConfigBuilder.get_command('nagios_plugins_ssmtp'):
+            SSMTPCommand.create('nagios_plugins_ssmtp')
 
         return check
 

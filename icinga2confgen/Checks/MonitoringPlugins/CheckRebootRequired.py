@@ -57,8 +57,8 @@ class CheckRebootRequired(Check):
         elif not isinstance(check, CheckRebootRequired):
             raise Exception('Id must be for an instance of CheckRebootRequired but other instance is returned')
 
-        if None is ConfigBuilder.get_command('reboot_required'):
-            RebootRequiredCommand.create('reboot_required')
+        if None is ConfigBuilder.get_command('monitoring_plugins_reboot_required'):
+            RebootRequiredCommand.create('monitoring_plugins_reboot_required')
 
         return check
 

@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_storcenter_local" {
+object CheckCommand "command_claudio_kuenzler_storcenter_local" {
   command = [ "$claudio_kuenzler_plugin_dir$" + "/check_storcenter.sh"]
   arguments = {
     "-H" = {
@@ -66,7 +66,7 @@ object CheckCommand "command_storcenter_local" {
 }
 
 }
-object CheckCommand "command_storcenter_local_negate" {
+object CheckCommand "command_claudio_kuenzler_storcenter_local_negate" {
   vars.realcmd = [ "$claudio_kuenzler_plugin_dir$" + "/check_storcenter.sh"]
   vars.realargs = {
     "-H" = {
@@ -134,7 +134,7 @@ object CheckCommand "command_storcenter_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_storcenter_ssh" {
+object CheckCommand "command_claudio_kuenzler_storcenter_ssh" {
   vars.sshcmd = [ "$claudio_kuenzler_plugin_dir$" + "/check_storcenter.sh"]
   vars.sshargs = {
     "-H" = {
@@ -179,7 +179,7 @@ object CheckCommand "command_storcenter_ssh" {
 }
 
 }
-object CheckCommand "command_storcenter_ssh_negate" {
+object CheckCommand "command_claudio_kuenzler_storcenter_ssh_negate" {
   vars.realcmd = [ "$claudio_kuenzler_plugin_dir$" + "/check_storcenter.sh"]
   vars.realargs = {
     "-H" = {

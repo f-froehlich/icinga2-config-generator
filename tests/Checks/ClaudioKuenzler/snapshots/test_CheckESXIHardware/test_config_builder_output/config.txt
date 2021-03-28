@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_esxi_hardware_local" {
+object CheckCommand "command_claudio_kuenzler_esxi_hardware_local" {
   command = [ "$claudio_kuenzler_plugin_dir$" + "/check_esxi_hardware.py"]
   arguments = {
     "-H" = {
@@ -120,7 +120,7 @@ object CheckCommand "command_esxi_hardware_local" {
 }
 
 }
-object CheckCommand "command_esxi_hardware_local_negate" {
+object CheckCommand "command_claudio_kuenzler_esxi_hardware_local_negate" {
   vars.realcmd = [ "$claudio_kuenzler_plugin_dir$" + "/check_esxi_hardware.py"]
   vars.realargs = {
     "-H" = {
@@ -242,7 +242,7 @@ object CheckCommand "command_esxi_hardware_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_esxi_hardware_ssh" {
+object CheckCommand "command_claudio_kuenzler_esxi_hardware_ssh" {
   vars.sshcmd = [ "$claudio_kuenzler_plugin_dir$" + "/check_esxi_hardware.py"]
   vars.sshargs = {
     "-H" = {
@@ -341,7 +341,7 @@ object CheckCommand "command_esxi_hardware_ssh" {
 }
 
 }
-object CheckCommand "command_esxi_hardware_ssh_negate" {
+object CheckCommand "command_claudio_kuenzler_esxi_hardware_ssh_negate" {
   vars.realcmd = [ "$claudio_kuenzler_plugin_dir$" + "/check_esxi_hardware.py"]
   vars.realargs = {
     "-H" = {

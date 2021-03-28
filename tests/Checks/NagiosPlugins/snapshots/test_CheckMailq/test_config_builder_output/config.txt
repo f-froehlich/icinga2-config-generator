@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_mailq_local" {
+object CheckCommand "command_nagios_plugins_mailq_local" {
   command = [ "$nagios_plugin_dir$" + "/check_mailq"]
   arguments = {
     "-w" = {
@@ -68,7 +68,7 @@ object CheckCommand "command_mailq_local" {
   }
 
 }
-object CheckCommand "command_mailq_local_negate" {
+object CheckCommand "command_nagios_plugins_mailq_local_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_mailq"]
   vars.realargs = {
     "-w" = {
@@ -138,7 +138,7 @@ object CheckCommand "command_mailq_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_mailq_ssh" {
+object CheckCommand "command_nagios_plugins_mailq_ssh" {
   vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_mailq"]
   vars.sshargs = {
     "-w" = {
@@ -185,7 +185,7 @@ object CheckCommand "command_mailq_ssh" {
 }
 
 }
-object CheckCommand "command_mailq_ssh_negate" {
+object CheckCommand "command_nagios_plugins_mailq_ssh_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_mailq"]
   vars.realargs = {
     "-w" = {

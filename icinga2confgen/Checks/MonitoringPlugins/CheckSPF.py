@@ -85,8 +85,8 @@ class CheckSPF(Check):
         elif not isinstance(check, CheckSPF):
             raise Exception('Id must be for an instance of CheckSPF but other instance is returned')
 
-        if None is ConfigBuilder.get_command('spf'):
-            SPFCommand.create('spf')
+        if None is ConfigBuilder.get_command('monitoring_plugins_spf'):
+            SPFCommand.create('monitoring_plugins_spf')
 
         return check
 

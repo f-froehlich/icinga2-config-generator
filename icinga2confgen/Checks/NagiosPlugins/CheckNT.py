@@ -109,8 +109,8 @@ class CheckNT(Check):
         elif not isinstance(check, CheckNT):
             raise Exception('Id must be for an instance of CheckNT but other instance is returned')
 
-        if None is ConfigBuilder.get_command('nt'):
-            NTCommand.create('nt')
+        if None is ConfigBuilder.get_command('nagios_plugins_nt'):
+            NTCommand.create('nagios_plugins_nt')
 
         return check
 

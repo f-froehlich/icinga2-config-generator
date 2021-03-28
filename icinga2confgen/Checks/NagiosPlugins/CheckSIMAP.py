@@ -245,8 +245,8 @@ class CheckSIMAP(Check):
         elif not isinstance(check, CheckSIMAP):
             raise Exception('Id must be for an instance of CheckSIMAP but other instance is returned')
 
-        if None is ConfigBuilder.get_command('simap'):
-            SIMAPCommand.create('simap')
+        if None is ConfigBuilder.get_command('nagios_plugins_simap'):
+            SIMAPCommand.create('nagios_plugins_simap')
 
         return check
 

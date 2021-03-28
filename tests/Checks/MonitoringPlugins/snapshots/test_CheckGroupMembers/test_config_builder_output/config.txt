@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_group_members_local" {
+object CheckCommand "command_monitoring_plugins_group_members_local" {
   command = [ "$monitoring_plugin_dir$" + "/check_group_members.py"]
   arguments = {
     "--group" = {
@@ -57,7 +57,7 @@ object CheckCommand "command_group_members_local" {
   }
 
 }
-object CheckCommand "command_group_members_local_negate" {
+object CheckCommand "command_monitoring_plugins_group_members_local_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_group_members.py"]
   vars.realargs = {
     "--group" = {
@@ -116,7 +116,7 @@ object CheckCommand "command_group_members_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_group_members_ssh" {
+object CheckCommand "command_monitoring_plugins_group_members_ssh" {
   vars.sshcmd = [ "$monitoring_plugin_dir$" + "/check_group_members.py"]
   vars.sshargs = {
     "--group" = {
@@ -152,7 +152,7 @@ object CheckCommand "command_group_members_ssh" {
 }
 
 }
-object CheckCommand "command_group_members_ssh_negate" {
+object CheckCommand "command_monitoring_plugins_group_members_ssh_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_group_members.py"]
   vars.realargs = {
     "--group" = {

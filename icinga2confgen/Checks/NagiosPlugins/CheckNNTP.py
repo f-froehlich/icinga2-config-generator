@@ -245,8 +245,8 @@ class CheckNNTP(Check):
         elif not isinstance(check, CheckNNTP):
             raise Exception('Id must be for an instance of CheckNNTP but other instance is returned')
 
-        if None is ConfigBuilder.get_command('nntp'):
-            NNTPCommand.create('nntp')
+        if None is ConfigBuilder.get_command('nagios_plugins_nntp'):
+            NNTPCommand.create('nagios_plugins_nntp')
 
         return check
 

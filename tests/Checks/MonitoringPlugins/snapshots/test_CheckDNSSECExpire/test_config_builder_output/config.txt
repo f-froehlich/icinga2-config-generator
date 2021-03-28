@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_dnssec_expiry_local" {
+object CheckCommand "command_monitoring_plugins_dnssec_expiry_local" {
   command = [ "$monitoring_plugin_dir$" + "/check_dnssec_status.py"]
   arguments = {
     "-d" = {
@@ -74,7 +74,7 @@ object CheckCommand "command_dnssec_expiry_local" {
   }
 
 }
-object CheckCommand "command_dnssec_expiry_local_negate" {
+object CheckCommand "command_monitoring_plugins_dnssec_expiry_local_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_dnssec_status.py"]
   vars.realargs = {
     "-d" = {
@@ -150,7 +150,7 @@ object CheckCommand "command_dnssec_expiry_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_dnssec_expiry_ssh" {
+object CheckCommand "command_monitoring_plugins_dnssec_expiry_ssh" {
   vars.sshcmd = [ "$monitoring_plugin_dir$" + "/check_dnssec_status.py"]
   vars.sshargs = {
     "-d" = {
@@ -203,7 +203,7 @@ object CheckCommand "command_dnssec_expiry_ssh" {
 }
 
 }
-object CheckCommand "command_dnssec_expiry_ssh_negate" {
+object CheckCommand "command_monitoring_plugins_dnssec_expiry_ssh_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_dnssec_status.py"]
   vars.realargs = {
     "-d" = {

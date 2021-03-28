@@ -82,8 +82,8 @@ class CheckBreeze(Check):
         elif not isinstance(check, CheckBreeze):
             raise Exception('Id must be for an instance of CheckBreeze but other instance is returned')
 
-        if None is ConfigBuilder.get_command('breeze'):
-            BreezeCommand.create('breeze')
+        if None is ConfigBuilder.get_command('nagios_plugins_breeze'):
+            BreezeCommand.create('nagios_plugins_breeze')
 
         return check
 

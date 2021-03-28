@@ -164,8 +164,8 @@ class CheckProcs(Check):
         elif not isinstance(check, CheckProcs):
             raise Exception('Id must be for an instance of CheckProcs but other instance is returned')
 
-        if None is ConfigBuilder.get_command('procs'):
-            ProcsCommand.create('procs')
+        if None is ConfigBuilder.get_command('nagios_plugins_procs'):
+            ProcsCommand.create('nagios_plugins_procs')
 
         return check
 

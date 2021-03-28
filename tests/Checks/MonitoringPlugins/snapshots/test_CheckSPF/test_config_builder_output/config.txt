@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_spf_local" {
+object CheckCommand "command_monitoring_plugins_spf_local" {
   command = [ "$monitoring_plugin_dir$" + "/check_spf.py"]
   arguments = {
     "-d" = {
@@ -64,7 +64,7 @@ object CheckCommand "command_spf_local" {
   }
 
 }
-object CheckCommand "command_spf_local_negate" {
+object CheckCommand "command_monitoring_plugins_spf_local_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_spf.py"]
   vars.realargs = {
     "-d" = {
@@ -130,7 +130,7 @@ object CheckCommand "command_spf_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_spf_ssh" {
+object CheckCommand "command_monitoring_plugins_spf_ssh" {
   vars.sshcmd = [ "$monitoring_plugin_dir$" + "/check_spf.py"]
   vars.sshargs = {
     "-d" = {
@@ -173,7 +173,7 @@ object CheckCommand "command_spf_ssh" {
 }
 
 }
-object CheckCommand "command_spf_ssh_negate" {
+object CheckCommand "command_monitoring_plugins_spf_ssh_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_spf.py"]
   vars.realargs = {
     "-d" = {

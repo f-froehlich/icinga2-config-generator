@@ -244,8 +244,8 @@ class CheckJabber(Check):
         elif not isinstance(check, CheckJabber):
             raise Exception('Id must be for an instance of CheckJabber but other instance is returned')
 
-        if None is ConfigBuilder.get_command('jabber'):
-            JabberCommand.create('jabber')
+        if None is ConfigBuilder.get_command('nagios_plugins_jabber'):
+            JabberCommand.create('nagios_plugins_jabber')
 
         return check
 

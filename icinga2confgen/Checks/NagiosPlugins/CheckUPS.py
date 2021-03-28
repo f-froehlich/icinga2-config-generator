@@ -111,8 +111,8 @@ class CheckUPS(Check):
         elif not isinstance(check, CheckUPS):
             raise Exception('Id must be for an instance of CheckUPS but other instance is returned')
 
-        if None is ConfigBuilder.get_command('ups'):
-            UPSCommand.create('ups')
+        if None is ConfigBuilder.get_command('nagios_plugins_ups'):
+            UPSCommand.create('nagios_plugins_ups')
 
         return check
 

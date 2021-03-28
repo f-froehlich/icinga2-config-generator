@@ -26,8 +26,24 @@ class BaseCheckTest(BaseTest):
 
     def test_get_right_command_instance(self):
         instance = self.create_instance()
-        command_instance = ConfigBuilder.get_command(instance.get_command_name())
+        commands = ConfigBuilder.get_instance('commands')
 
+        assert len(commands) == 1
+
+        command_instance = commands[0]
+        assert instance.get_command_name() in command_instance.get_id()
+        assert isinstance(command_instance, self.get_command_class())
+
+    def test_only_create_command_instance_once(self):
+        instance = self.create_instance()
+        instance2 = self.get_instance_class().create('instance2')
+        commands = ConfigBuilder.get_instance('commands')
+
+        assert len(commands) == 1
+
+        command_instance = commands[0]
+        assert instance.get_command_name() in command_instance.get_id()
+        assert instance2.get_command_name() in command_instance.get_id()
         assert isinstance(command_instance, self.get_command_class())
 
     def test_can_get_instance_from_config_builder(self):

@@ -73,8 +73,8 @@ class CheckWave(Check):
         elif not isinstance(check, CheckWave):
             raise Exception('Id must be for an instance of CheckWave but other instance is returned')
 
-        if None is ConfigBuilder.get_command('wave'):
-            WaveCommand.create('wave')
+        if None is ConfigBuilder.get_command('nagios_plugins_wave'):
+            WaveCommand.create('nagios_plugins_wave')
 
         return check
 

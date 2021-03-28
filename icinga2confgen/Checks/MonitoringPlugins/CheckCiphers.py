@@ -216,8 +216,8 @@ class CheckCiphers(NmapBase, NmapScriptExecutor, NmapNotScanUDP, NmapScanTCP, Nm
         elif not isinstance(check, CheckCiphers):
             raise Exception('Id must be for an instance of CheckCiphers but other instance is returned')
 
-        if None is ConfigBuilder.get_command('ciphers'):
-            CiphersCommand.create('ciphers')
+        if None is ConfigBuilder.get_command('monitoring_plugins_ciphers'):
+            CiphersCommand.create('monitoring_plugins_ciphers')
 
         return check
 

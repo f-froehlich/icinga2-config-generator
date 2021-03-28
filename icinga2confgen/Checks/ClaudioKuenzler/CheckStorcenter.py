@@ -117,7 +117,7 @@ class CheckStorcenter(Check):
         elif not isinstance(check, CheckStorcenter):
             raise Exception('Id must be for an instance of CheckStorecnter but other instance is returned')
 
-        if None is ConfigBuilder.get_command('storcenter'):
-            StorcenterCommand.create('storcenter')
+        if None is ConfigBuilder.get_command('claudio_kuenzler_storcenter'):
+            StorcenterCommand.create('claudio_kuenzler_storcenter')
 
         return check

@@ -57,8 +57,8 @@ class CheckIdeSmart(Check):
         elif not isinstance(check, CheckIdeSmart):
             raise Exception('Id must be for an instance of CheckIdeSmart but other instance is returned')
 
-        if None is ConfigBuilder.get_command('ide_smart'):
-            IdeSmartCommand.create('ide_smart')
+        if None is ConfigBuilder.get_command('nagios_plugins_ide_smart'):
+            IdeSmartCommand.create('nagios_plugins_ide_smart')
 
         return check
 

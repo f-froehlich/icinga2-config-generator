@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_page_content_local" {
+object CheckCommand "command_monitoring_plugins_page_content_local" {
   command = [ "$monitoring_plugin_dir$" + "/check_page_content.py"]
   arguments = {
     "--ok-content" = {
@@ -91,7 +91,7 @@ object CheckCommand "command_page_content_local" {
   }
 
 }
-object CheckCommand "command_page_content_local_negate" {
+object CheckCommand "command_monitoring_plugins_page_content_local_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_page_content.py"]
   vars.realargs = {
     "--ok-content" = {
@@ -184,7 +184,7 @@ object CheckCommand "command_page_content_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_page_content_ssh" {
+object CheckCommand "command_monitoring_plugins_page_content_ssh" {
   vars.sshcmd = [ "$monitoring_plugin_dir$" + "/check_page_content.py"]
   vars.sshargs = {
     "--ok-content" = {
@@ -254,7 +254,7 @@ object CheckCommand "command_page_content_ssh" {
 }
 
 }
-object CheckCommand "command_page_content_ssh_negate" {
+object CheckCommand "command_monitoring_plugins_page_content_ssh_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_page_content.py"]
   vars.realargs = {
     "--ok-content" = {

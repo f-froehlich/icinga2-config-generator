@@ -42,11 +42,11 @@
 
 
 
-object CheckCommand "command_dummy_local" {
+object CheckCommand "command_nagios_plugins_dummy_local" {
   command = [ "$nagios_plugin_dir$" + "/check_dummy", "$command_dummy_state$", "$command_dummy_text$"]
   arguments = {}
 }
-object CheckCommand "command_dummy_local_negate" {
+object CheckCommand "command_nagios_plugins_dummy_local_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_dummy", "$command_dummy_state$", "$command_dummy_text$"]
   vars.realargs = {}
   arguments = {
@@ -94,7 +94,7 @@ object CheckCommand "command_dummy_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_dummy_ssh" {
+object CheckCommand "command_nagios_plugins_dummy_ssh" {
   vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_dummy", "$command_dummy_state$", "$command_dummy_text$"]
   vars.sshargs = {}
   command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
@@ -119,7 +119,7 @@ object CheckCommand "command_dummy_ssh" {
 }
 
 }
-object CheckCommand "command_dummy_ssh_negate" {
+object CheckCommand "command_nagios_plugins_dummy_ssh_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_dummy", "$command_dummy_state$", "$command_dummy_text$"]
   vars.realargs = {}
   vars.sshargs = {

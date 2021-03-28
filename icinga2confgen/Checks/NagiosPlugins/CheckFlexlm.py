@@ -64,8 +64,8 @@ class CheckFlexlm(Check):
         elif not isinstance(check, CheckFlexlm):
             raise Exception('Id must be for an instance of CheckFlexlm but other instance is returned')
 
-        if None is ConfigBuilder.get_command('flexlm'):
-            FlexlmCommand.create('flexlm')
+        if None is ConfigBuilder.get_command('nagios_plugins_flexlm'):
+            FlexlmCommand.create('nagios_plugins_flexlm')
 
         return check
 

@@ -64,8 +64,8 @@ class CheckUsers(Check):
         elif not isinstance(check, CheckUsers):
             raise Exception('Id must be for an instance of CheckUsers but other instance is returned')
 
-        if None is ConfigBuilder.get_command('users'):
-            UsersCommand.create('users')
+        if None is ConfigBuilder.get_command('nagios_plugins_users'):
+            UsersCommand.create('nagios_plugins_users')
 
         return check
 

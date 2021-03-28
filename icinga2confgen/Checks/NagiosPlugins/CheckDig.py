@@ -148,8 +148,8 @@ class CheckDig(Check):
         elif not isinstance(check, CheckDig):
             raise Exception('Id must be for an instance of CheckDig but other instance is returned')
 
-        if None is ConfigBuilder.get_command('dig'):
-            DigCommand.create('dig')
+        if None is ConfigBuilder.get_command('nagios_plugins_dig'):
+            DigCommand.create('nagios_plugins_dig')
 
         return check
 

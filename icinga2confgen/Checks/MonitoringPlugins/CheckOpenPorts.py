@@ -129,8 +129,8 @@ class CheckOpenPorts(NmapBase, NmapScanUDP, NmapScanTCP, NmapN, NmapSystemDns, N
         elif not isinstance(check, CheckOpenPorts):
             raise Exception('Id must be for an instance of CheckOpenPorts but other instance is returned')
 
-        if None is ConfigBuilder.get_command('open_ports'):
-            OpenPortsCommand.create('open_ports')
+        if None is ConfigBuilder.get_command('monitoring_plugins_open_ports'):
+            OpenPortsCommand.create('monitoring_plugins_open_ports')
 
         return check
 

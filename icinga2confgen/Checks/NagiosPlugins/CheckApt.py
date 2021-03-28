@@ -138,8 +138,8 @@ class CheckApt(Check):
         elif not isinstance(check, CheckApt):
             raise Exception('Id must be for an instance of CheckApt but other instance is returned')
 
-        if None is ConfigBuilder.get_command('apt'):
-            AptCommand.create('apt')
+        if None is ConfigBuilder.get_command('nagios_plugins_apt'):
+            AptCommand.create('nagios_plugins_apt')
 
         return check
 

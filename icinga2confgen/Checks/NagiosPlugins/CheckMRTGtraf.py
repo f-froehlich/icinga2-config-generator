@@ -91,8 +91,8 @@ class CheckMRTGtraf(Check):
         elif not isinstance(check, CheckMRTGtraf):
             raise Exception('Id must be for an instance of CheckMRTGtraf but other instance is returned')
 
-        if None is ConfigBuilder.get_command('mrt_gtraf'):
-            MRTGtrafCommand.create('mrt_gtraf')
+        if None is ConfigBuilder.get_command('nagios_plugins_mrt_gtraf'):
+            MRTGtrafCommand.create('nagios_plugins_mrt_gtraf')
 
         return check
 

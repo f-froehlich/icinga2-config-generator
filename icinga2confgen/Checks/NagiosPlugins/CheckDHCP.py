@@ -101,8 +101,8 @@ class CheckDHCP(Check):
         elif not isinstance(check, CheckDHCP):
             raise Exception('Id must be for an instance of CheckDHCP but other instance is returned')
 
-        if None is ConfigBuilder.get_command('dhcp'):
-            DHCPCommand.create('dhcp')
+        if None is ConfigBuilder.get_command('nagios_plugins_dhcp'):
+            DHCPCommand.create('nagios_plugins_dhcp')
 
         return check
 

@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_sshd_security_local" {
+object CheckCommand "command_monitoring_plugins_sshd_security_local" {
   command = [ "$monitoring_plugin_dir$" + "/check_sshd_security.py"]
   arguments = {
     "-r" = {
@@ -81,7 +81,7 @@ object CheckCommand "command_sshd_security_local" {
   }
 
 }
-object CheckCommand "command_sshd_security_local_negate" {
+object CheckCommand "command_monitoring_plugins_sshd_security_local_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_sshd_security.py"]
   vars.realargs = {
     "-r" = {
@@ -164,7 +164,7 @@ object CheckCommand "command_sshd_security_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_sshd_security_ssh" {
+object CheckCommand "command_monitoring_plugins_sshd_security_ssh" {
   vars.sshcmd = [ "$monitoring_plugin_dir$" + "/check_sshd_security.py"]
   vars.sshargs = {
     "-r" = {
@@ -224,7 +224,7 @@ object CheckCommand "command_sshd_security_ssh" {
 }
 
 }
-object CheckCommand "command_sshd_security_ssh_negate" {
+object CheckCommand "command_monitoring_plugins_sshd_security_ssh_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_sshd_security.py"]
   vars.realargs = {
     "-r" = {

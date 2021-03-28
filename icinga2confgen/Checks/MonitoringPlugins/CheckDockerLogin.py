@@ -91,8 +91,8 @@ class CheckDockerLogin(Check):
         elif not isinstance(check, CheckDockerLogin):
             raise Exception('Id must be for an instance of CheckDockerLogin but other instance is returned')
 
-        if None is ConfigBuilder.get_command('docker_login'):
-            DockerLoginCommand.create('docker_login')
+        if None is ConfigBuilder.get_command('monitoring_plugins_docker_login'):
+            DockerLoginCommand.create('monitoring_plugins_docker_login')
 
         return check
 

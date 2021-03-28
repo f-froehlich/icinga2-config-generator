@@ -82,8 +82,8 @@ class CheckIrcd(Check):
         elif not isinstance(check, CheckIrcd):
             raise Exception('Id must be for an instance of CheckIrcd but other instance is returned')
 
-        if None is ConfigBuilder.get_command('ircd'):
-            IrcdCommand.create('ircd')
+        if None is ConfigBuilder.get_command('nagios_plugins_ircd'):
+            IrcdCommand.create('nagios_plugins_ircd')
 
         return check
 

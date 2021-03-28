@@ -144,8 +144,8 @@ class CheckPageContent(Check):
         elif not isinstance(check, CheckPageContent):
             raise Exception('Id must be for an instance of CheckPageContent but other instance is returned')
 
-        if None is ConfigBuilder.get_command('page_content'):
-            PageContentCommand.create('page_content')
+        if None is ConfigBuilder.get_command('monitoring_plugins_page_content'):
+            PageContentCommand.create('monitoring_plugins_page_content')
 
         return check
 

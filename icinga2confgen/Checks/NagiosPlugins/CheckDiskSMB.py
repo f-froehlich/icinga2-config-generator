@@ -127,8 +127,8 @@ class CheckDiskSMB(Check):
         elif not isinstance(check, CheckDiskSMB):
             raise Exception('Id must be for an instance of CheckDiskSMB but other instance is returned')
 
-        if None is ConfigBuilder.get_command('disk_smb'):
-            DiskSMBCommand.create('disk_smb')
+        if None is ConfigBuilder.get_command('nagios_plugins_disk_smb'):
+            DiskSMBCommand.create('nagios_plugins_disk_smb')
 
         return check
 

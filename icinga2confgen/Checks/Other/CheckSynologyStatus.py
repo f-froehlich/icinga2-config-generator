@@ -142,7 +142,7 @@ class CheckSynologyStatus(Check):
         elif not isinstance(check, CheckSynologyStatus):
             raise Exception('Id must be for an instance of CheckSynologyStatus but other instance is returned')
 
-        if None is ConfigBuilder.get_command('synology_status'):
-            SynologyStatusCommand.create('synology_status')
+        if None is ConfigBuilder.get_command('other_synology_status'):
+            SynologyStatusCommand.create('other_synology_status')
 
         return check

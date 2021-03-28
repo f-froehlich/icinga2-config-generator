@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_icmp_local" {
+object CheckCommand "command_nagios_plugins_icmp_local" {
   command = [ "$nagios_plugin_dir$" + "/check_icmp"]
   arguments = {
     "-H" = {
@@ -94,7 +94,7 @@ object CheckCommand "command_icmp_local" {
   }
 
 }
-object CheckCommand "command_icmp_local_negate" {
+object CheckCommand "command_nagios_plugins_icmp_local_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_icmp"]
   vars.realargs = {
     "-H" = {
@@ -190,7 +190,7 @@ object CheckCommand "command_icmp_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_icmp_ssh" {
+object CheckCommand "command_nagios_plugins_icmp_ssh" {
   vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_icmp"]
   vars.sshargs = {
     "-H" = {
@@ -263,7 +263,7 @@ object CheckCommand "command_icmp_ssh" {
 }
 
 }
-object CheckCommand "command_icmp_ssh_negate" {
+object CheckCommand "command_nagios_plugins_icmp_ssh_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_icmp"]
   vars.realargs = {
     "-H" = {

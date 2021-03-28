@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_yum_local" {
+object CheckCommand "command_hari_sekhon_nagios_plugins_yum_local" {
   command = [ "$harik_sekhon_plugin_dir$" + "/check_yum.py"]
   arguments = {
     "--all-updates" = {
@@ -79,7 +79,7 @@ object CheckCommand "command_yum_local" {
   }
 
 }
-object CheckCommand "command_yum_local_negate" {
+object CheckCommand "command_hari_sekhon_nagios_plugins_yum_local_negate" {
   vars.realcmd = [ "$harik_sekhon_plugin_dir$" + "/check_yum.py"]
   vars.realargs = {
     "--all-updates" = {
@@ -160,7 +160,7 @@ object CheckCommand "command_yum_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_yum_ssh" {
+object CheckCommand "command_hari_sekhon_nagios_plugins_yum_ssh" {
   vars.sshcmd = [ "$harik_sekhon_plugin_dir$" + "/check_yum.py"]
   vars.sshargs = {
     "--all-updates" = {
@@ -218,7 +218,7 @@ object CheckCommand "command_yum_ssh" {
 }
 
 }
-object CheckCommand "command_yum_ssh_negate" {
+object CheckCommand "command_hari_sekhon_nagios_plugins_yum_ssh_negate" {
   vars.realcmd = [ "$harik_sekhon_plugin_dir$" + "/check_yum.py"]
   vars.realargs = {
     "--all-updates" = {

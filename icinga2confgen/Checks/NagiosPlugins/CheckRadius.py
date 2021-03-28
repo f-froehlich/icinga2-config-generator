@@ -136,8 +136,8 @@ class CheckRadius(Check):
         elif not isinstance(check, CheckRadius):
             raise Exception('Id must be for an instance of CheckRadius but other instance is returned')
 
-        if None is ConfigBuilder.get_command('radius'):
-            RadiusCommand.create('radius')
+        if None is ConfigBuilder.get_command('nagios_plugins_radius'):
+            RadiusCommand.create('nagios_plugins_radius')
 
         return check
 

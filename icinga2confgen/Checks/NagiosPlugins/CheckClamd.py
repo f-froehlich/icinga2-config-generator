@@ -244,8 +244,8 @@ class CheckClamd(Check):
         elif not isinstance(check, CheckClamd):
             raise Exception('Id must be for an instance of CheckClamd but other instance is returned')
 
-        if None is ConfigBuilder.get_command('clamd'):
-            ClamdCommand.create('clamd')
+        if None is ConfigBuilder.get_command('nagios_plugins_clamd'):
+            ClamdCommand.create('nagios_plugins_clamd')
 
         return check
 

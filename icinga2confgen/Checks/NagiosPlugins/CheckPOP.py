@@ -245,8 +245,8 @@ class CheckPOP(Check):
         elif not isinstance(check, CheckPOP):
             raise Exception('Id must be for an instance of CheckPOP but other instance is returned')
 
-        if None is ConfigBuilder.get_command('pop'):
-            POPCommand.create('pop')
+        if None is ConfigBuilder.get_command('nagios_plugins_pop'):
+            POPCommand.create('nagios_plugins_pop')
 
         return check
 

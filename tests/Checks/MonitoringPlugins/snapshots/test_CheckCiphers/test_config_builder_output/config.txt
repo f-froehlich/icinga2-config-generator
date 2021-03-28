@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_ciphers_local" {
+object CheckCommand "command_monitoring_plugins_ciphers_local" {
   command = [ "$monitoring_plugin_dir$" + "/check_ciphers.py"]
   arguments = {
 
@@ -345,7 +345,7 @@ object CheckCommand "command_ciphers_local" {
   }
 
 }
-object CheckCommand "command_ciphers_local_negate" {
+object CheckCommand "command_monitoring_plugins_ciphers_local_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_ciphers.py"]
   vars.realargs = {
 
@@ -692,7 +692,7 @@ object CheckCommand "command_ciphers_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_ciphers_ssh" {
+object CheckCommand "command_monitoring_plugins_ciphers_ssh" {
   vars.sshcmd = [ "$monitoring_plugin_dir$" + "/check_ciphers.py"]
   vars.sshargs = {
 
@@ -1016,7 +1016,7 @@ object CheckCommand "command_ciphers_ssh" {
 }
 
 }
-object CheckCommand "command_ciphers_ssh_negate" {
+object CheckCommand "command_monitoring_plugins_ciphers_ssh_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_ciphers.py"]
   vars.realargs = {
 

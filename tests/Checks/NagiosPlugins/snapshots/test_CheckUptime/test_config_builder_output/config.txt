@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_uptime_local" {
+object CheckCommand "command_nagios_plugins_uptime_local" {
   command = [ "$nagios_plugin_dir$" + "/check_uptime"]
   arguments = {
     "--warning" = {
@@ -64,7 +64,7 @@ object CheckCommand "command_uptime_local" {
   }
 
 }
-object CheckCommand "command_uptime_local_negate" {
+object CheckCommand "command_nagios_plugins_uptime_local_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_uptime"]
   vars.realargs = {
     "--warning" = {
@@ -130,7 +130,7 @@ object CheckCommand "command_uptime_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_uptime_ssh" {
+object CheckCommand "command_nagios_plugins_uptime_ssh" {
   vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_uptime"]
   vars.sshargs = {
     "--warning" = {
@@ -173,7 +173,7 @@ object CheckCommand "command_uptime_ssh" {
 }
 
 }
-object CheckCommand "command_uptime_ssh_negate" {
+object CheckCommand "command_nagios_plugins_uptime_ssh_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_uptime"]
   vars.realargs = {
     "--warning" = {

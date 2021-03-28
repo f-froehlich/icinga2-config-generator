@@ -317,8 +317,8 @@ class CheckSNMP(Check):
         elif not isinstance(check, CheckSNMP):
             raise Exception('Id must be for an instance of CheckSNMP but other instance is returned')
 
-        if None is ConfigBuilder.get_command('snmp'):
-            SNMPCommand.create('snmp')
+        if None is ConfigBuilder.get_command('nagios_plugins_snmp'):
+            SNMPCommand.create('nagios_plugins_snmp')
 
         return check
 

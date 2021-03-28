@@ -100,8 +100,8 @@ class CheckFileAge(Check):
         elif not isinstance(check, CheckFileAge):
             raise Exception('Id must be for an instance of CheckFileAge but other instance is returned')
 
-        if None is ConfigBuilder.get_command('file_age'):
-            FileAgeCommand.create('file_age')
+        if None is ConfigBuilder.get_command('nagios_plugins_file_age'):
+            FileAgeCommand.create('nagios_plugins_file_age')
 
         return check
 

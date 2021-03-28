@@ -244,8 +244,8 @@ class CheckTCP(Check):
         elif not isinstance(check, CheckTCP):
             raise Exception('Id must be for an instance of CheckTCP but other instance is returned')
 
-        if None is ConfigBuilder.get_command('tcp'):
-            TCPCommand.create('tcp')
+        if None is ConfigBuilder.get_command('nagios_plugins_tcp'):
+            TCPCommand.create('nagios_plugins_tcp')
 
         return check
 

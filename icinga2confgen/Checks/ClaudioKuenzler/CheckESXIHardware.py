@@ -203,7 +203,7 @@ class CheckESXIHardware(Check):
         elif not isinstance(check, CheckESXIHardware):
             raise Exception('Id must be for an instance of CheckESXIHardware but other instance is returned')
 
-        if None is ConfigBuilder.get_command('esxi_hardware'):
-            ESXIHardwareCommand.create('esxi_hardware')
+        if None is ConfigBuilder.get_command('claudio_kuenzler_esxi_hardware'):
+            ESXIHardwareCommand.create('claudio_kuenzler_esxi_hardware')
 
         return check

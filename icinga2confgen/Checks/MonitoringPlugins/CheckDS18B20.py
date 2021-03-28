@@ -91,8 +91,8 @@ class CheckDS18B20(Check):
         elif not isinstance(check, CheckDS18B20):
             raise Exception('Id must be for an instance of CheckDS18B20 but other instance is returned')
 
-        if None is ConfigBuilder.get_command('sensor_ds18b20'):
-            DS18B20Command.create('sensor_ds18b20')
+        if None is ConfigBuilder.get_command('monitoring_plugins_sensor_ds18b20'):
+            DS18B20Command.create('monitoring_plugins_sensor_ds18b20')
 
         return check
 

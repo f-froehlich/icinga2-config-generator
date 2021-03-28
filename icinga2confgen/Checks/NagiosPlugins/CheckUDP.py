@@ -244,8 +244,8 @@ class CheckUDP(Check):
         elif not isinstance(check, CheckUDP):
             raise Exception('Id must be for an instance of CheckUDP but other instance is returned')
 
-        if None is ConfigBuilder.get_command('udp'):
-            UDPCommand.create('udp')
+        if None is ConfigBuilder.get_command('nagios_plugins_udp'):
+            UDPCommand.create('nagios_plugins_udp')
 
         return check
 

@@ -209,8 +209,8 @@ class CheckMySQL(Check):
         elif not isinstance(check, CheckMySQL):
             raise Exception('Id must be for an instance of CheckMySQL but other instance is returned')
 
-        if None is ConfigBuilder.get_command('mysql'):
-            MySQLCommand.create('mysql')
+        if None is ConfigBuilder.get_command('nagios_plugins_mysql'):
+            MySQLCommand.create('nagios_plugins_mysql')
 
         return check
 

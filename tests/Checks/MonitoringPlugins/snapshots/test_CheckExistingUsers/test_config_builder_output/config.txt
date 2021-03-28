@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_existing_users_local" {
+object CheckCommand "command_monitoring_plugins_existing_users_local" {
   command = [ "$monitoring_plugin_dir$" + "/check_existing_users.py"]
   arguments = {
     "--uid-min" = {
@@ -66,7 +66,7 @@ object CheckCommand "command_existing_users_local" {
   }
 
 }
-object CheckCommand "command_existing_users_local_negate" {
+object CheckCommand "command_monitoring_plugins_existing_users_local_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_existing_users.py"]
   vars.realargs = {
     "--uid-min" = {
@@ -134,7 +134,7 @@ object CheckCommand "command_existing_users_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_existing_users_ssh" {
+object CheckCommand "command_monitoring_plugins_existing_users_ssh" {
   vars.sshcmd = [ "$monitoring_plugin_dir$" + "/check_existing_users.py"]
   vars.sshargs = {
     "--uid-min" = {
@@ -179,7 +179,7 @@ object CheckCommand "command_existing_users_ssh" {
 }
 
 }
-object CheckCommand "command_existing_users_ssh_negate" {
+object CheckCommand "command_monitoring_plugins_existing_users_ssh_negate" {
   vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_existing_users.py"]
   vars.realargs = {
     "--uid-min" = {

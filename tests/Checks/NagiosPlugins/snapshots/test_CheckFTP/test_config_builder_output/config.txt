@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_ftp_local" {
+object CheckCommand "command_nagios_plugins_ftp_local" {
   command = [ "$nagios_plugin_dir$" + "/check_ftp"]
   arguments = {
     "-H" = {
@@ -122,7 +122,7 @@ object CheckCommand "command_ftp_local" {
   }
 
 }
-object CheckCommand "command_ftp_local_negate" {
+object CheckCommand "command_nagios_plugins_ftp_local_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_ftp"]
   vars.realargs = {
     "-H" = {
@@ -246,7 +246,7 @@ object CheckCommand "command_ftp_local_negate" {
 
   command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_ftp_ssh" {
+object CheckCommand "command_nagios_plugins_ftp_ssh" {
   vars.sshcmd = [ "$nagios_plugin_dir$" + "/check_ftp"]
   vars.sshargs = {
     "-H" = {
@@ -347,7 +347,7 @@ object CheckCommand "command_ftp_ssh" {
 }
 
 }
-object CheckCommand "command_ftp_ssh_negate" {
+object CheckCommand "command_nagios_plugins_ftp_ssh_negate" {
   vars.realcmd = [ "$nagios_plugin_dir$" + "/check_ftp"]
   vars.realargs = {
     "-H" = {

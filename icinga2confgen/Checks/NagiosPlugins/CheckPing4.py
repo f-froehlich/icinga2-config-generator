@@ -49,8 +49,8 @@ class CheckPing4(CheckPing):
         elif not isinstance(check, CheckPing4):
             raise Exception('Id must be for an instance of CheckPing4 but other instance is returned')
 
-        if None is ConfigBuilder.get_command('ping'):
-            PingCommand.create('ping')
+        if None is ConfigBuilder.get_command('nagios_plugins_ping'):
+            PingCommand.create('nagios_plugins_ping')
 
         return check
 
