@@ -1,7 +1,7 @@
 vars.command_radius_config_file = "config_file"
-  vars.command_radius_host = "host"
-  vars.command_radius_password = "password"
-  vars.command_radius_port = 1645
-  vars.command_radius_retries = 2
-  vars.command_radius_timeout = 10
-  vars.command_radius_username = "username"
+vars.command_radius_host = "host"
+vars.command_radius_password = "password"
+vars.command_radius_port = 1645
+vars.command_radius_retries = 2
+vars.command_radius_timeout = 10
+vars.command_radius_username = "username"

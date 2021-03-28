@@ -1,299 +1,299 @@
 {
 
-    "--ignore-port" = {
-      value = "$command_ciphers_ignored_ports$"
-      set_if = {{ macro("$command_ciphers_ignored_ports$") != false }}
-      repeat_key = true
-    }
-    "--timeout" = {
-      value = "$command_ciphers_timeout$"
-      set_if = {{ macro("$command_ciphers_timeout$") != false }}
-    }
-     "--host" = {
-      value = "$command_ciphers_host$"
-      set_if = {{ macro("$command_ciphers_host$") != false }}
-      repeat_key = true
-    }
-    "--exclude" = {
-      value = "$command_ciphers_exclude$"
-      set_if = {{ macro("$command_ciphers_exclude$") != false }}
-      repeat_key = true
-    }
-    "--dns-servers" = {
-      value = "$command_ciphers_dns_servers$"
-      set_if = {{ macro("$command_ciphers_dns_servers$") != false }}
-      repeat_key = true
-    }
-    "-p" = {
-      value = "$command_ciphers_p$"
-      set_if = {{ macro("$command_ciphers_p$") != false }}
-      repeat_key = true
-    }
-    "--exclude-ports" = {
-      value = "$command_ciphers_exclude_ports$"
-      set_if = {{ macro("$command_ciphers_exclude_ports$") != false }}
-      repeat_key = true
-    }
-    "--script" = {
-      value = "$command_ciphers_script$"
-      set_if = {{ macro("$command_ciphers_script$") != false }}
-      repeat_key = true
-    }
-    "--script-args" = {
-      value = "$command_ciphers_script_args$"
-      set_if = {{ macro("$command_ciphers_script_args$") != false }}
-      repeat_key = true
-    }
-    "-D" = {
-      value = "$command_ciphers_D$"
-      set_if = {{ macro("$command_ciphers_D$") != false }}
-      repeat_key = true
-    }
-    "--proxies" = {
-      value = "$command_ciphers_proxies$"
-      set_if = {{ macro("$command_ciphers_proxies$") != false }}
-      repeat_key = true
-    }
-    "-iR" = {
-      value = "$command_ciphers_iR$"
-      set_if = {{ macro("$command_ciphers_iR$") != false }}
-    }
-    "--top-ports" = {
-      value = "$command_ciphers_top_ports$"
-      set_if = {{ macro("$command_ciphers_top_ports$") != false }}
-    }
-    "--port-ratio" = {
-      value = "$command_ciphers_port_ratio$"
-      set_if = {{ macro("$command_ciphers_port_ratio$") != false }}
-    }
-    "--version-intensity" = {
-      value = "$command_ciphers_version_intensity$"
-      set_if = {{ macro("$command_ciphers_version_intensity$") != false }}
-    }
-    "--osscan-limit" = {
-      value = "$command_ciphers_osscan_limit$"
-      set_if = {{ macro("$command_ciphers_osscan_limit$") != false }}
-    }
-    "-T" = {
-      value = "$command_ciphers_T$"
-      set_if = {{ macro("$command_ciphers_T$") != false }}
-    }
-    "--min-hostgroup" = {
-      value = "$command_ciphers_min_hostgroup$"
-      set_if = {{ macro("$command_ciphers_min_hostgroup$") != false }}
-    }
-    "--max-hostgroup" = {
-      value = "$command_ciphers_max_hostgroup$"
-      set_if = {{ macro("$command_ciphers_max_hostgroup$") != false }}
-    }
-    "--min-rate" = {
-      value = "$command_ciphers_min_rate$"
-      set_if = {{ macro("$command_ciphers_min_rate$") != false }}
-    }
-    "--max-rate" = {
-      value = "$command_ciphers_max_rate$"
-      set_if = {{ macro("$command_ciphers_max_rate$") != false }}
-    }
-    "--min-parallelism" = {
-      value = "$command_ciphers_min_parallelism$"
-      set_if = {{ macro("$command_ciphers_min_parallelism$") != false }}
-    }
-    "--max-parallelism" = {
-      value = "$command_ciphers_max_parallelism$"
-      set_if = {{ macro("$command_ciphers_max_parallelism$") != false }}
-    }
-    "-g" = {
-      value = "$command_ciphers_g$"
-      set_if = {{ macro("$command_ciphers_g$") != false }}
-    }
-    "--data-length" = {
-      value = "$command_ciphers_data_length$"
-      set_if = {{ macro("$command_ciphers_data_length$") != false }}
-    }
-    "--ttl" = {
-      value = "$command_ciphers_ttl$"
-      set_if = {{ macro("$command_ciphers_ttl$") != false }}
-    }
-    "--min-rtt-timeout" = {
-      value = "$command_ciphers_min_rtt_timeout$"
-      set_if = {{ macro("$command_ciphers_min_rtt_timeout$") != false }}
-    }
-    "--max-rtt-timeout" = {
-      value = "$command_ciphers_max_rtt_timeout$"
-      set_if = {{ macro("$command_ciphers_max_rtt_timeout$") != false }}
-    }
-    "--initial-rtt-timeout" = {
-      value = "$command_ciphers_initial_rtt_timeout$"
-      set_if = {{ macro("$command_ciphers_initial_rtt_timeout$") != false }}
-    }
-    "--max-retries" = {
-      value = "$command_ciphers_max_retries$"
-      set_if = {{ macro("$command_ciphers_max_retries$") != false }}
-    }
-    "--host-timeout" = {
-      value = "$command_ciphers_host_timeout$"
-      set_if = {{ macro("$command_ciphers_host_timeout$") != false }}
-    }
-    "--scan-delay" = {
-      value = "$command_ciphers_scan_delay$"
-      set_if = {{ macro("$command_ciphers_scan_delay$") != false }}
-    }
-    "--max-scan-delay" = {
-      value = "$command_ciphers_max_scan_delay$"
-      set_if = {{ macro("$command_ciphers_max_scan_delay$") != false }}
-    }
-    "--mtu" = {
-      value = "$command_ciphers_mtu$"
-      set_if = {{ macro("$command_ciphers_mtu$") != false }}
-    }
-    "-S" = {
-      value = "$command_ciphers_S$"
-      set_if = {{ macro("$command_ciphers_S$") != false }}
-    }
-    "-e" = {
-      value = "$command_ciphers_e$"
-      set_if = {{ macro("$command_ciphers_e$") != false }}
-    }
-    "--data" = {
-      value = "$command_ciphers_data$"
-      set_if = {{ macro("$command_ciphers_data$") != false }}
-    }
-    "--data-string" = {
-      value = "$command_ciphers_data_string$"
-      set_if = {{ macro("$command_ciphers_data_string$") != false }}
-    }
-    "--ip-options" = {
-      value = "$command_ciphers_ip_options$"
-      set_if = {{ macro("$command_ciphers_ip_options$") != false }}
-    }
-    "--spoof-mac" = {
-      value = "$command_ciphers_spoof_mac$"
-      set_if = {{ macro("$command_ciphers_spoof_mac$") != false }}
-    }
-    "--datadir" = {
-      value = "$command_ciphers_datadir$"
-      set_if = {{ macro("$command_ciphers_datadir$") != false }}
-    }
+"--ignore-port" = {
+value = "$command_ciphers_ignored_ports$"
+set_if = {{ macro("$command_ciphers_ignored_ports$") != false }}
+repeat_key = true
+}
+"--timeout" = {
+value = "$command_ciphers_timeout$"
+set_if = {{ macro("$command_ciphers_timeout$") != false }}
+}
+ "--host" = {
+value = "$command_ciphers_host$"
+set_if = {{ macro("$command_ciphers_host$") != false }}
+repeat_key = true
+}
+"--exclude" = {
+value = "$command_ciphers_exclude$"
+set_if = {{ macro("$command_ciphers_exclude$") != false }}
+repeat_key = true
+}
+"--dns-servers" = {
+value = "$command_ciphers_dns_servers$"
+set_if = {{ macro("$command_ciphers_dns_servers$") != false }}
+repeat_key = true
+}
+"-p" = {
+value = "$command_ciphers_p$"
+set_if = {{ macro("$command_ciphers_p$") != false }}
+repeat_key = true
+}
+"--exclude-ports" = {
+value = "$command_ciphers_exclude_ports$"
+set_if = {{ macro("$command_ciphers_exclude_ports$") != false }}
+repeat_key = true
+}
+"--script" = {
+value = "$command_ciphers_script$"
+set_if = {{ macro("$command_ciphers_script$") != false }}
+repeat_key = true
+}
+"--script-args" = {
+value = "$command_ciphers_script_args$"
+set_if = {{ macro("$command_ciphers_script_args$") != false }}
+repeat_key = true
+}
+"-D" = {
+value = "$command_ciphers_D$"
+set_if = {{ macro("$command_ciphers_D$") != false }}
+repeat_key = true
+}
+"--proxies" = {
+value = "$command_ciphers_proxies$"
+set_if = {{ macro("$command_ciphers_proxies$") != false }}
+repeat_key = true
+}
+"-iR" = {
+value = "$command_ciphers_iR$"
+set_if = {{ macro("$command_ciphers_iR$") != false }}
+}
+"--top-ports" = {
+value = "$command_ciphers_top_ports$"
+set_if = {{ macro("$command_ciphers_top_ports$") != false }}
+}
+"--port-ratio" = {
+value = "$command_ciphers_port_ratio$"
+set_if = {{ macro("$command_ciphers_port_ratio$") != false }}
+}
+"--version-intensity" = {
+value = "$command_ciphers_version_intensity$"
+set_if = {{ macro("$command_ciphers_version_intensity$") != false }}
+}
+"--osscan-limit" = {
+value = "$command_ciphers_osscan_limit$"
+set_if = {{ macro("$command_ciphers_osscan_limit$") != false }}
+}
+"-T" = {
+value = "$command_ciphers_T$"
+set_if = {{ macro("$command_ciphers_T$") != false }}
+}
+"--min-hostgroup" = {
+value = "$command_ciphers_min_hostgroup$"
+set_if = {{ macro("$command_ciphers_min_hostgroup$") != false }}
+}
+"--max-hostgroup" = {
+value = "$command_ciphers_max_hostgroup$"
+set_if = {{ macro("$command_ciphers_max_hostgroup$") != false }}
+}
+"--min-rate" = {
+value = "$command_ciphers_min_rate$"
+set_if = {{ macro("$command_ciphers_min_rate$") != false }}
+}
+"--max-rate" = {
+value = "$command_ciphers_max_rate$"
+set_if = {{ macro("$command_ciphers_max_rate$") != false }}
+}
+"--min-parallelism" = {
+value = "$command_ciphers_min_parallelism$"
+set_if = {{ macro("$command_ciphers_min_parallelism$") != false }}
+}
+"--max-parallelism" = {
+value = "$command_ciphers_max_parallelism$"
+set_if = {{ macro("$command_ciphers_max_parallelism$") != false }}
+}
+"-g" = {
+value = "$command_ciphers_g$"
+set_if = {{ macro("$command_ciphers_g$") != false }}
+}
+"--data-length" = {
+value = "$command_ciphers_data_length$"
+set_if = {{ macro("$command_ciphers_data_length$") != false }}
+}
+"--ttl" = {
+value = "$command_ciphers_ttl$"
+set_if = {{ macro("$command_ciphers_ttl$") != false }}
+}
+"--min-rtt-timeout" = {
+value = "$command_ciphers_min_rtt_timeout$"
+set_if = {{ macro("$command_ciphers_min_rtt_timeout$") != false }}
+}
+"--max-rtt-timeout" = {
+value = "$command_ciphers_max_rtt_timeout$"
+set_if = {{ macro("$command_ciphers_max_rtt_timeout$") != false }}
+}
+"--initial-rtt-timeout" = {
+value = "$command_ciphers_initial_rtt_timeout$"
+set_if = {{ macro("$command_ciphers_initial_rtt_timeout$") != false }}
+}
+"--max-retries" = {
+value = "$command_ciphers_max_retries$"
+set_if = {{ macro("$command_ciphers_max_retries$") != false }}
+}
+"--host-timeout" = {
+value = "$command_ciphers_host_timeout$"
+set_if = {{ macro("$command_ciphers_host_timeout$") != false }}
+}
+"--scan-delay" = {
+value = "$command_ciphers_scan_delay$"
+set_if = {{ macro("$command_ciphers_scan_delay$") != false }}
+}
+"--max-scan-delay" = {
+value = "$command_ciphers_max_scan_delay$"
+set_if = {{ macro("$command_ciphers_max_scan_delay$") != false }}
+}
+"--mtu" = {
+value = "$command_ciphers_mtu$"
+set_if = {{ macro("$command_ciphers_mtu$") != false }}
+}
+"-S" = {
+value = "$command_ciphers_S$"
+set_if = {{ macro("$command_ciphers_S$") != false }}
+}
+"-e" = {
+value = "$command_ciphers_e$"
+set_if = {{ macro("$command_ciphers_e$") != false }}
+}
+"--data" = {
+value = "$command_ciphers_data$"
+set_if = {{ macro("$command_ciphers_data$") != false }}
+}
+"--data-string" = {
+value = "$command_ciphers_data_string$"
+set_if = {{ macro("$command_ciphers_data_string$") != false }}
+}
+"--ip-options" = {
+value = "$command_ciphers_ip_options$"
+set_if = {{ macro("$command_ciphers_ip_options$") != false }}
+}
+"--spoof-mac" = {
+value = "$command_ciphers_spoof_mac$"
+set_if = {{ macro("$command_ciphers_spoof_mac$") != false }}
+}
+"--datadir" = {
+value = "$command_ciphers_datadir$"
+set_if = {{ macro("$command_ciphers_datadir$") != false }}
+}
 
 
-    "--not-scan-udp" = {
-      set_if = "$command_ciphers_not_scan_udp$"
-    }
+"--not-scan-udp" = {
+set_if = "$command_ciphers_not_scan_udp$"
+}
 
-    "--scan-tcp" = {
-      set_if = "$command_ciphers_scan_tcp$"
-    }
+"--scan-tcp" = {
+set_if = "$command_ciphers_scan_tcp$"
+}
 
-    "-n" = {
-      set_if = "$command_ciphers_n$"
-    }
+"-n" = {
+set_if = "$command_ciphers_n$"
+}
 
-    "-R" = {
-      set_if = "$command_ciphers_R$"
-    }
+"-R" = {
+set_if = "$command_ciphers_R$"
+}
 
-    "--system-dns" = {
-      set_if = "$command_ciphers_system_dns$"
-    }
+"--system-dns" = {
+set_if = "$command_ciphers_system_dns$"
+}
 
-    "--traceroute" = {
-      set_if = "$command_ciphers_traceroute$"
-    }
+"--traceroute" = {
+set_if = "$command_ciphers_traceroute$"
+}
 
-    "-F" = {
-      set_if = "$command_ciphers_F$"
-    }
+"-F" = {
+set_if = "$command_ciphers_F$"
+}
 
-    "-r" = {
-      set_if = "$command_ciphers_r$"
-    }
+"-r" = {
+set_if = "$command_ciphers_r$"
+}
 
-    "-sV" = {
-      set_if = "$command_ciphers_sV$"
-    }
+"-sV" = {
+set_if = "$command_ciphers_sV$"
+}
 
-    "--version-light" = {
-      set_if = "$command_ciphers_version_light$"
-    }
+"--version-light" = {
+set_if = "$command_ciphers_version_light$"
+}
 
-    "--version-all" = {
-      set_if = "$command_ciphers_version_all$"
-    }
+"--version-all" = {
+set_if = "$command_ciphers_version_all$"
+}
 
-    "--version-trace" = {
-      set_if = "$command_ciphers_version_trace$"
-    }
+"--version-trace" = {
+set_if = "$command_ciphers_version_trace$"
+}
 
-    "-sC" = {
-      set_if = "$command_ciphers_sC$"
-    }
+"-sC" = {
+set_if = "$command_ciphers_sC$"
+}
 
-    "--script-trace" = {
-      set_if = "$command_ciphers_script_trace$"
-    }
+"--script-trace" = {
+set_if = "$command_ciphers_script_trace$"
+}
 
-    "-O" = {
-      set_if = "$command_ciphers_O$"
-    }
+"-O" = {
+set_if = "$command_ciphers_O$"
+}
 
-    "--osscan-guess" = {
-      set_if = "$command_ciphers_osscan_guess$"
-    }
+"--osscan-guess" = {
+set_if = "$command_ciphers_osscan_guess$"
+}
 
-    "--badsum" = {
-      set_if = "$command_ciphers_badsum$"
-    }
+"--badsum" = {
+set_if = "$command_ciphers_badsum$"
+}
 
-    "-6" = {
-      set_if = "$command_ciphers_6$"
-    }
+"-6" = {
+set_if = "$command_ciphers_6$"
+}
 
-    "-A" = {
-      set_if = "$command_ciphers_A$"
-    }
+"-A" = {
+set_if = "$command_ciphers_A$"
+}
 
-    "--send-eth" = {
-      set_if = "$command_ciphers_send_eth$"
-    }
+"--send-eth" = {
+set_if = "$command_ciphers_send_eth$"
+}
 
-    "--send-ip" = {
-      set_if = "$command_ciphers_send_ip$"
-    }
+"--send-ip" = {
+set_if = "$command_ciphers_send_ip$"
+}
 
-    "--privileged" = {
-      set_if = "$command_ciphers_privileged$"
-    }
+"--privileged" = {
+set_if = "$command_ciphers_privileged$"
+}
 
-    "-Pn" = {
-      set_if = "$command_ciphers_Pn$"
-    }
+"-Pn" = {
+set_if = "$command_ciphers_Pn$"
+}
 
-    "--unprivileged" = {
-      set_if = "$command_ciphers_unprivileged$"
-    }
+"--unprivileged" = {
+set_if = "$command_ciphers_unprivileged$"
+}
 
-    "--allowed-cipher" = {
-      value = "$command_ciphers_allowed_ciphers$"
-      set_if = {{ macro("$command_ciphers_allowed_ciphers$") != false }}
-      repeat_key = true
-    }
-    "--least-protocol-strength" = {
-      value = "$command_ciphers_least_protocol_strength$"
-      set_if = {{ macro("$command_ciphers_least_protocol_strength$") != false }}
-      repeat_key = true
-    }
-    "--least-port-strength" = {
-      value = "$command_ciphers_least_port_strength$"
-      set_if = {{ macro("$command_ciphers_least_port_strength$") != false }}
-      repeat_key = true
-    }
-    "--ignore-cipher-name" = {
-      set_if = "$command_ciphers_ignore_cipher_name$"
-    }
-    "--ignore-protocol-strength" = {
-      set_if = "$command_ciphers_ignore_protocol_strength$"
-    }
-    "--ignore-strength" = {
-      set_if = "$command_ciphers_ignore_strength$"
-    }
-  }
+"--allowed-cipher" = {
+value = "$command_ciphers_allowed_ciphers$"
+set_if = {{ macro("$command_ciphers_allowed_ciphers$") != false }}
+repeat_key = true
+}
+"--least-protocol-strength" = {
+value = "$command_ciphers_least_protocol_strength$"
+set_if = {{ macro("$command_ciphers_least_protocol_strength$") != false }}
+repeat_key = true
+}
+"--least-port-strength" = {
+value = "$command_ciphers_least_port_strength$"
+set_if = {{ macro("$command_ciphers_least_port_strength$") != false }}
+repeat_key = true
+}
+"--ignore-cipher-name" = {
+set_if = "$command_ciphers_ignore_cipher_name$"
+}
+"--ignore-protocol-strength" = {
+set_if = "$command_ciphers_ignore_protocol_strength$"
+}
+"--ignore-strength" = {
+set_if = "$command_ciphers_ignore_strength$"
+}
+}

@@ -163,7 +163,7 @@ class ConfigBuilder:
 
                 with open(dirpath + '/' + name + '.conf', "w",
                           encoding='utf-8') as file:
-                    file.write(ConfigBuilder.__file_header() + conf['instance'].get_config())
+                    file.write(ConfigBuilder.__file_header() + conf['instance'].get_config().replace('  ', ''))
                 pbar.update(1)
 
         server_instances = ConfigBuilder.get_instance('server')
@@ -188,7 +188,7 @@ class ConfigBuilder:
 
             with open(dirpath + '/' + name + '.conf', "w",
                       encoding='utf-8') as file:
-                file.write(ConfigBuilder.__file_header() + conf['instance'].get_config())
+                file.write(ConfigBuilder.__file_header() + conf['instance'].get_config().replace('  ', ''))
             pbar.update(1)
 
         for conf in ConfigBuilder.__servers:
@@ -204,7 +204,7 @@ class ConfigBuilder:
             Path(dirpath).mkdir(parents=True, exist_ok=True)
             with open(dirpath + '/' + name + '.conf', "w",
                       encoding='utf-8') as file:
-                file.write(ConfigBuilder.__file_header() + server.get_config())
+                file.write(ConfigBuilder.__file_header() + server.get_config().replace('  ', ''))
             pbar.update(1)
 
         for conf in ConfigBuilder.__dependencies:
@@ -221,7 +221,7 @@ class ConfigBuilder:
             Path(dirpath).mkdir(parents=True, exist_ok=True)
             with open(dirpath + '/' + name + '.conf', "w",
                       encoding='utf-8') as file:
-                file.write(ConfigBuilder.__file_header() + dependency.get_config())
+                file.write(ConfigBuilder.__file_header() + dependency.get_config().replace('  ', ''))
             pbar.update(1)
 
         pbar.close()
@@ -272,7 +272,7 @@ class ConfigBuilder:
         config_string = ConfigBuilder.__file_header()
         for config in configs:
             for conf in config:
-                config_string += conf['instance'].get_config()
+                config_string += conf['instance'].get_config().replace('  ', '')
 
         return config_string
 

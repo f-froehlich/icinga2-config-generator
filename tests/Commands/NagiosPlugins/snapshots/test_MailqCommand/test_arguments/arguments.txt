@@ -1,22 +1,22 @@
 {
-    "-w" = {
-      value = "$command_mailq_warning$"
-      required = true
-    }
-    "-c" = {
-      value = "$command_mailq_critical$"
-      required = true
-    }
-    "-W" = {
-      value = "$command_mailq_warning_same_domain$"
-      set_if = {{ macro("$command_mailq_warning_same_domain$") != false }}
-    }
-    "-C" = {
-      value = "$command_mailq_critical_same_domain$"
-      set_if = {{ macro("$command_mailq_critical_same_domain$") != false }}
-    }
-    "-s" = {
-      value = "$command_mailq_sudo$"
-      set_if = {{ macro("$command_mailq_sudo$") != false }}
-    }
-  }
+"-w" = {
+value = "$command_mailq_warning$"
+required = true
+}
+"-c" = {
+value = "$command_mailq_critical$"
+required = true
+}
+"-W" = {
+value = "$command_mailq_warning_same_domain$"
+set_if = {{ macro("$command_mailq_warning_same_domain$") != false }}
+}
+"-C" = {
+value = "$command_mailq_critical_same_domain$"
+set_if = {{ macro("$command_mailq_critical_same_domain$") != false }}
+}
+"-s" = {
+value = "$command_mailq_sudo$"
+set_if = {{ macro("$command_mailq_sudo$") != false }}
+}
+}

@@ -1,4 +1,4 @@
 vars.groups += [
-    "servicegroup_imap",
-    "servicegroup_mail",
-  ]
+"servicegroup_imap",
+"servicegroup_mail",
+]

@@ -1,39 +1,39 @@
 {
-    "-h" = {
-        value = "$command_synology_status_host$"
-        required = true
-    }
-    "-u" = {
-        value = "$command_synology_status_user$"
-        set_if = {{ macro("$command_synology_status_user$") != false }}
-    }
-    "-p" = {
-        value = "$command_synology_status_password$"
-        set_if = {{ macro("$command_synology_status_password$") != false }}
-    }
-    "-W" = {
-        value = "$command_synology_status_warning_temp$"
-        set_if = {{ macro("$command_synology_status_warning_temp$") != false }}
-    }
-    "-C" = {
-        value = "$command_synology_status_critical_temp$"
-        set_if = {{ macro("$command_synology_status_critical_temp$") != false }}
-    }
-    "-w" = {
-        value = "$command_synology_status_warning_storage$"
-        set_if = {{ macro("$command_synology_status_warning_storage$") != false }}
-    }
-    "-c" = {
-        value = "$command_synology_status_critical_storage$"
-        set_if = {{ macro("$command_synology_status_critical_storage$") != false }}
-    }
-    "-2" = {
-        set_if = "$command_synology_status_v2$"
-    }
-    "-i" = {
-        set_if = "$command_synology_status_ignore_update$"
-    }
-    "-U" = {
-        set_if = "$command_synology_status_ups$"
-    }
+"-h" = {
+value = "$command_synology_status_host$"
+required = true
+}
+"-u" = {
+value = "$command_synology_status_user$"
+set_if = {{ macro("$command_synology_status_user$") != false }}
+}
+"-p" = {
+value = "$command_synology_status_password$"
+set_if = {{ macro("$command_synology_status_password$") != false }}
+}
+"-W" = {
+value = "$command_synology_status_warning_temp$"
+set_if = {{ macro("$command_synology_status_warning_temp$") != false }}
+}
+"-C" = {
+value = "$command_synology_status_critical_temp$"
+set_if = {{ macro("$command_synology_status_critical_temp$") != false }}
+}
+"-w" = {
+value = "$command_synology_status_warning_storage$"
+set_if = {{ macro("$command_synology_status_warning_storage$") != false }}
+}
+"-c" = {
+value = "$command_synology_status_critical_storage$"
+set_if = {{ macro("$command_synology_status_critical_storage$") != false }}
+}
+"-2" = {
+set_if = "$command_synology_status_v2$"
+}
+"-i" = {
+set_if = "$command_synology_status_ignore_update$"
+}
+"-U" = {
+set_if = "$command_synology_status_ups$"
+}
 }

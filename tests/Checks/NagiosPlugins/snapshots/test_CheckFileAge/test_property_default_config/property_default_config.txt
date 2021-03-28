@@ -1,4 +1,4 @@
 vars.command_file_age_critical_seconds = 600
-  vars.command_file_age_file = "file"
-  vars.command_file_age_ignore_missing = false
-  vars.command_file_age_warning_seconds = 60
+vars.command_file_age_file = "file"
+vars.command_file_age_ignore_missing = false
+vars.command_file_age_warning_seconds = 60

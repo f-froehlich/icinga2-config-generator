@@ -1,2 +1,2 @@
 vars.command_pgsql_port = 5432
-  vars.command_pgsql_timeout = 10
+vars.command_pgsql_timeout = 10

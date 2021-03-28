@@ -1,9 +1,9 @@
 vars.command_dig_critical_time = 10
-  vars.command_dig_dnsserver_hostname = "1.1.1.1"
-  vars.command_dig_expected_address = "address"
-  vars.command_dig_only_ipv4 = false
-  vars.command_dig_only_ipv6 = false
-  vars.command_dig_question = "question"
-  vars.command_dig_record_type = "A"
-  vars.command_dig_timeout = 10
-  vars.command_dig_warning_time = 5
+vars.command_dig_dnsserver_hostname = "1.1.1.1"
+vars.command_dig_expected_address = "address"
+vars.command_dig_only_ipv4 = false
+vars.command_dig_only_ipv6 = false
+vars.command_dig_question = "question"
+vars.command_dig_record_type = "A"
+vars.command_dig_timeout = 10
+vars.command_dig_warning_time = 5

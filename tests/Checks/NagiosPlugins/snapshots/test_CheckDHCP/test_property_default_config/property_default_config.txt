@@ -1,2 +1,2 @@
 vars.command_dhcp_timeout = 10
-  vars.command_dhcp_unicast = false
+vars.command_dhcp_unicast = false

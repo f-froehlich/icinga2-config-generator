@@ -1,16 +1,16 @@
 {
-    "--warning" = {
-      value = "$command_load_warning$"
-      required = true
-    }
-    "--critical" = {
-      value = "$command_load_critical$"
-      required = true
-    }
-    "--percpu" = {
-      set_if = "$command_load_percpu$"
-    }
-    "--procs-to-show" = {
-      value = "$command_load_procs_to_show$"
-    }
-  }
+"--warning" = {
+value = "$command_load_warning$"
+required = true
+}
+"--critical" = {
+value = "$command_load_critical$"
+required = true
+}
+"--percpu" = {
+set_if = "$command_load_percpu$"
+}
+"--procs-to-show" = {
+value = "$command_load_procs_to_show$"
+}
+}

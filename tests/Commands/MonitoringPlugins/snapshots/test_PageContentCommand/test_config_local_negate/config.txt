@@ -1,93 +1,93 @@
 object CheckCommand "command_instance_local_negate" {
-  vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_page_content.py"]
-  vars.realargs = {
-    "--ok-content" = {
-      value = "$command_page_content_ok$"
-      set_if = {{ macro("$command_page_content_ok$") != false }}
-      repeat_key = true
-    }
-    "--warning-content" = {
-      value = "$command_page_content_warning$"
-      set_if = {{ macro("$command_page_content_warning$") != false }}
-      repeat_key = true
-    }
-    "--critical-content" = {
-      value = "$command_page_content_critical$"
-      set_if = {{ macro("$command_page_content_critical$") != false }}
-      repeat_key = true
-    }
-    "--header" = {
-      value = "$command_page_content_header$"
-      set_if = {{ macro("$command_page_content_header$") != false }}
-      repeat_key = true
-    }
-    "--uri" = {
-      value = "$command_page_content_uri$"
-      set_if = {{ macro("$command_page_content_uri$") != false }}
-    }
-    "--domain" = {
-      value = "$command_page_content_domain$"
-      required = true
-    }
-    "--port" = {
-      value = "$command_page_content_port$"
-      set_if = {{ macro("$command_page_content_port$") != false }}
-    }
-    "--ssl" = {
-      set_if = "$command_page_content_ssl$"
-    }
-    "--client-cert" = {
-      value = "$command_page_content_client_cert$"
-      set_if = {{ macro("$command_page_content_client_cert$") != false }}
-    }
-    "--client-key" = {
-      value = "$command_page_content_client_key$"
-      set_if = {{ macro("$command_page_content_client_key$") != false }}
-    }
-  }
-
-  arguments = {
-  "-t" = {
-    value = "$negation_timeout$"
-    set_if = {{ macro("$negation_timeout$") != false }}
-  }
-  "-o" = {
-    value = "$negation_ok_status$"
-    set_if = {{ macro("$negation_ok_status$") != false }}
-  }
-  "-w" = {
-    value = "$negation_warning_status$"
-    set_if = {{ macro("$negation_warning_status$") != false }}
-  }
-  "-c" = {
-    value = "$negation_critical_status$"
-    set_if = {{ macro("$negation_critical_status$") != false }}
-  }
-  "-u" = {
-    value = "$negation_unknown_status$"
-    set_if = {{ macro("$negation_unknown_status$") != false }}
-  }
-  "-s" = {
-    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
-  }
-  "--command" = {
-    value = {{
-      var command = macro("$realcmd$")
-      var arguments = macro("$realargs$")
-      if (typeof(command) == String && !arguments) {
-        return command
-      }
-      var escaped_args = []
-      for (arg in resolve_arguments(command, arguments)) {
-          escaped_args.add(arg.replace(" ", "\\"))
-      }
-      return escaped_args.join(" ")
-    }}
-    skip_key = true
-    required = true
-    order = 99
-  }
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_page_content.py"]
+vars.realargs = {
+"--ok-content" = {
+value = "$command_page_content_ok$"
+set_if = {{ macro("$command_page_content_ok$") != false }}
+repeat_key = true
+}
+"--warning-content" = {
+value = "$command_page_content_warning$"
+set_if = {{ macro("$command_page_content_warning$") != false }}
+repeat_key = true
+}
+"--critical-content" = {
+value = "$command_page_content_critical$"
+set_if = {{ macro("$command_page_content_critical$") != false }}
+repeat_key = true
+}
+"--header" = {
+value = "$command_page_content_header$"
+set_if = {{ macro("$command_page_content_header$") != false }}
+repeat_key = true
+}
+"--uri" = {
+value = "$command_page_content_uri$"
+set_if = {{ macro("$command_page_content_uri$") != false }}
+}
+"--domain" = {
+value = "$command_page_content_domain$"
+required = true
+}
+"--port" = {
+value = "$command_page_content_port$"
+set_if = {{ macro("$command_page_content_port$") != false }}
+}
+"--ssl" = {
+set_if = "$command_page_content_ssl$"
+}
+"--client-cert" = {
+value = "$command_page_content_client_cert$"
+set_if = {{ macro("$command_page_content_client_cert$") != false }}
+}
+"--client-key" = {
+value = "$command_page_content_client_key$"
+set_if = {{ macro("$command_page_content_client_key$") != false }}
+}
 }
 
-  command = ["$nagios_plugin_dir$" + "/negate"]
+arguments = {
+"-t" = {
+value = "$negation_timeout$"
+set_if = {{ macro("$negation_timeout$") != false }}
+}
+"-o" = {
+value = "$negation_ok_status$"
+set_if = {{ macro("$negation_ok_status$") != false }}
+}
+"-w" = {
+value = "$negation_warning_status$"
+set_if = {{ macro("$negation_warning_status$") != false }}
+}
+"-c" = {
+value = "$negation_critical_status$"
+set_if = {{ macro("$negation_critical_status$") != false }}
+}
+"-u" = {
+value = "$negation_unknown_status$"
+set_if = {{ macro("$negation_unknown_status$") != false }}
+}
+"-s" = {
+set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+}
+"--command" = {
+value = {{
+var command = macro("$realcmd$")
+var arguments = macro("$realargs$")
+if (typeof(command) == String && !arguments) {
+return command
+}
+var escaped_args = []
+for (arg in resolve_arguments(command, arguments)) {
+escaped_args.add(arg.replace(" ", "\\"))
+}
+return escaped_args.join(" ")
+}}
+skip_key = true
+required = true
+order = 99
+}
+}
+
+command = ["$nagios_plugin_dir$" + "/negate"]
 }

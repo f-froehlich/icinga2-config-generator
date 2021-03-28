@@ -1,5 +1,5 @@
 {
-    "--exit-critical" = {
-      set_if = {{ macro("$command_reboot_required_exit_critical$") != false }}
-    }
-  }
+"--exit-critical" = {
+set_if = {{ macro("$command_reboot_required_exit_critical$") != false }}
+}
+}

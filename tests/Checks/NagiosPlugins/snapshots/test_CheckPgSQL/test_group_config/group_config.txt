@@ -1,4 +1,4 @@
 vars.groups += [
-    "servicegroup_postgres",
-    "servicegroup_database",
-  ]
+"servicegroup_postgres",
+"servicegroup_database",
+]

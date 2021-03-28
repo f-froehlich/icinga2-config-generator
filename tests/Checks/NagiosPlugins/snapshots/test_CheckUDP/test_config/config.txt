@@ -1,27 +1,27 @@
 apply Service "instance" {
-  check_command = "command_udp_local"
-  vars.command_udp_all = false
-  vars.command_udp_cert = true
-  vars.command_udp_cert_critical = 15
-  vars.command_udp_cert_warning = 29
-  vars.command_udp_escape = false
-  vars.command_udp_host = "host"
-  vars.command_udp_ipv4 = false
-  vars.command_udp_ipv6 = false
-  vars.command_udp_jail = false
-  vars.command_udp_port = 8888
-  vars.command_udp_timeout = 10
-  vars.command_udp_use_ssl = false
-  vars.groups += [
-    "servicegroup_udp",
-  ]
-  display_name = "UDP"
-  zone = host.vars.zone_name
-  command_endpoint = host.vars.endpoint_name
-  check_interval = 1m
-  retry_interval = 15s
-  max_check_attempts = 3
-  enable_perfdata = true
-  check_timeout = 30
-  assign where "instance" in host.vars.checks
+check_command = "command_udp_local"
+vars.command_udp_all = false
+vars.command_udp_cert = true
+vars.command_udp_cert_critical = 15
+vars.command_udp_cert_warning = 29
+vars.command_udp_escape = false
+vars.command_udp_host = "host"
+vars.command_udp_ipv4 = false
+vars.command_udp_ipv6 = false
+vars.command_udp_jail = false
+vars.command_udp_port = 8888
+vars.command_udp_timeout = 10
+vars.command_udp_use_ssl = false
+vars.groups += [
+"servicegroup_udp",
+]
+display_name = "UDP"
+zone = host.vars.zone_name
+command_endpoint = host.vars.endpoint_name
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+assign where "instance" in host.vars.checks
 }

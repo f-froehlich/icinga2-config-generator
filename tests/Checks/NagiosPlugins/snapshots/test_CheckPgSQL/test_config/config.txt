@@ -1,18 +1,18 @@
 apply Service "instance" {
-  check_command = "command_pgsql_local"
-  vars.command_pgsql_port = 5432
-  vars.command_pgsql_timeout = 10
-  vars.groups += [
-    "servicegroup_postgres",
-    "servicegroup_database",
-  ]
-  display_name = "PostgreSQL"
-  zone = host.vars.zone_name
-  command_endpoint = host.vars.endpoint_name
-  check_interval = 1m
-  retry_interval = 15s
-  max_check_attempts = 3
-  enable_perfdata = true
-  check_timeout = 30
-  assign where "instance" in host.vars.checks
+check_command = "command_pgsql_local"
+vars.command_pgsql_port = 5432
+vars.command_pgsql_timeout = 10
+vars.groups += [
+"servicegroup_postgres",
+"servicegroup_database",
+]
+display_name = "PostgreSQL"
+zone = host.vars.zone_name
+command_endpoint = host.vars.endpoint_name
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+assign where "instance" in host.vars.checks
 }

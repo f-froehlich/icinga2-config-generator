@@ -1,4 +1,4 @@
 vars.command_storcenter_host = "host"
-  vars.command_storcenter_password = "password"
-  vars.command_storcenter_type = "disk"
-  vars.command_storcenter_user = "user"
+vars.command_storcenter_password = "password"
+vars.command_storcenter_type = "disk"
+vars.command_storcenter_user = "user"

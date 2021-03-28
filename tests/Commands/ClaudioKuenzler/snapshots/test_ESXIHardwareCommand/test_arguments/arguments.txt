@@ -1,74 +1,74 @@
 {
-    "-H" = {
-      value = "$command_esxi_hardware_host$"
-      required = true
-      description = "report on HOST"
-    }
-    "-U" = {
-      value = "$command_esxi_hardware_user$"
-      required = true
-      description = "user to connect as"
-    }
-    "-P" = {
-      value = "$command_esxi_hardware_password$"
-      required = true
-      description = "password"
-    }
-    "-C" = {
-      value = "$command_esxi_hardware_port$"
-      description = "cim port"
-    }
-    "-S" = {
-      value = "$command_esxi_hardware_sslproto$"
-      description = "ssl/tls protocol"
-    }
-    "-V" = {
-      value = "$command_esxi_hardware_vendor$"
-      description = "Vendor code: auto, dell, hp, ibm, intel, or unknown"
-    }
-    "-I" = {
-      value = "$command_esxi_hardware_html$"
-      set_if = {{ macro("$command_esxi_hardware_html$") != false }}
-      description = "generate html links for country XX"
-    }
-    "-i" = {
-      value = "$command_esxi_hardware_ignore$"
-      description = "comma-separated list of elements to ignore"
-    }
-    "-r" = {
-      set_if = "$command_esxi_hardware_regex$"
-      description = "Allow regular expression lookups of elements in ignore list"
-    }
-    "-p" = {
-      set_if = "$command_esxi_hardware_perfdata$"
-      description = "collect performance data for pnp4nagios"
-    }
-    "--no-power" = {
-      set_if = "$command_esxi_hardware_nopower$"
-      description = "don't collect power performance data"
-    }
-    "--no-volts" = {
-      set_if = "$command_esxi_hardware_novolts$"
-      description = "don't collect voltage performance data"
-    }
-    "--no-current" = {
-      set_if = "$command_esxi_hardware_nocurrent$"
-      description = "don't collect current performance data"
-    }
-    "--no-temp" = {
-      set_if = "$command_esxi_hardware_notemp$"
-      description = "don't collect temperature performance data"
-    }
-    "--no-fan" = {
-      set_if = "$command_esxi_hardware_nofan$"
-      description = "don't collect fan performance data"
-    }
-    "--no-lcd" = {
-      set_if = "$command_esxi_hardware_nolcd$"
-      description = "don't collect lcd/front display status data"
-    }
-    "--no-intrusion" = {
-      set_if = "$command_esxi_hardware_nointrusion$"
-      description = "don't collect chassic intrusion status data"
-    }
+"-H" = {
+value = "$command_esxi_hardware_host$"
+required = true
+description = "report on HOST"
+}
+"-U" = {
+value = "$command_esxi_hardware_user$"
+required = true
+description = "user to connect as"
+}
+"-P" = {
+value = "$command_esxi_hardware_password$"
+required = true
+description = "password"
+}
+"-C" = {
+value = "$command_esxi_hardware_port$"
+description = "cim port"
+}
+"-S" = {
+value = "$command_esxi_hardware_sslproto$"
+description = "ssl/tls protocol"
+}
+"-V" = {
+value = "$command_esxi_hardware_vendor$"
+description = "Vendor code: auto, dell, hp, ibm, intel, or unknown"
+}
+"-I" = {
+value = "$command_esxi_hardware_html$"
+set_if = {{ macro("$command_esxi_hardware_html$") != false }}
+description = "generate html links for country XX"
+}
+"-i" = {
+value = "$command_esxi_hardware_ignore$"
+description = "comma-separated list of elements to ignore"
+}
+"-r" = {
+set_if = "$command_esxi_hardware_regex$"
+description = "Allow regular expression lookups of elements in ignore list"
+}
+"-p" = {
+set_if = "$command_esxi_hardware_perfdata$"
+description = "collect performance data for pnp4nagios"
+}
+"--no-power" = {
+set_if = "$command_esxi_hardware_nopower$"
+description = "don't collect power performance data"
+}
+"--no-volts" = {
+set_if = "$command_esxi_hardware_novolts$"
+description = "don't collect voltage performance data"
+}
+"--no-current" = {
+set_if = "$command_esxi_hardware_nocurrent$"
+description = "don't collect current performance data"
+}
+"--no-temp" = {
+set_if = "$command_esxi_hardware_notemp$"
+description = "don't collect temperature performance data"
+}
+"--no-fan" = {
+set_if = "$command_esxi_hardware_nofan$"
+description = "don't collect fan performance data"
+}
+"--no-lcd" = {
+set_if = "$command_esxi_hardware_nolcd$"
+description = "don't collect lcd/front display status data"
+}
+"--no-intrusion" = {
+set_if = "$command_esxi_hardware_nointrusion$"
+description = "don't collect chassic intrusion status data"
+}
 }

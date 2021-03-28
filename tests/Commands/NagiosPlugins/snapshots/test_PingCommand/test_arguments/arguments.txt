@@ -1,12 +1,12 @@
 {
-    "-H" = "$command_ping_address$"
-    "-w" = "$command_ping_warning_average_time$,$command_ping_warning_percent_lost$%"
-    "-c" = "$command_ping_critical_average_time$,$command_ping_critical_percent_lost$%"
-    "-p" = "$command_ping_packets$"
-    "-4" = {
-      set_if = "$command_ping_v4$"
-    }
-    "-6" = {
-      set_if = "$command_ping_v6$"
-    }
-  }
+"-H" = "$command_ping_address$"
+"-w" = "$command_ping_warning_average_time$,$command_ping_warning_percent_lost$%"
+"-c" = "$command_ping_critical_average_time$,$command_ping_critical_percent_lost$%"
+"-p" = "$command_ping_packets$"
+"-4" = {
+set_if = "$command_ping_v4$"
+}
+"-6" = {
+set_if = "$command_ping_v6$"
+}
+}

@@ -1,18 +1,18 @@
 {
-    "--warning" = {
-      value = "$command_uptime_warning$"
-      required = true
-    }
-    "--critical" = {
-      value = "$command_uptime_critical$"
-      required = true
-    }
-    "--for" = {
-      value = "$command_uptime_for$"
-      set_if = {{ macro("$command_uptime_for$") != false }}
-    }
-    "--since" = {
-      value = "$command_uptime_since$"
-      set_if = {{ macro("$command_uptime_since$") != false }}
-    }
-  }
+"--warning" = {
+value = "$command_uptime_warning$"
+required = true
+}
+"--critical" = {
+value = "$command_uptime_critical$"
+required = true
+}
+"--for" = {
+value = "$command_uptime_for$"
+set_if = {{ macro("$command_uptime_for$") != false }}
+}
+"--since" = {
+value = "$command_uptime_since$"
+set_if = {{ macro("$command_uptime_since$") != false }}
+}
+}

@@ -1,4 +1,4 @@
 vars.groups += [
-    "servicegroup_snmp",
-    "servicegroup_network",
-  ]
+"servicegroup_snmp",
+"servicegroup_network",
+]

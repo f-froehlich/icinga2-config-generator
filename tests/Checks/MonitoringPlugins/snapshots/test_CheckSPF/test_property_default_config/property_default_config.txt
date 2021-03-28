@@ -1,4 +1,4 @@
 vars.command_spf_domain = "domain"
-  vars.command_spf_expected = "expected"
-  vars.command_spf_resolver = "1.1.1.1"
-  vars.command_spf_timeout = 10
+vars.command_spf_expected = "expected"
+vars.command_spf_resolver = "1.1.1.1"
+vars.command_spf_timeout = 10

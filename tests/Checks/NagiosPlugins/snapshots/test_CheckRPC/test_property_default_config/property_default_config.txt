@@ -1,2 +1,2 @@
 vars.command_rpc_command = "command"
-  vars.command_rpc_host = "host"
+vars.command_rpc_host = "host"

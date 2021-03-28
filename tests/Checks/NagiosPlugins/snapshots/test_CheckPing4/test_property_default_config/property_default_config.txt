@@ -1,7 +1,7 @@
 vars.command_ping_address = "address"
-  vars.command_ping_critical_average_time = 250
-  vars.command_ping_critical_percent_lost = 10
-  vars.command_ping_packets = 4
-  vars.command_ping_timeout = 10
-  vars.command_ping_warning_average_time = 100
-  vars.command_ping_warning_percent_lost = 5
+vars.command_ping_critical_average_time = 250
+vars.command_ping_critical_percent_lost = 10
+vars.command_ping_packets = 4
+vars.command_ping_timeout = 10
+vars.command_ping_warning_average_time = 100
+vars.command_ping_warning_percent_lost = 5

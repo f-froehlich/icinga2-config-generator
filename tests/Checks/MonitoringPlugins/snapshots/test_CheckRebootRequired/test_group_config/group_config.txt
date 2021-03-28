@@ -1,4 +1,4 @@
 vars.groups += [
-    "servicegroup_reboot",
-    "servicegroup_system_health",
-  ]
+"servicegroup_reboot",
+"servicegroup_system_health",
+]

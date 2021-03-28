@@ -1,62 +1,62 @@
 object CheckCommand "command_instance_local_negate" {
-  vars.realcmd = [ "$nagios_plugin_dir$" + "/check_log"]
-  vars.realargs = {
-    "-F" = {
-      value = "$command_log_file$"
-      required = true
-    }
-    "-O" = {
-      value = "$command_log_oldfile$"
-      required = true
-    }
-    "-q" = {
-      value = "$command_log_query$"
-      required = true
-    }
-  }
-
-  arguments = {
-  "-t" = {
-    value = "$negation_timeout$"
-    set_if = {{ macro("$negation_timeout$") != false }}
-  }
-  "-o" = {
-    value = "$negation_ok_status$"
-    set_if = {{ macro("$negation_ok_status$") != false }}
-  }
-  "-w" = {
-    value = "$negation_warning_status$"
-    set_if = {{ macro("$negation_warning_status$") != false }}
-  }
-  "-c" = {
-    value = "$negation_critical_status$"
-    set_if = {{ macro("$negation_critical_status$") != false }}
-  }
-  "-u" = {
-    value = "$negation_unknown_status$"
-    set_if = {{ macro("$negation_unknown_status$") != false }}
-  }
-  "-s" = {
-    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
-  }
-  "--command" = {
-    value = {{
-      var command = macro("$realcmd$")
-      var arguments = macro("$realargs$")
-      if (typeof(command) == String && !arguments) {
-        return command
-      }
-      var escaped_args = []
-      for (arg in resolve_arguments(command, arguments)) {
-          escaped_args.add(arg.replace(" ", "\\"))
-      }
-      return escaped_args.join(" ")
-    }}
-    skip_key = true
-    required = true
-    order = 99
-  }
+vars.realcmd = [ "$nagios_plugin_dir$" + "/check_log"]
+vars.realargs = {
+"-F" = {
+value = "$command_log_file$"
+required = true
+}
+"-O" = {
+value = "$command_log_oldfile$"
+required = true
+}
+"-q" = {
+value = "$command_log_query$"
+required = true
+}
 }
 
-  command = ["$nagios_plugin_dir$" + "/negate"]
+arguments = {
+"-t" = {
+value = "$negation_timeout$"
+set_if = {{ macro("$negation_timeout$") != false }}
+}
+"-o" = {
+value = "$negation_ok_status$"
+set_if = {{ macro("$negation_ok_status$") != false }}
+}
+"-w" = {
+value = "$negation_warning_status$"
+set_if = {{ macro("$negation_warning_status$") != false }}
+}
+"-c" = {
+value = "$negation_critical_status$"
+set_if = {{ macro("$negation_critical_status$") != false }}
+}
+"-u" = {
+value = "$negation_unknown_status$"
+set_if = {{ macro("$negation_unknown_status$") != false }}
+}
+"-s" = {
+set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+}
+"--command" = {
+value = {{
+var command = macro("$realcmd$")
+var arguments = macro("$realargs$")
+if (typeof(command) == String && !arguments) {
+return command
+}
+var escaped_args = []
+for (arg in resolve_arguments(command, arguments)) {
+escaped_args.add(arg.replace(" ", "\\"))
+}
+return escaped_args.join(" ")
+}}
+skip_key = true
+required = true
+order = 99
+}
+}
+
+command = ["$nagios_plugin_dir$" + "/negate"]
 }

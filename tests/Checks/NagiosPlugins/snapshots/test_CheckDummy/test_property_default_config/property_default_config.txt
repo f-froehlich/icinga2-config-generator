@@ -1,2 +1,2 @@
 vars.command_dummy_state = 1
-  vars.command_dummy_text = ""
+vars.command_dummy_text = ""

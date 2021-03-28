@@ -1,2 +1,2 @@
 vars.command_flexlm_file = "file"
-  vars.command_flexlm_timeout = 10
+vars.command_flexlm_timeout = 10

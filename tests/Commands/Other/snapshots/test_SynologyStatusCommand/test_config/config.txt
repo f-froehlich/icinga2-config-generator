@@ -1,302 +1,302 @@
 object CheckCommand "command_instance_local" {
-  command = [ "$other_plugin_dir$" + "/check_snmp_synology"]
-  arguments = {
-    "-h" = {
-        value = "$command_synology_status_host$"
-        required = true
-    }
-    "-u" = {
-        value = "$command_synology_status_user$"
-        set_if = {{ macro("$command_synology_status_user$") != false }}
-    }
-    "-p" = {
-        value = "$command_synology_status_password$"
-        set_if = {{ macro("$command_synology_status_password$") != false }}
-    }
-    "-W" = {
-        value = "$command_synology_status_warning_temp$"
-        set_if = {{ macro("$command_synology_status_warning_temp$") != false }}
-    }
-    "-C" = {
-        value = "$command_synology_status_critical_temp$"
-        set_if = {{ macro("$command_synology_status_critical_temp$") != false }}
-    }
-    "-w" = {
-        value = "$command_synology_status_warning_storage$"
-        set_if = {{ macro("$command_synology_status_warning_storage$") != false }}
-    }
-    "-c" = {
-        value = "$command_synology_status_critical_storage$"
-        set_if = {{ macro("$command_synology_status_critical_storage$") != false }}
-    }
-    "-2" = {
-        set_if = "$command_synology_status_v2$"
-    }
-    "-i" = {
-        set_if = "$command_synology_status_ignore_update$"
-    }
-    "-U" = {
-        set_if = "$command_synology_status_ups$"
-    }
+command = [ "$other_plugin_dir$" + "/check_snmp_synology"]
+arguments = {
+"-h" = {
+value = "$command_synology_status_host$"
+required = true
+}
+"-u" = {
+value = "$command_synology_status_user$"
+set_if = {{ macro("$command_synology_status_user$") != false }}
+}
+"-p" = {
+value = "$command_synology_status_password$"
+set_if = {{ macro("$command_synology_status_password$") != false }}
+}
+"-W" = {
+value = "$command_synology_status_warning_temp$"
+set_if = {{ macro("$command_synology_status_warning_temp$") != false }}
+}
+"-C" = {
+value = "$command_synology_status_critical_temp$"
+set_if = {{ macro("$command_synology_status_critical_temp$") != false }}
+}
+"-w" = {
+value = "$command_synology_status_warning_storage$"
+set_if = {{ macro("$command_synology_status_warning_storage$") != false }}
+}
+"-c" = {
+value = "$command_synology_status_critical_storage$"
+set_if = {{ macro("$command_synology_status_critical_storage$") != false }}
+}
+"-2" = {
+set_if = "$command_synology_status_v2$"
+}
+"-i" = {
+set_if = "$command_synology_status_ignore_update$"
+}
+"-U" = {
+set_if = "$command_synology_status_ups$"
+}
 }
 
 }
 object CheckCommand "command_instance_local_negate" {
-  vars.realcmd = [ "$other_plugin_dir$" + "/check_snmp_synology"]
-  vars.realargs = {
-    "-h" = {
-        value = "$command_synology_status_host$"
-        required = true
-    }
-    "-u" = {
-        value = "$command_synology_status_user$"
-        set_if = {{ macro("$command_synology_status_user$") != false }}
-    }
-    "-p" = {
-        value = "$command_synology_status_password$"
-        set_if = {{ macro("$command_synology_status_password$") != false }}
-    }
-    "-W" = {
-        value = "$command_synology_status_warning_temp$"
-        set_if = {{ macro("$command_synology_status_warning_temp$") != false }}
-    }
-    "-C" = {
-        value = "$command_synology_status_critical_temp$"
-        set_if = {{ macro("$command_synology_status_critical_temp$") != false }}
-    }
-    "-w" = {
-        value = "$command_synology_status_warning_storage$"
-        set_if = {{ macro("$command_synology_status_warning_storage$") != false }}
-    }
-    "-c" = {
-        value = "$command_synology_status_critical_storage$"
-        set_if = {{ macro("$command_synology_status_critical_storage$") != false }}
-    }
-    "-2" = {
-        set_if = "$command_synology_status_v2$"
-    }
-    "-i" = {
-        set_if = "$command_synology_status_ignore_update$"
-    }
-    "-U" = {
-        set_if = "$command_synology_status_ups$"
-    }
+vars.realcmd = [ "$other_plugin_dir$" + "/check_snmp_synology"]
+vars.realargs = {
+"-h" = {
+value = "$command_synology_status_host$"
+required = true
+}
+"-u" = {
+value = "$command_synology_status_user$"
+set_if = {{ macro("$command_synology_status_user$") != false }}
+}
+"-p" = {
+value = "$command_synology_status_password$"
+set_if = {{ macro("$command_synology_status_password$") != false }}
+}
+"-W" = {
+value = "$command_synology_status_warning_temp$"
+set_if = {{ macro("$command_synology_status_warning_temp$") != false }}
+}
+"-C" = {
+value = "$command_synology_status_critical_temp$"
+set_if = {{ macro("$command_synology_status_critical_temp$") != false }}
+}
+"-w" = {
+value = "$command_synology_status_warning_storage$"
+set_if = {{ macro("$command_synology_status_warning_storage$") != false }}
+}
+"-c" = {
+value = "$command_synology_status_critical_storage$"
+set_if = {{ macro("$command_synology_status_critical_storage$") != false }}
+}
+"-2" = {
+set_if = "$command_synology_status_v2$"
+}
+"-i" = {
+set_if = "$command_synology_status_ignore_update$"
+}
+"-U" = {
+set_if = "$command_synology_status_ups$"
+}
 }
 
-  arguments = {
-  "-t" = {
-    value = "$negation_timeout$"
-    set_if = {{ macro("$negation_timeout$") != false }}
-  }
-  "-o" = {
-    value = "$negation_ok_status$"
-    set_if = {{ macro("$negation_ok_status$") != false }}
-  }
-  "-w" = {
-    value = "$negation_warning_status$"
-    set_if = {{ macro("$negation_warning_status$") != false }}
-  }
-  "-c" = {
-    value = "$negation_critical_status$"
-    set_if = {{ macro("$negation_critical_status$") != false }}
-  }
-  "-u" = {
-    value = "$negation_unknown_status$"
-    set_if = {{ macro("$negation_unknown_status$") != false }}
-  }
-  "-s" = {
-    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
-  }
-  "--command" = {
-    value = {{
-      var command = macro("$realcmd$")
-      var arguments = macro("$realargs$")
-      if (typeof(command) == String && !arguments) {
-        return command
-      }
-      var escaped_args = []
-      for (arg in resolve_arguments(command, arguments)) {
-          escaped_args.add(arg.replace(" ", "\\"))
-      }
-      return escaped_args.join(" ")
-    }}
-    skip_key = true
-    required = true
-    order = 99
-  }
+arguments = {
+"-t" = {
+value = "$negation_timeout$"
+set_if = {{ macro("$negation_timeout$") != false }}
+}
+"-o" = {
+value = "$negation_ok_status$"
+set_if = {{ macro("$negation_ok_status$") != false }}
+}
+"-w" = {
+value = "$negation_warning_status$"
+set_if = {{ macro("$negation_warning_status$") != false }}
+}
+"-c" = {
+value = "$negation_critical_status$"
+set_if = {{ macro("$negation_critical_status$") != false }}
+}
+"-u" = {
+value = "$negation_unknown_status$"
+set_if = {{ macro("$negation_unknown_status$") != false }}
+}
+"-s" = {
+set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+}
+"--command" = {
+value = {{
+var command = macro("$realcmd$")
+var arguments = macro("$realargs$")
+if (typeof(command) == String && !arguments) {
+return command
+}
+var escaped_args = []
+for (arg in resolve_arguments(command, arguments)) {
+escaped_args.add(arg.replace(" ", "\\"))
+}
+return escaped_args.join(" ")
+}}
+skip_key = true
+required = true
+order = 99
+}
 }
 
-  command = ["$nagios_plugin_dir$" + "/negate"]
+command = ["$nagios_plugin_dir$" + "/negate"]
 }
 object CheckCommand "command_instance_ssh" {
-  vars.sshcmd = [ "$other_plugin_dir$" + "/check_snmp_synology"]
-  vars.sshargs = {
-    "-h" = {
-        value = "$command_synology_status_host$"
-        required = true
-    }
-    "-u" = {
-        value = "$command_synology_status_user$"
-        set_if = {{ macro("$command_synology_status_user$") != false }}
-    }
-    "-p" = {
-        value = "$command_synology_status_password$"
-        set_if = {{ macro("$command_synology_status_password$") != false }}
-    }
-    "-W" = {
-        value = "$command_synology_status_warning_temp$"
-        set_if = {{ macro("$command_synology_status_warning_temp$") != false }}
-    }
-    "-C" = {
-        value = "$command_synology_status_critical_temp$"
-        set_if = {{ macro("$command_synology_status_critical_temp$") != false }}
-    }
-    "-w" = {
-        value = "$command_synology_status_warning_storage$"
-        set_if = {{ macro("$command_synology_status_warning_storage$") != false }}
-    }
-    "-c" = {
-        value = "$command_synology_status_critical_storage$"
-        set_if = {{ macro("$command_synology_status_critical_storage$") != false }}
-    }
-    "-2" = {
-        set_if = "$command_synology_status_v2$"
-    }
-    "-i" = {
-        set_if = "$command_synology_status_ignore_update$"
-    }
-    "-U" = {
-        set_if = "$command_synology_status_ups$"
-    }
+vars.sshcmd = [ "$other_plugin_dir$" + "/check_snmp_synology"]
+vars.sshargs = {
+"-h" = {
+value = "$command_synology_status_host$"
+required = true
+}
+"-u" = {
+value = "$command_synology_status_user$"
+set_if = {{ macro("$command_synology_status_user$") != false }}
+}
+"-p" = {
+value = "$command_synology_status_password$"
+set_if = {{ macro("$command_synology_status_password$") != false }}
+}
+"-W" = {
+value = "$command_synology_status_warning_temp$"
+set_if = {{ macro("$command_synology_status_warning_temp$") != false }}
+}
+"-C" = {
+value = "$command_synology_status_critical_temp$"
+set_if = {{ macro("$command_synology_status_critical_temp$") != false }}
+}
+"-w" = {
+value = "$command_synology_status_warning_storage$"
+set_if = {{ macro("$command_synology_status_warning_storage$") != false }}
+}
+"-c" = {
+value = "$command_synology_status_critical_storage$"
+set_if = {{ macro("$command_synology_status_critical_storage$") != false }}
+}
+"-2" = {
+set_if = "$command_synology_status_v2$"
+}
+"-i" = {
+set_if = "$command_synology_status_ignore_update$"
+}
+"-U" = {
+set_if = "$command_synology_status_ups$"
+}
 }
 
-  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
-  arguments = {
-  "-i" = "$command_overssh_identityfile$"
-  "-l" = "$command_overssh_user$"
-  "-p" = "$command_overssh_port$"
-  "-H" = "$command_overssh_host$"
-  "--timeout" = "$command_overssh_timeout$"
-  "-C" = {{
-    var command = macro("$sshcmd$")
-    var arguments = macro("$sshargs$")
-    if (typeof(command) == String && !arguments) {
-      return command
-    }
-    var escaped_args = []
-    for (arg in resolve_arguments(command, arguments)) {
-      escaped_args.add(escape_shell_arg(arg))
-    }
-    return escaped_args.join(" ")
-  }}
+command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+arguments = {
+"-i" = "$command_overssh_identityfile$"
+"-l" = "$command_overssh_user$"
+"-p" = "$command_overssh_port$"
+"-H" = "$command_overssh_host$"
+"--timeout" = "$command_overssh_timeout$"
+"-C" = {{
+var command = macro("$sshcmd$")
+var arguments = macro("$sshargs$")
+if (typeof(command) == String && !arguments) {
+return command
+}
+var escaped_args = []
+for (arg in resolve_arguments(command, arguments)) {
+escaped_args.add(escape_shell_arg(arg))
+}
+return escaped_args.join(" ")
+}}
 }
 
 }
 object CheckCommand "command_instance_ssh_negate" {
-  vars.realcmd = [ "$other_plugin_dir$" + "/check_snmp_synology"]
-  vars.realargs = {
-    "-h" = {
-        value = "$command_synology_status_host$"
-        required = true
-    }
-    "-u" = {
-        value = "$command_synology_status_user$"
-        set_if = {{ macro("$command_synology_status_user$") != false }}
-    }
-    "-p" = {
-        value = "$command_synology_status_password$"
-        set_if = {{ macro("$command_synology_status_password$") != false }}
-    }
-    "-W" = {
-        value = "$command_synology_status_warning_temp$"
-        set_if = {{ macro("$command_synology_status_warning_temp$") != false }}
-    }
-    "-C" = {
-        value = "$command_synology_status_critical_temp$"
-        set_if = {{ macro("$command_synology_status_critical_temp$") != false }}
-    }
-    "-w" = {
-        value = "$command_synology_status_warning_storage$"
-        set_if = {{ macro("$command_synology_status_warning_storage$") != false }}
-    }
-    "-c" = {
-        value = "$command_synology_status_critical_storage$"
-        set_if = {{ macro("$command_synology_status_critical_storage$") != false }}
-    }
-    "-2" = {
-        set_if = "$command_synology_status_v2$"
-    }
-    "-i" = {
-        set_if = "$command_synology_status_ignore_update$"
-    }
-    "-U" = {
-        set_if = "$command_synology_status_ups$"
-    }
+vars.realcmd = [ "$other_plugin_dir$" + "/check_snmp_synology"]
+vars.realargs = {
+"-h" = {
+value = "$command_synology_status_host$"
+required = true
+}
+"-u" = {
+value = "$command_synology_status_user$"
+set_if = {{ macro("$command_synology_status_user$") != false }}
+}
+"-p" = {
+value = "$command_synology_status_password$"
+set_if = {{ macro("$command_synology_status_password$") != false }}
+}
+"-W" = {
+value = "$command_synology_status_warning_temp$"
+set_if = {{ macro("$command_synology_status_warning_temp$") != false }}
+}
+"-C" = {
+value = "$command_synology_status_critical_temp$"
+set_if = {{ macro("$command_synology_status_critical_temp$") != false }}
+}
+"-w" = {
+value = "$command_synology_status_warning_storage$"
+set_if = {{ macro("$command_synology_status_warning_storage$") != false }}
+}
+"-c" = {
+value = "$command_synology_status_critical_storage$"
+set_if = {{ macro("$command_synology_status_critical_storage$") != false }}
+}
+"-2" = {
+set_if = "$command_synology_status_v2$"
+}
+"-i" = {
+set_if = "$command_synology_status_ignore_update$"
+}
+"-U" = {
+set_if = "$command_synology_status_ups$"
+}
 }
 
-  vars.sshargs = {
-  "-t" = {
-    value = "$negation_timeout$"
-    set_if = {{ macro("$negation_timeout$") != false }}
-  }
-  "-o" = {
-    value = "$negation_ok_status$"
-    set_if = {{ macro("$negation_ok_status$") != false }}
-  }
-  "-w" = {
-    value = "$negation_warning_status$"
-    set_if = {{ macro("$negation_warning_status$") != false }}
-  }
-  "-c" = {
-    value = "$negation_critical_status$"
-    set_if = {{ macro("$negation_critical_status$") != false }}
-  }
-  "-u" = {
-    value = "$negation_unknown_status$"
-    set_if = {{ macro("$negation_unknown_status$") != false }}
-  }
-  "-s" = {
-    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
-  }
-  "--command" = {
-    value = {{
-      var command = macro("$realcmd$")
-      var arguments = macro("$realargs$")
-      if (typeof(command) == String && !arguments) {
-        return command
-      }
-      var escaped_args = []
-      for (arg in resolve_arguments(command, arguments)) {
-          escaped_args.add(arg.replace(" ", "\\"))
-      }
-      return escaped_args.join(" ")
-    }}
-    skip_key = true
-    required = true
-    order = 99
-  }
+vars.sshargs = {
+"-t" = {
+value = "$negation_timeout$"
+set_if = {{ macro("$negation_timeout$") != false }}
+}
+"-o" = {
+value = "$negation_ok_status$"
+set_if = {{ macro("$negation_ok_status$") != false }}
+}
+"-w" = {
+value = "$negation_warning_status$"
+set_if = {{ macro("$negation_warning_status$") != false }}
+}
+"-c" = {
+value = "$negation_critical_status$"
+set_if = {{ macro("$negation_critical_status$") != false }}
+}
+"-u" = {
+value = "$negation_unknown_status$"
+set_if = {{ macro("$negation_unknown_status$") != false }}
+}
+"-s" = {
+set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+}
+"--command" = {
+value = {{
+var command = macro("$realcmd$")
+var arguments = macro("$realargs$")
+if (typeof(command) == String && !arguments) {
+return command
+}
+var escaped_args = []
+for (arg in resolve_arguments(command, arguments)) {
+escaped_args.add(arg.replace(" ", "\\"))
+}
+return escaped_args.join(" ")
+}}
+skip_key = true
+required = true
+order = 99
+}
 }
 
-  vars.sshcmd = ["$nagios_plugin_dir$" + "/negate"]
-  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
-  arguments = {
-  "-i" = "$command_overssh_identityfile$"
-  "-l" = "$command_overssh_user$"
-  "-p" = "$command_overssh_port$"
-  "-H" = "$command_overssh_host$"
-  "--timeout" = "$command_overssh_timeout$"
-  "-C" = {{
-    var command = macro("$sshcmd$")
-    var arguments = macro("$sshargs$")
-    if (typeof(command) == String && !arguments) {
-      return command
-    }
-    var escaped_args = []
-    for (arg in resolve_arguments(command, arguments)) {
-      escaped_args.add(escape_shell_arg(arg))
-    }
-    return escaped_args.join(" ")
-  }}
+vars.sshcmd = ["$nagios_plugin_dir$" + "/negate"]
+command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+arguments = {
+"-i" = "$command_overssh_identityfile$"
+"-l" = "$command_overssh_user$"
+"-p" = "$command_overssh_port$"
+"-H" = "$command_overssh_host$"
+"--timeout" = "$command_overssh_timeout$"
+"-C" = {{
+var command = macro("$sshcmd$")
+var arguments = macro("$sshargs$")
+if (typeof(command) == String && !arguments) {
+return command
+}
+var escaped_args = []
+for (arg in resolve_arguments(command, arguments)) {
+escaped_args.add(escape_shell_arg(arg))
+}
+return escaped_args.join(" ")
+}}
 }
 
 }

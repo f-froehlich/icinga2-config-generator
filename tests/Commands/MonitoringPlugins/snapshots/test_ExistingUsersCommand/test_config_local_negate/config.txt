@@ -1,68 +1,68 @@
 object CheckCommand "command_instance_local_negate" {
-  vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_existing_users.py"]
-  vars.realargs = {
-    "--uid-min" = {
-      value = "$command_existing_users_uid_min$"
-      set_if = {{ macro("$command_existing_users_uid_min$") != false }}
-    }
-    "--uid-max" = {
-      value = "$command_existing_users_uid_max$"
-      set_if = {{ macro("$command_existing_users_uid_max$") != false }}
-    }
-    "--user" = {
-      value = "$command_existing_users_users$"
-      set_if = {{ macro("$command_existing_users_users$") != false }}
-      repeat_key = true
-    }
-    "--filter-shell" = {
-      value = "$command_existing_users_shell_filter$"
-      set_if = {{ macro("$command_existing_users_shell_filter$") != false }}
-      repeat_key = true
-    }
-  }
-
-  arguments = {
-  "-t" = {
-    value = "$negation_timeout$"
-    set_if = {{ macro("$negation_timeout$") != false }}
-  }
-  "-o" = {
-    value = "$negation_ok_status$"
-    set_if = {{ macro("$negation_ok_status$") != false }}
-  }
-  "-w" = {
-    value = "$negation_warning_status$"
-    set_if = {{ macro("$negation_warning_status$") != false }}
-  }
-  "-c" = {
-    value = "$negation_critical_status$"
-    set_if = {{ macro("$negation_critical_status$") != false }}
-  }
-  "-u" = {
-    value = "$negation_unknown_status$"
-    set_if = {{ macro("$negation_unknown_status$") != false }}
-  }
-  "-s" = {
-    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
-  }
-  "--command" = {
-    value = {{
-      var command = macro("$realcmd$")
-      var arguments = macro("$realargs$")
-      if (typeof(command) == String && !arguments) {
-        return command
-      }
-      var escaped_args = []
-      for (arg in resolve_arguments(command, arguments)) {
-          escaped_args.add(arg.replace(" ", "\\"))
-      }
-      return escaped_args.join(" ")
-    }}
-    skip_key = true
-    required = true
-    order = 99
-  }
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_existing_users.py"]
+vars.realargs = {
+"--uid-min" = {
+value = "$command_existing_users_uid_min$"
+set_if = {{ macro("$command_existing_users_uid_min$") != false }}
+}
+"--uid-max" = {
+value = "$command_existing_users_uid_max$"
+set_if = {{ macro("$command_existing_users_uid_max$") != false }}
+}
+"--user" = {
+value = "$command_existing_users_users$"
+set_if = {{ macro("$command_existing_users_users$") != false }}
+repeat_key = true
+}
+"--filter-shell" = {
+value = "$command_existing_users_shell_filter$"
+set_if = {{ macro("$command_existing_users_shell_filter$") != false }}
+repeat_key = true
+}
 }
 
-  command = ["$nagios_plugin_dir$" + "/negate"]
+arguments = {
+"-t" = {
+value = "$negation_timeout$"
+set_if = {{ macro("$negation_timeout$") != false }}
+}
+"-o" = {
+value = "$negation_ok_status$"
+set_if = {{ macro("$negation_ok_status$") != false }}
+}
+"-w" = {
+value = "$negation_warning_status$"
+set_if = {{ macro("$negation_warning_status$") != false }}
+}
+"-c" = {
+value = "$negation_critical_status$"
+set_if = {{ macro("$negation_critical_status$") != false }}
+}
+"-u" = {
+value = "$negation_unknown_status$"
+set_if = {{ macro("$negation_unknown_status$") != false }}
+}
+"-s" = {
+set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+}
+"--command" = {
+value = {{
+var command = macro("$realcmd$")
+var arguments = macro("$realargs$")
+if (typeof(command) == String && !arguments) {
+return command
+}
+var escaped_args = []
+for (arg in resolve_arguments(command, arguments)) {
+escaped_args.add(arg.replace(" ", "\\"))
+}
+return escaped_args.join(" ")
+}}
+skip_key = true
+required = true
+order = 99
+}
+}
+
+command = ["$nagios_plugin_dir$" + "/negate"]
 }

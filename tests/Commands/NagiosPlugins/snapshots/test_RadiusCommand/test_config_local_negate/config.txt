@@ -1,90 +1,90 @@
 object CheckCommand "command_instance_local_negate" {
-  vars.realcmd = [ "$nagios_plugin_dir$" + "/check_radius"]
-  vars.realargs = {
-    "-H" = {
-      value = "$command_radius_host$"
-      required = true
-    }
-    "-P" = {
-      value = "$command_radius_port$"
-      set_if = {{ macro("$command_radius_port$") != false }}
-    }
-    "-u" = {
-      value = "$command_radius_username$"
-      required = true
-    }
-    "-p" = {
-      value = "$command_radius_password$"
-      required = true
-    }
-    "-n" = {
-      value = "$command_radius_nas_id$"
-      set_if = {{ macro("$command_radius_nas_id$") != false }}
-    }
-    "-N" = {
-      value = "$command_radius_nas_ip$"
-      set_if = {{ macro("$command_radius_nas_ip$") != false }}
-    }
-    "-F" = {
-      value = "$command_radius_config_file$"
-      required = true
-    }
-    "-e" = {
-      value = "$command_radius_expect$"
-      set_if = {{ macro("$command_radius_expect$") != false }}
-    }
-    "-r" = {
-      value = "$command_radius_retries$"
-      set_if = {{ macro("$command_radius_retries$") != false }}
-    }
-    "-t" = {
-      value = "$command_radius_timeout$"
-      set_if = {{ macro("$command_radius_timeout$") != false }}
-    }
-  }
-
-  arguments = {
-  "-t" = {
-    value = "$negation_timeout$"
-    set_if = {{ macro("$negation_timeout$") != false }}
-  }
-  "-o" = {
-    value = "$negation_ok_status$"
-    set_if = {{ macro("$negation_ok_status$") != false }}
-  }
-  "-w" = {
-    value = "$negation_warning_status$"
-    set_if = {{ macro("$negation_warning_status$") != false }}
-  }
-  "-c" = {
-    value = "$negation_critical_status$"
-    set_if = {{ macro("$negation_critical_status$") != false }}
-  }
-  "-u" = {
-    value = "$negation_unknown_status$"
-    set_if = {{ macro("$negation_unknown_status$") != false }}
-  }
-  "-s" = {
-    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
-  }
-  "--command" = {
-    value = {{
-      var command = macro("$realcmd$")
-      var arguments = macro("$realargs$")
-      if (typeof(command) == String && !arguments) {
-        return command
-      }
-      var escaped_args = []
-      for (arg in resolve_arguments(command, arguments)) {
-          escaped_args.add(arg.replace(" ", "\\"))
-      }
-      return escaped_args.join(" ")
-    }}
-    skip_key = true
-    required = true
-    order = 99
-  }
+vars.realcmd = [ "$nagios_plugin_dir$" + "/check_radius"]
+vars.realargs = {
+"-H" = {
+value = "$command_radius_host$"
+required = true
+}
+"-P" = {
+value = "$command_radius_port$"
+set_if = {{ macro("$command_radius_port$") != false }}
+}
+"-u" = {
+value = "$command_radius_username$"
+required = true
+}
+"-p" = {
+value = "$command_radius_password$"
+required = true
+}
+"-n" = {
+value = "$command_radius_nas_id$"
+set_if = {{ macro("$command_radius_nas_id$") != false }}
+}
+"-N" = {
+value = "$command_radius_nas_ip$"
+set_if = {{ macro("$command_radius_nas_ip$") != false }}
+}
+"-F" = {
+value = "$command_radius_config_file$"
+required = true
+}
+"-e" = {
+value = "$command_radius_expect$"
+set_if = {{ macro("$command_radius_expect$") != false }}
+}
+"-r" = {
+value = "$command_radius_retries$"
+set_if = {{ macro("$command_radius_retries$") != false }}
+}
+"-t" = {
+value = "$command_radius_timeout$"
+set_if = {{ macro("$command_radius_timeout$") != false }}
+}
 }
 
-  command = ["$nagios_plugin_dir$" + "/negate"]
+arguments = {
+"-t" = {
+value = "$negation_timeout$"
+set_if = {{ macro("$negation_timeout$") != false }}
+}
+"-o" = {
+value = "$negation_ok_status$"
+set_if = {{ macro("$negation_ok_status$") != false }}
+}
+"-w" = {
+value = "$negation_warning_status$"
+set_if = {{ macro("$negation_warning_status$") != false }}
+}
+"-c" = {
+value = "$negation_critical_status$"
+set_if = {{ macro("$negation_critical_status$") != false }}
+}
+"-u" = {
+value = "$negation_unknown_status$"
+set_if = {{ macro("$negation_unknown_status$") != false }}
+}
+"-s" = {
+set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+}
+"--command" = {
+value = {{
+var command = macro("$realcmd$")
+var arguments = macro("$realargs$")
+if (typeof(command) == String && !arguments) {
+return command
+}
+var escaped_args = []
+for (arg in resolve_arguments(command, arguments)) {
+escaped_args.add(arg.replace(" ", "\\"))
+}
+return escaped_args.join(" ")
+}}
+skip_key = true
+required = true
+order = 99
+}
+}
+
+command = ["$nagios_plugin_dir$" + "/negate"]
 }

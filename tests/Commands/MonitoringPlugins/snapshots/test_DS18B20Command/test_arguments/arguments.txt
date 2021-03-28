@@ -1,22 +1,22 @@
 {
-    "--device" = {
-      value = "$command_sensor_ds18b20_device$"
-      required = true
-    }
-    "--name" = {
-      value = "$command_sensor_ds18b20_name$"
-      set_if = {{ macro("$command_sensor_ds18b20_name$") != false }}
-    }
-    "--path" = {
-      value = "$command_sensor_ds18b20_path$"
-      set_if = {{ macro("$command_sensor_ds18b20_path$") != false }}
-    }
-    "--warning" = {
-      value = "$command_sensor_ds18b20_shell_warning$"
-      set_if = {{ macro("$command_sensor_ds18b20_shell_warning$") != false }}
-    }
-    "--critical" = {
-      value = "$command_sensor_ds18b20_shell_critical$"
-      set_if = {{ macro("$command_sensor_ds18b20_shell_critical$") != false }}
-    }
-  }
+"--device" = {
+value = "$command_sensor_ds18b20_device$"
+required = true
+}
+"--name" = {
+value = "$command_sensor_ds18b20_name$"
+set_if = {{ macro("$command_sensor_ds18b20_name$") != false }}
+}
+"--path" = {
+value = "$command_sensor_ds18b20_path$"
+set_if = {{ macro("$command_sensor_ds18b20_path$") != false }}
+}
+"--warning" = {
+value = "$command_sensor_ds18b20_shell_warning$"
+set_if = {{ macro("$command_sensor_ds18b20_shell_warning$") != false }}
+}
+"--critical" = {
+value = "$command_sensor_ds18b20_shell_critical$"
+set_if = {{ macro("$command_sensor_ds18b20_shell_critical$") != false }}
+}
+}

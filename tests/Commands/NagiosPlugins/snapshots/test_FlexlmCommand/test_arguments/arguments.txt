@@ -1,10 +1,10 @@
 {
-    "-F" = {
-      value = "$command_flexlm_file$"
-      set_if = {{ macro("$command_flexlm_file$") != false }}
-    }
-    "-t" = {
-      value = "$command_flexlm_timeout$"
-      set_if = {{ macro("$command_flexlm_timeout$") != false }}
-    }
-  }
+"-F" = {
+value = "$command_flexlm_file$"
+set_if = {{ macro("$command_flexlm_file$") != false }}
+}
+"-t" = {
+value = "$command_flexlm_timeout$"
+set_if = {{ macro("$command_flexlm_timeout$") != false }}
+}
+}

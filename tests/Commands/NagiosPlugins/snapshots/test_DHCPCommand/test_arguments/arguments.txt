@@ -1,25 +1,25 @@
 {
-    "-s" = {
-      value = "$command_dhcp_server$"
-      set_if = {{ macro("$command_dhcp_server$") != false }}
-    }
-    "-r" = {
-      value = "$command_dhcp_requested_ip$"
-      set_if = {{ macro("$command_dhcp_requested_ip$") != false }}
-    }
-    "-t" = {
-      value = "$command_dhcp_timeout$"
-      set_if = {{ macro("$command_dhcp_timeout$") != false }}
-    }
-    "-i" = {
-      value = "$command_dhcp_interface$"
-      set_if = {{ macro("$command_dhcp_interface$") != false }}
-    }
-    "-m" = {
-      value = "$command_dhcp_mac$"
-      set_if = {{ macro("$command_dhcp_mac$") != false }}
-    }
-    "-u" = {
-      set_if = "$command_dhcp_unicast$"
-    }
-  }
+"-s" = {
+value = "$command_dhcp_server$"
+set_if = {{ macro("$command_dhcp_server$") != false }}
+}
+"-r" = {
+value = "$command_dhcp_requested_ip$"
+set_if = {{ macro("$command_dhcp_requested_ip$") != false }}
+}
+"-t" = {
+value = "$command_dhcp_timeout$"
+set_if = {{ macro("$command_dhcp_timeout$") != false }}
+}
+"-i" = {
+value = "$command_dhcp_interface$"
+set_if = {{ macro("$command_dhcp_interface$") != false }}
+}
+"-m" = {
+value = "$command_dhcp_mac$"
+set_if = {{ macro("$command_dhcp_mac$") != false }}
+}
+"-u" = {
+set_if = "$command_dhcp_unicast$"
+}
+}

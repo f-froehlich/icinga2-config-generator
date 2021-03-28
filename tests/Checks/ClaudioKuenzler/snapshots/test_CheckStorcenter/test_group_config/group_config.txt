@@ -1,3 +1,3 @@
 vars.groups += [
-    "servicegroup_storcenter",
-  ]
+"servicegroup_storcenter",
+]

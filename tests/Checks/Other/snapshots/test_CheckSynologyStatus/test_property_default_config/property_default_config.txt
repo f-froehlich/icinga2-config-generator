@@ -1,6 +1,6 @@
 vars.command_synology_status_host = "host"
-  vars.command_synology_status_ignore_update = false
-  vars.command_synology_status_password = "pwd"
-  vars.command_synology_status_ups = false
-  vars.command_synology_status_user = "user"
-  vars.command_synology_status_v2 = false
+vars.command_synology_status_ignore_update = false
+vars.command_synology_status_password = "pwd"
+vars.command_synology_status_ups = false
+vars.command_synology_status_user = "user"
+vars.command_synology_status_v2 = false

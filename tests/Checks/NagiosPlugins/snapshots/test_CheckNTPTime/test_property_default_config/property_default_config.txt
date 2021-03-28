@@ -1,5 +1,5 @@
 vars.command_ntp_time_critical = "1"
-  vars.command_ntp_time_force_ipv4 = false
-  vars.command_ntp_time_force_ipv6 = false
-  vars.command_ntp_time_ntp_server = "0.pool.ntp.org"
-  vars.command_ntp_time_warning = "0.5"
+vars.command_ntp_time_force_ipv4 = false
+vars.command_ntp_time_force_ipv6 = false
+vars.command_ntp_time_ntp_server = "0.pool.ntp.org"
+vars.command_ntp_time_warning = "0.5"

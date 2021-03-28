@@ -1,28 +1,28 @@
 apply Service "instance" {
-  check_command = "command_imap_local"
-  vars.command_imap_all = false
-  vars.command_imap_cert = true
-  vars.command_imap_cert_critical = 15
-  vars.command_imap_cert_warning = 29
-  vars.command_imap_escape = false
-  vars.command_imap_host = "host"
-  vars.command_imap_ipv4 = false
-  vars.command_imap_ipv6 = false
-  vars.command_imap_jail = false
-  vars.command_imap_port = 8888
-  vars.command_imap_timeout = 10
-  vars.command_imap_use_ssl = false
-  vars.groups += [
-    "servicegroup_imap",
-    "servicegroup_mail",
-  ]
-  display_name = "IMAP"
-  zone = host.vars.zone_name
-  command_endpoint = host.vars.endpoint_name
-  check_interval = 1m
-  retry_interval = 15s
-  max_check_attempts = 3
-  enable_perfdata = true
-  check_timeout = 30
-  assign where "instance" in host.vars.checks
+check_command = "command_imap_local"
+vars.command_imap_all = false
+vars.command_imap_cert = true
+vars.command_imap_cert_critical = 15
+vars.command_imap_cert_warning = 29
+vars.command_imap_escape = false
+vars.command_imap_host = "host"
+vars.command_imap_ipv4 = false
+vars.command_imap_ipv6 = false
+vars.command_imap_jail = false
+vars.command_imap_port = 8888
+vars.command_imap_timeout = 10
+vars.command_imap_use_ssl = false
+vars.groups += [
+"servicegroup_imap",
+"servicegroup_mail",
+]
+display_name = "IMAP"
+zone = host.vars.zone_name
+command_endpoint = host.vars.endpoint_name
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+assign where "instance" in host.vars.checks
 }

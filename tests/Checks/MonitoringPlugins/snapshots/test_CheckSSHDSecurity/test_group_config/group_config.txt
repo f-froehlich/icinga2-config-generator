@@ -1,5 +1,5 @@
 vars.groups += [
-    "servicegroup_security",
-    "servicegroup_sshd",
-    "servicegroup_sshd_security",
-  ]
+"servicegroup_security",
+"servicegroup_sshd",
+"servicegroup_sshd_security",
+]

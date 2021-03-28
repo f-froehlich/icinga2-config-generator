@@ -1,28 +1,28 @@
 {
-    "-d" = {
-      value = "$command_dnssec_expiry_dns_domains$"
-      repeat_key = true
-    }
-    "-w" = {
-      value = "$command_dnssec_expiry_warning$"
-      required = true
-    }
-    "-c" = {
-      value = "$command_dnssec_expiry_critical$"
-      required = true
-    }
-    "-r" = {
-      value = "$command_dnssec_expiry_resolver$"
-      set_if = {{ macro("$command_dnssec_expiry_resolver$") != false }}
-    }
-    "--ignore-root" = {
-      set_if = "$command_dnssec_expiry_ignore_root$"
-    }
-    "--ignore-tld" = {
-      set_if = "$command_dnssec_expiry_ignore_tld$"
-    }
-    "--timeout" = {
-      value = "$command_dnssec_expiry_timeout$"
-      set_if = {{ macro("$command_dnssec_expiry_timeout$") != false }}
-    }
-  }
+"-d" = {
+value = "$command_dnssec_expiry_dns_domains$"
+repeat_key = true
+}
+"-w" = {
+value = "$command_dnssec_expiry_warning$"
+required = true
+}
+"-c" = {
+value = "$command_dnssec_expiry_critical$"
+required = true
+}
+"-r" = {
+value = "$command_dnssec_expiry_resolver$"
+set_if = {{ macro("$command_dnssec_expiry_resolver$") != false }}
+}
+"--ignore-root" = {
+set_if = "$command_dnssec_expiry_ignore_root$"
+}
+"--ignore-tld" = {
+set_if = "$command_dnssec_expiry_ignore_tld$"
+}
+"--timeout" = {
+value = "$command_dnssec_expiry_timeout$"
+set_if = {{ macro("$command_dnssec_expiry_timeout$") != false }}
+}
+}

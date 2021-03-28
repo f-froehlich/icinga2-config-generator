@@ -38,11 +38,11 @@ class BaseCommandTest(BaseTest):
 
     def test_config(self, snapshot):
         instance = self.create_instance()
-        snapshot.assert_match(instance.get_config(), 'config.txt')
+        snapshot.assert_match(instance.get_config().replace('  ', ''), 'config.txt')
 
     def test_arguments(self, snapshot):
         instance = self.create_instance()
-        snapshot.assert_match(instance.get_arguments(), 'arguments.txt')
+        snapshot.assert_match(instance.get_arguments().replace('  ', ''), 'arguments.txt')
 
     def test_config_local(self, snapshot):
         instance = self.create_instance()
@@ -50,7 +50,7 @@ class BaseCommandTest(BaseTest):
 
     def test_config_local_negate(self, snapshot):
         instance = self.create_instance()
-        snapshot.assert_match(instance.get_config_local_negate(), 'config.txt')
+        snapshot.assert_match(instance.get_config_local_negate().replace('  ', ''), 'config.txt')
 
     def test_config_ssh(self, snapshot):
         instance = self.create_instance()
@@ -58,7 +58,7 @@ class BaseCommandTest(BaseTest):
 
     def test_config_ssh_negate(self, snapshot):
         instance = self.create_instance()
-        snapshot.assert_match(instance.get_config_ssh_negate(), 'config.txt')
+        snapshot.assert_match(instance.get_config_ssh_negate().replace('  ', ''), 'config.txt')
 
     def test_command_definition(self, snapshot):
         instance = self.create_instance()
@@ -66,8 +66,8 @@ class BaseCommandTest(BaseTest):
 
     def test_command(self, snapshot):
         instance = self.create_instance()
-        snapshot.assert_match(instance.get_command(), 'command.txt')
+        snapshot.assert_match(instance.get_command().replace('  ', ''), 'command.txt')
 
     def test_config_builder_output(self, snapshot):
         self.create_instance()
-        snapshot.assert_match(ConfigBuilder.get_config_as_string(), 'config.txt')
+        snapshot.assert_match(ConfigBuilder.get_config_as_string().replace('  ', ''), 'config.txt')

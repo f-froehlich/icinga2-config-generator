@@ -1,18 +1,18 @@
 {
-    "-d" = {
-      value = "$command_spf_domain$"
-      required = true
-    }
-    "-e" = {
-      value = "$command_spf_expected$"
-      required = true
-    }
-    "-r" = {
-      value = "$command_spf_resolver$"
-      set_if = {{ macro("$command_spf_resolver$") != false }}
-    }
-    "--timeout" = {
-      value = "$command_spf_timeout$"
-      set_if = {{ macro("$command_spf_timeout$") != false }}
-    }
-  }
+"-d" = {
+value = "$command_spf_domain$"
+required = true
+}
+"-e" = {
+value = "$command_spf_expected$"
+required = true
+}
+"-r" = {
+value = "$command_spf_resolver$"
+set_if = {{ macro("$command_spf_resolver$") != false }}
+}
+"--timeout" = {
+value = "$command_spf_timeout$"
+set_if = {{ macro("$command_spf_timeout$") != false }}
+}
+}

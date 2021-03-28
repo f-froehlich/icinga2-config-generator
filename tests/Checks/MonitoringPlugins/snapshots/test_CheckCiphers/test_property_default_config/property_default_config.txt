@@ -1,3 +1,3 @@
 vars.command_ciphers_ignore_cipher_name = false
-  vars.command_ciphers_ignore_protocol_strength = false
-  vars.command_ciphers_ignore_strength = false
+vars.command_ciphers_ignore_protocol_strength = false
+vars.command_ciphers_ignore_strength = false

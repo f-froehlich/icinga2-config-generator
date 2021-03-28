@@ -119,31 +119,31 @@ class BaseCheckTest(BaseTest):
 
     def test_config(self, snapshot):
         instance = self.create_instance()
-        snapshot.assert_match(instance.get_config(), 'config.txt')
+        snapshot.assert_match(instance.get_config().replace('  ', ''), 'config.txt')
 
     def test_command_name(self, snapshot):
         instance = self.create_instance()
-        snapshot.assert_match(instance.get_command_name(), 'command_name.txt')
+        snapshot.assert_match(instance.get_command_name().replace('  ', ''), 'command_name.txt')
 
     def test_group_config(self, snapshot):
         instance = self.create_instance()
-        snapshot.assert_match(instance.get_group_config(), 'group_config.txt')
+        snapshot.assert_match(instance.get_group_config().replace('  ', ''), 'group_config.txt')
 
     def test_custom_property_config(self, snapshot):
         instance = self.create_instance()
-        snapshot.assert_match(instance.get_custom_property_config(), 'custom_property_config.txt')
+        snapshot.assert_match(instance.get_custom_property_config().replace('  ', ''), 'custom_property_config.txt')
 
     def test_property_default_config(self, snapshot):
         instance = self.create_instance()
-        snapshot.assert_match(instance.get_property_default_config(), 'property_default_config.txt')
+        snapshot.assert_match(instance.get_property_default_config().replace('  ', ''), 'property_default_config.txt')
 
     def test_custom_config(self, snapshot):
         instance = self.create_instance()
-        snapshot.assert_match(instance.get_custom_config(), 'custom_config.txt')
+        snapshot.assert_match(instance.get_custom_config().replace('  ', ''), 'custom_config.txt')
 
     def test_get_custom_definitions(self, snapshot):
         instance = self.create_instance()
-        snapshot.assert_match(str(instance.get_custom_definitions()), 'custom_definitions.txt')
+        snapshot.assert_match(str(instance.get_custom_definitions()).replace('  ', ''), 'custom_definitions.txt')
 
     # def test_arguments(self, snapshot):
     #     instance = self.create_instance()
@@ -175,4 +175,4 @@ class BaseCheckTest(BaseTest):
 
     def test_config_builder_output(self, snapshot):
         self.create_instance()
-        snapshot.assert_match(ConfigBuilder.get_config_as_string(), 'config.txt')
+        snapshot.assert_match(ConfigBuilder.get_config_as_string().replace('  ', ''), 'config.txt')

@@ -1,4 +1,4 @@
 vars.command_ups_host = "host"
-  vars.command_ups_port = 3493
-  vars.command_ups_temperature = true
-  vars.command_ups_ups = "ups"
+vars.command_ups_port = 3493
+vars.command_ups_temperature = true
+vars.command_ups_ups = "ups"

@@ -1,20 +1,20 @@
 {
-    "-H" = {
-      value = "$command_storcenter_host$"
-    }
-    "-U" = {
-      value = "$command_storcenter_user$"
-    }
-    "-P" = {
-      value = "$command_storcenter_password$"
-    }
-    "-t" = {
-      value = "$command_storcenter_type$"
-    }
-    "-w" = {
-      value = "$command_storcenter_warning$"
-    }
-    "-c" = {
-      value = "$command_storcenter_critical$"
-    }
+"-H" = {
+value = "$command_storcenter_host$"
+}
+"-U" = {
+value = "$command_storcenter_user$"
+}
+"-P" = {
+value = "$command_storcenter_password$"
+}
+"-t" = {
+value = "$command_storcenter_type$"
+}
+"-w" = {
+value = "$command_storcenter_warning$"
+}
+"-c" = {
+value = "$command_storcenter_critical$"
+}
 }

@@ -1,18 +1,18 @@
 {
-    "-H" = {
-      value = "$command_ircd_host$"
-      required = true
-    }
-    "-w" = {
-      value = "$command_ircd_warning$"
-      set_if = {{ macro("$command_ircd_warning$") != false }}
-    }
-    "-c" = {
-      value = "$command_ircd_critical$"
-      set_if = {{ macro("$command_ircd_critical$") != false }}
-    }
-    "-p" = {
-      value = "$command_ircd_port$"
-      set_if = {{ macro("$command_ircd_port$") != false }}
-    }
-  }
+"-H" = {
+value = "$command_ircd_host$"
+required = true
+}
+"-w" = {
+value = "$command_ircd_warning$"
+set_if = {{ macro("$command_ircd_warning$") != false }}
+}
+"-c" = {
+value = "$command_ircd_critical$"
+set_if = {{ macro("$command_ircd_critical$") != false }}
+}
+"-p" = {
+value = "$command_ircd_port$"
+set_if = {{ macro("$command_ircd_port$") != false }}
+}
+}

@@ -1,2 +1,2 @@
 vars.command_uptime_critical = "20"
-  vars.command_uptime_warning = "10"
+vars.command_uptime_warning = "10"

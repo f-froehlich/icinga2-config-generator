@@ -1,20 +1,20 @@
 {
-    "--uid-min" = {
-      value = "$command_existing_users_uid_min$"
-      set_if = {{ macro("$command_existing_users_uid_min$") != false }}
-    }
-    "--uid-max" = {
-      value = "$command_existing_users_uid_max$"
-      set_if = {{ macro("$command_existing_users_uid_max$") != false }}
-    }
-    "--user" = {
-      value = "$command_existing_users_users$"
-      set_if = {{ macro("$command_existing_users_users$") != false }}
-      repeat_key = true
-    }
-    "--filter-shell" = {
-      value = "$command_existing_users_shell_filter$"
-      set_if = {{ macro("$command_existing_users_shell_filter$") != false }}
-      repeat_key = true
-    }
-  }
+"--uid-min" = {
+value = "$command_existing_users_uid_min$"
+set_if = {{ macro("$command_existing_users_uid_min$") != false }}
+}
+"--uid-max" = {
+value = "$command_existing_users_uid_max$"
+set_if = {{ macro("$command_existing_users_uid_max$") != false }}
+}
+"--user" = {
+value = "$command_existing_users_users$"
+set_if = {{ macro("$command_existing_users_users$") != false }}
+repeat_key = true
+}
+"--filter-shell" = {
+value = "$command_existing_users_shell_filter$"
+set_if = {{ macro("$command_existing_users_shell_filter$") != false }}
+repeat_key = true
+}
+}

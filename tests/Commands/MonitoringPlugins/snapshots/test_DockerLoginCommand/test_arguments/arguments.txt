@@ -1,21 +1,21 @@
 {
-    "-u" = {
-      value = "$command_docker_login_user$"
-      required = true
-    }
-    "-c" = {
-      value = "$command_docker_login_credentials$"
-      required = true
-    }
-    "-a" = {
-      value = "$command_docker_login_address$"
-      required = true
-    }
-    "-p" = {
-      value = "$command_docker_login_port$"
-      required = true
-    }
-    "-s" = {
-      set_if = "$command_docker_login_as_sudo$"
-    }
-  }
+"-u" = {
+value = "$command_docker_login_user$"
+required = true
+}
+"-c" = {
+value = "$command_docker_login_credentials$"
+required = true
+}
+"-a" = {
+value = "$command_docker_login_address$"
+required = true
+}
+"-p" = {
+value = "$command_docker_login_port$"
+required = true
+}
+"-s" = {
+set_if = "$command_docker_login_as_sudo$"
+}
+}

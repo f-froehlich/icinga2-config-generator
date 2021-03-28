@@ -1,4 +1,4 @@
 vars.groups += [
-    "servicegroup_updates",
-    "servicegroup_apt",
-  ]
+"servicegroup_updates",
+"servicegroup_apt",
+]

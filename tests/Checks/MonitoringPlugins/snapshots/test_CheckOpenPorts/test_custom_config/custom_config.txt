@@ -1,28 +1,28 @@
 vars.command_open_ports_scan_udp = false
-  vars.command_open_ports_scan_tcp = false
-  vars.command_open_ports_n = false
-  vars.command_open_ports_r = false
-  vars.command_open_ports_system_dns = false
-  vars.command_open_ports_traceroute = false
-  vars.command_open_ports_F = false
-  vars.command_open_ports_r = false
-  vars.command_open_ports_sV = false
-  vars.command_open_ports_version_light = false
-  vars.command_open_ports_version_all = false
-  vars.command_open_ports_version_trace = false
-  vars.command_open_ports_sC = false
-  vars.command_open_ports_script_trace = false
-  vars.command_open_ports_O = false
-  vars.command_open_ports_osscan_guess = false
-  vars.command_open_ports_badsum = false
-  vars.command_open_ports_6 = false
-  vars.command_open_ports_A = false
-  vars.command_open_ports_send_eth = false
-  vars.command_open_ports_send_ip = false
-  vars.command_open_ports_privileged = false
-  vars.command_open_ports_Pn = false
-  vars.command_open_ports_unprivileged = false
-  vars.command_open_ports_host += [
-    "host",
-  ]
-  vars.command_open_ports_timeout = 12000
+vars.command_open_ports_scan_tcp = false
+vars.command_open_ports_n = false
+vars.command_open_ports_r = false
+vars.command_open_ports_system_dns = false
+vars.command_open_ports_traceroute = false
+vars.command_open_ports_F = false
+vars.command_open_ports_r = false
+vars.command_open_ports_sV = false
+vars.command_open_ports_version_light = false
+vars.command_open_ports_version_all = false
+vars.command_open_ports_version_trace = false
+vars.command_open_ports_sC = false
+vars.command_open_ports_script_trace = false
+vars.command_open_ports_O = false
+vars.command_open_ports_osscan_guess = false
+vars.command_open_ports_badsum = false
+vars.command_open_ports_6 = false
+vars.command_open_ports_A = false
+vars.command_open_ports_send_eth = false
+vars.command_open_ports_send_ip = false
+vars.command_open_ports_privileged = false
+vars.command_open_ports_Pn = false
+vars.command_open_ports_unprivileged = false
+vars.command_open_ports_host += [
+"host",
+]
+vars.command_open_ports_timeout = 12000

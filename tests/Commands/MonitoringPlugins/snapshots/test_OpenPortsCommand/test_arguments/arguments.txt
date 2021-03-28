@@ -1,282 +1,282 @@
 {
 
-    "--ignore-port" = {
-      value = "$command_open_ports_ignored_ports$"
-      set_if = {{ macro("$command_open_ports_ignored_ports$") != false }}
-      repeat_key = true
-    }
-    "--timeout" = {
-      value = "$command_open_ports_timeout$"
-      set_if = {{ macro("$command_open_ports_timeout$") != false }}
-    }
-     "--host" = {
-      value = "$command_open_ports_host$"
-      set_if = {{ macro("$command_open_ports_host$") != false }}
-      repeat_key = true
-    }
-    "--exclude" = {
-      value = "$command_open_ports_exclude$"
-      set_if = {{ macro("$command_open_ports_exclude$") != false }}
-      repeat_key = true
-    }
-    "--dns-servers" = {
-      value = "$command_open_ports_dns_servers$"
-      set_if = {{ macro("$command_open_ports_dns_servers$") != false }}
-      repeat_key = true
-    }
-    "-p" = {
-      value = "$command_open_ports_p$"
-      set_if = {{ macro("$command_open_ports_p$") != false }}
-      repeat_key = true
-    }
-    "--exclude-ports" = {
-      value = "$command_open_ports_exclude_ports$"
-      set_if = {{ macro("$command_open_ports_exclude_ports$") != false }}
-      repeat_key = true
-    }
-    "--script" = {
-      value = "$command_open_ports_script$"
-      set_if = {{ macro("$command_open_ports_script$") != false }}
-      repeat_key = true
-    }
-    "--script-args" = {
-      value = "$command_open_ports_script_args$"
-      set_if = {{ macro("$command_open_ports_script_args$") != false }}
-      repeat_key = true
-    }
-    "-D" = {
-      value = "$command_open_ports_D$"
-      set_if = {{ macro("$command_open_ports_D$") != false }}
-      repeat_key = true
-    }
-    "--proxies" = {
-      value = "$command_open_ports_proxies$"
-      set_if = {{ macro("$command_open_ports_proxies$") != false }}
-      repeat_key = true
-    }
-    "-iR" = {
-      value = "$command_open_ports_iR$"
-      set_if = {{ macro("$command_open_ports_iR$") != false }}
-    }
-    "--top-ports" = {
-      value = "$command_open_ports_top_ports$"
-      set_if = {{ macro("$command_open_ports_top_ports$") != false }}
-    }
-    "--port-ratio" = {
-      value = "$command_open_ports_port_ratio$"
-      set_if = {{ macro("$command_open_ports_port_ratio$") != false }}
-    }
-    "--version-intensity" = {
-      value = "$command_open_ports_version_intensity$"
-      set_if = {{ macro("$command_open_ports_version_intensity$") != false }}
-    }
-    "--osscan-limit" = {
-      value = "$command_open_ports_osscan_limit$"
-      set_if = {{ macro("$command_open_ports_osscan_limit$") != false }}
-    }
-    "-T" = {
-      value = "$command_open_ports_T$"
-      set_if = {{ macro("$command_open_ports_T$") != false }}
-    }
-    "--min-hostgroup" = {
-      value = "$command_open_ports_min_hostgroup$"
-      set_if = {{ macro("$command_open_ports_min_hostgroup$") != false }}
-    }
-    "--max-hostgroup" = {
-      value = "$command_open_ports_max_hostgroup$"
-      set_if = {{ macro("$command_open_ports_max_hostgroup$") != false }}
-    }
-    "--min-rate" = {
-      value = "$command_open_ports_min_rate$"
-      set_if = {{ macro("$command_open_ports_min_rate$") != false }}
-    }
-    "--max-rate" = {
-      value = "$command_open_ports_max_rate$"
-      set_if = {{ macro("$command_open_ports_max_rate$") != false }}
-    }
-    "--min-parallelism" = {
-      value = "$command_open_ports_min_parallelism$"
-      set_if = {{ macro("$command_open_ports_min_parallelism$") != false }}
-    }
-    "--max-parallelism" = {
-      value = "$command_open_ports_max_parallelism$"
-      set_if = {{ macro("$command_open_ports_max_parallelism$") != false }}
-    }
-    "-g" = {
-      value = "$command_open_ports_g$"
-      set_if = {{ macro("$command_open_ports_g$") != false }}
-    }
-    "--data-length" = {
-      value = "$command_open_ports_data_length$"
-      set_if = {{ macro("$command_open_ports_data_length$") != false }}
-    }
-    "--ttl" = {
-      value = "$command_open_ports_ttl$"
-      set_if = {{ macro("$command_open_ports_ttl$") != false }}
-    }
-    "--min-rtt-timeout" = {
-      value = "$command_open_ports_min_rtt_timeout$"
-      set_if = {{ macro("$command_open_ports_min_rtt_timeout$") != false }}
-    }
-    "--max-rtt-timeout" = {
-      value = "$command_open_ports_max_rtt_timeout$"
-      set_if = {{ macro("$command_open_ports_max_rtt_timeout$") != false }}
-    }
-    "--initial-rtt-timeout" = {
-      value = "$command_open_ports_initial_rtt_timeout$"
-      set_if = {{ macro("$command_open_ports_initial_rtt_timeout$") != false }}
-    }
-    "--max-retries" = {
-      value = "$command_open_ports_max_retries$"
-      set_if = {{ macro("$command_open_ports_max_retries$") != false }}
-    }
-    "--host-timeout" = {
-      value = "$command_open_ports_host_timeout$"
-      set_if = {{ macro("$command_open_ports_host_timeout$") != false }}
-    }
-    "--scan-delay" = {
-      value = "$command_open_ports_scan_delay$"
-      set_if = {{ macro("$command_open_ports_scan_delay$") != false }}
-    }
-    "--max-scan-delay" = {
-      value = "$command_open_ports_max_scan_delay$"
-      set_if = {{ macro("$command_open_ports_max_scan_delay$") != false }}
-    }
-    "--mtu" = {
-      value = "$command_open_ports_mtu$"
-      set_if = {{ macro("$command_open_ports_mtu$") != false }}
-    }
-    "-S" = {
-      value = "$command_open_ports_S$"
-      set_if = {{ macro("$command_open_ports_S$") != false }}
-    }
-    "-e" = {
-      value = "$command_open_ports_e$"
-      set_if = {{ macro("$command_open_ports_e$") != false }}
-    }
-    "--data" = {
-      value = "$command_open_ports_data$"
-      set_if = {{ macro("$command_open_ports_data$") != false }}
-    }
-    "--data-string" = {
-      value = "$command_open_ports_data_string$"
-      set_if = {{ macro("$command_open_ports_data_string$") != false }}
-    }
-    "--ip-options" = {
-      value = "$command_open_ports_ip_options$"
-      set_if = {{ macro("$command_open_ports_ip_options$") != false }}
-    }
-    "--spoof-mac" = {
-      value = "$command_open_ports_spoof_mac$"
-      set_if = {{ macro("$command_open_ports_spoof_mac$") != false }}
-    }
-    "--datadir" = {
-      value = "$command_open_ports_datadir$"
-      set_if = {{ macro("$command_open_ports_datadir$") != false }}
-    }
+"--ignore-port" = {
+value = "$command_open_ports_ignored_ports$"
+set_if = {{ macro("$command_open_ports_ignored_ports$") != false }}
+repeat_key = true
+}
+"--timeout" = {
+value = "$command_open_ports_timeout$"
+set_if = {{ macro("$command_open_ports_timeout$") != false }}
+}
+ "--host" = {
+value = "$command_open_ports_host$"
+set_if = {{ macro("$command_open_ports_host$") != false }}
+repeat_key = true
+}
+"--exclude" = {
+value = "$command_open_ports_exclude$"
+set_if = {{ macro("$command_open_ports_exclude$") != false }}
+repeat_key = true
+}
+"--dns-servers" = {
+value = "$command_open_ports_dns_servers$"
+set_if = {{ macro("$command_open_ports_dns_servers$") != false }}
+repeat_key = true
+}
+"-p" = {
+value = "$command_open_ports_p$"
+set_if = {{ macro("$command_open_ports_p$") != false }}
+repeat_key = true
+}
+"--exclude-ports" = {
+value = "$command_open_ports_exclude_ports$"
+set_if = {{ macro("$command_open_ports_exclude_ports$") != false }}
+repeat_key = true
+}
+"--script" = {
+value = "$command_open_ports_script$"
+set_if = {{ macro("$command_open_ports_script$") != false }}
+repeat_key = true
+}
+"--script-args" = {
+value = "$command_open_ports_script_args$"
+set_if = {{ macro("$command_open_ports_script_args$") != false }}
+repeat_key = true
+}
+"-D" = {
+value = "$command_open_ports_D$"
+set_if = {{ macro("$command_open_ports_D$") != false }}
+repeat_key = true
+}
+"--proxies" = {
+value = "$command_open_ports_proxies$"
+set_if = {{ macro("$command_open_ports_proxies$") != false }}
+repeat_key = true
+}
+"-iR" = {
+value = "$command_open_ports_iR$"
+set_if = {{ macro("$command_open_ports_iR$") != false }}
+}
+"--top-ports" = {
+value = "$command_open_ports_top_ports$"
+set_if = {{ macro("$command_open_ports_top_ports$") != false }}
+}
+"--port-ratio" = {
+value = "$command_open_ports_port_ratio$"
+set_if = {{ macro("$command_open_ports_port_ratio$") != false }}
+}
+"--version-intensity" = {
+value = "$command_open_ports_version_intensity$"
+set_if = {{ macro("$command_open_ports_version_intensity$") != false }}
+}
+"--osscan-limit" = {
+value = "$command_open_ports_osscan_limit$"
+set_if = {{ macro("$command_open_ports_osscan_limit$") != false }}
+}
+"-T" = {
+value = "$command_open_ports_T$"
+set_if = {{ macro("$command_open_ports_T$") != false }}
+}
+"--min-hostgroup" = {
+value = "$command_open_ports_min_hostgroup$"
+set_if = {{ macro("$command_open_ports_min_hostgroup$") != false }}
+}
+"--max-hostgroup" = {
+value = "$command_open_ports_max_hostgroup$"
+set_if = {{ macro("$command_open_ports_max_hostgroup$") != false }}
+}
+"--min-rate" = {
+value = "$command_open_ports_min_rate$"
+set_if = {{ macro("$command_open_ports_min_rate$") != false }}
+}
+"--max-rate" = {
+value = "$command_open_ports_max_rate$"
+set_if = {{ macro("$command_open_ports_max_rate$") != false }}
+}
+"--min-parallelism" = {
+value = "$command_open_ports_min_parallelism$"
+set_if = {{ macro("$command_open_ports_min_parallelism$") != false }}
+}
+"--max-parallelism" = {
+value = "$command_open_ports_max_parallelism$"
+set_if = {{ macro("$command_open_ports_max_parallelism$") != false }}
+}
+"-g" = {
+value = "$command_open_ports_g$"
+set_if = {{ macro("$command_open_ports_g$") != false }}
+}
+"--data-length" = {
+value = "$command_open_ports_data_length$"
+set_if = {{ macro("$command_open_ports_data_length$") != false }}
+}
+"--ttl" = {
+value = "$command_open_ports_ttl$"
+set_if = {{ macro("$command_open_ports_ttl$") != false }}
+}
+"--min-rtt-timeout" = {
+value = "$command_open_ports_min_rtt_timeout$"
+set_if = {{ macro("$command_open_ports_min_rtt_timeout$") != false }}
+}
+"--max-rtt-timeout" = {
+value = "$command_open_ports_max_rtt_timeout$"
+set_if = {{ macro("$command_open_ports_max_rtt_timeout$") != false }}
+}
+"--initial-rtt-timeout" = {
+value = "$command_open_ports_initial_rtt_timeout$"
+set_if = {{ macro("$command_open_ports_initial_rtt_timeout$") != false }}
+}
+"--max-retries" = {
+value = "$command_open_ports_max_retries$"
+set_if = {{ macro("$command_open_ports_max_retries$") != false }}
+}
+"--host-timeout" = {
+value = "$command_open_ports_host_timeout$"
+set_if = {{ macro("$command_open_ports_host_timeout$") != false }}
+}
+"--scan-delay" = {
+value = "$command_open_ports_scan_delay$"
+set_if = {{ macro("$command_open_ports_scan_delay$") != false }}
+}
+"--max-scan-delay" = {
+value = "$command_open_ports_max_scan_delay$"
+set_if = {{ macro("$command_open_ports_max_scan_delay$") != false }}
+}
+"--mtu" = {
+value = "$command_open_ports_mtu$"
+set_if = {{ macro("$command_open_ports_mtu$") != false }}
+}
+"-S" = {
+value = "$command_open_ports_S$"
+set_if = {{ macro("$command_open_ports_S$") != false }}
+}
+"-e" = {
+value = "$command_open_ports_e$"
+set_if = {{ macro("$command_open_ports_e$") != false }}
+}
+"--data" = {
+value = "$command_open_ports_data$"
+set_if = {{ macro("$command_open_ports_data$") != false }}
+}
+"--data-string" = {
+value = "$command_open_ports_data_string$"
+set_if = {{ macro("$command_open_ports_data_string$") != false }}
+}
+"--ip-options" = {
+value = "$command_open_ports_ip_options$"
+set_if = {{ macro("$command_open_ports_ip_options$") != false }}
+}
+"--spoof-mac" = {
+value = "$command_open_ports_spoof_mac$"
+set_if = {{ macro("$command_open_ports_spoof_mac$") != false }}
+}
+"--datadir" = {
+value = "$command_open_ports_datadir$"
+set_if = {{ macro("$command_open_ports_datadir$") != false }}
+}
 
 
-    "--single-host" = {}
+"--single-host" = {}
 
-    "--scan-udp" = {
-      set_if = "$command_open_ports_scan_udp$"
-    }
+"--scan-udp" = {
+set_if = "$command_open_ports_scan_udp$"
+}
 
-    "--scan-tcp" = {
-      set_if = "$command_open_ports_scan_tcp$"
-    }
+"--scan-tcp" = {
+set_if = "$command_open_ports_scan_tcp$"
+}
 
-    "-n" = {
-      set_if = "$command_open_ports_n$"
-    }
+"-n" = {
+set_if = "$command_open_ports_n$"
+}
 
-    "-R" = {
-      set_if = "$command_open_ports_R$"
-    }
+"-R" = {
+set_if = "$command_open_ports_R$"
+}
 
-    "--system-dns" = {
-      set_if = "$command_open_ports_system_dns$"
-    }
+"--system-dns" = {
+set_if = "$command_open_ports_system_dns$"
+}
 
-    "--traceroute" = {
-      set_if = "$command_open_ports_traceroute$"
-    }
+"--traceroute" = {
+set_if = "$command_open_ports_traceroute$"
+}
 
-    "-F" = {
-      set_if = "$command_open_ports_F$"
-    }
+"-F" = {
+set_if = "$command_open_ports_F$"
+}
 
-    "-r" = {
-      set_if = "$command_open_ports_r$"
-    }
+"-r" = {
+set_if = "$command_open_ports_r$"
+}
 
-    "-sV" = {
-      set_if = "$command_open_ports_sV$"
-    }
+"-sV" = {
+set_if = "$command_open_ports_sV$"
+}
 
-    "--version-light" = {
-      set_if = "$command_open_ports_version_light$"
-    }
+"--version-light" = {
+set_if = "$command_open_ports_version_light$"
+}
 
-    "--version-all" = {
-      set_if = "$command_open_ports_version_all$"
-    }
+"--version-all" = {
+set_if = "$command_open_ports_version_all$"
+}
 
-    "--version-trace" = {
-      set_if = "$command_open_ports_version_trace$"
-    }
+"--version-trace" = {
+set_if = "$command_open_ports_version_trace$"
+}
 
-    "-sC" = {
-      set_if = "$command_open_ports_sC$"
-    }
+"-sC" = {
+set_if = "$command_open_ports_sC$"
+}
 
-    "--script-trace" = {
-      set_if = "$command_open_ports_script_trace$"
-    }
+"--script-trace" = {
+set_if = "$command_open_ports_script_trace$"
+}
 
-    "-O" = {
-      set_if = "$command_open_ports_O$"
-    }
+"-O" = {
+set_if = "$command_open_ports_O$"
+}
 
-    "--osscan-guess" = {
-      set_if = "$command_open_ports_osscan_guess$"
-    }
+"--osscan-guess" = {
+set_if = "$command_open_ports_osscan_guess$"
+}
 
-    "--badsum" = {
-      set_if = "$command_open_ports_badsum$"
-    }
+"--badsum" = {
+set_if = "$command_open_ports_badsum$"
+}
 
-    "-6" = {
-      set_if = "$command_open_ports_6$"
-    }
+"-6" = {
+set_if = "$command_open_ports_6$"
+}
 
-    "-A" = {
-      set_if = "$command_open_ports_A$"
-    }
+"-A" = {
+set_if = "$command_open_ports_A$"
+}
 
-    "--send-eth" = {
-      set_if = "$command_open_ports_send_eth$"
-    }
+"--send-eth" = {
+set_if = "$command_open_ports_send_eth$"
+}
 
-    "--send-ip" = {
-      set_if = "$command_open_ports_send_ip$"
-    }
+"--send-ip" = {
+set_if = "$command_open_ports_send_ip$"
+}
 
-    "--privileged" = {
-      set_if = "$command_open_ports_privileged$"
-    }
+"--privileged" = {
+set_if = "$command_open_ports_privileged$"
+}
 
-    "-Pn" = {
-      set_if = "$command_open_ports_Pn$"
-    }
+"-Pn" = {
+set_if = "$command_open_ports_Pn$"
+}
 
-    "--unprivileged" = {
-      set_if = "$command_open_ports_unprivileged$"
-    }
+"--unprivileged" = {
+set_if = "$command_open_ports_unprivileged$"
+}
 
-    "--allowed-port" = {
-      value = "$command_open_ports_allowed_ports$"
-      set_if = {{ macro("$command_open_ports_allowed_ports$") != false }}
-      repeat_key = true
-    }
-  }
+"--allowed-port" = {
+value = "$command_open_ports_allowed_ports$"
+set_if = {{ macro("$command_open_ports_allowed_ports$") != false }}
+repeat_key = true
+}
+}

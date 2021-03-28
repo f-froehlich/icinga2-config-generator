@@ -1,4 +1,4 @@
 vars.groups += [
-    "servicegroup_security",
-    "servicegroup_existing_user",
-  ]
+"servicegroup_security",
+"servicegroup_existing_user",
+]

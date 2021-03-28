@@ -1,85 +1,85 @@
 object CheckCommand "command_instance_local_negate" {
-  vars.realcmd = [ "$nagios_plugin_dir$" + "/check_apt"]
-  vars.realargs = {
-    "--timeout" = {
-      value = "$command_apt_timeout$"
-      set_if = {{ macro("$command_apt_timeout$") != false }}
-    }
-    "--upgrade" = {
-      value = "$command_apt_upgrade$"
-      set_if = {{ macro("$command_apt_upgrade$") != false }}
-    }
-    "--dist-upgrade" = {
-      value = "$command_apt_dist_upgrade$"
-      set_if = {{ macro("$command_apt_dist_upgrade$") != false }}
-    }
-    "--include" = {
-      value = "$command_apt_include$"
-      set_if = {{ macro("$command_apt_include$") != false }}
-    }
-    "--exclude" = {
-      value = "$command_apt_exclude$"
-      set_if = {{ macro("$command_apt_exclude$") != false }}
-    }
-    "--critical" = {
-      value = "$command_apt_critical$"
-      set_if = {{ macro("$command_apt_critical$") != false }}
-    }
-    "--only-critical" = {
-      set_if = "$command_apt_only_critical$"
-    }
-    "--packages-warning" = {
-      value = "$command_apt_packages_warning$"
-      set_if = {{ macro("$command_apt_packages_warning$") != false }}
-    }
-    "--update" = {
-      value = "$command_apt_update$"
-      set_if = {{ macro("$command_apt_update$") != false }}
-    }
-  }
-
-  arguments = {
-  "-t" = {
-    value = "$negation_timeout$"
-    set_if = {{ macro("$negation_timeout$") != false }}
-  }
-  "-o" = {
-    value = "$negation_ok_status$"
-    set_if = {{ macro("$negation_ok_status$") != false }}
-  }
-  "-w" = {
-    value = "$negation_warning_status$"
-    set_if = {{ macro("$negation_warning_status$") != false }}
-  }
-  "-c" = {
-    value = "$negation_critical_status$"
-    set_if = {{ macro("$negation_critical_status$") != false }}
-  }
-  "-u" = {
-    value = "$negation_unknown_status$"
-    set_if = {{ macro("$negation_unknown_status$") != false }}
-  }
-  "-s" = {
-    set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
-  }
-  "--command" = {
-    value = {{
-      var command = macro("$realcmd$")
-      var arguments = macro("$realargs$")
-      if (typeof(command) == String && !arguments) {
-        return command
-      }
-      var escaped_args = []
-      for (arg in resolve_arguments(command, arguments)) {
-          escaped_args.add(arg.replace(" ", "\\"))
-      }
-      return escaped_args.join(" ")
-    }}
-    skip_key = true
-    required = true
-    order = 99
-  }
+vars.realcmd = [ "$nagios_plugin_dir$" + "/check_apt"]
+vars.realargs = {
+"--timeout" = {
+value = "$command_apt_timeout$"
+set_if = {{ macro("$command_apt_timeout$") != false }}
+}
+"--upgrade" = {
+value = "$command_apt_upgrade$"
+set_if = {{ macro("$command_apt_upgrade$") != false }}
+}
+"--dist-upgrade" = {
+value = "$command_apt_dist_upgrade$"
+set_if = {{ macro("$command_apt_dist_upgrade$") != false }}
+}
+"--include" = {
+value = "$command_apt_include$"
+set_if = {{ macro("$command_apt_include$") != false }}
+}
+"--exclude" = {
+value = "$command_apt_exclude$"
+set_if = {{ macro("$command_apt_exclude$") != false }}
+}
+"--critical" = {
+value = "$command_apt_critical$"
+set_if = {{ macro("$command_apt_critical$") != false }}
+}
+"--only-critical" = {
+set_if = "$command_apt_only_critical$"
+}
+"--packages-warning" = {
+value = "$command_apt_packages_warning$"
+set_if = {{ macro("$command_apt_packages_warning$") != false }}
+}
+"--update" = {
+value = "$command_apt_update$"
+set_if = {{ macro("$command_apt_update$") != false }}
+}
 }
 
-  command = ["$nagios_plugin_dir$" + "/negate"]
+arguments = {
+"-t" = {
+value = "$negation_timeout$"
+set_if = {{ macro("$negation_timeout$") != false }}
+}
+"-o" = {
+value = "$negation_ok_status$"
+set_if = {{ macro("$negation_ok_status$") != false }}
+}
+"-w" = {
+value = "$negation_warning_status$"
+set_if = {{ macro("$negation_warning_status$") != false }}
+}
+"-c" = {
+value = "$negation_critical_status$"
+set_if = {{ macro("$negation_critical_status$") != false }}
+}
+"-u" = {
+value = "$negation_unknown_status$"
+set_if = {{ macro("$negation_unknown_status$") != false }}
+}
+"-s" = {
+set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+}
+"--command" = {
+value = {{
+var command = macro("$realcmd$")
+var arguments = macro("$realargs$")
+if (typeof(command) == String && !arguments) {
+return command
+}
+var escaped_args = []
+for (arg in resolve_arguments(command, arguments)) {
+escaped_args.add(arg.replace(" ", "\\"))
+}
+return escaped_args.join(" ")
+}}
+skip_key = true
+required = true
+order = 99
+}
+}
+
+command = ["$nagios_plugin_dir$" + "/negate"]
 }

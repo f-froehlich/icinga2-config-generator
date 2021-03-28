@@ -1,9 +1,9 @@
 vars.command_ldaps_base = "base"
-  vars.command_ldaps_host = "host"
-  vars.command_ldaps_protocol_v2 = false
-  vars.command_ldaps_protocol_v3 = false
-  vars.command_ldaps_ssl = true
-  vars.command_ldaps_starttls = false
-  vars.command_ldaps_timeout = 10
-  vars.command_ldaps_use_ipv4 = false
-  vars.command_ldaps_use_ipv6 = false
+vars.command_ldaps_host = "host"
+vars.command_ldaps_protocol_v2 = false
+vars.command_ldaps_protocol_v3 = false
+vars.command_ldaps_ssl = true
+vars.command_ldaps_starttls = false
+vars.command_ldaps_timeout = 10
+vars.command_ldaps_use_ipv4 = false
+vars.command_ldaps_use_ipv6 = false

@@ -1,33 +1,33 @@
 {
-    "-H" = {
-      value = "$command_ups_host$"
-      required = true
-    }
-    "-p" = {
-      value = "$command_ups_port$"
-      set_if = {{ macro("$command_ups_port$") != false }}
-    }
-    "-u" = {
-      value = "$command_ups_ups$"
-      required = true
-    }
-    "-T" = {
-      value = "$command_ups_temperature$"
-    }
-    "-v" = {
-      value = "$command_ups_variable$"
-      set_if = {{ macro("$command_ups_variable$") != false }}
-    }
-    "-w" = {
-      value = "$command_ups_warning$"
-      set_if = {{ macro("$command_ups_warning$") != false }}
-    }
-    "-c" = {
-      value = "$command_ups_critical$"
-      set_if = {{ macro("$command_ups_critical$") != false }}
-    }
-    "-t" = {
-      value = "$command_ups_timeout$"
-      set_if = {{ macro("$command_ups_timeout$") != false }}
-    }
-  }
+"-H" = {
+value = "$command_ups_host$"
+required = true
+}
+"-p" = {
+value = "$command_ups_port$"
+set_if = {{ macro("$command_ups_port$") != false }}
+}
+"-u" = {
+value = "$command_ups_ups$"
+required = true
+}
+"-T" = {
+value = "$command_ups_temperature$"
+}
+"-v" = {
+value = "$command_ups_variable$"
+set_if = {{ macro("$command_ups_variable$") != false }}
+}
+"-w" = {
+value = "$command_ups_warning$"
+set_if = {{ macro("$command_ups_warning$") != false }}
+}
+"-c" = {
+value = "$command_ups_critical$"
+set_if = {{ macro("$command_ups_critical$") != false }}
+}
+"-t" = {
+value = "$command_ups_timeout$"
+set_if = {{ macro("$command_ups_timeout$") != false }}
+}
+}

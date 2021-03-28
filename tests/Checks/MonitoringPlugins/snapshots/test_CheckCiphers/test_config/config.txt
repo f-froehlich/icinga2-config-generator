@@ -1,48 +1,48 @@
 apply Service "instance" {
-  check_command = "command_ciphers_local"
-  vars.command_ciphers_ignore_cipher_name = false
-  vars.command_ciphers_ignore_protocol_strength = false
-  vars.command_ciphers_ignore_strength = false
-  vars.command_ciphers_not_scan_udp = false
-  vars.command_ciphers_scan_tcp = false
-  vars.command_ciphers_n = false
-  vars.command_ciphers_r = false
-  vars.command_ciphers_system_dns = false
-  vars.command_ciphers_traceroute = false
-  vars.command_ciphers_F = false
-  vars.command_ciphers_r = false
-  vars.command_ciphers_sV = false
-  vars.command_ciphers_version_light = false
-  vars.command_ciphers_version_all = false
-  vars.command_ciphers_version_trace = false
-  vars.command_ciphers_sC = false
-  vars.command_ciphers_script_trace = false
-  vars.command_ciphers_O = false
-  vars.command_ciphers_osscan_guess = false
-  vars.command_ciphers_badsum = false
-  vars.command_ciphers_6 = false
-  vars.command_ciphers_A = false
-  vars.command_ciphers_send_eth = false
-  vars.command_ciphers_send_ip = false
-  vars.command_ciphers_privileged = false
-  vars.command_ciphers_Pn = false
-  vars.command_ciphers_unprivileged = false
-  vars.command_ciphers_host += [
-    "host",
-  ]
-  vars.command_ciphers_timeout = 12000
-  vars.groups += [
-    "servicegroup_nmap",
-    "servicegroup_security",
-    "servicegroup_ciphers",
-  ]
-  display_name = "Ciphers"
-  zone = host.vars.zone_name
-  command_endpoint = host.vars.endpoint_name
-  check_interval = 24h
-  retry_interval = 15s
-  max_check_attempts = 3
-  enable_perfdata = true
-  check_timeout = 12000
-  assign where "instance" in host.vars.checks
+check_command = "command_ciphers_local"
+vars.command_ciphers_ignore_cipher_name = false
+vars.command_ciphers_ignore_protocol_strength = false
+vars.command_ciphers_ignore_strength = false
+vars.command_ciphers_not_scan_udp = false
+vars.command_ciphers_scan_tcp = false
+vars.command_ciphers_n = false
+vars.command_ciphers_r = false
+vars.command_ciphers_system_dns = false
+vars.command_ciphers_traceroute = false
+vars.command_ciphers_F = false
+vars.command_ciphers_r = false
+vars.command_ciphers_sV = false
+vars.command_ciphers_version_light = false
+vars.command_ciphers_version_all = false
+vars.command_ciphers_version_trace = false
+vars.command_ciphers_sC = false
+vars.command_ciphers_script_trace = false
+vars.command_ciphers_O = false
+vars.command_ciphers_osscan_guess = false
+vars.command_ciphers_badsum = false
+vars.command_ciphers_6 = false
+vars.command_ciphers_A = false
+vars.command_ciphers_send_eth = false
+vars.command_ciphers_send_ip = false
+vars.command_ciphers_privileged = false
+vars.command_ciphers_Pn = false
+vars.command_ciphers_unprivileged = false
+vars.command_ciphers_host += [
+"host",
+]
+vars.command_ciphers_timeout = 12000
+vars.groups += [
+"servicegroup_nmap",
+"servicegroup_security",
+"servicegroup_ciphers",
+]
+display_name = "Ciphers"
+zone = host.vars.zone_name
+command_endpoint = host.vars.endpoint_name
+check_interval = 24h
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 12000
+assign where "instance" in host.vars.checks
 }

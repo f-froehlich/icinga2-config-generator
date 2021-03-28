@@ -1,64 +1,64 @@
 {
-    "-H" = {
-      value = "$command_ldaps_host$"
-      required = true
-    }
-    "-p" = {
-      value = "$command_ldaps_port$"
-      set_if = {{ macro("$command_ldaps_port$") != false }}
-    }
-    "-4" = {
-      set_if = "$command_ldaps_use_ipv4$"
-    }
-    "-6" = {
-      set_if = "$command_ldaps_use_ipv6$"
-    }
-    "-a" = {
-      value = "$command_ldaps_attr$"
-      set_if = {{ macro("$command_ldaps_attr$") != false }}
-    }
-    "-b" = {
-      value = "$command_ldaps_base$"
-      required = true
-    }
-    "-D" = {
-      value = "$command_ldaps_dn$"
-      set_if = {{ macro("$command_ldaps_dn$") != false }}
-    }
-    "-P" = {
-      value = "$command_ldaps_pass$"
-      set_if = {{ macro("$command_ldaps_pass$") != false }}
-    }
-    "-T" = {
-      set_if = "$command_ldaps_starttls$"
-    }
-    "-S" = {
-      set_if = "$command_ldaps_ssl$"
-    }
-    "-2" = {
-      set_if = "$command_ldaps_protocol_v2$"
-    }
-    "-3" = {
-      set_if = "$command_ldaps_protocol_v3$"
-    }
-    "-w" = {
-      value = "$command_ldaps_warning$"
-      set_if = {{ macro("$command_ldaps_warning$") != false }}
-    }
-    "-c" = {
-      value = "$command_ldaps_critical$"
-      set_if = {{ macro("$command_ldaps_critical$") != false }}
-    }
-    "-W" = {
-      value = "$command_ldaps_warning_entries$"
-      set_if = {{ macro("$command_ldaps_warning$") != false }}
-    }
-    "-C" = {
-      value = "$command_ldaps_critical_entries$"
-      set_if = {{ macro("$command_ldaps_critical$") != false }}
-    }
-    "-t" = {
-      value = "$command_ldaps_timeout$"
-      set_if = {{ macro("$command_ldaps_timeout$") != false }}
-    }
-  }
+"-H" = {
+value = "$command_ldaps_host$"
+required = true
+}
+"-p" = {
+value = "$command_ldaps_port$"
+set_if = {{ macro("$command_ldaps_port$") != false }}
+}
+"-4" = {
+set_if = "$command_ldaps_use_ipv4$"
+}
+"-6" = {
+set_if = "$command_ldaps_use_ipv6$"
+}
+"-a" = {
+value = "$command_ldaps_attr$"
+set_if = {{ macro("$command_ldaps_attr$") != false }}
+}
+"-b" = {
+value = "$command_ldaps_base$"
+required = true
+}
+"-D" = {
+value = "$command_ldaps_dn$"
+set_if = {{ macro("$command_ldaps_dn$") != false }}
+}
+"-P" = {
+value = "$command_ldaps_pass$"
+set_if = {{ macro("$command_ldaps_pass$") != false }}
+}
+"-T" = {
+set_if = "$command_ldaps_starttls$"
+}
+"-S" = {
+set_if = "$command_ldaps_ssl$"
+}
+"-2" = {
+set_if = "$command_ldaps_protocol_v2$"
+}
+"-3" = {
+set_if = "$command_ldaps_protocol_v3$"
+}
+"-w" = {
+value = "$command_ldaps_warning$"
+set_if = {{ macro("$command_ldaps_warning$") != false }}
+}
+"-c" = {
+value = "$command_ldaps_critical$"
+set_if = {{ macro("$command_ldaps_critical$") != false }}
+}
+"-W" = {
+value = "$command_ldaps_warning_entries$"
+set_if = {{ macro("$command_ldaps_warning$") != false }}
+}
+"-C" = {
+value = "$command_ldaps_critical_entries$"
+set_if = {{ macro("$command_ldaps_critical$") != false }}
+}
+"-t" = {
+value = "$command_ldaps_timeout$"
+set_if = {{ macro("$command_ldaps_timeout$") != false }}
+}
+}

@@ -1,4 +1,4 @@
 vars.command_disk_critical = "10%"
-  vars.command_disk_inode_critical = 10
-  vars.command_disk_inode_warning = 20
-  vars.command_disk_warning = "20%"
+vars.command_disk_inode_critical = 10
+vars.command_disk_inode_warning = 20
+vars.command_disk_warning = "20%"
