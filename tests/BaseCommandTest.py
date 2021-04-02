@@ -22,6 +22,7 @@ class BaseCommandTest(BaseTest):
 
     def test_create_raise_exception_if_force_create_same_id(self):
         self.create_instance(True)
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             self.create_instance(True)
 
@@ -29,6 +30,7 @@ class BaseCommandTest(BaseTest):
         command = Command('instance')
         ConfigBuilder.add_command('instance', command)
 
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             self.create_instance()
 

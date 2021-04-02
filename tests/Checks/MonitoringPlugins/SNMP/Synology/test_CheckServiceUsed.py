@@ -30,6 +30,7 @@ class TestCheckServiceUsed(BaseCheckSNMPTest):
 
     def test_validate_raise_exception_on_missing_service(self):
         instance = BaseCheckSNMPTest.create_instance(self)
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             instance.validate()
         assert 'service' in str(excinfo.value)
@@ -37,6 +38,7 @@ class TestCheckServiceUsed(BaseCheckSNMPTest):
     def test_validate_raise_exception_on_missing_warning(self):
         instance = BaseCheckSNMPTest.create_instance(self)
         instance.set_service('service')
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             instance.validate()
         assert 'warning' in str(excinfo.value)
@@ -45,6 +47,7 @@ class TestCheckServiceUsed(BaseCheckSNMPTest):
         instance = BaseCheckSNMPTest.create_instance(self)
         instance.set_service('service')
         instance.set_warning(44)
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             instance.validate()
         assert 'critical' in str(excinfo.value)

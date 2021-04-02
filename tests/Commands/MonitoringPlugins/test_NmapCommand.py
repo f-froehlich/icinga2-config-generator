@@ -27,6 +27,7 @@ class TestNMAPCommand:
             snapshot.assert_match(instance.get_config().replace('  ', ''), 'config.txt')
 
     def test_create_raise_exception(self):
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             NmapCommand.create('instance')
 

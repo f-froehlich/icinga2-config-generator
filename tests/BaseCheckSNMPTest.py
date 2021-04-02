@@ -16,25 +16,25 @@ class BaseCheckSNMPTest(BaseCheckTest):
         return instance
 
     def test_get_right_username(self):
-        instance = self.get_instance_class().create('instance')
+        instance = self.create_instance()
         instance.set_username('username')
 
         assert 'username' == instance.get_username()
 
     def test_get_right_password(self):
-        instance = self.get_instance_class().create('instance')
+        instance = self.create_instance()
         instance.set_password('password')
 
         assert 'password' == instance.get_password()
 
     def test_get_right_community(self):
-        instance = self.get_instance_class().create('instance')
+        instance = self.create_instance()
         instance.set_community('community')
 
         assert 'community' == instance.get_community()
 
     def test_get_right_version(self):
-        instance = self.get_instance_class().create('instance')
+        instance = self.create_instance()
 
         assert None is instance.get_version()
 
@@ -48,13 +48,13 @@ class BaseCheckSNMPTest(BaseCheckTest):
         assert '3' == instance.get_version()
 
     def test_get_right_host(self):
-        instance = self.get_instance_class().create('instance')
+        instance = self.create_instance()
         instance.set_host('host')
 
         assert 'host' == instance.get_host()
 
     def test_get_right_timeout(self):
-        instance = self.get_instance_class().create('instance')
+        instance = self.create_instance()
         instance.set_timeout(55)
 
         assert 55 == instance.get_timeout()
@@ -62,6 +62,7 @@ class BaseCheckSNMPTest(BaseCheckTest):
 
     def test_validate_raise_exception_on_missing_host(self):
         instance = BaseCheckTest.create_instance(self)
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             instance.validate()
 
@@ -70,6 +71,7 @@ class BaseCheckSNMPTest(BaseCheckTest):
     def test_validate_raise_exception_on_missing_username(self):
         instance = BaseCheckTest.create_instance(self)
         instance.set_host('host')
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             instance.validate()
 
@@ -79,20 +81,22 @@ class BaseCheckSNMPTest(BaseCheckTest):
         instance = BaseCheckTest.create_instance(self)
         instance.set_host('host')
         instance.set_username('username')
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             instance.validate()
 
         assert 'Password' in str(excinfo.value)
 
     def test_validate_not_raise_exception_for_missing_host_and_password_on_version_1(self):
-        instance = self.create_instance(self)
+        instance = self.create_instance()
         instance.set_version('1')
         instance.set_host('host')
         instance.validate()
 
     def test_validate_raise_exception_on_community(self):
-        instance = self.create_instance(self)
+        instance = self.create_instance()
         instance.set_version('2c')
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             instance.validate()
 
@@ -100,6 +104,7 @@ class BaseCheckSNMPTest(BaseCheckTest):
 
     def test_raise_exception_on_invalid_version(self):
         instance = BaseCheckTest.create_instance(self)
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             instance.set_version('invalid')
 

@@ -42,6 +42,7 @@ class BaseCheckTest(BaseTest):
         assert isinstance(command_instance, self.get_command_class())
 
     def test_only_create_command_instance_once(self):
+        self.validate_snapshot = False
         instance = self.create_instance()
         instance2 = self.get_instance_class().create('instance2')
         commands = ConfigBuilder.get_instance('commands')
@@ -68,6 +69,7 @@ class BaseCheckTest(BaseTest):
 
     def test_create_raise_exception_if_force_create_same_id(self):
         self.create_instance(True)
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             self.create_instance(True)
 
@@ -75,6 +77,7 @@ class BaseCheckTest(BaseTest):
         command = Check('instance', 'class_name', 'command_name')
         ConfigBuilder.add_check('instance', command)
 
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             self.create_instance()
 
@@ -119,6 +122,7 @@ class BaseCheckTest(BaseTest):
 
     def test_check_negation_status_raise_exception_if_not_allowed(self):
         instance = self.create_instance()
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             instance.check_negation_status('foo')
 
@@ -197,6 +201,7 @@ class BaseCheckTest(BaseTest):
         instance.set_zone(zone2.get_id())
         assert zone2 == instance.get_zone()
         snapshot.assert_match(instance.get_config().replace('  ', ''), 'zone-bar.txt')
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             instance.set_zone('invalid')
 
@@ -228,6 +233,7 @@ class BaseCheckTest(BaseTest):
 
     def test_cant_set_invalidcheck_type(self):
         instance = self.create_instance()
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             instance.set_check_type('invalid')
 

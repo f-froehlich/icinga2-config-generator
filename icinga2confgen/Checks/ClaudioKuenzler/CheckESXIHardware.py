@@ -88,7 +88,7 @@ class CheckESXIHardware(Check):
         return self.__vendor
 
     def set_sslproto(self, sslproto: str) -> CheckESXIHardware:
-        protos = ['SSLv2', ' SSLv3', ' TLSv1.0', ' TLSv1.1', ' TLSv1.2', ' TLSv1.3']
+        protos = ['SSLv2', 'SSLv3', 'TLSv1.0', 'TLSv1.1', 'TLSv1.2', 'TLSv1.3']
         if sslproto not in protos:
             raise Exception('Proto must be in ' + ', '.join(protos))
 

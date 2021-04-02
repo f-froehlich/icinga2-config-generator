@@ -4,3 +4,4 @@ __pycache__
 build
 dist
 icinga2confgen.egg-info
+/htmlcov/

@@ -29,13 +29,14 @@ class TestCheckBatteryPacksAttached(BaseCheckSNMPTest):
         return instance
 
     def test_get_right_count(self):
-        instance = self.get_instance_class().create('instance')
+        instance = self.create_instance()
         instance.set_count(23)
 
         assert 23 == instance.get_count()
 
     def test_raise_exception_on_missing_count(self):
         instance = BaseCheckSNMPTest.create_instance(self)
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             instance.validate()
 

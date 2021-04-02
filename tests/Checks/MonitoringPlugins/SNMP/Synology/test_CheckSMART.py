@@ -32,6 +32,7 @@ class TestCheckSMART(BaseCheckSNMPTest):
         instance.set_host('host')
         instance.set_username('user')
         instance.set_password('pwd')
+        self.validate_snapshot = False
         with pytest.raises(Exception) as excinfo:
             instance.validate()
 
