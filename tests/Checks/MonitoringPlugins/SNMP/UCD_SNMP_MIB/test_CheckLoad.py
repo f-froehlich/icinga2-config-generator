@@ -14,7 +14,7 @@ class TestCheckLoad(BaseCheckSNMPTest):
 
     def get_default_service_groups(self):
         return [
-            ServiceGroup.create('synology'),
+            ServiceGroup.create('disk'),
             ServiceGroup.create('snmp'),
             ServiceGroup.create('system_health')
         ]

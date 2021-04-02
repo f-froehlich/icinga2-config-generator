@@ -38,7 +38,7 @@ class UpgradeCommand(SNMPCommand):
         SNMPCommand.__init__(self, id)
 
     @staticmethod
-    def create(id: str, force_create: bool = False) -> T
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         command = None if force_create else ConfigBuilder.get_command(id)
         if None is command:

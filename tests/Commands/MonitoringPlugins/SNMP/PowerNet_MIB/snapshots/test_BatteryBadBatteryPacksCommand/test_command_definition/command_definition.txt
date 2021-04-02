@@ -1,0 +1,1 @@
+[ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_bad_battery_packs.py"]

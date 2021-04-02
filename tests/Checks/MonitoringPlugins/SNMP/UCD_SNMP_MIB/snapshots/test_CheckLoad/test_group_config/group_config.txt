@@ -1,5 +1,5 @@
 vars.groups += [
 "servicegroup_snmp",
-"servicegroup_synology",
+"servicegroup_disk",
 "servicegroup_system_health",
 ]

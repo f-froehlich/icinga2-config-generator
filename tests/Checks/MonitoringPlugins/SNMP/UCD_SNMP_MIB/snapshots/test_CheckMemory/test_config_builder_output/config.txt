@@ -42,7 +42,7 @@
 
 
 
-object CheckCommand "command_monitoring_plugins_snmp_synology_memory_local" {
+object CheckCommand "command_monitoring_plugins_snmp_ucd_snmp_mib_memory_local" {
 command = [ "$monitoring_plugin_dir$" + "/SNMP/UCD_DISKIO_MIB/check_memory.py"]
 arguments = {
 "-u" = {
@@ -178,7 +178,7 @@ set_if = {{ macro("$command_memory_critical_min_swap$") != false }}
 }
 
 }
-object CheckCommand "command_monitoring_plugins_snmp_synology_memory_local_negate" {
+object CheckCommand "command_monitoring_plugins_snmp_ucd_snmp_mib_memory_local_negate" {
 vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/UCD_DISKIO_MIB/check_memory.py"]
 vars.realargs = {
 "-u" = {
@@ -358,7 +358,7 @@ order = 99
 
 command = ["$nagios_plugin_dir$" + "/negate"]
 }
-object CheckCommand "command_monitoring_plugins_snmp_synology_memory_ssh" {
+object CheckCommand "command_monitoring_plugins_snmp_ucd_snmp_mib_memory_ssh" {
 vars.sshcmd = [ "$monitoring_plugin_dir$" + "/SNMP/UCD_DISKIO_MIB/check_memory.py"]
 vars.sshargs = {
 "-u" = {
@@ -515,7 +515,7 @@ return escaped_args.join(" ")
 }
 
 }
-object CheckCommand "command_monitoring_plugins_snmp_synology_memory_ssh_negate" {
+object CheckCommand "command_monitoring_plugins_snmp_ucd_snmp_mib_memory_ssh_negate" {
 vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/UCD_DISKIO_MIB/check_memory.py"]
 vars.realargs = {
 "-u" = {
@@ -720,9 +720,9 @@ object ServiceGroup "servicegroup_snmp" {
 display_name = "SNMP"
 assign where "servicegroup_snmp" in service.vars.groups
 }
-object ServiceGroup "servicegroup_synology" {
-display_name = "synology"
-assign where "servicegroup_synology" in service.vars.groups
+object ServiceGroup "servicegroup_memory" {
+display_name = "memory"
+assign where "servicegroup_memory" in service.vars.groups
 }
 object ServiceGroup "servicegroup_system_health" {
 display_name = "System health"
@@ -737,7 +737,7 @@ vars.command_snmp_timeout = 30
 vars.command_snmp_username = "user"
 vars.groups += [
 "servicegroup_snmp",
-"servicegroup_synology",
+"servicegroup_memory",
 "servicegroup_system_health",
 ]
 display_name = "memory"

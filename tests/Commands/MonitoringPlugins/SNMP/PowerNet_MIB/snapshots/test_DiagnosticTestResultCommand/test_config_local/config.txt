@@ -1,0 +1,23 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_diagnostic_test_result.py"]
+  arguments = {
+    "-u" = {
+      value = "$command_snmp_username$"
+      required = true
+    }
+    "-p" = {
+      value = "$command_snmp_password$"
+      required = true
+    }
+    "-H" = {
+      value = "$command_snmp_host$"
+      required = true
+    }
+    "--timeout" = {
+      value = "$command_snmp_timeout$"
+      set_if = {{ macro("$command_snmp_timeout$") != false }}
+    }
+
+  }
+
+}

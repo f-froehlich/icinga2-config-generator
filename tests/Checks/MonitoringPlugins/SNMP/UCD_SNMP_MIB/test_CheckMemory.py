@@ -16,7 +16,7 @@ class TestCheckMemory(BaseCheckSNMPTest):
 
     def get_default_service_groups(self):
         return [
-            ServiceGroup.create('synology'),
+            ServiceGroup.create('memory'),
             ServiceGroup.create('system_health'),
             ServiceGroup.create('snmp')
         ]

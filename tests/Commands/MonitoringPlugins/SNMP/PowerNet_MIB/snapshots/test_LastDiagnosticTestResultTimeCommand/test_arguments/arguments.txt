@@ -1,0 +1,28 @@
+{
+"-u" = {
+value = "$command_snmp_username$"
+required = true
+}
+"-p" = {
+value = "$command_snmp_password$"
+required = true
+}
+"-H" = {
+value = "$command_snmp_host$"
+required = true
+}
+"--timeout" = {
+value = "$command_snmp_timeout$"
+set_if = {{ macro("$command_snmp_timeout$") != false }}
+}
+
+"-w" = {
+value = "$command_last_diagnostic_test_result_time_warning$"
+set_if = {{ macro("$command_last_diagnostic_test_result_time_warning$") != false }}
+}
+"-c" = {
+value = "$command_last_diagnostic_test_result_time_critical$"
+set_if = {{ macro("$command_last_diagnostic_test_result_time_critical$") != false }}
+}
+
+}

@@ -7,7 +7,7 @@ vars.command_snmp_timeout = 30
 vars.command_snmp_username = "user"
 vars.groups += [
 "servicegroup_snmp",
-"servicegroup_synology",
+"servicegroup_memory",
 "servicegroup_system_health",
 ]
 display_name = "memory"

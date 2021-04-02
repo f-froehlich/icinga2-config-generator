@@ -1,0 +1,32 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_capacity.py"]
+  arguments = {
+    "-u" = {
+      value = "$command_snmp_username$"
+      required = true
+    }
+    "-p" = {
+      value = "$command_snmp_password$"
+      required = true
+    }
+    "-H" = {
+      value = "$command_snmp_host$"
+      required = true
+    }
+    "--timeout" = {
+      value = "$command_snmp_timeout$"
+      set_if = {{ macro("$command_snmp_timeout$") != false }}
+    }
+
+    "-w" = {
+      value = "$command_battery_capacity_warning$"
+      set_if = {{ macro("$command_battery_capacity_warning$") != false }}
+    }
+    "-c" = {
+      value = "$command_battery_capacity_critical$"
+      set_if = {{ macro("$command_battery_capacity_critical$") != false }}
+    }
+
+  }
+
+}
