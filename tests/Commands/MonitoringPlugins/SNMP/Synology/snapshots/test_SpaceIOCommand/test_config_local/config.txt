@@ -1,0 +1,36 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_space_io.py"]
+  arguments = {
+    "-u" = {
+      value = "$command_snmp_username$"
+      required = true
+    }
+    "-p" = {
+      value = "$command_snmp_password$"
+      required = true
+    }
+    "-H" = {
+      value = "$command_snmp_host$"
+      required = true
+    }
+    "--timeout" = {
+      value = "$command_snmp_timeout$"
+      set_if = {{ macro("$command_snmp_timeout$") != false }}
+    }
+
+    "-v" = {
+      value = "$command_space_io_volume$"
+      required = true
+    }
+    "-w" = {
+      value = "$command_space_io_warning$"
+      set_if = {{ macro("$command_space_io_warning$") != false }}
+    }
+    "-c" = {
+      value = "$command_space_io_critical$"
+      set_if = {{ macro("$command_space_io_critical$") != false }}
+    }
+
+  }
+
+}

@@ -1,0 +1,36 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$monitoring_plugin_dir$" + "/SNMP/UCD_DISKIO_MIB/check_load.py"]
+  arguments = {
+    "-u" = {
+      value = "$command_snmp_username$"
+      required = true
+    }
+    "-p" = {
+      value = "$command_snmp_password$"
+      required = true
+    }
+    "-H" = {
+      value = "$command_snmp_host$"
+      required = true
+    }
+    "--timeout" = {
+      value = "$command_snmp_timeout$"
+      set_if = {{ macro("$command_snmp_timeout$") != false }}
+    }
+
+    "-d" = {
+      value = "$command_load_disks$"
+      required = true
+    }
+    "-w" = {
+      value = "$command_load_warning$"
+      set_if = {{ macro("$command_load_warning$") != false }}
+    }
+    "-c" = {
+      value = "$command_load_critical$"
+      set_if = {{ macro("$command_load_critical$") != false }}
+    }
+
+  }
+
+}

@@ -1,0 +1,80 @@
+object CheckCommand "command_instance_local_negate" {
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_disk_temperature.py"]
+vars.realargs = {
+"-u" = {
+value = "$command_snmp_username$"
+required = true
+}
+"-p" = {
+value = "$command_snmp_password$"
+required = true
+}
+"-H" = {
+value = "$command_snmp_host$"
+required = true
+}
+"--timeout" = {
+value = "$command_snmp_timeout$"
+set_if = {{ macro("$command_snmp_timeout$") != false }}
+}
+
+"-d" = {
+value = "$command_disk_temperature_disks$"
+required = true
+}
+"-w" = {
+value = "$command_disk_temperature_warning$"
+set_if = {{ macro("$command_disk_temperature_warning$") != false }}
+}
+"-c" = {
+value = "$command_disk_temperature_critical$"
+set_if = {{ macro("$command_disk_temperature_critical$") != false }}
+}
+
+}
+
+arguments = {
+"-t" = {
+value = "$negation_timeout$"
+set_if = {{ macro("$negation_timeout$") != false }}
+}
+"-o" = {
+value = "$negation_ok_status$"
+set_if = {{ macro("$negation_ok_status$") != false }}
+}
+"-w" = {
+value = "$negation_warning_status$"
+set_if = {{ macro("$negation_warning_status$") != false }}
+}
+"-c" = {
+value = "$negation_critical_status$"
+set_if = {{ macro("$negation_critical_status$") != false }}
+}
+"-u" = {
+value = "$negation_unknown_status$"
+set_if = {{ macro("$negation_unknown_status$") != false }}
+}
+"-s" = {
+set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+}
+"--command" = {
+value = {{
+var command = macro("$realcmd$")
+var arguments = macro("$realargs$")
+if (typeof(command) == String && !arguments) {
+return command
+}
+var escaped_args = []
+for (arg in resolve_arguments(command, arguments)) {
+escaped_args.add(arg.replace(" ", "\\"))
+}
+return escaped_args.join(" ")
+}}
+skip_key = true
+required = true
+order = 99
+}
+}
+
+command = ["$nagios_plugin_dir$" + "/negate"]
+}

@@ -1,0 +1,3 @@
+vars.command_service_running_services += [
+"service",
+]

@@ -1,0 +1,32 @@
+{
+"-u" = {
+value = "$command_snmp_username$"
+required = true
+}
+"-p" = {
+value = "$command_snmp_password$"
+required = true
+}
+"-H" = {
+value = "$command_snmp_host$"
+required = true
+}
+"--timeout" = {
+value = "$command_snmp_timeout$"
+set_if = {{ macro("$command_snmp_timeout$") != false }}
+}
+
+"-g" = {
+value = "$command_gpu_info_gpu$"
+required = true
+}
+"-w" = {
+value = "$command_gpu_info_warning$"
+set_if = {{ macro("$command_gpu_info_warning$") != false }}
+}
+"-c" = {
+value = "$command_gpu_info_critical$"
+set_if = {{ macro("$command_gpu_info_critical$") != false }}
+}
+
+}

@@ -1,0 +1,1 @@
+vars.command_raid_status_raids = 99

@@ -1,0 +1,1 @@
+vars.command_gpu_info_gpu = 44

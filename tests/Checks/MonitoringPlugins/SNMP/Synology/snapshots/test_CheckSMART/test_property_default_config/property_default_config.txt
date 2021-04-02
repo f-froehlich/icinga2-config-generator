@@ -1,0 +1,1 @@
+vars.command_smart_disk = 5

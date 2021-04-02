@@ -1,0 +1,157 @@
+object CheckCommand "command_instance_ssh" {
+  vars.sshcmd = [ "$monitoring_plugin_dir$" + "/SNMP/UCD_DISKIO_MIB/check_memory.py"]
+  vars.sshargs = {
+    "-u" = {
+      value = "$command_snmp_username$"
+      required = true
+    }
+    "-p" = {
+      value = "$command_snmp_password$"
+      required = true
+    }
+    "-H" = {
+      value = "$command_snmp_host$"
+      required = true
+    }
+    "--timeout" = {
+      value = "$command_snmp_timeout$"
+      set_if = {{ macro("$command_snmp_timeout$") != false }}
+    }
+
+    "-m" = {
+      value = "$command_memory_memory$"
+      required = true
+    }
+    "--warning-total" = {
+      value = "$command_memory_warning_total$"
+      set_if = {{ macro("$command_memory_warning_total$") != false }}
+    }
+    "--critical-total" = {
+      value = "$command_memory_critical_total$"
+      set_if = {{ macro("$command_memory_critical_total$") != false }}
+    }
+    "--ignore-total" = {
+      value = "$command_memory_critical_total$"
+      set_if = {{ macro("$command_memory_critical_total$") != false }}
+    }
+    "--warning-swap" = {
+      value = "$command_memory_warning_swap$"
+      set_if = {{ macro("$command_memory_warning_swap$") != false }}
+    }
+    "--critical-swap" = {
+      value = "$command_memory_critical_swap$"
+      set_if = {{ macro("$command_memory_critical_swap$") != false }}
+    }
+    "--ignore-swap" = {
+      value = "$command_memory_critical_swap$"
+      set_if = {{ macro("$command_memory_critical_swap$") != false }}
+    }
+    "--warning-swap-txt" = {
+      value = "$command_memory_warning_swap_txt$"
+      set_if = {{ macro("$command_memory_warning_swap_txt$") != false }}
+    }
+    "--critical-swap-txt" = {
+      value = "$command_memory_critical_swap_txt$"
+      set_if = {{ macro("$command_memory_critical_swap_txt$") != false }}
+    }
+    "--ignore-swap-txt" = {
+      value = "$command_memory_critical_swap_txt$"
+      set_if = {{ macro("$command_memory_critical_swap_txt$") != false }}
+    }
+    "--warning-real" = {
+      value = "$command_memory_warning_real$"
+      set_if = {{ macro("$command_memory_warning_real$") != false }}
+    }
+    "--critical-real" = {
+      value = "$command_memory_critical_real$"
+      set_if = {{ macro("$command_memory_critical_real$") != false }}
+    }
+    "--ignore-real" = {
+      value = "$command_memory_critical_real$"
+      set_if = {{ macro("$command_memory_critical_real$") != false }}
+    }
+    "--warning-real-txt" = {
+      value = "$command_memory_warning_real_txt$"
+      set_if = {{ macro("$command_memory_warning_real_txt$") != false }}
+    }
+    "--critical-real-txt" = {
+      value = "$command_memory_critical_real_txt$"
+      set_if = {{ macro("$command_memory_critical_real_txt$") != false }}
+    }
+    "--ignore-real-txt" = {
+      value = "$command_memory_critical_real_txt$"
+      set_if = {{ macro("$command_memory_critical_real_txt$") != false }}
+    }
+    "--warning-shared" = {
+      value = "$command_memory_warning_shared$"
+      set_if = {{ macro("$command_memory_warning_shared$") != false }}
+    }
+    "--critical-shared" = {
+      value = "$command_memory_critical_shared$"
+      set_if = {{ macro("$command_memory_critical_shared$") != false }}
+    }
+    "--ignore-shared" = {
+      value = "$command_memory_critical_shared$"
+      set_if = {{ macro("$command_memory_critical_shared$") != false }}
+    }
+    "--warning-buffer" = {
+      value = "$command_memory_warning_buffer$"
+      set_if = {{ macro("$command_memory_warning_buffer$") != false }}
+    }
+    "--critical-buffer" = {
+      value = "$command_memory_critical_buffer$"
+      set_if = {{ macro("$command_memory_critical_buffer$") != false }}
+    }
+    "--ignore-buffer" = {
+      value = "$command_memory_critical_buffer$"
+      set_if = {{ macro("$command_memory_critical_buffer$") != false }}
+    }
+    "--warning-cache" = {
+      value = "$command_memory_warning_cache$"
+      set_if = {{ macro("$command_memory_warning_cache$") != false }}
+    }
+    "--critical-cache" = {
+      value = "$command_memory_critical_cache$"
+      set_if = {{ macro("$command_memory_critical_cache$") != false }}
+    }
+    "--ignore-cache" = {
+      value = "$command_memory_critical_cache$"
+      set_if = {{ macro("$command_memory_critical_cache$") != false }}
+    }
+    "--warning-min-swap" = {
+      value = "$command_memory_warning_min_swap$"
+      set_if = {{ macro("$command_memory_warning_min_swap$") != false }}
+    }
+    "--critical-min-swap" = {
+      value = "$command_memory_critical_min_swap$"
+      set_if = {{ macro("$command_memory_critical_min_swap$") != false }}
+    }
+    "--ignore-min-swap" = {
+      value = "$command_memory_critical_min_swap$"
+      set_if = {{ macro("$command_memory_critical_min_swap$") != false }}
+    }
+
+  }
+
+  command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+  arguments = {
+  "-i" = "$command_overssh_identityfile$"
+  "-l" = "$command_overssh_user$"
+  "-p" = "$command_overssh_port$"
+  "-H" = "$command_overssh_host$"
+  "--timeout" = "$command_overssh_timeout$"
+  "-C" = {{
+    var command = macro("$sshcmd$")
+    var arguments = macro("$sshargs$")
+    if (typeof(command) == String && !arguments) {
+      return command
+    }
+    var escaped_args = []
+    for (arg in resolve_arguments(command, arguments)) {
+      escaped_args.add(escape_shell_arg(arg))
+    }
+    return escaped_args.join(" ")
+  }}
+}
+
+}

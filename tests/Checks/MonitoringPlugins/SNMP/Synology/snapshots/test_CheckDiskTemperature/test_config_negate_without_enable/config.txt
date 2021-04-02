@@ -1,0 +1,23 @@
+apply Service "instance" {
+check_command = "command_disk_temperature_local"
+vars.command_disk_temperature_disks = 22
+vars.command_snmp_host = "host"
+vars.command_snmp_password = "pwd"
+vars.command_snmp_timeout = 30
+vars.command_snmp_username = "user"
+vars.groups += [
+"servicegroup_snmp",
+"servicegroup_synology",
+"servicegroup_system_health",
+"servicegroup_disk",
+]
+display_name = "disk temperature"
+zone = host.vars.zone_name
+command_endpoint = host.vars.endpoint_name
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 31
+assign where "instance" in host.vars.checks
+}

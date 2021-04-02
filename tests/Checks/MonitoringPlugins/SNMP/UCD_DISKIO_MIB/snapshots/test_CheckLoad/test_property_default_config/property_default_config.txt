@@ -1,0 +1,1 @@
+vars.command_load_disk = 22

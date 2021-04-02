@@ -1,0 +1,32 @@
+{
+"-u" = {
+value = "$command_snmp_username$"
+required = true
+}
+"-p" = {
+value = "$command_snmp_password$"
+required = true
+}
+"-H" = {
+value = "$command_snmp_host$"
+required = true
+}
+"--timeout" = {
+value = "$command_snmp_timeout$"
+set_if = {{ macro("$command_snmp_timeout$") != false }}
+}
+
+"-r" = {
+value = "$command_raid_status_raids$"
+required = true
+}
+"-w" = {
+value = "$command_raid_status_warning$"
+set_if = {{ macro("$command_raid_status_warning$") != false }}
+}
+"-c" = {
+value = "$command_raid_status_critical$"
+set_if = {{ macro("$command_raid_status_critical$") != false }}
+}
+
+}

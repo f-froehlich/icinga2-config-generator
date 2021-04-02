@@ -1,0 +1,26 @@
+apply Service "instance" {
+check_command = "command_space_io_local_negate"
+vars.command_space_io_volume = 22
+vars.command_snmp_host = "host"
+vars.command_snmp_password = "pwd"
+vars.command_snmp_timeout = 30
+vars.command_snmp_username = "user"
+vars.groups += [
+"servicegroup_snmp",
+"servicegroup_synology",
+"servicegroup_system_health",
+]
+display_name = "space io"
+zone = host.vars.zone_name
+command_endpoint = host.vars.endpoint_name
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 31
+vars.negation_ok_status = "OK"
+vars.negation_warning_status = "WARNING"
+vars.negation_unknown_status = "UNKNOWN"
+vars.negation_substitute = true
+assign where "instance" in host.vars.checks
+}

@@ -1,0 +1,25 @@
+{
+"-u" = {
+value = "$command_snmp_username$"
+required = true
+}
+"-p" = {
+value = "$command_snmp_password$"
+required = true
+}
+"-H" = {
+value = "$command_snmp_host$"
+required = true
+}
+"--timeout" = {
+value = "$command_snmp_timeout$"
+set_if = {{ macro("$command_snmp_timeout$") != false }}
+}
+
+"-s" = {
+value = "$command_service_running_services$"
+required = true
+repeat_key = true
+}
+
+}

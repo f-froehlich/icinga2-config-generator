@@ -1,0 +1,1 @@
+vars.command_disk_temperature_disks = 22

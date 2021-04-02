@@ -1,0 +1,1 @@
+[ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_disk_temperature.py"]
