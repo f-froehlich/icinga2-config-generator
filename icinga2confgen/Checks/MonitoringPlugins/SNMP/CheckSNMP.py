@@ -39,6 +39,8 @@ class CheckSNMP(Check):
         self.__username: Union[str, None] = None
         self.__password: Union[str, None] = None
         self.__host: Union[str, None] = None
+        self.__version: Union[str, None] = None
+        self.__community: Union[str, None] = None
         self.__timeout: int = 30
         self.set_timeout(self.__timeout)
         self.add_service_group(ServiceGroup.create('snmp'))
@@ -56,6 +58,24 @@ class CheckSNMP(Check):
 
     def get_password(self: T) -> Union[str, None]:
         return self.__password
+
+    def set_version(self: T, version: str) -> T:
+        if version not in ['1', '2c', '3']:
+            raise Exception('Version must be 1, 2c or 3')
+
+        self.__version = version
+        return self
+
+    def get_version(self: T) -> Union[str, None]:
+        return self.__version
+
+    def set_community(self: T, community: str) -> T:
+
+        self.__community = community
+        return self
+
+    def get_community(self: T) -> Union[str, None]:
+        return self.__community
 
     def set_host(self: T, host: str) -> T:
         self.__host = host
@@ -75,10 +95,14 @@ class CheckSNMP(Check):
     def validate(self: T):
         if None is self.__host:
             raise Exception('Host must be set on ' + self.get_id())
-        if None is self.__username:
-            raise Exception('Username must be set on ' + self.get_id())
-        if None is self.__password:
-            raise Exception('Password must be set on ' + self.get_id())
+        if '3' == self.__version or None is self.__version:
+            if None is self.__username:
+                raise Exception('Username must be set on ' + self.get_id())
+            if None is self.__password:
+                raise Exception('Password must be set on ' + self.get_id())
+        elif '2c' == self.__version:
+            if None is self.__community:
+                raise Exception('Community must be set on ' + self.get_id())
 
     def get_custom_config(self: T) -> str:
         return ValueMapper.get_property_default_config(self, 'CheckSNMP', 'snmp', 'command')

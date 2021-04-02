@@ -1,3 +1,5 @@
+import pytest
+
 from icinga2confgen.Checks.MonitoringPlugins.SNMP.PowerNet_MIB.CheckBatteryPacksAttached import \
     CheckBatteryPacksAttached
 from icinga2confgen.Commands.MonitoringPlugins.SNMP.PowerNet_MIB.BatteryPacksAttachedCommand import \
@@ -25,3 +27,16 @@ class TestCheckBatteryPacksAttached(BaseCheckSNMPTest):
         instance = BaseCheckSNMPTest.create_instance(self, force)
         instance.set_count(22)
         return instance
+
+    def test_get_right_count(self):
+        instance = self.get_instance_class().create('instance')
+        instance.set_count(23)
+
+        assert 23 == instance.get_count()
+
+    def test_raise_exception_on_missing_count(self):
+        instance = BaseCheckSNMPTest.create_instance(self)
+        with pytest.raises(Exception) as excinfo:
+            instance.validate()
+
+        assert 'You have to set the number of attached battery packs!' == str(excinfo.value)

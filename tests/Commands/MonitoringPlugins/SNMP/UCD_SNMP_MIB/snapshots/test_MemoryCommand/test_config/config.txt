@@ -3,11 +3,11 @@ command = [ "$monitoring_plugin_dir$" + "/SNMP/UCD_DISKIO_MIB/check_memory.py"]
 arguments = {
 "-u" = {
 value = "$command_snmp_username$"
-required = true
+set_if = {{ macro("$command_snmp_username$") != false }}
 }
 "-p" = {
 value = "$command_snmp_password$"
-required = true
+set_if = {{ macro("$command_snmp_password$") != false }}
 }
 "-H" = {
 value = "$command_snmp_host$"
@@ -16,6 +16,14 @@ required = true
 "--timeout" = {
 value = "$command_snmp_timeout$"
 set_if = {{ macro("$command_snmp_timeout$") != false }}
+}
+"--version" = {
+value = "$command_snmp_version$"
+set_if = {{ macro("$command_snmp_version$") != false }}
+}
+"--community" = {
+value = "$command_snmp_community$"
+set_if = {{ macro("$command_snmp_community$") != false }}
 }
 
 "-m" = {
@@ -139,11 +147,11 @@ vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/UCD_DISKIO_MIB/check_memory.
 vars.realargs = {
 "-u" = {
 value = "$command_snmp_username$"
-required = true
+set_if = {{ macro("$command_snmp_username$") != false }}
 }
 "-p" = {
 value = "$command_snmp_password$"
-required = true
+set_if = {{ macro("$command_snmp_password$") != false }}
 }
 "-H" = {
 value = "$command_snmp_host$"
@@ -152,6 +160,14 @@ required = true
 "--timeout" = {
 value = "$command_snmp_timeout$"
 set_if = {{ macro("$command_snmp_timeout$") != false }}
+}
+"--version" = {
+value = "$command_snmp_version$"
+set_if = {{ macro("$command_snmp_version$") != false }}
+}
+"--community" = {
+value = "$command_snmp_community$"
+set_if = {{ macro("$command_snmp_community$") != false }}
 }
 
 "-m" = {
@@ -319,11 +335,11 @@ vars.sshcmd = [ "$monitoring_plugin_dir$" + "/SNMP/UCD_DISKIO_MIB/check_memory.p
 vars.sshargs = {
 "-u" = {
 value = "$command_snmp_username$"
-required = true
+set_if = {{ macro("$command_snmp_username$") != false }}
 }
 "-p" = {
 value = "$command_snmp_password$"
-required = true
+set_if = {{ macro("$command_snmp_password$") != false }}
 }
 "-H" = {
 value = "$command_snmp_host$"
@@ -332,6 +348,14 @@ required = true
 "--timeout" = {
 value = "$command_snmp_timeout$"
 set_if = {{ macro("$command_snmp_timeout$") != false }}
+}
+"--version" = {
+value = "$command_snmp_version$"
+set_if = {{ macro("$command_snmp_version$") != false }}
+}
+"--community" = {
+value = "$command_snmp_community$"
+set_if = {{ macro("$command_snmp_community$") != false }}
 }
 
 "-m" = {
@@ -476,11 +500,11 @@ vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/UCD_DISKIO_MIB/check_memory.
 vars.realargs = {
 "-u" = {
 value = "$command_snmp_username$"
-required = true
+set_if = {{ macro("$command_snmp_username$") != false }}
 }
 "-p" = {
 value = "$command_snmp_password$"
-required = true
+set_if = {{ macro("$command_snmp_password$") != false }}
 }
 "-H" = {
 value = "$command_snmp_host$"
@@ -489,6 +513,14 @@ required = true
 "--timeout" = {
 value = "$command_snmp_timeout$"
 set_if = {{ macro("$command_snmp_timeout$") != false }}
+}
+"--version" = {
+value = "$command_snmp_version$"
+set_if = {{ macro("$command_snmp_version$") != false }}
+}
+"--community" = {
+value = "$command_snmp_community$"
+set_if = {{ macro("$command_snmp_community$") != false }}
 }
 
 "-m" = {

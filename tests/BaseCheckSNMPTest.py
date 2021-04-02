@@ -27,6 +27,26 @@ class BaseCheckSNMPTest(BaseCheckTest):
 
         assert 'password' == instance.get_password()
 
+    def test_get_right_community(self):
+        instance = self.get_instance_class().create('instance')
+        instance.set_community('community')
+
+        assert 'community' == instance.get_community()
+
+    def test_get_right_version(self):
+        instance = self.get_instance_class().create('instance')
+
+        assert None is instance.get_version()
+
+        instance.set_version('2c')
+        assert '2c' == instance.get_version()
+
+        instance.set_version('1')
+        assert '1' == instance.get_version()
+
+        instance.set_version('3')
+        assert '3' == instance.get_version()
+
     def test_get_right_host(self):
         instance = self.get_instance_class().create('instance')
         instance.set_host('host')
@@ -63,3 +83,24 @@ class BaseCheckSNMPTest(BaseCheckTest):
             instance.validate()
 
         assert 'Password' in str(excinfo.value)
+
+    def test_validate_not_raise_exception_for_missing_host_and_password_on_version_1(self):
+        instance = self.create_instance(self)
+        instance.set_version('1')
+        instance.set_host('host')
+        instance.validate()
+
+    def test_validate_raise_exception_on_community(self):
+        instance = self.create_instance(self)
+        instance.set_version('2c')
+        with pytest.raises(Exception) as excinfo:
+            instance.validate()
+
+        assert 'Community' in str(excinfo.value)
+
+    def test_raise_exception_on_invalid_version(self):
+        instance = BaseCheckTest.create_instance(self)
+        with pytest.raises(Exception) as excinfo:
+            instance.set_version('invalid')
+
+        assert 'Version' in str(excinfo.value)

@@ -3,11 +3,11 @@ command = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_capaci
 arguments = {
 "-u" = {
 value = "$command_snmp_username$"
-required = true
+set_if = {{ macro("$command_snmp_username$") != false }}
 }
 "-p" = {
 value = "$command_snmp_password$"
-required = true
+set_if = {{ macro("$command_snmp_password$") != false }}
 }
 "-H" = {
 value = "$command_snmp_host$"
@@ -16,6 +16,14 @@ required = true
 "--timeout" = {
 value = "$command_snmp_timeout$"
 set_if = {{ macro("$command_snmp_timeout$") != false }}
+}
+"--version" = {
+value = "$command_snmp_version$"
+set_if = {{ macro("$command_snmp_version$") != false }}
+}
+"--community" = {
+value = "$command_snmp_community$"
+set_if = {{ macro("$command_snmp_community$") != false }}
 }
 
 "-w" = {
@@ -35,11 +43,11 @@ vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_c
 vars.realargs = {
 "-u" = {
 value = "$command_snmp_username$"
-required = true
+set_if = {{ macro("$command_snmp_username$") != false }}
 }
 "-p" = {
 value = "$command_snmp_password$"
-required = true
+set_if = {{ macro("$command_snmp_password$") != false }}
 }
 "-H" = {
 value = "$command_snmp_host$"
@@ -48,6 +56,14 @@ required = true
 "--timeout" = {
 value = "$command_snmp_timeout$"
 set_if = {{ macro("$command_snmp_timeout$") != false }}
+}
+"--version" = {
+value = "$command_snmp_version$"
+set_if = {{ macro("$command_snmp_version$") != false }}
+}
+"--community" = {
+value = "$command_snmp_community$"
+set_if = {{ macro("$command_snmp_community$") != false }}
 }
 
 "-w" = {
@@ -111,11 +127,11 @@ vars.sshcmd = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_ca
 vars.sshargs = {
 "-u" = {
 value = "$command_snmp_username$"
-required = true
+set_if = {{ macro("$command_snmp_username$") != false }}
 }
 "-p" = {
 value = "$command_snmp_password$"
-required = true
+set_if = {{ macro("$command_snmp_password$") != false }}
 }
 "-H" = {
 value = "$command_snmp_host$"
@@ -124,6 +140,14 @@ required = true
 "--timeout" = {
 value = "$command_snmp_timeout$"
 set_if = {{ macro("$command_snmp_timeout$") != false }}
+}
+"--version" = {
+value = "$command_snmp_version$"
+set_if = {{ macro("$command_snmp_version$") != false }}
+}
+"--community" = {
+value = "$command_snmp_community$"
+set_if = {{ macro("$command_snmp_community$") != false }}
 }
 
 "-w" = {
@@ -164,11 +188,11 @@ vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_c
 vars.realargs = {
 "-u" = {
 value = "$command_snmp_username$"
-required = true
+set_if = {{ macro("$command_snmp_username$") != false }}
 }
 "-p" = {
 value = "$command_snmp_password$"
-required = true
+set_if = {{ macro("$command_snmp_password$") != false }}
 }
 "-H" = {
 value = "$command_snmp_host$"
@@ -177,6 +201,14 @@ required = true
 "--timeout" = {
 value = "$command_snmp_timeout$"
 set_if = {{ macro("$command_snmp_timeout$") != false }}
+}
+"--version" = {
+value = "$command_snmp_version$"
+set_if = {{ macro("$command_snmp_version$") != false }}
+}
+"--community" = {
+value = "$command_snmp_community$"
+set_if = {{ macro("$command_snmp_community$") != false }}
 }
 
 "-w" = {

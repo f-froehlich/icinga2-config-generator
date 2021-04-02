@@ -41,11 +41,11 @@ class SNMPCommand(MonitoringPluginCommand):
         config = """{
     "-u" = {
       value = "$command_snmp_username$"
-      required = true
+      set_if = {{ macro("$command_snmp_username$") != false }}
     }
     "-p" = {
       value = "$command_snmp_password$"
-      required = true
+      set_if = {{ macro("$command_snmp_password$") != false }}
     }
     "-H" = {
       value = "$command_snmp_host$"
@@ -54,6 +54,14 @@ class SNMPCommand(MonitoringPluginCommand):
     "--timeout" = {
       value = "$command_snmp_timeout$"
       set_if = {{ macro("$command_snmp_timeout$") != false }}
+    }
+    "--version" = {
+      value = "$command_snmp_version$"
+      set_if = {{ macro("$command_snmp_version$") != false }}
+    }
+    "--community" = {
+      value = "$command_snmp_community$"
+      set_if = {{ macro("$command_snmp_community$") != false }}
     }
 """
         config += self.get_specific_arguments()
