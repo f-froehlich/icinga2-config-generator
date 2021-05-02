@@ -51,16 +51,16 @@ class BatteryTemperatureCommand(SNMPCommand):
         return command
 
     def get_command(self: T) -> str:
-        return 'SNMP/PowerNet_MIB/check_battery_remaining_runtime.py'
+        return 'SNMP/PowerNet_MIB/check_battery_temperature.py'
 
     def get_specific_arguments(self: T):
         return """
     "-w" = {
-      value = "$command_battery_remaining_runtime_warning$"
-      set_if = {{ macro("$command_battery_remaining_runtime_warning$") != false }}
+      value = "$command_battery_temperature_warning$"
+      set_if = {{ macro("$command_battery_temperature_warning$") != false }}
     }
     "-c" = {
-      value = "$command_battery_remaining_runtime_critical$"
-      set_if = {{ macro("$command_battery_remaining_runtime_critical$") != false }}
+      value = "$command_battery_temperature_critical$"
+      set_if = {{ macro("$command_battery_temperature_critical$") != false }}
     }
 """

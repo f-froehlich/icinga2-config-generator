@@ -1,5 +1,5 @@
 object CheckCommand "command_instance_ssh" {
-  vars.sshcmd = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_remaining_runtime.py"]
+  vars.sshcmd = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_temperature.py"]
   vars.sshargs = {
     "-u" = {
       value = "$command_snmp_username$"
@@ -27,12 +27,12 @@ object CheckCommand "command_instance_ssh" {
     }
 
     "-w" = {
-      value = "$command_battery_remaining_runtime_warning$"
-      set_if = {{ macro("$command_battery_remaining_runtime_warning$") != false }}
+      value = "$command_battery_temperature_warning$"
+      set_if = {{ macro("$command_battery_temperature_warning$") != false }}
     }
     "-c" = {
-      value = "$command_battery_remaining_runtime_critical$"
-      set_if = {{ macro("$command_battery_remaining_runtime_critical$") != false }}
+      value = "$command_battery_temperature_critical$"
+      set_if = {{ macro("$command_battery_temperature_critical$") != false }}
     }
 
   }
