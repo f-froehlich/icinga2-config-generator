@@ -1,5 +1,5 @@
 .idea
-**/zones.d/**
+/zones.d
 __pycache__
 build
 dist

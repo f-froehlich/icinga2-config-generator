@@ -57,3 +57,4 @@ This section contains the additional terms of the AGPLv3 license agreement, a co
     Furthermore, the imprint has to include a clear reference to the original github repository [https://github.com/f-froehlich/icinga2-config-generator](https://github.com/f-froehlich/icinga2-config-generator) as well as the link mentioned above in the body text.
     
 5. You are not allowed to earn money with this tool.
+6. The usage of legacy files are only allowed for migration purposes and configurations for your own closed-source applications, as long as there is no interest from third parties for the configuration or underlining checks. If the check itself is open-source or there is an interest of third parties, then you have to publish the check command and check configuration file as python code in this repository.
