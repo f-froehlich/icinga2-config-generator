@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckBreeze(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckBreeze', 'breeze')
+        Check.__init__(self, id, 'CheckBreeze', 'nagios_plugins_breeze')
         self.__host = None
         self.__warning = None
         self.__critical = None

@@ -1,1 +1,1 @@
-mailq
+nagios_plugins_mailq

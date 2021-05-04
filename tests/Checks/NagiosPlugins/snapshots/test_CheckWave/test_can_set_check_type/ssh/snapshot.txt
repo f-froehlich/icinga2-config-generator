@@ -249,7 +249,7 @@ display_name = "Wave"
 assign where "servicegroup_wave" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_wave_ssh"
+check_command = "command_nagios_plugins_wave_ssh"
 vars.command_wave_host = "host"
 vars.groups += [
 "servicegroup_wave",

@@ -241,7 +241,7 @@ display_name = "Group members"
 assign where "servicegroup_group_members" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_group_members_local"
+check_command = "command_monitoring_plugins_group_members_local"
 vars.command_group_members_group = "sudo"
 vars.groups += [
 "servicegroup_security",

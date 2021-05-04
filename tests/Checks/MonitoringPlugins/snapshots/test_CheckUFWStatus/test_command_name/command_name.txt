@@ -1,1 +1,1 @@
-ufw_status
+monitoring_plugins_ufw_status

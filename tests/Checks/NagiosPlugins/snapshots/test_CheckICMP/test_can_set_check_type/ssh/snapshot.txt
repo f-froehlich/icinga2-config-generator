@@ -389,7 +389,7 @@ display_name = "Network"
 assign where "servicegroup_network" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_icmp_ssh"
+check_command = "command_nagios_plugins_icmp_ssh"
 vars.command_icmp_bytes = 76
 vars.command_icmp_host = "host"
 vars.command_icmp_packets = 2

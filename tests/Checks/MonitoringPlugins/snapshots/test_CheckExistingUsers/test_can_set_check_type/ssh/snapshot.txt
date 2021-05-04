@@ -277,7 +277,7 @@ display_name = "Existing users"
 assign where "servicegroup_existing_user" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_existing_users_ssh"
+check_command = "command_monitoring_plugins_existing_users_ssh"
 vars.command_existing_users_shell_filter += [
 "/bin/false",
 "/bin/sync",

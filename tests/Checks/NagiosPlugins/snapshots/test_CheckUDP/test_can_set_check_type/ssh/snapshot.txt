@@ -497,7 +497,7 @@ display_name = "UDP"
 assign where "servicegroup_udp" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_udp_ssh"
+check_command = "command_nagios_plugins_udp_ssh"
 vars.command_udp_all = false
 vars.command_udp_cert = true
 vars.command_udp_cert_critical = 15

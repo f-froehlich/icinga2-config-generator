@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_imap_local"
+check_command = "command_nagios_plugins_imap_local"
 vars.command_imap_all = false
 vars.command_imap_cert = true
 vars.command_imap_cert_critical = 15

@@ -277,7 +277,7 @@ display_name = "Docker"
 assign where "servicegroup_docker" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_docker_login_local"
+check_command = "command_monitoring_plugins_docker_login_local"
 vars.command_docker_login_address = "host"
 vars.command_docker_login_as_sudo = false
 vars.command_docker_login_credentials = "pwd"

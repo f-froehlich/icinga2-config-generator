@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckSPOP(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckSPOP', 'spop')
+        Check.__init__(self, id, 'CheckSPOP', 'nagios_plugins_spop')
         self.__host = None
         self.__port = None
         self.__ipv4 = False

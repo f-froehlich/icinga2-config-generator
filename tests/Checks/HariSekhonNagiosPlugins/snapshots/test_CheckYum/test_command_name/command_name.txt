@@ -1,1 +1,1 @@
-yum
+hari_sekhon_nagios_plugins_yum

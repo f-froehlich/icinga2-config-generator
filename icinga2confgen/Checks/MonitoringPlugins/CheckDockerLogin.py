@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckDockerLogin(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckDockerLogin', 'docker_login')
+        Check.__init__(self, id, 'CheckDockerLogin', 'monitoring_plugins_docker_login')
         self.__user = None
         self.__credentials = None
         self.__address = None

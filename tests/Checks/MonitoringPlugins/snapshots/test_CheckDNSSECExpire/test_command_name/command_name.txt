@@ -1,1 +1,1 @@
-dnssec_expiry
+monitoring_plugins_dnssec_expiry

@@ -39,7 +39,7 @@ T = typing.TypeVar('T', bound='CheckDiagnosticTestResult')
 class CheckDiagnosticTestResult(CheckSNMP):
 
     def __init__(self: T, id: str):
-        CheckSNMP.__init__(self, id, 'CheckDiagnosticTestResult', 'diagnostic_test_result')
+        CheckSNMP.__init__(self, id, 'CheckDiagnosticTestResult', 'monitoring_plugins_snmp_powernet_mib_diagnostic_test_result')
         self.add_service_group(ServiceGroup.create('ups'))
         self.add_service_group(ServiceGroup.create('system_health'))
 

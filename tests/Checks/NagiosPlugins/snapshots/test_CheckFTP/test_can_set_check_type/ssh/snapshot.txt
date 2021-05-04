@@ -497,7 +497,7 @@ display_name = "FTP"
 assign where "servicegroup_ftp" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_ftp_ssh"
+check_command = "command_nagios_plugins_ftp_ssh"
 vars.command_ftp_all = false
 vars.command_ftp_cert = true
 vars.command_ftp_cert_critical = 15

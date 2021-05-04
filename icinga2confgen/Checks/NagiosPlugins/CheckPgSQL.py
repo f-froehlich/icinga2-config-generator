@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckPgSQL(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckPgSQL', 'pgsql')
+        Check.__init__(self, id, 'CheckPgSQL', 'nagios_plugins_pgsql')
         self.__host = None
         self.__port = 5432
         self.__database = None

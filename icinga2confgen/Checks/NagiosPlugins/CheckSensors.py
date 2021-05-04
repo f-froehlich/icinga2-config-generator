@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckSensors(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckSensors', 'sensors')
+        Check.__init__(self, id, 'CheckSensors', 'nagios_plugins_sensors')
         self.add_service_group(ServiceGroup.create('sensors'))
         self.add_service_group(ServiceGroup.create('system_health'))
 

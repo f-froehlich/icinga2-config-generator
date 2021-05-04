@@ -40,7 +40,7 @@ T = typing.TypeVar('T', bound='CheckLoad')
 class CheckLoad(CheckSNMP):
 
     def __init__(self: T, id: str):
-        CheckSNMP.__init__(self, id, 'CheckLoad', 'load')
+        CheckSNMP.__init__(self, id, 'CheckLoad', 'monitoring_plugins_snmp_ucd_snmp_mib_load')
         self.add_service_group(ServiceGroup.create('disk'))
         self.add_service_group(ServiceGroup.create('system_health'))
 

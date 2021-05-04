@@ -38,7 +38,7 @@ T = typing.TypeVar('T', bound='CheckSystemStatus')
 class CheckSystemStatus(CheckSNMP):
 
     def __init__(self: T, id: str):
-        CheckSNMP.__init__(self, id, 'CheckSystemStatus', 'system_status')
+        CheckSNMP.__init__(self, id, 'CheckSystemStatus', 'monitoring_plugins_snmp_synology_system_status')
         self.add_service_group(ServiceGroup.create('synology'))
         self.add_service_group(ServiceGroup.create('system_health'))
 

@@ -341,7 +341,7 @@ display_name = "SSHD security"
 assign where "servicegroup_sshd_security" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_sshd_security_ssh"
+check_command = "command_monitoring_plugins_sshd_security_ssh"
 vars.groups += [
 "servicegroup_security",
 "servicegroup_sshd",

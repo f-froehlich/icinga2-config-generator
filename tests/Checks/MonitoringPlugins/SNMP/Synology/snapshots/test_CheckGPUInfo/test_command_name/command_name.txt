@@ -1,1 +1,1 @@
-gpu_info
+monitoring_plugins_snmp_synology_gpu_info

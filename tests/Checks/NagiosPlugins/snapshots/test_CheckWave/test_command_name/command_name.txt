@@ -1,1 +1,1 @@
-wave
+nagios_plugins_wave

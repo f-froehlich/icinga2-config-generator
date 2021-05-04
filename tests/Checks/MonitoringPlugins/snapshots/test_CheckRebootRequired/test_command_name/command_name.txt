@@ -1,1 +1,1 @@
-reboot_required
+monitoring_plugins_reboot_required

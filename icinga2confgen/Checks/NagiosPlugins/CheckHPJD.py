@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckHPJD(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckHPJD', 'hpjd')
+        Check.__init__(self, id, 'CheckHPJD', 'nagios_plugins_hpjd')
         self.__host = None
         self.__community = None
         self.__paper_check = False

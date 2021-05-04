@@ -293,7 +293,7 @@ display_name = "File age"
 assign where "servicegroup_file_age" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_file_age_local_negate"
+check_command = "command_nagios_plugins_file_age_local_negate"
 vars.command_file_age_critical_seconds = 600
 vars.command_file_age_file = "file"
 vars.command_file_age_ignore_missing = false

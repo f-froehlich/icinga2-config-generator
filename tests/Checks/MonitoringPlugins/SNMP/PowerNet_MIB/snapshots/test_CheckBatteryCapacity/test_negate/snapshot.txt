@@ -43,7 +43,7 @@
 
 
 object CheckCommand "command_monitoring_plugins_snmp_powernet_mib_battery_capacity_local" {
-command = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_capacity.py"]
+command = [ "$monitoring_plugin_dir$" + "/snmp/PowerNet_MIB/check_battery_capacity.py"]
 arguments = {
 "-u" = {
 value = "$command_snmp_username$"
@@ -83,7 +83,7 @@ set_if = {{ macro("$command_battery_capacity_critical$") != false }}
 
 }
 object CheckCommand "command_monitoring_plugins_snmp_powernet_mib_battery_capacity_local_negate" {
-vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_capacity.py"]
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/snmp/PowerNet_MIB/check_battery_capacity.py"]
 vars.realargs = {
 "-u" = {
 value = "$command_snmp_username$"
@@ -167,7 +167,7 @@ order = 99
 command = ["$nagios_plugin_dir$" + "/negate"]
 }
 object CheckCommand "command_monitoring_plugins_snmp_powernet_mib_battery_capacity_ssh" {
-vars.sshcmd = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_capacity.py"]
+vars.sshcmd = [ "$monitoring_plugin_dir$" + "/snmp/PowerNet_MIB/check_battery_capacity.py"]
 vars.sshargs = {
 "-u" = {
 value = "$command_snmp_username$"
@@ -228,7 +228,7 @@ return escaped_args.join(" ")
 
 }
 object CheckCommand "command_monitoring_plugins_snmp_powernet_mib_battery_capacity_ssh_negate" {
-vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_capacity.py"]
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/snmp/PowerNet_MIB/check_battery_capacity.py"]
 vars.realargs = {
 "-u" = {
 value = "$command_snmp_username$"
@@ -345,11 +345,12 @@ display_name = "System health"
 assign where "servicegroup_system_health" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_battery_capacity_local_negate"
+check_command = "command_monitoring_plugins_snmp_powernet_mib_battery_capacity_local_negate"
 vars.command_snmp_host = "host"
 vars.command_snmp_password = "pwd"
 vars.command_snmp_timeout = 30
 vars.command_snmp_username = "user"
+vars.command_snmp_version = "3"
 vars.groups += [
 "servicegroup_snmp",
 "servicegroup_ups",

@@ -1,1 +1,1 @@
-[ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_diagnostic_test_result.py"]
+[ "$monitoring_plugin_dir$" + "/snmp/PowerNet_MIB/check_diagnostic_test_result.py"]

@@ -265,7 +265,7 @@ display_name = "IRCD"
 assign where "servicegroup_ircd" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_ircd_local_negate"
+check_command = "command_nagios_plugins_ircd_local_negate"
 vars.command_ircd_host = "host"
 vars.groups += [
 "servicegroup_ircd",

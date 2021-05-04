@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckMRTGtraf(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckMRTGtraf', 'mrt_gtraf')
+        Check.__init__(self, id, 'CheckMRTGtraf', 'nagios_plugins_mrt_gtraf')
         self.__file = None
         self.__aggregation = None
         self.__warning = None

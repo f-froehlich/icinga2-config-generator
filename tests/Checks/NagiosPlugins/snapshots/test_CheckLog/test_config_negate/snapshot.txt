@@ -249,7 +249,7 @@ display_name = "Log"
 assign where "servicegroup_log" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_log_local_negate"
+check_command = "command_nagios_plugins_log_local_negate"
 vars.command_log_file = "file"
 vars.command_log_oldfile = "oldfile"
 vars.command_log_query = "query"

@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckDig(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckDig', 'dig')
+        Check.__init__(self, id, 'CheckDig', 'nagios_plugins_dig')
         self.__warning_time = 5
         self.__critical_time = 10
         self.__dnsserver_hostname = '1.1.1.1'

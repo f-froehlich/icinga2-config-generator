@@ -1,1 +1,1 @@
-SNMP/Synology/check_service_used.py
+snmp/Synology/check_service_used.py

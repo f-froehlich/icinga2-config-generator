@@ -273,7 +273,7 @@ display_name = "storcenter"
 assign where "servicegroup_storcenter" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_storcenter_local"
+check_command = "command_claudio_kuenzler_storcenter_local"
 vars.command_storcenter_host = "host"
 vars.command_storcenter_password = "password"
 vars.command_storcenter_type = "info"

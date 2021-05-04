@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_disk_local_negate"
+check_command = "command_nagios_plugins_disk_local_negate"
 vars.command_disk_critical = "10%"
 vars.command_disk_inode_critical = 10
 vars.command_disk_inode_warning = 20

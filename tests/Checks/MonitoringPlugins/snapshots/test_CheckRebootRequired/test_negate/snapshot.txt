@@ -217,7 +217,7 @@ display_name = "System health"
 assign where "servicegroup_system_health" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_reboot_required_local_negate"
+check_command = "command_monitoring_plugins_reboot_required_local_negate"
 vars.command_reboot_required_exit_critical = false
 vars.groups += [
 "servicegroup_reboot",

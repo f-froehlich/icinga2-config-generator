@@ -265,7 +265,7 @@ display_name = "Breeze"
 assign where "servicegroup_breeze" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_breeze_local_negate"
+check_command = "command_nagios_plugins_breeze_local_negate"
 vars.command_breeze_critical = "40"
 vars.command_breeze_host = "host"
 vars.command_breeze_warning = "30"

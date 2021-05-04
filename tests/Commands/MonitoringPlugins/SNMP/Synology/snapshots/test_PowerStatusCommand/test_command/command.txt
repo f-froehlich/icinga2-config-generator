@@ -1,1 +1,1 @@
-SNMP/Synology/check_power_status.py
+snmp/Synology/check_power_status.py

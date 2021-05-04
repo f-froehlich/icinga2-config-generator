@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckPathExists(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckPathExists', 'path_exists')
+        Check.__init__(self, id, 'CheckPathExists', 'monitoring_plugins_path_exists')
         self.__file = None
         self.__dir = None
         self.__invert = False

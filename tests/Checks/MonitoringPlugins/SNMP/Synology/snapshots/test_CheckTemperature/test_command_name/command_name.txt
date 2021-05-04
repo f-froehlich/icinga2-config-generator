@@ -1,1 +1,1 @@
-temperature
+monitoring_plugins_snmp_synology_temperature

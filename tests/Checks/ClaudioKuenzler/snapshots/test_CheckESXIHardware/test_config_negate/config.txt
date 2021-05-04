@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_esxi_hardware_local_negate"
+check_command = "command_claudio_kuenzler_esxi_hardware_local_negate"
 vars.command_esxi_hardware_host = "host"
 vars.command_esxi_hardware_nocurrent = false
 vars.command_esxi_hardware_nofan = false

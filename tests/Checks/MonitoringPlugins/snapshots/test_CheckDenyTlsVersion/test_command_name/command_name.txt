@@ -1,1 +1,1 @@
-deny_tls_version
+monitoring_plugins_deny_tls_version

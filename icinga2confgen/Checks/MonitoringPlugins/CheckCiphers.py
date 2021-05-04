@@ -61,7 +61,7 @@ class CheckCiphers(NmapBase, NmapScriptExecutor, NmapNotScanUDP, NmapScanTCP, Nm
                    NmapPrivileged, NmapPn, NmapUnprivileged):
 
     def __init__(self, id: str):
-        NmapBase.__init__(self, id, 'CheckCiphers', 'ciphers')
+        NmapBase.__init__(self, id, 'CheckCiphers', 'monitoring_plugins_ciphers')
         NmapNotScanUDP.__init__(self, 'ciphers')
         NmapScanTCP.__init__(self, 'ciphers')
         NmapN.__init__(self, 'ciphers')

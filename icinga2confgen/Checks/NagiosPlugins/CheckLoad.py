@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckLoad(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckLoad', 'load')
+        Check.__init__(self, id, 'CheckLoad', 'nagios_plugins_load')
         self.__warning = '10,8,6'
         self.__critical = '15,12,9'
         self.__percpu = True

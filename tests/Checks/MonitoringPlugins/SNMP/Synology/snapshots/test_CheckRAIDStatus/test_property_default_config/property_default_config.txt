@@ -1,1 +1,3 @@
+vars.command_raid_status_critical = 90
 vars.command_raid_status_raids = 99
+vars.command_raid_status_warning = 80

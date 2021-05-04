@@ -31,7 +31,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckPing(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckPing', 'ping')
+        Check.__init__(self, id, 'CheckPing', 'nagios_plugins_ping')
         self.__warning_percent_lost = 5
         self.__warning_average_time = 100
         self.__critical_percent_lost = 10

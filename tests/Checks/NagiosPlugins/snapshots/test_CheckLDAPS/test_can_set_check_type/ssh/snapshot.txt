@@ -449,7 +449,7 @@ display_name = "LDAP"
 assign where "servicegroup_ldap" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_ldaps_ssh"
+check_command = "command_nagios_plugins_ldaps_ssh"
 vars.command_ldaps_base = "base"
 vars.command_ldaps_host = "host"
 vars.command_ldaps_protocol_v2 = false

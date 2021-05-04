@@ -269,7 +269,7 @@ display_name = "System health"
 assign where "servicegroup_system_health" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_swap_local_negate"
+check_command = "command_nagios_plugins_swap_local_negate"
 vars.command_swap_allswaps = false
 vars.command_swap_critical = 40
 vars.command_swap_warning = 30

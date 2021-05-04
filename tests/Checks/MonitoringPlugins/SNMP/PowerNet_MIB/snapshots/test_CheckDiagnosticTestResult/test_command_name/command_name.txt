@@ -1,1 +1,1 @@
-diagnostic_test_result
+monitoring_plugins_snmp_powernet_mib_diagnostic_test_result

@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckDNSSECExpire(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckDNSSECExpire', 'dnssec_expiry')
+        Check.__init__(self, id, 'CheckDNSSECExpire', 'monitoring_plugins_dnssec_expiry')
         self.__warning = 10
         self.__critical = 5
         self.__dns_domains = []

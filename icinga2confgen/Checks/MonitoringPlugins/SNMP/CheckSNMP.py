@@ -39,7 +39,7 @@ class CheckSNMP(Check):
         self.__username: Union[str, None] = None
         self.__password: Union[str, None] = None
         self.__host: Union[str, None] = None
-        self.__version: Union[str, None] = None
+        self.__version: Union[str, None] = '3'
         self.__community: Union[str, None] = None
         self.__timeout: int = 30
         self.set_timeout(self.__timeout)

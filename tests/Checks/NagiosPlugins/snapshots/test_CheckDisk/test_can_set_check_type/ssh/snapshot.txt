@@ -693,7 +693,7 @@ display_name = "Disk"
 assign where "servicegroup_disk" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_disk_ssh"
+check_command = "command_nagios_plugins_disk_ssh"
 vars.command_disk_critical = "10%"
 vars.command_disk_inode_critical = 10
 vars.command_disk_inode_warning = 20

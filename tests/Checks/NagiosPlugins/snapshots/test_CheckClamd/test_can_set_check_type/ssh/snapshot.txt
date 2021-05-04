@@ -497,7 +497,7 @@ display_name = "Clamd"
 assign where "servicegroup_clamd" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_clamd_ssh"
+check_command = "command_nagios_plugins_clamd_ssh"
 vars.command_clamd_all = false
 vars.command_clamd_cert = true
 vars.command_clamd_cert_critical = 15

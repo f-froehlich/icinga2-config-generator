@@ -1,1 +1,1 @@
-ide_smart
+nagios_plugins_ide_smart

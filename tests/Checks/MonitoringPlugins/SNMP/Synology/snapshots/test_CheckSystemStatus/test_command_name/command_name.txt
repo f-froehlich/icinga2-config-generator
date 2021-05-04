@@ -1,1 +1,1 @@
-system_status
+monitoring_plugins_snmp_synology_system_status

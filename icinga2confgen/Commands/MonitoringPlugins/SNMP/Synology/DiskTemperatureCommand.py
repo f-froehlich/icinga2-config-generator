@@ -50,7 +50,7 @@ class DiskTemperatureCommand(SNMPCommand):
         return command
 
     def get_command(self: T) -> str:
-        return 'SNMP/Synology/check_disk_temperature.py'
+        return 'snmp/Synology/check_disk_temperature.py'
 
     def get_specific_arguments(self: T):
         return """

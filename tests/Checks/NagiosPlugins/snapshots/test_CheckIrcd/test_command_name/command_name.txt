@@ -1,1 +1,1 @@
-ircd
+nagios_plugins_ircd

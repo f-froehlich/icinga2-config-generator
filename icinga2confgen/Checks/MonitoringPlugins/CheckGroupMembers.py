@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckGroupMembers(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckGroupMembers', 'group_members')
+        Check.__init__(self, id, 'CheckGroupMembers', 'monitoring_plugins_group_members')
         self.__group = 'sudo'
         self.__users = []
         self.set_check_interval('15m')

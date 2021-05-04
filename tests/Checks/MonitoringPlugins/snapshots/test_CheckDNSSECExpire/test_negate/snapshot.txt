@@ -313,7 +313,7 @@ display_name = "DNSSEC"
 assign where "servicegroup_dnssec" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_dnssec_expiry_local_negate"
+check_command = "command_monitoring_plugins_dnssec_expiry_local_negate"
 vars.command_dnssec_expiry_critical = 5
 vars.command_dnssec_expiry_ignore_root = true
 vars.command_dnssec_expiry_ignore_tld = true

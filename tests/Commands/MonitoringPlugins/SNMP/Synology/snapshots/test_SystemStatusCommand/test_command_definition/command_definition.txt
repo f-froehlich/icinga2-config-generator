@@ -1,1 +1,1 @@
-[ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_system_status.py"]
+[ "$monitoring_plugin_dir$" + "/snmp/Synology/check_system_status.py"]

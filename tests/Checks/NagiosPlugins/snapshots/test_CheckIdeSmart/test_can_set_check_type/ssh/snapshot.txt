@@ -221,7 +221,7 @@ display_name = "Disk"
 assign where "servicegroup_disk" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_ide_smart_ssh"
+check_command = "command_nagios_plugins_ide_smart_ssh"
 vars.groups += [
 "servicegroup_smart",
 "servicegroup_disk",

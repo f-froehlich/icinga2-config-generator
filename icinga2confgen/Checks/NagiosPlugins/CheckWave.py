@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckWave(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckWave', 'wave')
+        Check.__init__(self, id, 'CheckWave', 'nagios_plugins_wave')
         self.__host = None
         self.__warning = None
         self.__critical = None

@@ -39,7 +39,7 @@ T = typing.TypeVar('T', bound='CheckMemory')
 class CheckMemory(CheckSNMP):
 
     def __init__(self: T, id: str):
-        CheckSNMP.__init__(self, id, 'CheckMemory', 'memory')
+        CheckSNMP.__init__(self, id, 'CheckMemory', 'monitoring_plugins_snmp_ucd_snmp_mib_memory')
         self.add_service_group(ServiceGroup.create('memory'))
         self.add_service_group(ServiceGroup.create('system_health'))
 

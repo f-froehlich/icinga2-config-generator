@@ -1,1 +1,1 @@
-SNMP/Synology/check_upgrade.py
+snmp/Synology/check_upgrade.py

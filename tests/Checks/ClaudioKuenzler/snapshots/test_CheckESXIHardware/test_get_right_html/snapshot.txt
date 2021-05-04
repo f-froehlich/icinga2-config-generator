@@ -489,7 +489,7 @@ display_name = "esxi hardware"
 assign where "servicegroup_esxi_hardware" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_esxi_hardware_local"
+check_command = "command_claudio_kuenzler_esxi_hardware_local"
 vars.command_esxi_hardware_host = "host"
 vars.command_esxi_hardware_html = "html"
 vars.command_esxi_hardware_nocurrent = false

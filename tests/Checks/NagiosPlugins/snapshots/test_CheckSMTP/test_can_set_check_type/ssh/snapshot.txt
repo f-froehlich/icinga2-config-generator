@@ -477,7 +477,7 @@ display_name = "Mail"
 assign where "servicegroup_mail" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_smtp_ssh"
+check_command = "command_nagios_plugins_smtp_ssh"
 vars.command_smtp_cert = true
 vars.command_smtp_cert_critical = 15
 vars.command_smtp_cert_warning = 29

@@ -256,7 +256,7 @@ class ConfigBuilder:
             pbar.update(1)
         pbar.close()
 
-        pbar = tqdm(total=total, desc="Writing custom config", unit=' Configs')
+        pbar = tqdm(desc="Writing custom config", unit=' Configs')
         for custom_file in ConfigBuilder.__get_custom_files():
             content = ConfigBuilder.__read_custom_file(str(custom_file))
 

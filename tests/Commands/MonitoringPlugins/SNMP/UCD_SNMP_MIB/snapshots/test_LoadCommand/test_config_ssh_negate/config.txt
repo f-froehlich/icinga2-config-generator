@@ -1,5 +1,5 @@
 object CheckCommand "command_instance_ssh_negate" {
-vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/UCD_DISKIO_MIB/check_load.py"]
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/snmp/UCD_DISKIO_MIB/check_load.py"]
 vars.realargs = {
 "-u" = {
 value = "$command_snmp_username$"

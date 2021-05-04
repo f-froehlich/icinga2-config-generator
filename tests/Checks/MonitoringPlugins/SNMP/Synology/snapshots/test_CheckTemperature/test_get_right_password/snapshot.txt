@@ -43,7 +43,7 @@
 
 
 object CheckCommand "command_monitoring_plugins_snmp_synology_temperature_local" {
-command = [ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_temperature.py"]
+command = [ "$monitoring_plugin_dir$" + "/snmp/Synology/check_temperature.py"]
 arguments = {
 "-u" = {
 value = "$command_snmp_username$"
@@ -83,7 +83,7 @@ set_if = {{ macro("$command_temperature_critical$") != false }}
 
 }
 object CheckCommand "command_monitoring_plugins_snmp_synology_temperature_local_negate" {
-vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_temperature.py"]
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/snmp/Synology/check_temperature.py"]
 vars.realargs = {
 "-u" = {
 value = "$command_snmp_username$"
@@ -167,7 +167,7 @@ order = 99
 command = ["$nagios_plugin_dir$" + "/negate"]
 }
 object CheckCommand "command_monitoring_plugins_snmp_synology_temperature_ssh" {
-vars.sshcmd = [ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_temperature.py"]
+vars.sshcmd = [ "$monitoring_plugin_dir$" + "/snmp/Synology/check_temperature.py"]
 vars.sshargs = {
 "-u" = {
 value = "$command_snmp_username$"
@@ -228,7 +228,7 @@ return escaped_args.join(" ")
 
 }
 object CheckCommand "command_monitoring_plugins_snmp_synology_temperature_ssh_negate" {
-vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_temperature.py"]
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/snmp/Synology/check_temperature.py"]
 vars.realargs = {
 "-u" = {
 value = "$command_snmp_username$"
@@ -345,11 +345,14 @@ display_name = "System health"
 assign where "servicegroup_system_health" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_temperature_local"
+check_command = "command_monitoring_plugins_snmp_synology_temperature_local"
+vars.command_temperature_critical = 45
+vars.command_temperature_warning = 35
 vars.command_snmp_host = "host"
 vars.command_snmp_password = "password"
 vars.command_snmp_timeout = 30
 vars.command_snmp_username = "user"
+vars.command_snmp_version = "3"
 vars.groups += [
 "servicegroup_snmp",
 "servicegroup_synology",

@@ -1,1 +1,1 @@
-battery_replacement
+monitoring_plugins_snmp_powernet_mib_battery_replacement

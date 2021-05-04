@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_wave_local_negate"
+check_command = "command_nagios_plugins_wave_local_negate"
 vars.command_wave_host = "host"
 vars.groups += [
 "servicegroup_wave",

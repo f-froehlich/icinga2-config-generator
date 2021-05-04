@@ -1,1 +1,1 @@
-dhcp
+nagios_plugins_dhcp

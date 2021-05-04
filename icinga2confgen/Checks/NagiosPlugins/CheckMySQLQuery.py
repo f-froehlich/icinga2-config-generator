@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckMySQLQuery(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckMysqlQuery', 'mysql_query')
+        Check.__init__(self, id, 'CheckMysqlQuery', 'nagios_plugins_mysql_query')
         self.__query = None
         self.__warning = None
         self.__critical = None

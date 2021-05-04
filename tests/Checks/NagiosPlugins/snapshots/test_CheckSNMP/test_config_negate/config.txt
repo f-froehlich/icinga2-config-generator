@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_snmp_local_negate"
+check_command = "command_nagios_plugins_snmp_local_negate"
 vars.command_snmp_host = "host"
 vars.command_snmp_invert = false
 vars.command_snmp_oids = "oid"

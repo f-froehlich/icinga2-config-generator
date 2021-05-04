@@ -1,9 +1,10 @@
 apply Service "instance" {
-check_command = "command_cpu_fan_status_local_negate"
+check_command = "command_monitoring_plugins_snmp_synology_cpu_fan_status_local_negate"
 vars.command_snmp_host = "host"
 vars.command_snmp_password = "pwd"
 vars.command_snmp_timeout = 30
 vars.command_snmp_username = "user"
+vars.command_snmp_version = "3"
 vars.groups += [
 "servicegroup_snmp",
 "servicegroup_synology",

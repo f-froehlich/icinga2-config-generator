@@ -1,5 +1,5 @@
 object CheckCommand "command_instance_local" {
-  command = [ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_raid_status.py"]
+  command = [ "$monitoring_plugin_dir$" + "/snmp/Synology/check_raid_status.py"]
   arguments = {
     "-u" = {
       value = "$command_snmp_username$"

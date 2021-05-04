@@ -23,7 +23,7 @@ class TestCheckLoad(BaseCheckSNMPTest):
 
     def create_instance(self, force=False):
         instance = BaseCheckSNMPTest.create_instance(self, force)
-        instance.set_disk(22)
+        instance.set_disks(22)
         return instance
 
     def test_validate_raise_exception_on_missing_disks(self):
@@ -37,9 +37,9 @@ class TestCheckLoad(BaseCheckSNMPTest):
 
     def test_get_right_disk(self):
         instance = self.create_instance()
-        instance.set_disk(57)
+        instance.set_disks(57)
 
-        assert 57 == instance.get_disk()
+        assert 57 == instance.get_disks()
 
     def test_get_right_warning(self):
         instance = self.create_instance()

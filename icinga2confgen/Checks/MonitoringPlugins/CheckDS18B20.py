@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckDS18B20(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckDS18B20', 'sensor_ds18b20')
+        Check.__init__(self, id, 'CheckDS18B20', 'monitoring_plugins_sensor_ds18b20')
         self.__device = None
         self.__path = None
         self.__name = None

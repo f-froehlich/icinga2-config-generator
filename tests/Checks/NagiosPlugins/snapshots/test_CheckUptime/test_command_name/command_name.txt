@@ -1,1 +1,1 @@
-uptime
+nagios_plugins_uptime

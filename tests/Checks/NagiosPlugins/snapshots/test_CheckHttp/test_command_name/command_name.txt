@@ -1,1 +1,1 @@
-http
+nagios_plugins_http

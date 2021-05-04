@@ -36,7 +36,7 @@ class BaseCheckSNMPTest(BaseCheckTest):
     def test_get_right_version(self):
         instance = self.create_instance()
 
-        assert None is instance.get_version()
+        assert '3' is instance.get_version()
 
         instance.set_version('2c')
         assert '2c' == instance.get_version()

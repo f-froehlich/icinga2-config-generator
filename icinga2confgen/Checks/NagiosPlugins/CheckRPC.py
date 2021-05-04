@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckRPC(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckRPC', 'rpc')
+        Check.__init__(self, id, 'CheckRPC', 'nagios_plugins_rpc')
         self.__host = None
         self.__command = None
         self.__port = None

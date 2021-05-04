@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_existing_users_local"
+check_command = "command_monitoring_plugins_existing_users_local"
 vars.command_existing_users_shell_filter += [
 "/bin/false",
 "/bin/sync",

@@ -1,1 +1,1 @@
-ssmtp
+nagios_plugins_ssmtp

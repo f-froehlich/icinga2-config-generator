@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_http_local_negate"
+check_command = "command_nagios_plugins_http_local_negate"
 vars.command_http_authorization = false
 vars.command_http_certificate = false
 vars.command_http_certificate_critical_days = 15

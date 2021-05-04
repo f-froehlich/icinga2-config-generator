@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_users_local_negate"
+check_command = "command_nagios_plugins_users_local_negate"
 vars.command_users_critical = 10
 vars.command_users_warning = 5
 vars.groups += [

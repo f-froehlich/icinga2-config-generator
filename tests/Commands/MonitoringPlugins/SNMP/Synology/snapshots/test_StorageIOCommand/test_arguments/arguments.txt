@@ -25,7 +25,7 @@ set_if = {{ macro("$command_snmp_community$") != false }}
 }
 
 "-d" = {
-value = "$command_storage_io_disk"
+value = "$command_storage_io_disk$"
 required = true
 }
 "-w" = {

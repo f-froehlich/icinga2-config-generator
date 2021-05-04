@@ -45,6 +45,7 @@ from icinga2confgen.Helpers.RemoteCheckManager import RemoteCheckManager
 from icinga2confgen.Notification.Notification import Notification
 from icinga2confgen.Servers.Server import Server
 from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.ValueMapper import ValueMapper
 
 
 class SynologySNMPChecks(RemoteCheckManager):
@@ -223,6 +224,8 @@ class SynologySNMPChecks(RemoteCheckManager):
     def add_service(self, service: str, warning: int, critical: int):
         self.__services.append((service, warning, critical))
 
+        return self
+
     def remove_service(self, service: str):
         for s in self.__services:
             if service == s[0]:
@@ -233,6 +236,7 @@ class SynologySNMPChecks(RemoteCheckManager):
         for server in self.get_servers():
             ipv4 = server.get_ipv4()
             ipv6 = server.get_ipv6()
+            memory_count = server.get_custom_var('memory_count')
             disk_count = server.get_custom_var('disk_count')
             volume_count = server.get_custom_var('volume_count')
             raid_count = server.get_custom_var('raid_count')
@@ -334,7 +338,7 @@ class SynologySNMPChecks(RemoteCheckManager):
                     check.set_host(ip) \
                         .set_username(username) \
                         .set_password(password) \
-                        .set_disk(disk_count) \
+                        .set_disks(disk_count) \
                         .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
                     self.apply_check(check, server, checkserver)
 
@@ -359,7 +363,7 @@ class SynologySNMPChecks(RemoteCheckManager):
                         self.apply_check(check, server, checkserver)
 
                 if self.__check_space_io:
-                    for volume in range(0, volume_count):
+                    for volume in range(1, volume_count + 1):
                         check = CheckSpaceIO.create(f'synology_space_io_{volume}_{base_id}')
                         check.set_host(ip) \
                             .set_username(username) \
@@ -369,7 +373,7 @@ class SynologySNMPChecks(RemoteCheckManager):
                         self.apply_check(check, server, checkserver)
 
                 if self.__check_storage_io:
-                    for disk in range(0, disk_count):
+                    for disk in range(1, disk_count + 1):
                         check = CheckStorageIO.create(f'synology_storage_io_{disk}_{base_id}')
                         check.set_host(ip) \
                             .set_username(username) \
@@ -380,7 +384,7 @@ class SynologySNMPChecks(RemoteCheckManager):
 
                 if self.__check_service_used:
                     for service in self.__services:
-                        check = CheckServiceUsed.create(f'synology_service_used_{service}_{base_id}')
+                        check = CheckServiceUsed.create(f'synology_service_used_{ValueMapper.canonicalize_for_id(service[0])}_{base_id}')
                         check.set_host(ip) \
                             .set_username(username) \
                             .set_password(password) \
@@ -404,12 +408,12 @@ class SynologySNMPChecks(RemoteCheckManager):
                     self.apply_check(check, server, checkserver)
 
                 if self.__check_disk_load:
-                    for disk in range(0, disk_count):
+                    for disk in range(1, disk_count + 1):
                         check = DiskLoad.create(f'synology_disk_load_{disk}_{base_id}')
                         check.set_host(ip) \
                             .set_username(username) \
                             .set_password(password) \
-                            .set_disk(disk) \
+                            .set_disks(disk) \
                             .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
 
                         self.apply_check(check, server, checkserver)
@@ -428,6 +432,7 @@ class SynologySNMPChecks(RemoteCheckManager):
                     check.set_host(ip) \
                         .set_username(username) \
                         .set_password(password) \
+                        .set_memory(memory_count) \
                         .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
 
                     self.apply_check(check, server, checkserver)

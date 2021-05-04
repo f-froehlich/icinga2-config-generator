@@ -297,7 +297,7 @@ display_name = "Network"
 assign where "servicegroup_network" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_dhcp_ssh"
+check_command = "command_nagios_plugins_dhcp_ssh"
 vars.command_dhcp_timeout = 10
 vars.command_dhcp_unicast = false
 vars.groups += [

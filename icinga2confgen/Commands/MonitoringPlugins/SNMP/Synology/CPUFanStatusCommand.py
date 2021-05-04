@@ -49,7 +49,7 @@ class CPUFanStatusCommand(SNMPCommand):
         return command
 
     def get_command(self) -> str:
-        return 'SNMP/Synology/check_cpu_fan_status.py'
+        return 'snmp/Synology/check_cpu_fan_status.py'
 
     def get_specific_arguments(self):
         return ""

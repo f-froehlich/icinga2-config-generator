@@ -1,1 +1,1 @@
-SNMP/Synology/check_temperature.py
+snmp/Synology/check_temperature.py

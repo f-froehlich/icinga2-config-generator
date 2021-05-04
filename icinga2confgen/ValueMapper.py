@@ -80,3 +80,15 @@ class ValueMapper:
     def canonicalize_for_id(raw):
         allowed_chars = ['.', '_', '-']
         return ''.join(e for e in raw if e.isalnum() or e in allowed_chars)
+
+    @staticmethod
+    def replace_command_prefixes(name: str):
+        return name.replace('claudio_kuenzler_', '') \
+            .replace('hari_sekhon_nagios_plugins_', '') \
+            .replace('monitoring_plugins_snmp_powernet_mib_', '') \
+            .replace('monitoring_plugins_snmp_synology_', '') \
+            .replace('monitoring_plugins_snmp_ucd_diskio_', '') \
+            .replace('monitoring_plugins_snmp_ucd_snmp_mib_', '') \
+            .replace('monitoring_plugins_', '') \
+            .replace('nagios_plugins_', '') \
+            .replace('other_', '')

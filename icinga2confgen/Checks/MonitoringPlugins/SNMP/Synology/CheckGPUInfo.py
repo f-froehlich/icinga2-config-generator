@@ -39,7 +39,7 @@ T = typing.TypeVar('T', bound='CheckGPUInfo')
 class CheckGPUInfo(CheckSNMP):
 
     def __init__(self: T, id: str):
-        CheckSNMP.__init__(self, id, 'CheckGPUInfo', 'gpu_info')
+        CheckSNMP.__init__(self, id, 'CheckGPUInfo', 'monitoring_plugins_snmp_synology_gpu_info')
         self.add_service_group(ServiceGroup.create('synology'))
         self.add_service_group(ServiceGroup.create('system_health'))
 

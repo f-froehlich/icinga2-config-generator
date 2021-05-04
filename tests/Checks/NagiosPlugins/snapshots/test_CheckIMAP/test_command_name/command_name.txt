@@ -1,1 +1,1 @@
-imap
+nagios_plugins_imap

@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckSNMP(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckSNMP', 'snmp')
+        Check.__init__(self, id, 'CheckSNMP', 'nagios_plugins_snmp')
         self.__over_ipv4 = False
         self.__over_ipv6 = False
         self.__host = None

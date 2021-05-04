@@ -1,5 +1,5 @@
 object CheckCommand "command_instance_local" {
-  command = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_packs_attached.py"]
+  command = [ "$monitoring_plugin_dir$" + "/snmp/PowerNet_MIB/check_battery_packs_attached.py"]
   arguments = {
     "-u" = {
       value = "$command_snmp_username$"

@@ -51,7 +51,7 @@ class BatteryPacksAttachedCommand(SNMPCommand):
         return command
 
     def get_command(self: T) -> str:
-        return 'SNMP/PowerNet_MIB/check_battery_packs_attached.py'
+        return 'snmp/PowerNet_MIB/check_battery_packs_attached.py'
 
     def get_specific_arguments(self: T):
         return """

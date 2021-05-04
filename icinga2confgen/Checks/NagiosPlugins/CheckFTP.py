@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckFTP(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckFTP', 'ftp')
+        Check.__init__(self, id, 'CheckFTP', 'nagios_plugins_ftp')
         self.__host = None
         self.__port = 21
         self.__ipv4 = False

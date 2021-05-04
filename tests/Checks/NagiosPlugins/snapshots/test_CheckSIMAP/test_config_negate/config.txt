@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_simap_local_negate"
+check_command = "command_nagios_plugins_simap_local_negate"
 vars.command_simap_all = false
 vars.command_simap_cert = true
 vars.command_simap_cert_critical = 15

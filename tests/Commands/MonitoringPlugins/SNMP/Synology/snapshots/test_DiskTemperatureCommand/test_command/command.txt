@@ -1,1 +1,1 @@
-SNMP/Synology/check_disk_temperature.py
+snmp/Synology/check_disk_temperature.py

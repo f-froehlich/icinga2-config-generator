@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_procs_local_negate"
+check_command = "command_nagios_plugins_procs_local_negate"
 vars.command_procs_only_non_kernel = false
 vars.command_procs_timeout = 10
 vars.command_procs_traditional = false

@@ -1,0 +1,2 @@
+vars.command_temperature_critical = 45
+vars.command_temperature_warning = 35

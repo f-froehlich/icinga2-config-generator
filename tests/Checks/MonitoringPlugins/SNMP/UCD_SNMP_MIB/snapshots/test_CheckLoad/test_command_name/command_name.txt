@@ -1,1 +1,1 @@
-load
+monitoring_plugins_snmp_ucd_snmp_mib_load

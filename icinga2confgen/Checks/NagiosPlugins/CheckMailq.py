@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckMailq(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckMailq', 'mailq')
+        Check.__init__(self, id, 'CheckMailq', 'nagios_plugins_mailq')
         self.__warning = None
         self.__critical = None
         self.__warning_same_domain = None

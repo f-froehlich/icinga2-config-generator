@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckNTPTime(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckNTPTime', 'ntp_time')
+        Check.__init__(self, id, 'CheckNTPTime', 'nagios_plugins_ntp_time')
         self.__force_ipv4 = False
         self.__force_ipv6 = False
         self.__ntp_server = '0.pool.ntp.org'

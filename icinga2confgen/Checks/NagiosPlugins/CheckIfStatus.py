@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckIfStatus(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckIfStatus', 'ifstatus')
+        Check.__init__(self, id, 'CheckIfStatus', 'nagios_plugins_ifstatus')
         self.__host = None
         self.__port = 161
         self.__community = None

@@ -245,7 +245,7 @@ display_name = "Network"
 assign where "servicegroup_network" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_ping_ssh"
+check_command = "command_nagios_plugins_ping_ssh"
 vars.command_ping_address = "address"
 vars.command_ping_critical_average_time = 250
 vars.command_ping_critical_percent_lost = 10

@@ -1,1 +1,1 @@
-service_running
+monitoring_plugins_snmp_synology_service_running

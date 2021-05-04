@@ -40,7 +40,7 @@ T = typing.TypeVar('T', bound='CheckBatteryRemainingRuntime')
 class CheckBatteryRemainingRuntime(CheckSNMP):
 
     def __init__(self: T, id: str):
-        CheckSNMP.__init__(self, id, 'CheckBatteryRemainingRuntime', 'battery_remaining_runtime')
+        CheckSNMP.__init__(self, id, 'CheckBatteryRemainingRuntime', 'monitoring_plugins_snmp_powernet_mib_battery_remaining_runtime')
         self.add_service_group(ServiceGroup.create('ups'))
         self.add_service_group(ServiceGroup.create('system_health'))
 

@@ -661,7 +661,7 @@ display_name = "Network"
 assign where "servicegroup_network" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_snmp_ssh"
+check_command = "command_nagios_plugins_snmp_ssh"
 vars.command_snmp_host = "host"
 vars.command_snmp_invert = false
 vars.command_snmp_oids = "oid"

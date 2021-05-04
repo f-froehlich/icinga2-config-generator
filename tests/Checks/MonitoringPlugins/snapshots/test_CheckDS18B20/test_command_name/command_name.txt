@@ -1,1 +1,1 @@
-sensor_ds18b20
+monitoring_plugins_sensor_ds18b20

@@ -61,7 +61,7 @@ class CheckOpenPorts(NmapBase, NmapScanUDP, NmapScanTCP, NmapN, NmapSystemDns, N
                      NmapUnprivileged):
 
     def __init__(self, id: str):
-        NmapBase.__init__(self, id, 'CheckOpenPorts', 'open_ports')
+        NmapBase.__init__(self, id, 'CheckOpenPorts', 'monitoring_plugins_open_ports')
         NmapScanUDP.__init__(self, 'open_ports')
         NmapScanTCP.__init__(self, 'open_ports')
         NmapN.__init__(self, 'open_ports')

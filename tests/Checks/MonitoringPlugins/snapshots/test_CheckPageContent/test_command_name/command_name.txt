@@ -1,1 +1,1 @@
-page_content
+monitoring_plugins_page_content

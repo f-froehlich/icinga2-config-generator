@@ -1,1 +1,1 @@
-simap
+nagios_plugins_simap

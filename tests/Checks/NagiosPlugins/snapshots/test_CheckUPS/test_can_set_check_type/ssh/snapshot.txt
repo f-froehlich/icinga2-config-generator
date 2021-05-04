@@ -329,7 +329,7 @@ display_name = "System health"
 assign where "servicegroup_system_health" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_ups_ssh"
+check_command = "command_nagios_plugins_ups_ssh"
 vars.command_ups_host = "host"
 vars.command_ups_port = 3493
 vars.command_ups_temperature = true

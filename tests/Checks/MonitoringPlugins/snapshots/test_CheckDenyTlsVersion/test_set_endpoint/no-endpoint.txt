@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_deny_tls_version_local"
+check_command = "command_monitoring_plugins_deny_tls_version_local"
 vars.command_deny_tls_version_domain = "host"
 vars.command_deny_tls_version_protocol = "1.1"
 vars.groups += [

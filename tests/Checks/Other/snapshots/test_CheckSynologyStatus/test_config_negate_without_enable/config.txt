@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_synology_status_local"
+check_command = "command_other_synology_status_local"
 vars.command_synology_status_host = "host"
 vars.command_synology_status_ignore_update = false
 vars.command_synology_status_password = "pwd"

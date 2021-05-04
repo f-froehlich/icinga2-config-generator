@@ -1,1 +1,1 @@
-udp
+nagios_plugins_udp

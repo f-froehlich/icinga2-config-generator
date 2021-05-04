@@ -1,5 +1,5 @@
 object CheckCommand "command_instance_local_negate" {
-vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_gpu_info.py"]
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/snmp/Synology/check_gpu_info.py"]
 vars.realargs = {
 "-u" = {
 value = "$command_snmp_username$"

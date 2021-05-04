@@ -269,7 +269,7 @@ display_name = "System health"
 assign where "servicegroup_system_health" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_uptime_local_negate"
+check_command = "command_nagios_plugins_uptime_local_negate"
 vars.command_uptime_critical = "20"
 vars.command_uptime_warning = "10"
 vars.groups += [

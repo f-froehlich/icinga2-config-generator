@@ -1,1 +1,1 @@
-SNMP/Synology/check_raid_status.py
+snmp/Synology/check_raid_status.py

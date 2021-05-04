@@ -281,7 +281,7 @@ display_name = "temperature"
 assign where "servicegroup_temperature" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_sensor_ds18b20_ssh"
+check_command = "command_monitoring_plugins_sensor_ds18b20_ssh"
 vars.command_sensor_ds18b20_device = "device"
 vars.groups += [
 "servicegroup_temperature",

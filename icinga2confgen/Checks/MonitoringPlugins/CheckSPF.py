@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckSPF(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckSPF', 'spf')
+        Check.__init__(self, id, 'CheckSPF', 'monitoring_plugins_spf')
         self.__domain = None
         self.__expected = None
         self.__resolver = '1.1.1.1'

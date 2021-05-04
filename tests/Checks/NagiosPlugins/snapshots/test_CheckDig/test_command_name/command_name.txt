@@ -1,1 +1,1 @@
-dig
+nagios_plugins_dig

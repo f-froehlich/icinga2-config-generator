@@ -1,1 +1,1 @@
-radius
+nagios_plugins_radius

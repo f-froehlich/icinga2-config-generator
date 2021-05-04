@@ -50,7 +50,7 @@ class LoadCommand(SNMPCommand):
         return command
 
     def get_command(self: T) -> str:
-        return 'SNMP/UCD_DISKIO_MIB/check_load.py'
+        return 'snmp/UCD_DISKIO_MIB/check_load.py'
 
     def get_specific_arguments(self: T):
         return """

@@ -1,1 +1,1 @@
-nntps
+nagios_plugins_nntps

@@ -425,7 +425,7 @@ display_name = "Network"
 assign where "servicegroup_network" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_ntp_peer_local"
+check_command = "command_nagios_plugins_ntp_peer_local"
 vars.command_ntp_peer_force_ipv4 = false
 vars.command_ntp_peer_force_ipv6 = false
 vars.command_ntp_peer_ntp_server = "ntp_server"

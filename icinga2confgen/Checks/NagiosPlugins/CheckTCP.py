@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckTCP(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckTCP', 'tcp')
+        Check.__init__(self, id, 'CheckTCP', 'nagios_plugins_tcp')
         self.__host = None
         self.__port = None
         self.__ipv4 = False

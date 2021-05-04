@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckSSHDSecurity(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckSSHDSecurity', 'sshd_security')
+        Check.__init__(self, id, 'CheckSSHDSecurity', 'monitoring_plugins_sshd_security')
         self.__permit_root_login = None
         self.__public_key_auth = None
         self.__password_auth = None

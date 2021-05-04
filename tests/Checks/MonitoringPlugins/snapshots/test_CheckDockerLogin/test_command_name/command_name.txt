@@ -1,1 +1,1 @@
-docker_login
+monitoring_plugins_docker_login

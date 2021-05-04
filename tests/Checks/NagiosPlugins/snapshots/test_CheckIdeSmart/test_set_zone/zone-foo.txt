@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_ide_smart_local"
+check_command = "command_nagios_plugins_ide_smart_local"
 vars.groups += [
 "servicegroup_smart",
 "servicegroup_disk",

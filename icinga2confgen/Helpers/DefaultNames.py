@@ -22,6 +22,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
+from icinga2confgen.ValueMapper import ValueMapper
 
 
 def get_default_group_name(id: str) -> str:
@@ -133,6 +134,8 @@ def get_default_group_name(id: str) -> str:
         'webserver': 'Webserver',
         'wordpress': 'Wordpress',
     }
+
+    id = ValueMapper.replace_command_prefixes(id)
 
     return default_names.get(id, id.replace('_', ' '))
 
@@ -262,6 +265,9 @@ def get_default_check_name(id: str, command_name: str) -> str:
         'wheel_group_members': 'Sudoers (wheel) group members',
         'yum': 'YUM',
     }
+
+    id = ValueMapper.replace_command_prefixes(id)
+    command_name = ValueMapper.replace_command_prefixes(command_name)
 
     for name in default_names:
         if id.startswith(name + '_'):

@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckUsers(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckUsers', 'users')
+        Check.__init__(self, id, 'CheckUsers', 'nagios_plugins_users')
         self.__warning = 5
         self.__critical = 10
         self.add_service_group(ServiceGroup.create('user'))

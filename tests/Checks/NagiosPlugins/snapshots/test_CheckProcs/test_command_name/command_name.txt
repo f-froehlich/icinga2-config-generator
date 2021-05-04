@@ -1,1 +1,1 @@
-procs
+nagios_plugins_procs

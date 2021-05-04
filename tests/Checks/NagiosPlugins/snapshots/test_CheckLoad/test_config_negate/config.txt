@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_load_local_negate"
+check_command = "command_nagios_plugins_load_local_negate"
 vars.command_load_critical = "15,12,9"
 vars.command_load_percpu = true
 vars.command_load_warning = "10,8,6"

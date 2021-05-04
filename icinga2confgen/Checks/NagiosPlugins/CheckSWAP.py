@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckSWAP(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckSWAP', 'swap')
+        Check.__init__(self, id, 'CheckSWAP', 'nagios_plugins_swap')
         self.__warning = 30
         self.__critical = 15
         self.__allswaps = False

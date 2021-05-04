@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_ciphers_local"
+check_command = "command_monitoring_plugins_ciphers_local"
 vars.command_ciphers_ignore_cipher_name = false
 vars.command_ciphers_ignore_protocol_strength = false
 vars.command_ciphers_ignore_strength = false

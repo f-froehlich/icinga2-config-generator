@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_group_members_local_negate"
+check_command = "command_monitoring_plugins_group_members_local_negate"
 vars.command_group_members_group = "sudo"
 vars.groups += [
 "servicegroup_security",

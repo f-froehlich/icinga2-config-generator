@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckProcs(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckProcs', 'procs')
+        Check.__init__(self, id, 'CheckProcs', 'nagios_plugins_procs')
         self.__warning_range = None
         self.__critical_range = None
         self.__metric = None

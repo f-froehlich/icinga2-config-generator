@@ -1,1 +1,1 @@
-mysql_query
+nagios_plugins_mysql_query

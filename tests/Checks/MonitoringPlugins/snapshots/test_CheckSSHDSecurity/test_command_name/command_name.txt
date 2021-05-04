@@ -1,1 +1,1 @@
-sshd_security
+monitoring_plugins_sshd_security

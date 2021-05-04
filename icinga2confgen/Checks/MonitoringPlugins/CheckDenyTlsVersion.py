@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckDenyTlsVersion(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckDenyTlsVersion', 'deny_tls_version')
+        Check.__init__(self, id, 'CheckDenyTlsVersion', 'monitoring_plugins_deny_tls_version')
         self.__protocol = None
         self.__domain = None
         self.__address = None

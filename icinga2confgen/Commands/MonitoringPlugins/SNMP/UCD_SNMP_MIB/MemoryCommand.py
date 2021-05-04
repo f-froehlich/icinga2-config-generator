@@ -50,7 +50,7 @@ class MemoryCommand(SNMPCommand):
         return command
 
     def get_command(self: T) -> str:
-        return 'SNMP/UCD_DISKIO_MIB/check_memory.py'
+        return 'snmp/UCD_SNMP_MIB/check_memory.py'
 
     def get_specific_arguments(self: T):
         return """

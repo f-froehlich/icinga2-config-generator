@@ -50,12 +50,12 @@ class StorageIOCommand(SNMPCommand):
         return command
 
     def get_command(self: T) -> str:
-        return 'SNMP/Synology/check_storage_io.py'
+        return 'snmp/Synology/check_storage_io.py'
 
     def get_specific_arguments(self):
         return """
     "-d" = {
-      value = "$command_storage_io_disk"
+      value = "$command_storage_io_disk$"
       required = true
     }
     "-w" = {

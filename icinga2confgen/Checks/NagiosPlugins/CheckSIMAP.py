@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckSIMAP(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckSIMAP', 'simap')
+        Check.__init__(self, id, 'CheckSIMAP', 'nagios_plugins_simap')
         self.__host = None
         self.__port = None
         self.__ipv4 = False

@@ -1,1 +1,1 @@
-spop
+nagios_plugins_spop

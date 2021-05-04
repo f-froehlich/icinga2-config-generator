@@ -51,7 +51,7 @@ class BatteryStatusCommand(SNMPCommand):
         return command
 
     def get_command(self: T) -> str:
-        return 'SNMP/PowerNet_MIB/check_battery_status.py'
+        return 'snmp/PowerNet_MIB/check_battery_status.py'
 
     def get_specific_arguments(self: T):
         return ""

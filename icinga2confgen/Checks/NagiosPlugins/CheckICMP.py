@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckICMP(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckICMP', 'icmp')
+        Check.__init__(self, id, 'CheckICMP', 'nagios_plugins_icmp')
         self.__host = None
         self.__use_ipv4 = False
         self.__use_ipv6 = False

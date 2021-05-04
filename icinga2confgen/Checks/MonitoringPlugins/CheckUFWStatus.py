@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckUFWStatus(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckUFWStatus', 'ufw_status')
+        Check.__init__(self, id, 'CheckUFWStatus', 'monitoring_plugins_ufw_status')
         self.__status = None
         self.__warninactive = None
         self.__logging = None

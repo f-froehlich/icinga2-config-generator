@@ -1,1 +1,1 @@
-clamd
+nagios_plugins_clamd

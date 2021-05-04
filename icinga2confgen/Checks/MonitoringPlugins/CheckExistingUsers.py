@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckExistingUsers(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckExistingUsers', 'existing_users')
+        Check.__init__(self, id, 'CheckExistingUsers', 'monitoring_plugins_existing_users')
         self.__uid_min = None
         self.__uid_max = None
         self.__users = ["root"]

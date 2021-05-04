@@ -1,1 +1,1 @@
-ntp_time
+nagios_plugins_ntp_time

@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckLDAP(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckLDAP', 'ldap')
+        Check.__init__(self, id, 'CheckLDAP', 'nagios_plugins_ldap')
         self.__host = None
         self.__port = None
         self.__use_ipv4 = False

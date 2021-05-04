@@ -501,7 +501,7 @@ display_name = "Mail"
 assign where "servicegroup_mail" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_ssmtp_local_negate"
+check_command = "command_nagios_plugins_ssmtp_local_negate"
 vars.command_ssmtp_all = false
 vars.command_ssmtp_cert = true
 vars.command_ssmtp_cert_critical = 15

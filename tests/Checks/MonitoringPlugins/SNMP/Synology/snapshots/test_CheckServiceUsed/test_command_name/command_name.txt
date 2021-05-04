@@ -1,1 +1,1 @@
-service_used
+monitoring_plugins_snmp_synology_service_used

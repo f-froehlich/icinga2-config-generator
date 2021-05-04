@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckDummy(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckDummy', 'dummy')
+        Check.__init__(self, id, 'CheckDummy', 'nagios_plugins_dummy')
         self.__state = 1
         self.__text = ""
         self.set_check_interval('15m')

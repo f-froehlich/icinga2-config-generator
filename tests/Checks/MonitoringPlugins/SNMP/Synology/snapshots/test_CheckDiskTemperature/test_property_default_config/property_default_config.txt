@@ -1,1 +1,3 @@
+vars.command_disk_temperature_critical = 40
 vars.command_disk_temperature_disks = 22
+vars.command_disk_temperature_warning = 30

@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_sshd_security_local"
+check_command = "command_monitoring_plugins_sshd_security_local"
 vars.groups += [
 "servicegroup_security",
 "servicegroup_sshd",

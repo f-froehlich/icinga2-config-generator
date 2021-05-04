@@ -1,5 +1,5 @@
 object CheckCommand "command_instance_ssh_negate" {
-vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_storage_io.py"]
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/snmp/Synology/check_storage_io.py"]
 vars.realargs = {
 "-u" = {
 value = "$command_snmp_username$"
@@ -27,7 +27,7 @@ set_if = {{ macro("$command_snmp_community$") != false }}
 }
 
 "-d" = {
-value = "$command_storage_io_disk"
+value = "$command_storage_io_disk$"
 required = true
 }
 "-w" = {

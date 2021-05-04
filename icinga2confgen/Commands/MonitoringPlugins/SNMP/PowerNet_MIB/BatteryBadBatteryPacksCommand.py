@@ -51,7 +51,7 @@ class BatteryBadBatteryPacksCommand(SNMPCommand):
         return command
 
     def get_command(self: T) -> str:
-        return 'SNMP/PowerNet_MIB/check_battery_bad_battery_packs.py'
+        return 'snmp/PowerNet_MIB/check_battery_bad_battery_packs.py'
 
     def get_specific_arguments(self: T):
         return ""

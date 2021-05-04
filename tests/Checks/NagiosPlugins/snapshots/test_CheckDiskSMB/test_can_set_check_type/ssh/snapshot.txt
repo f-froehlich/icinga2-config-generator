@@ -345,7 +345,7 @@ display_name = "Disk"
 assign where "servicegroup_disk" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_disk_smb_ssh"
+check_command = "command_nagios_plugins_disk_smb_ssh"
 vars.command_disk_smb_critical = 95
 vars.command_disk_smb_ip = "ip"
 vars.command_disk_smb_password = "password"

@@ -40,7 +40,7 @@ T = typing.TypeVar('T', bound='CheckStorageIO')
 class CheckStorageIO(CheckSNMP):
 
     def __init__(self: T, id: str):
-        CheckSNMP.__init__(self, id, 'CheckStorageIO', 'storage_io')
+        CheckSNMP.__init__(self, id, 'CheckStorageIO', 'monitoring_plugins_snmp_synology_storage_io')
         self.add_service_group(ServiceGroup.create('synology'))
         self.add_service_group(ServiceGroup.create('system_health'))
 

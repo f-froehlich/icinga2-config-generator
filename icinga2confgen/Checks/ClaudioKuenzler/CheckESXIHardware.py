@@ -36,7 +36,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckESXIHardware(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckESXIHardware', 'esxi_hardware')
+        Check.__init__(self, id, 'CheckESXIHardware', 'claudio_kuenzler_esxi_hardware')
         self.__host: Union[str, None] = None
         self.__user: Union[str, None] = None
         self.__password: Union[str, None] = None

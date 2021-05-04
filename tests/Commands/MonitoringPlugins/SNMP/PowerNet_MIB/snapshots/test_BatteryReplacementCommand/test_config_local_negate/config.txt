@@ -1,5 +1,5 @@
 object CheckCommand "command_instance_local_negate" {
-vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_replacement.py"]
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/snmp/PowerNet_MIB/check_battery_replacement.py"]
 vars.realargs = {
 "-u" = {
 value = "$command_snmp_username$"

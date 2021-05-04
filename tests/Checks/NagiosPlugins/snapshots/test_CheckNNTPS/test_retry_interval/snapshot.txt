@@ -501,7 +501,7 @@ display_name = "Network"
 assign where "servicegroup_network" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_nntps_local"
+check_command = "command_nagios_plugins_nntps_local"
 vars.command_nntps_all = false
 vars.command_nntps_cert = true
 vars.command_nntps_cert_critical = 15

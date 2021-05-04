@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_sensors_local_negate"
+check_command = "command_nagios_plugins_sensors_local_negate"
 vars.groups += [
 "servicegroup_sensors",
 "servicegroup_system_health",

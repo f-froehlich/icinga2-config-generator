@@ -1,5 +1,5 @@
 object CheckCommand "command_instance_local" {
-  command = [ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_space_io.py"]
+  command = [ "$monitoring_plugin_dir$" + "/snmp/Synology/check_space_io.py"]
   arguments = {
     "-u" = {
       value = "$command_snmp_username$"

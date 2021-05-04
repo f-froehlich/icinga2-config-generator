@@ -1,1 +1,1 @@
-breeze
+nagios_plugins_breeze

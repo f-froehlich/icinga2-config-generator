@@ -39,14 +39,14 @@ T = typing.TypeVar('T', bound='CheckDiskTemperature')
 class CheckDiskTemperature(CheckSNMP):
 
     def __init__(self: T, id: str):
-        CheckSNMP.__init__(self, id, 'CheckDiskTemperature', 'disk_temperature')
+        CheckSNMP.__init__(self, id, 'CheckDiskTemperature', 'monitoring_plugins_snmp_synology_disk_temperature')
         self.add_service_group(ServiceGroup.create('synology'))
         self.add_service_group(ServiceGroup.create('system_health'))
         self.add_service_group(ServiceGroup.create('disk'))
 
         self.__disks: Union[int, None] = None
-        self.__warning: Union[int, None] = None
-        self.__critical: Union[int, None] = None
+        self.__warning: Union[int, None] = 30
+        self.__critical: Union[int, None] = 40
 
     def set_disks(self: T, number: int) -> T:
         self.__disks = number
@@ -73,6 +73,10 @@ class CheckDiskTemperature(CheckSNMP):
         CheckSNMP.validate(self)
         if self.__disks is None:
             raise Exception('You have to set the number of disks!')
+        if self.__warning is None:
+            raise Exception('You have to set a warning temperature!')
+        if self.__critical is None:
+            raise Exception('You have to set a critical temperature!')
 
     @staticmethod
     def create(id: str, force_create: bool = False) -> T:

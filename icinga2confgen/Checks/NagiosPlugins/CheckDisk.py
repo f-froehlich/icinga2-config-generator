@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckDisk(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckDisk', 'disk')
+        Check.__init__(self, id, 'CheckDisk', 'nagios_plugins_disk')
         self.__warning = '20%'
         self.__critical = '10%'
         self.__inode_warning = 20

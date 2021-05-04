@@ -1,1 +1,1 @@
-power_status
+monitoring_plugins_snmp_synology_power_status

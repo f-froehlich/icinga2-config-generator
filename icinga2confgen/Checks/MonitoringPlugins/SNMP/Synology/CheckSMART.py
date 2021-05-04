@@ -39,7 +39,7 @@ T = typing.TypeVar('T', bound='CheckSMART')
 class CheckSMART(CheckSNMP):
 
     def __init__(self: T, id: str):
-        CheckSNMP.__init__(self, id, 'CheckSMART', 'smart')
+        CheckSNMP.__init__(self, id, 'CheckSMART', 'monitoring_plugins_snmp_synology_smart')
         self.add_service_group(ServiceGroup.create('synology'))
         self.add_service_group(ServiceGroup.create('system_health'))
         self.add_service_group(ServiceGroup.create('disk'))

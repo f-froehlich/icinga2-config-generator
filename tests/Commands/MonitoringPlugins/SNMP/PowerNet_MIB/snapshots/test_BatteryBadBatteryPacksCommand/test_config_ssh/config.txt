@@ -1,5 +1,5 @@
 object CheckCommand "command_instance_ssh" {
-  vars.sshcmd = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_bad_battery_packs.py"]
+  vars.sshcmd = [ "$monitoring_plugin_dir$" + "/snmp/PowerNet_MIB/check_battery_bad_battery_packs.py"]
   vars.sshargs = {
     "-u" = {
       value = "$command_snmp_username$"

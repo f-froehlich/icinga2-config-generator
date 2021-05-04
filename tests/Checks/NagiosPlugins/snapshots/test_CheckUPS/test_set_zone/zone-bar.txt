@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_ups_local"
+check_command = "command_nagios_plugins_ups_local"
 vars.command_ups_host = "host"
 vars.command_ups_port = 3493
 vars.command_ups_temperature = true

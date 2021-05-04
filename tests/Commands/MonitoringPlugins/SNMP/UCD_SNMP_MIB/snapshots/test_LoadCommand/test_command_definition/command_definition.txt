@@ -1,1 +1,1 @@
-[ "$monitoring_plugin_dir$" + "/SNMP/UCD_DISKIO_MIB/check_load.py"]
+[ "$monitoring_plugin_dir$" + "/snmp/UCD_DISKIO_MIB/check_load.py"]

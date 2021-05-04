@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckApt(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckApt', 'apt')
+        Check.__init__(self, id, 'CheckApt', 'nagios_plugins_apt')
         self.__timeout = 10
         self.__upgrade = None
         self.__dist_upgrade = None

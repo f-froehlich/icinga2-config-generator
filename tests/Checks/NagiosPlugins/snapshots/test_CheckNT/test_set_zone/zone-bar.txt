@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_nt_local"
+check_command = "command_nagios_plugins_nt_local"
 vars.command_nt_host = "host"
 vars.command_nt_variable = "variable"
 vars.groups += [

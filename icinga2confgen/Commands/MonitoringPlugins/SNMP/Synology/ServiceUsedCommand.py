@@ -50,7 +50,7 @@ class ServiceUsedCommand(SNMPCommand):
         return command
 
     def get_command(self: T) -> str:
-        return 'SNMP/Synology/check_service_used.py'
+        return 'snmp/Synology/check_service_used.py'
 
     def get_specific_arguments(self: T):
         return """

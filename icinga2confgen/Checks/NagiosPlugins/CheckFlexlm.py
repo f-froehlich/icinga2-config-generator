@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckFlexlm(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckFlexlm', 'flexlm')
+        Check.__init__(self, id, 'CheckFlexlm', 'nagios_plugins_flexlm')
         self.__file = None
         self.__timeout = 10
         self.add_service_group(ServiceGroup.create('flexlm'))

@@ -1,1 +1,1 @@
-SNMP/Synology/check_space_io.py
+snmp/Synology/check_space_io.py

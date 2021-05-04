@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckRebootRequired(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckRebootRequired', 'reboot_required')
+        Check.__init__(self, id, 'CheckRebootRequired', 'monitoring_plugins_reboot_required')
         self.__exit_critical = False
         self.set_check_interval('15m')
         self.add_service_group(ServiceGroup.create('reboot'))

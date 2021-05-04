@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckYum(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckYum', 'yum')
+        Check.__init__(self, id, 'CheckYum', 'hari_sekhon_nagios_plugins_yum')
         self.__timeout = 30
         self.__all_updates = False
         self.__warn_any_update = True

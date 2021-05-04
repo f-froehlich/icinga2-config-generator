@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckIMAP(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckIMAP', 'imap')
+        Check.__init__(self, id, 'CheckIMAP', 'nagios_plugins_imap')
         self.__host = None
         self.__port = None
         self.__ipv4 = False

@@ -501,7 +501,7 @@ display_name = "Mail"
 assign where "servicegroup_mail" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_simap_local"
+check_command = "command_nagios_plugins_simap_local"
 vars.command_simap_all = false
 vars.command_simap_cert = true
 vars.command_simap_cert_critical = 15

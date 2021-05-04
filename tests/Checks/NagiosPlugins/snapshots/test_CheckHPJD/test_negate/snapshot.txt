@@ -261,7 +261,7 @@ display_name = "HP JD"
 assign where "servicegroup_hpjd" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_hpjd_local_negate"
+check_command = "command_nagios_plugins_hpjd_local_negate"
 vars.command_hpjd_host = "host"
 vars.command_hpjd_paper_check = false
 vars.groups += [

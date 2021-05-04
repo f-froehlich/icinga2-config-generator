@@ -40,20 +40,20 @@ T = typing.TypeVar('T', bound='CheckLoad')
 class CheckLoad(CheckSNMP):
 
     def __init__(self: T, id: str):
-        CheckSNMP.__init__(self, id, 'CheckLoad', 'load')
+        CheckSNMP.__init__(self, id, 'CheckLoad', 'monitoring_plugins_snmp_ucd_diskio_load')
         self.add_service_group(ServiceGroup.create('disk'))
         self.add_service_group(ServiceGroup.create('system_health'))
 
-        self.__disk: Union[int, None] = None
+        self.__disks: Union[int, None] = None
         self.__warning: Union[str, None] = None
         self.__critical: Union[str, None] = None
 
-    def set_disk(self: T, number: int) -> T:
-        self.__disk = number
+    def set_disks(self: T, number: int) -> T:
+        self.__disks = number
         return self
 
-    def get_disk(self: T) -> Union[int, None]:
-        return self.__disk
+    def get_disks(self: T) -> Union[int, None]:
+        return self.__disks
 
     def set_warning(self: T, load1: int, load5: int, load15: int) -> T:
         self.__warning = str(f"{load1},{load5},{load15}")
@@ -77,7 +77,7 @@ class CheckLoad(CheckSNMP):
 
     def validate(self: T):
         CheckSNMP.validate(self)
-        if self.__disk is None:
+        if self.__disks is None:
             raise Exception('You have to set the number of disks!')
 
     @staticmethod

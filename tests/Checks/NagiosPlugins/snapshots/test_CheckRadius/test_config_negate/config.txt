@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_radius_local_negate"
+check_command = "command_nagios_plugins_radius_local_negate"
 vars.command_radius_config_file = "config_file"
 vars.command_radius_host = "host"
 vars.command_radius_password = "password"

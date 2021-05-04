@@ -1,1 +1,1 @@
-disk_smb
+nagios_plugins_disk_smb

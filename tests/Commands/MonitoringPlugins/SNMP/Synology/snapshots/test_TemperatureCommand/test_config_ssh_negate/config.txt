@@ -1,5 +1,5 @@
 object CheckCommand "command_instance_ssh_negate" {
-vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_temperature.py"]
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/snmp/Synology/check_temperature.py"]
 vars.realargs = {
 "-u" = {
 value = "$command_snmp_username$"

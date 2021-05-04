@@ -1,1 +1,1 @@
-ldaps
+nagios_plugins_ldaps

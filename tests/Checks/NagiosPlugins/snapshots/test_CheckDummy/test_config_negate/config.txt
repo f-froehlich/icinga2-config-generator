@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_dummy_local_negate"
+check_command = "command_nagios_plugins_dummy_local_negate"
 vars.command_dummy_state = 1
 vars.command_dummy_text = ""
 vars.groups += [

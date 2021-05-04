@@ -1,1 +1,1 @@
-ping
+nagios_plugins_ping

@@ -1,1 +1,1 @@
-ntp_peer
+nagios_plugins_ntp_peer

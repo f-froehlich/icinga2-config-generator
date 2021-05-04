@@ -1,1 +1,1 @@
-flexlm
+nagios_plugins_flexlm

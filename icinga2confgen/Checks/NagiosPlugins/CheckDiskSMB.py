@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckDiskSMB(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckDiskSMB', 'disk_smb')
+        Check.__init__(self, id, 'CheckDiskSMB', 'nagios_plugins_disk_smb')
         self.__host = None
         self.__warning = 85
         self.__critical = 95

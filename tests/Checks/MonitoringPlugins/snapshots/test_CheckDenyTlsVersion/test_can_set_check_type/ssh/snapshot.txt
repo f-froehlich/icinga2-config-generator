@@ -257,7 +257,7 @@ display_name = "TLS"
 assign where "servicegroup_tls" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_deny_tls_version_ssh"
+check_command = "command_monitoring_plugins_deny_tls_version_ssh"
 vars.command_deny_tls_version_domain = "host"
 vars.command_deny_tls_version_protocol = "1.1"
 vars.groups += [

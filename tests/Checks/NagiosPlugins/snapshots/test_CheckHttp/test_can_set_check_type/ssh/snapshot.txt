@@ -737,7 +737,7 @@ display_name = "Webserver"
 assign where "servicegroup_webserver" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_http_ssh"
+check_command = "command_nagios_plugins_http_ssh"
 vars.command_http_authorization = false
 vars.command_http_certificate = false
 vars.command_http_certificate_critical_days = 15

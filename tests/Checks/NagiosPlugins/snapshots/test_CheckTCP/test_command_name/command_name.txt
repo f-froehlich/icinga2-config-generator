@@ -1,1 +1,1 @@
-tcp
+nagios_plugins_tcp

@@ -39,14 +39,14 @@ T = typing.TypeVar('T', bound='CheckRAIDStatus')
 class CheckRAIDStatus(CheckSNMP):
 
     def __init__(self: T, id: str):
-        CheckSNMP.__init__(self, id, 'CheckRAIDStatus', 'raid_status')
+        CheckSNMP.__init__(self, id, 'CheckRAIDStatus', 'monitoring_plugins_snmp_synology_raid_status')
         self.add_service_group(ServiceGroup.create('synology'))
         self.add_service_group(ServiceGroup.create('system_health'))
         self.add_service_group(ServiceGroup.create('disk'))
 
         self.__raids: Union[int, None] = None
-        self.__warning: Union[int, None] = None
-        self.__critical: Union[int, None] = None
+        self.__warning: Union[int, None] = 80
+        self.__critical: Union[int, None] = 90
 
     def set_raids(self: T, number: int) -> T:
         self.__raids = number
@@ -73,6 +73,11 @@ class CheckRAIDStatus(CheckSNMP):
         CheckSNMP.validate(self)
         if self.__raids is None:
             raise Exception('You have to set the number of raids!')
+
+        if self.__warning is None:
+            raise Exception('You have to set a warning disk space!')
+        if self.__critical is None:
+            raise Exception('You have to set a critical disk space!')
 
     @staticmethod
     def create(id: str, force_create: bool = False) -> T:

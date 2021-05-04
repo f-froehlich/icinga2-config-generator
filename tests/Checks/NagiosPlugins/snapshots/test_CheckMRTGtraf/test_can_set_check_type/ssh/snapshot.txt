@@ -277,7 +277,7 @@ display_name = "MRT graf"
 assign where "servicegroup_mrt_gtraf" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_mrt_gtraf_ssh"
+check_command = "command_nagios_plugins_mrt_gtraf_ssh"
 vars.command_mrt_gtraf_aggregation = "aggregation"
 vars.command_mrt_gtraf_critical = "40"
 vars.command_mrt_gtraf_file = "file"

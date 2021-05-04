@@ -1,1 +1,1 @@
-pgsql
+nagios_plugins_pgsql

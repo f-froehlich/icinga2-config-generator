@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_rpc_local_negate"
+check_command = "command_nagios_plugins_rpc_local_negate"
 vars.command_rpc_command = "command"
 vars.command_rpc_host = "host"
 vars.groups += [

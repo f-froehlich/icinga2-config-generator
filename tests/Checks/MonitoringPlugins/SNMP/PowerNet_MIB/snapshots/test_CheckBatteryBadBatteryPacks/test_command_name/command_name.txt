@@ -1,1 +1,1 @@
-battery_bad_battery_packs
+monitoring_plugins_snmp_powernet_mib_battery_bad_battery_packs

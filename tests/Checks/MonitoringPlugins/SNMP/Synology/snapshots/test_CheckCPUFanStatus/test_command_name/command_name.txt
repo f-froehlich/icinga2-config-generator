@@ -1,1 +1,1 @@
-cpu_fan_status
+monitoring_plugins_snmp_synology_cpu_fan_status

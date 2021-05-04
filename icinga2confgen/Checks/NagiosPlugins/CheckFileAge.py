@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckFileAge(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckFileAge', 'file_age')
+        Check.__init__(self, id, 'CheckFileAge', 'nagios_plugins_file_age')
         self.__file = None
         self.__warning_seconds = None
         self.__critical_seconds = None

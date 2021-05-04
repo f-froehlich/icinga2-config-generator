@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_tcp_local_negate"
+check_command = "command_nagios_plugins_tcp_local_negate"
 vars.command_tcp_all = false
 vars.command_tcp_cert = true
 vars.command_tcp_cert_critical = 15

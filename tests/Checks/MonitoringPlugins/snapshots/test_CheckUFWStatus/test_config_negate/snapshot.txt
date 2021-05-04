@@ -341,7 +341,7 @@ display_name = "Firewall"
 assign where "servicegroup_firewall" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_ufw_status_local_negate"
+check_command = "command_monitoring_plugins_ufw_status_local_negate"
 vars.groups += [
 "servicegroup_security",
 "servicegroup_ufw",

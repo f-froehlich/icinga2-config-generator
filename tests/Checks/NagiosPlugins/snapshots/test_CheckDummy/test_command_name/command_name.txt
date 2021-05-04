@@ -1,1 +1,1 @@
-dummy
+nagios_plugins_dummy

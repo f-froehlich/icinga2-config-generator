@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_nntp_local_negate"
+check_command = "command_nagios_plugins_nntp_local_negate"
 vars.command_nntp_all = false
 vars.command_nntp_cert = true
 vars.command_nntp_cert_critical = 15

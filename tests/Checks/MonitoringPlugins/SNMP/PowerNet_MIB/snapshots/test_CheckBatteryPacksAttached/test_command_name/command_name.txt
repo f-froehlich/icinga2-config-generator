@@ -1,1 +1,1 @@
-battery_packs_attached
+monitoring_plugins_snmp_powernet_mib_battery_packs_attached

@@ -1,1 +1,1 @@
-ftp
+nagios_plugins_ftp

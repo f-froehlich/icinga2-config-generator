@@ -449,7 +449,7 @@ display_name = "LDAP"
 assign where "servicegroup_ldap" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_ldap_local_negate"
+check_command = "command_nagios_plugins_ldap_local_negate"
 vars.command_ldap_base = "base"
 vars.command_ldap_host = "host"
 vars.command_ldap_protocol_v2 = false

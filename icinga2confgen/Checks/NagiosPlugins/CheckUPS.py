@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckUPS(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckUPS', 'ups')
+        Check.__init__(self, id, 'CheckUPS', 'nagios_plugins_ups')
         self.__host = None
         self.__port = 3493
         self.__ups = None

@@ -1,1 +1,1 @@
-log
+nagios_plugins_log

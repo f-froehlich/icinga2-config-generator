@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_ifstatus_local"
+check_command = "command_nagios_plugins_ifstatus_local"
 vars.command_ifstatus_community = "community"
 vars.command_ifstatus_host = "host"
 vars.command_ifstatus_if_mib = false

@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_pgsql_local_negate"
+check_command = "command_nagios_plugins_pgsql_local_negate"
 vars.command_pgsql_port = 5432
 vars.command_pgsql_timeout = 10
 vars.groups += [

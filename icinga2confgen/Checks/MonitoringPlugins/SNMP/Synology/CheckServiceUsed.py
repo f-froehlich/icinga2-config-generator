@@ -39,7 +39,7 @@ T = typing.TypeVar('T', bound='CheckServiceUsed')
 class CheckServiceUsed(CheckSNMP):
 
     def __init__(self: T, id: str):
-        CheckSNMP.__init__(self, id, 'CheckServiceUsed', 'service_used')
+        CheckSNMP.__init__(self, id, 'CheckServiceUsed', 'monitoring_plugins_snmp_synology_service_used')
         self.add_service_group(ServiceGroup.create('synology'))
         self.add_service_group(ServiceGroup.create('system_health'))
 
@@ -47,8 +47,9 @@ class CheckServiceUsed(CheckSNMP):
         self.__warning: Union[int, None] = None
         self.__critical: Union[int, None] = None
 
-    def set_service(self: T, service: str):
+    def set_service(self: T, service: str) -> T:
         self.__service = service
+        return self
 
     def get_service(self: T) -> Union[str, None]:
         return self.__service

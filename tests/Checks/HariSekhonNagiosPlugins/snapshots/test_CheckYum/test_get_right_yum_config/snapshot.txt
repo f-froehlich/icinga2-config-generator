@@ -329,7 +329,7 @@ display_name = "YUM"
 assign where "servicegroup_yum" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_yum_local"
+check_command = "command_hari_sekhon_nagios_plugins_yum_local"
 vars.command_yum_all_updates = false
 vars.command_yum_cache_only = false
 vars.command_yum_config = "yum_config"

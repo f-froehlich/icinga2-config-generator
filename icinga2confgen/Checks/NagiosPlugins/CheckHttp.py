@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckHttp(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckHttp', 'http')
+        Check.__init__(self, id, 'CheckHttp', 'nagios_plugins_http')
         self.__vhost = None
         self.__ip = None
         self.__port = None

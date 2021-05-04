@@ -1,1 +1,1 @@
-group_members
+monitoring_plugins_group_members

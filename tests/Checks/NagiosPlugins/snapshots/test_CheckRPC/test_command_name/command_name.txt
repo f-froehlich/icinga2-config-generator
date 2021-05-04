@@ -1,1 +1,1 @@
-rpc
+nagios_plugins_rpc

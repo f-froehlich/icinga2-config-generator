@@ -1,1 +1,1 @@
-[ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_temperature.py"]
+[ "$monitoring_plugin_dir$" + "/snmp/PowerNet_MIB/check_battery_temperature.py"]

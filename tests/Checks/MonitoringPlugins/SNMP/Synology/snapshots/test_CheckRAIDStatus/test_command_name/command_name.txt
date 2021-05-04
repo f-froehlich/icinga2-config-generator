@@ -1,1 +1,1 @@
-raid_status
+monitoring_plugins_snmp_synology_raid_status

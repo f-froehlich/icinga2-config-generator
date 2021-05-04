@@ -32,15 +32,17 @@ from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.Helpers import DefaultNames
 from icinga2confgen.Helpers.Checkable import Checkable
+from icinga2confgen.Helpers.PluginDirs import PluginDirs
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
 T = typing.TypeVar('T', bound='Check')
 
-class Check(Checkable):
+class Check(Checkable, PluginDirs):
 
     def __init__(self: T, id: str, class_name: str, command_name: str):
         Checkable.__init__(self)
+        PluginDirs.__init__(self, True)
         self.__command_name = command_name
         self.__class_name = class_name
         self.__id = id
@@ -112,6 +114,7 @@ class Check(Checkable):
         config += self.get_custom_config()
         config += self.get_group_config()
         config += Checkable.get_config(self)
+        config += PluginDirs.get_config(self)
         config += '  assign where "' + self.get_id() + '" in host.vars.checks\n'
         config += '}\n'
 
@@ -130,7 +133,12 @@ class Check(Checkable):
 
     def get_property_default_config(self: T) -> str:
 
-        return ValueMapper.get_property_default_config(self, self.__class_name, self.__command_name, 'command')
+        return ValueMapper.get_property_default_config(
+            self,
+            self.__class_name,
+            ValueMapper.replace_command_prefixes(self.__command_name),
+            'command'
+        )
 
     def get_custom_config(self: T) -> str:
         return ''

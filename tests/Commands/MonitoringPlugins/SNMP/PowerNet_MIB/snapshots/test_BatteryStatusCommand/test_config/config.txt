@@ -1,5 +1,5 @@
 object CheckCommand "command_instance_local" {
-command = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_status.py"]
+command = [ "$monitoring_plugin_dir$" + "/snmp/PowerNet_MIB/check_battery_status.py"]
 arguments = {
 "-u" = {
 value = "$command_snmp_username$"
@@ -30,7 +30,7 @@ set_if = {{ macro("$command_snmp_community$") != false }}
 
 }
 object CheckCommand "command_instance_local_negate" {
-vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_status.py"]
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/snmp/PowerNet_MIB/check_battery_status.py"]
 vars.realargs = {
 "-u" = {
 value = "$command_snmp_username$"
@@ -105,7 +105,7 @@ order = 99
 command = ["$nagios_plugin_dir$" + "/negate"]
 }
 object CheckCommand "command_instance_ssh" {
-vars.sshcmd = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_status.py"]
+vars.sshcmd = [ "$monitoring_plugin_dir$" + "/snmp/PowerNet_MIB/check_battery_status.py"]
 vars.sshargs = {
 "-u" = {
 value = "$command_snmp_username$"
@@ -157,7 +157,7 @@ return escaped_args.join(" ")
 
 }
 object CheckCommand "command_instance_ssh_negate" {
-vars.realcmd = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_battery_status.py"]
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/snmp/PowerNet_MIB/check_battery_status.py"]
 vars.realargs = {
 "-u" = {
 value = "$command_snmp_username$"

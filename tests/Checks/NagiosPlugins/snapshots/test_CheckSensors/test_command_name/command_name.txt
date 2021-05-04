@@ -1,1 +1,1 @@
-sensors
+nagios_plugins_sensors

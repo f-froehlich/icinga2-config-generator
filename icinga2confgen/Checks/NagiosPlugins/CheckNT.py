@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckNT(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckNT', 'nt')
+        Check.__init__(self, id, 'CheckNT', 'nagios_plugins_nt')
         self.__host = None
         self.__warning = None
         self.__critical = None

@@ -1,1 +1,1 @@
-swap
+nagios_plugins_swap

@@ -1,1 +1,1 @@
-icmp
+nagios_plugins_icmp

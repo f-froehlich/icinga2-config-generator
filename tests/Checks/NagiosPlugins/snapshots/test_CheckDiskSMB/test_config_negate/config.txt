@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_disk_smb_local_negate"
+check_command = "command_nagios_plugins_disk_smb_local_negate"
 vars.command_disk_smb_critical = 95
 vars.command_disk_smb_ip = "ip"
 vars.command_disk_smb_password = "password"

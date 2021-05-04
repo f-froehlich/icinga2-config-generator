@@ -1,1 +1,1 @@
-nt
+nagios_plugins_nt

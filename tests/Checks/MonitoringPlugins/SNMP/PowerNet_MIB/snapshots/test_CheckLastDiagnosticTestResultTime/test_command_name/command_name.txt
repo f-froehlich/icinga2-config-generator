@@ -1,1 +1,1 @@
-last_diagnostic_test_result_time
+monitoring_plugins_snmp_powernet_mib_last_diagnostic_test_result_time

@@ -1397,7 +1397,7 @@ display_name = "Ciphers"
 assign where "servicegroup_ciphers" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_ciphers_local_negate"
+check_command = "command_monitoring_plugins_ciphers_local_negate"
 vars.command_ciphers_ignore_cipher_name = false
 vars.command_ciphers_ignore_protocol_strength = false
 vars.command_ciphers_ignore_strength = false

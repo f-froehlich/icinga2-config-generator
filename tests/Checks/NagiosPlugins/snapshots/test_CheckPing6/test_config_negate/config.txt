@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_ping_local_negate"
+check_command = "command_nagios_plugins_ping_local_negate"
 vars.command_ping_address = "address"
 vars.command_ping_critical_average_time = 250
 vars.command_ping_critical_percent_lost = 10

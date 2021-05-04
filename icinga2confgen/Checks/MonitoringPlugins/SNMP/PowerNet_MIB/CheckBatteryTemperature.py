@@ -40,7 +40,7 @@ T = typing.TypeVar('T', bound='CheckBatteryTemperature')
 class CheckBatteryTemperature(CheckSNMP):
 
     def __init__(self: T, id: str):
-        CheckSNMP.__init__(self, id, 'CheckBatteryTemperature', 'battery_temperature')
+        CheckSNMP.__init__(self, id, 'CheckBatteryTemperature', 'monitoring_plugins_snmp_powernet_mib_battery_temperature')
         self.add_service_group(ServiceGroup.create('ups'))
         self.add_service_group(ServiceGroup.create('system_health'))
 

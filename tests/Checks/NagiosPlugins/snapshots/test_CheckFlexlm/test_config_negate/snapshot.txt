@@ -233,7 +233,7 @@ display_name = "Flexlm"
 assign where "servicegroup_flexlm" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_flexlm_local_negate"
+check_command = "command_nagios_plugins_flexlm_local_negate"
 vars.command_flexlm_file = "file"
 vars.command_flexlm_timeout = 10
 vars.groups += [

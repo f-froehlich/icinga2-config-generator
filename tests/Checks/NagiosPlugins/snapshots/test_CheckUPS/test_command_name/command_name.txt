@@ -1,1 +1,1 @@
-ups
+nagios_plugins_ups

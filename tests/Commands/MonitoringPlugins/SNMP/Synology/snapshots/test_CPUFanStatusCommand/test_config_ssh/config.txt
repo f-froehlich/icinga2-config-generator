@@ -1,5 +1,5 @@
 object CheckCommand "command_instance_ssh" {
-  vars.sshcmd = [ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_cpu_fan_status.py"]
+  vars.sshcmd = [ "$monitoring_plugin_dir$" + "/snmp/Synology/check_cpu_fan_status.py"]
   vars.sshargs = {
     "-u" = {
       value = "$command_snmp_username$"

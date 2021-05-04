@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckDHCP(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckDHCP', 'dhcp')
+        Check.__init__(self, id, 'CheckDHCP', 'nagios_plugins_dhcp')
         self.__server = None
         self.__requested_ip = None
         self.__timeout = 10

@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_jabber_local_negate"
+check_command = "command_nagios_plugins_jabber_local_negate"
 vars.command_jabber_all = false
 vars.command_jabber_cert = true
 vars.command_jabber_cert_critical = 15

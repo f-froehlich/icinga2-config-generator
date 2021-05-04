@@ -361,7 +361,7 @@ display_name = "RADIUS"
 assign where "servicegroup_radius" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_radius_ssh"
+check_command = "command_nagios_plugins_radius_ssh"
 vars.command_radius_config_file = "config_file"
 vars.command_radius_host = "host"
 vars.command_radius_password = "password"

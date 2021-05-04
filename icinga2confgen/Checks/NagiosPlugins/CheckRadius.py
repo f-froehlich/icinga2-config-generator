@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckRadius(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckRadius', 'radius')
+        Check.__init__(self, id, 'CheckRadius', 'nagios_plugins_radius')
         self.__host = None
         self.__port = 1645
         self.__username = None

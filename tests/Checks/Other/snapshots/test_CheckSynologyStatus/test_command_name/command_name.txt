@@ -1,1 +1,1 @@
-synology_status
+other_synology_status

@@ -38,7 +38,7 @@ T = typing.TypeVar('T', bound='CheckBatteryStatus')
 class CheckBatteryStatus(CheckSNMP):
 
     def __init__(self: T, id: str):
-        CheckSNMP.__init__(self, id, 'CheckBatteryStatus', 'battery_status')
+        CheckSNMP.__init__(self, id, 'CheckBatteryStatus', 'monitoring_plugins_snmp_powernet_mib_battery_status')
         self.add_service_group(ServiceGroup.create('ups'))
         self.add_service_group(ServiceGroup.create('system_health'))
 

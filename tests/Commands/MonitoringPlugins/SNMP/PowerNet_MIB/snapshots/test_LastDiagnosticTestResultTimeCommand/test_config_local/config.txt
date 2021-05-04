@@ -1,5 +1,5 @@
 object CheckCommand "command_instance_local" {
-  command = [ "$monitoring_plugin_dir$" + "/SNMP/PowerNet_MIB/check_last_diagnostic_test_result_time.py"]
+  command = [ "$monitoring_plugin_dir$" + "/snmp/PowerNet_MIB/check_last_diagnostic_test_result_time.py"]
   arguments = {
     "-u" = {
       value = "$command_snmp_username$"

@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckIdeSmart(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckIdeSmart', 'ide_smart')
+        Check.__init__(self, id, 'CheckIdeSmart', 'nagios_plugins_ide_smart')
         self.__device = None
         self.set_check_interval('24h')
         self.add_service_group(ServiceGroup.create('smart'))

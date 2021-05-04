@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckLog(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckLog', 'log')
+        Check.__init__(self, id, 'CheckLog', 'nagios_plugins_log')
         self.__file = None
         self.__oldfile = None
         self.__query = None

@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckUptime(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckUptime', 'uptime')
+        Check.__init__(self, id, 'CheckUptime', 'nagios_plugins_uptime')
         self.__warning = None
         self.__critical = None
         self.__for = None

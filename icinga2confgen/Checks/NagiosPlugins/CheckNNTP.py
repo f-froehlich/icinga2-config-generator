@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckNNTP(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckNNTP', 'nntp')
+        Check.__init__(self, id, 'CheckNNTP', 'nagios_plugins_nntp')
         self.__host = None
         self.__port = None
         self.__ipv4 = False

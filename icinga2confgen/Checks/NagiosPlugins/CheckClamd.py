@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckClamd(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckClamd', 'clamd')
+        Check.__init__(self, id, 'CheckClamd', 'nagios_plugins_clamd')
         self.__host = None
         self.__port = None
         self.__ipv4 = False

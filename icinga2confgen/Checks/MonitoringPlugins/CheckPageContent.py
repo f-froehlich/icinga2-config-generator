@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckPageContent(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckPageContent', 'page_content')
+        Check.__init__(self, id, 'CheckPageContent', 'monitoring_plugins_page_content')
         self.__ok = None
         self.__warning = None
         self.__critical = None

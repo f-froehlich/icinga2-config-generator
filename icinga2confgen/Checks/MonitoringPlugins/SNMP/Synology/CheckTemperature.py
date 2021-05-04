@@ -25,7 +25,6 @@
 from __future__ import annotations
 
 import typing
-from ctypes import Union
 
 from icinga2confgen.Checks.MonitoringPlugins.SNMP.CheckSNMP import CheckSNMP
 from icinga2confgen.Commands.MonitoringPlugins.SNMP.Synology.TemperatureCommand import TemperatureCommand
@@ -39,25 +38,25 @@ T = typing.TypeVar('T', bound='CheckTemperature')
 class CheckTemperature(CheckSNMP):
 
     def __init__(self: T, id: str):
-        CheckSNMP.__init__(self, id, 'CheckTemperature', 'temperature')
+        CheckSNMP.__init__(self, id, 'CheckTemperature', 'monitoring_plugins_snmp_synology_temperature')
         self.add_service_group(ServiceGroup.create('synology'))
         self.add_service_group(ServiceGroup.create('system_health'))
 
-        self.__warning: Union[int, None] = None
-        self.__critical: Union[int, None] = None
+        self.__warning: int = 35
+        self.__critical: int = 45
 
     def set_warning(self: T, warning: int) -> T:
         self.__warning = warning
         return self
 
-    def get_warning(self: T) -> Union[int, None]:
+    def get_warning(self: T) -> int:
         return self.__warning
 
     def set_critical(self: T, critical: int) -> T:
         self.__critical = critical
         return self
 
-    def get_critical(self: T) -> Union[int, None]:
+    def get_critical(self: T) -> int:
         return self.__critical
 
     @staticmethod

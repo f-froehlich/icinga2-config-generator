@@ -36,7 +36,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckStorcenter(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckStorcenter', 'storcenter')
+        Check.__init__(self, id, 'CheckStorcenter', 'claudio_kuenzler_storcenter')
         self.__host: Union[str, None] = None
         self.__user: Union[str, None] = None
         self.__password: Union[str, None] = None

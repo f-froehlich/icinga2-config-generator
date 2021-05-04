@@ -1,1 +1,1 @@
-battery_status
+monitoring_plugins_snmp_powernet_mib_battery_status

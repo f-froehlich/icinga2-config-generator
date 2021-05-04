@@ -33,7 +33,7 @@ from icinga2confgen.ValueChecker import ValueChecker
 class CheckSMTP(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckSMTP', 'smtp')
+        Check.__init__(self, id, 'CheckSMTP', 'nagios_plugins_smtp')
         self.__host = None
         self.__port = 25
         self.__use_ipv4 = False

@@ -1,5 +1,5 @@
 object CheckCommand "command_instance_ssh" {
-  vars.sshcmd = [ "$monitoring_plugin_dir$" + "/SNMP/Synology/check_storage_io.py"]
+  vars.sshcmd = [ "$monitoring_plugin_dir$" + "/snmp/Synology/check_storage_io.py"]
   vars.sshargs = {
     "-u" = {
       value = "$command_snmp_username$"
@@ -27,7 +27,7 @@ object CheckCommand "command_instance_ssh" {
     }
 
     "-d" = {
-      value = "$command_storage_io_disk"
+      value = "$command_storage_io_disk$"
       required = true
     }
     "-w" = {

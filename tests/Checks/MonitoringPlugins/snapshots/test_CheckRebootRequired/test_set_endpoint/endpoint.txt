@@ -1,5 +1,5 @@
 apply Service "instance" {
-check_command = "command_reboot_required_local"
+check_command = "command_monitoring_plugins_reboot_required_local"
 vars.command_reboot_required_exit_critical = false
 vars.groups += [
 "servicegroup_reboot",

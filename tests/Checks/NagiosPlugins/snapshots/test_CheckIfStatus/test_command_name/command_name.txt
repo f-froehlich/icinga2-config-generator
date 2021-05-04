@@ -1,1 +1,1 @@
-ifstatus
+nagios_plugins_ifstatus

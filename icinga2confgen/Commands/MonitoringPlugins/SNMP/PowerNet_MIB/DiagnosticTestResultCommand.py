@@ -51,7 +51,7 @@ class DiagnosticTestResultCommand(SNMPCommand):
         return command
 
     def get_command(self: T) -> str:
-        return 'SNMP/PowerNet_MIB/check_diagnostic_test_result.py'
+        return 'snmp/PowerNet_MIB/check_diagnostic_test_result.py'
 
     def get_specific_arguments(self: T):
         return ""

@@ -1,1 +1,1 @@
-ssh
+nagios_plugins_ssh

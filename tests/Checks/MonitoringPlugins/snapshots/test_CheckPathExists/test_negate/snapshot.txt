@@ -237,7 +237,7 @@ display_name = "Path exists"
 assign where "servicegroup_path_exists" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_path_exists_local_negate"
+check_command = "command_monitoring_plugins_path_exists_local_negate"
 vars.command_path_exists_file = "file"
 vars.command_path_exists_invert = false
 vars.groups += [

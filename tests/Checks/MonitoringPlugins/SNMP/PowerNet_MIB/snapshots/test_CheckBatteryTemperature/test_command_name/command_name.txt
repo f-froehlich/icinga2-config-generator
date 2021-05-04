@@ -1,1 +1,1 @@
-battery_temperature
+monitoring_plugins_snmp_powernet_mib_battery_temperature

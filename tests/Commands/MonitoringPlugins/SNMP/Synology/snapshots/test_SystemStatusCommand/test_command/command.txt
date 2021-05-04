@@ -1,1 +1,1 @@
-SNMP/Synology/check_system_status.py
+snmp/Synology/check_system_status.py

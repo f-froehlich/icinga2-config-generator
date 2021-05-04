@@ -1,1 +1,1 @@
-upgrade
+monitoring_plugins_snmp_synology_upgrade

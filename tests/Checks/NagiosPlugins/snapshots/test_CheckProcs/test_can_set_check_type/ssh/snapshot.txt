@@ -397,7 +397,7 @@ display_name = "System health"
 assign where "servicegroup_system_health" in service.vars.groups
 }
 apply Service "instance" {
-check_command = "command_procs_ssh"
+check_command = "command_nagios_plugins_procs_ssh"
 vars.command_procs_only_non_kernel = false
 vars.command_procs_timeout = 10
 vars.command_procs_traditional = false

@@ -1,1 +1,1 @@
-SNMP/Synology/check_service_running.py
+snmp/Synology/check_service_running.py
