@@ -53,6 +53,9 @@ class RebootRequiredCommand(MonitoringPluginCommand):
     "--exit-critical" = {
       set_if = {{ macro("$command_reboot_required_exit_critical$") != false }}
     }
+    "--ignore-scheduled" = {
+      set_if = {{ macro("$command_reboot_required_ignore_scheduled$") != false }}
+    }
   }
 """
         return config

@@ -1,0 +1,7 @@
+{
+"--allow" = {
+value = "$command_proxy_requests_allow$"
+set_if = {{ macro("$command_proxy_requests_allow$") != false }}
+repeat_key = true
+}
+}

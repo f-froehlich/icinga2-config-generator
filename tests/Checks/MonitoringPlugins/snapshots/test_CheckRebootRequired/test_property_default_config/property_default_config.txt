@@ -1,1 +1,2 @@
 vars.command_reboot_required_exit_critical = false
+vars.command_reboot_required_ignore_scheduled = true

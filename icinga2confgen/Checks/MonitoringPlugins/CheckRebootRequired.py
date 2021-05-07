@@ -35,6 +35,7 @@ class CheckRebootRequired(Check):
     def __init__(self, id: str):
         Check.__init__(self, id, 'CheckRebootRequired', 'monitoring_plugins_reboot_required')
         self.__exit_critical = False
+        self.__ignore_scheduled = True
         self.set_check_interval('15m')
         self.add_service_group(ServiceGroup.create('reboot'))
         self.add_service_group(ServiceGroup.create('system_health'))
@@ -46,6 +47,14 @@ class CheckRebootRequired(Check):
 
     def get_exit_critical(self):
         return self.__exit_critical
+
+    def set_ignore_scheduled(self, ignore_scheduled):
+        ValueChecker.is_bool(ignore_scheduled)
+        self.__ignore_scheduled = ignore_scheduled
+        return self
+
+    def get_ignore_scheduled(self):
+        return self.__ignore_scheduled
 
     @staticmethod
     def create(id: str, force_create: bool = False):

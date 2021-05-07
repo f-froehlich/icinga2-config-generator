@@ -1,0 +1,11 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$monitoring_plugin_dir$" + "/Webserver/apache2/check_proxy_requests.py"]
+  arguments = {
+    "--allow" = {
+      value = "$command_proxy_requests_allow$"
+      set_if = {{ macro("$command_proxy_requests_allow$") != false }}
+      repeat_key = true
+    }
+  }
+
+}

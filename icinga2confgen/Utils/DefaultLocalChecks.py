@@ -446,19 +446,19 @@ class DefaultLocalChecks(LocalCheckManager):
                 self.create_running_check('rsyslogd', 'rsyslogd', server)
 
             if True is self.__check_nginx_running:
-                self.create_running_check('nginx', 'nginx', server, ['webserver'])
+                self.create_running_check('nginx', 'nginx', server, ['Webserver'])
 
             if True is self.__check_apache_running:
-                self.create_running_check('apache', 'apache2', server, ['webserver'])
+                self.create_running_check('apache', 'apache2', server, ['Webserver'])
 
             if True is self.__check_httpd_running:
-                self.create_running_check('httpd', 'httpd', server, ['webserver'])
+                self.create_running_check('httpd', 'httpd', server, ['Webserver'])
 
             if True is self.__check_tomcat_running:
-                self.create_running_check_arguments('tomcat', 'tomcat', server, ['webserver'])
+                self.create_running_check_arguments('tomcat', 'tomcat', server, ['Webserver'])
 
             if True is self.__check_php_fpm_running:
-                self.create_running_check('php_fpm', 'php-fpm', server, ['webserver'])
+                self.create_running_check('php_fpm', 'php-fpm', server, ['Webserver'])
 
             if True is self.__check_freshclam_running:
                 self.create_running_check('freshclam', 'freshclam', server, ['security', 'antivirus'])

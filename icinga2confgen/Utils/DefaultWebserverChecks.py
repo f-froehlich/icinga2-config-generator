@@ -185,7 +185,7 @@ class DefaultWebserverChecks(RemoteCheckManager):
                         raise Exception('It is required to set the ipv4 or ipv6 on the server with id "' +
                                         server.get_id() + '", before you can apply this checks!')
 
-                    server.add_hostgroup(HostGroup.create('webserver'))
+                    server.add_hostgroup(HostGroup.create('Webserver'))
 
                     default_ipv4_http_check = None
                     default_ipv6_http_check = None
@@ -287,7 +287,7 @@ class DefaultWebserverChecks(RemoteCheckManager):
                             .set_text(redirect_check.get_display_name() + ' ' + domain) \
                             .set_check_interval('15m') \
                             .add_service_group(ServiceGroup.create('missing_http_redirect_check')) \
-                            .add_service_group(ServiceGroup.create('webserver')) \
+                            .add_service_group(ServiceGroup.create('Webserver')) \
                             .set_display_name(redirect_check.get_display_name() + ' ' + domain)
 
                         self.apply_check(redirect_check, server, checkserver)

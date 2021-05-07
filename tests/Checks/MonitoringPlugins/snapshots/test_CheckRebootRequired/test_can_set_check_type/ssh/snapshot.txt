@@ -48,6 +48,9 @@ arguments = {
 "--exit-critical" = {
 set_if = {{ macro("$command_reboot_required_exit_critical$") != false }}
 }
+"--ignore-scheduled" = {
+set_if = {{ macro("$command_reboot_required_ignore_scheduled$") != false }}
+}
 }
 
 }
@@ -56,6 +59,9 @@ vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_reboot_required.py"]
 vars.realargs = {
 "--exit-critical" = {
 set_if = {{ macro("$command_reboot_required_exit_critical$") != false }}
+}
+"--ignore-scheduled" = {
+set_if = {{ macro("$command_reboot_required_ignore_scheduled$") != false }}
 }
 }
 
@@ -110,6 +116,9 @@ vars.sshargs = {
 "--exit-critical" = {
 set_if = {{ macro("$command_reboot_required_exit_critical$") != false }}
 }
+"--ignore-scheduled" = {
+set_if = {{ macro("$command_reboot_required_ignore_scheduled$") != false }}
+}
 }
 
 command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
@@ -139,6 +148,9 @@ vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_reboot_required.py"]
 vars.realargs = {
 "--exit-critical" = {
 set_if = {{ macro("$command_reboot_required_exit_critical$") != false }}
+}
+"--ignore-scheduled" = {
+set_if = {{ macro("$command_reboot_required_ignore_scheduled$") != false }}
 }
 }
 
@@ -219,6 +231,7 @@ assign where "servicegroup_system_health" in service.vars.groups
 apply Service "instance" {
 check_command = "command_monitoring_plugins_reboot_required_ssh"
 vars.command_reboot_required_exit_critical = false
+vars.command_reboot_required_ignore_scheduled = true
 vars.groups += [
 "servicegroup_reboot",
 "servicegroup_system_health",

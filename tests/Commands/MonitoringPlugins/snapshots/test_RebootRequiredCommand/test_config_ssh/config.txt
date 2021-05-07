@@ -4,6 +4,9 @@ object CheckCommand "command_instance_ssh" {
     "--exit-critical" = {
       set_if = {{ macro("$command_reboot_required_exit_critical$") != false }}
     }
+    "--ignore-scheduled" = {
+      set_if = {{ macro("$command_reboot_required_ignore_scheduled$") != false }}
+    }
   }
 
   command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]

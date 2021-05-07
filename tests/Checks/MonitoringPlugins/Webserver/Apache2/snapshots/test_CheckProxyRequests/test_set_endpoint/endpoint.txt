@@ -1,0 +1,16 @@
+apply Service "instance" {
+check_command = "command_monitoring_plugins_webserver_apache2_proxy_requests_local"
+vars.groups += [
+"servicegroup_security",
+"servicegroup_webserver",
+]
+display_name = "webserver apache2 proxy requests"
+zone = host.vars.zone_name
+command_endpoint = "endpoint"
+check_interval = 24h
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+assign where "instance" in host.vars.checks
+}

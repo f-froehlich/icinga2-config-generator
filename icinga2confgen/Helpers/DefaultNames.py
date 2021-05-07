@@ -190,6 +190,7 @@ def get_default_check_name(id: str, command_name: str) -> str:
         'ping6': 'Ping (ipv6)',
         'pop': 'POP',
         'procs': 'Processes',
+        'proxy_requests': 'Open proxy (ProxyRequests)',
         'radius': 'RADIUS',
         'reboot_required': 'Reboot required',
         'rpc': 'RPC',
