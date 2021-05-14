@@ -48,7 +48,7 @@ class ProxyRequestsCommand(MonitoringPluginCommand):
         return command
 
     def get_command(self) -> str:
-        return 'Webserver/apache2/check_proxy_requests.py'
+        return 'webserver/apache2/check_proxy_requests.py'
 
     def get_arguments(self) -> str:
         config = """{

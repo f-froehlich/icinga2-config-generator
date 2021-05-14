@@ -43,7 +43,7 @@
 
 
 object CheckCommand "command_monitoring_plugins_webserver_apache2_proxy_requests_local" {
-command = [ "$monitoring_plugin_dir$" + "/Webserver/apache2/check_proxy_requests.py"]
+command = [ "$monitoring_plugin_dir$" + "/webserver/apache2/check_proxy_requests.py"]
 arguments = {
 "--allow" = {
 value = "$command_proxy_requests_allow$"
@@ -54,7 +54,7 @@ repeat_key = true
 
 }
 object CheckCommand "command_monitoring_plugins_webserver_apache2_proxy_requests_local_negate" {
-vars.realcmd = [ "$monitoring_plugin_dir$" + "/Webserver/apache2/check_proxy_requests.py"]
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/webserver/apache2/check_proxy_requests.py"]
 vars.realargs = {
 "--allow" = {
 value = "$command_proxy_requests_allow$"
@@ -109,7 +109,7 @@ order = 99
 command = ["$nagios_plugin_dir$" + "/negate"]
 }
 object CheckCommand "command_monitoring_plugins_webserver_apache2_proxy_requests_ssh" {
-vars.sshcmd = [ "$monitoring_plugin_dir$" + "/Webserver/apache2/check_proxy_requests.py"]
+vars.sshcmd = [ "$monitoring_plugin_dir$" + "/webserver/apache2/check_proxy_requests.py"]
 vars.sshargs = {
 "--allow" = {
 value = "$command_proxy_requests_allow$"
@@ -141,7 +141,7 @@ return escaped_args.join(" ")
 
 }
 object CheckCommand "command_monitoring_plugins_webserver_apache2_proxy_requests_ssh_negate" {
-vars.realcmd = [ "$monitoring_plugin_dir$" + "/Webserver/apache2/check_proxy_requests.py"]
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/webserver/apache2/check_proxy_requests.py"]
 vars.realargs = {
 "--allow" = {
 value = "$command_proxy_requests_allow$"

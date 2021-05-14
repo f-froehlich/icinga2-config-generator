@@ -1,5 +1,5 @@
 object CheckCommand "command_instance_ssh" {
-  vars.sshcmd = [ "$monitoring_plugin_dir$" + "/Webserver/apache2/check_proxy_requests.py"]
+  vars.sshcmd = [ "$monitoring_plugin_dir$" + "/webserver/apache2/check_proxy_requests.py"]
   vars.sshargs = {
     "--allow" = {
       value = "$command_proxy_requests_allow$"

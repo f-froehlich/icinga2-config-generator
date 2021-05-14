@@ -1,5 +1,5 @@
 object CheckCommand "command_instance_local_negate" {
-vars.realcmd = [ "$monitoring_plugin_dir$" + "/Webserver/apache2/check_proxy_requests.py"]
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/webserver/apache2/check_proxy_requests.py"]
 vars.realargs = {
 "--allow" = {
 value = "$command_proxy_requests_allow$"
