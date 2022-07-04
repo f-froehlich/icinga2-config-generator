@@ -578,19 +578,18 @@ class ConfigBuilder:
 
     @staticmethod
     def get_notification(id):
-        id = 'notification_' + id
         for notification in ConfigBuilder.__notifications:
-            if ['id'] == id:
+            if notification['id'] == id:
                 return notification['instance']
 
         return None
 
     @staticmethod
-    def add_notification(id, period):
+    def add_notification(id, notification):
         if ConfigBuilder.__check_for_existence and None is not ConfigBuilder.get_notification(id):
             raise Exception('Notification with id ' + id + ' already exists!')
 
-        ConfigBuilder.__notifications.append({'id': id, 'instance': period})
+        ConfigBuilder.__notifications.append({'id': id, 'instance': notification})
         ConfigBuilder.__pbar.update(1)
 
     @staticmethod

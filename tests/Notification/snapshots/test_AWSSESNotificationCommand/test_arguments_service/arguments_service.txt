@@ -1,0 +1,97 @@
+{
+
+"-d" = {
+value = "$icinga.long_date_time$"
+required = true
+}
+"-l" = {
+value = "$host.name$"
+required = true
+}
+"-n" = {
+value = "$host.display_name$"
+required = true
+}
+"-o" = {
+value = "$service.output$"
+required = true
+}
+"-s" = {
+value = "$service.state$"
+required = true
+}
+"-4" = {
+value = "$address$"
+set_if = {{ macro("$address$") != false }}
+}
+"-6" = {
+value = "$address6$"
+set_if = {{ macro("$address6$") != false }}
+}
+"-b" = {
+value = "$notification.author$"
+set_if = {{ macro("$notification.author$") != false }}
+}
+"-c" = {
+value = "$notification.comment$"
+set_if = {{ macro("$notification.comment$") != false }}
+}
+"-i" = {
+value = "$notification_icingaweb2url$"
+set_if = {{ macro("$notification_icingaweb2url$") != false }}
+}
+"-f" = {
+value = "$notification_from$"
+set_if = {{ macro("$notification_from$") != false }}
+}
+"-t" = {
+value = "$notification.type$"
+required = true
+}
+"-v" = {
+set_if = "$notification_logtosyslog$"
+}
+
+"-e" = {
+value = "$service.name$"
+required = true
+}
+"-u" = {
+value = "$service.display_name$"
+required = true
+}
+
+"-k" = {
+value = "$notification_aws_ses_key_id$"
+required = true
+}
+"-S" = {
+value = "$notification_aws_ses_secret$"
+required = true
+}
+"-F" = {
+value = "$notification_aws_ses_sender$"
+required = true
+}
+"-R" = {
+value = "$notification_aws_ses_region$"
+set_if = {{ macro("$notification_aws_ses_region$") != false }}
+} 
+"--subject" = {
+value = "$notification_aws_ses_subject_template$"
+set_if = {{ macro("$notification_aws_ses_subject_template$") != false }}
+} 
+"--message-template-short" = {
+value = "$notification_aws_ses_message_template_short$"
+set_if = {{ macro("$notification_aws_ses_message_template_short$") != false }}
+} 
+"--message-template-additional" = {
+value = "$notification_aws_ses_message_template_additional$"
+set_if = {{ macro("$notification_aws_ses_message_template_additional$") != false }}
+} 
+"-r" = {
+value = "$notification_aws_ses_recipients$"
+set_if = {{ macro("$notification_aws_ses_recipients$") != false }}
+repeat_key = true
+}
+}

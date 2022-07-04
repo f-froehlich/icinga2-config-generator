@@ -177,7 +177,8 @@ class Notification:
 
         elif isinstance(user, str):
             user = ConfigBuilder.get_user(user)
-            self.__users.remove(user)
+            if user in self.__users:
+                self.__users.remove(user)
 
         return self
 
@@ -204,7 +205,8 @@ class Notification:
 
         elif isinstance(user_group, str):
             user_group = ConfigBuilder.get_usergroup(user_group)
-            self.__user_groups.remove(user_group)
+            if user_group in self.__user_groups:
+                self.__user_groups.remove(user_group)
 
         return self
 

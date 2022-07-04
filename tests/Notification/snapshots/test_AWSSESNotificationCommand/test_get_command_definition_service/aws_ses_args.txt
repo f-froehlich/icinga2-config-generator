@@ -1,0 +1,34 @@
+
+"-k" = {
+value = "$notification_aws_ses_key_id$"
+required = true
+}
+"-S" = {
+value = "$notification_aws_ses_secret$"
+required = true
+}
+"-F" = {
+value = "$notification_aws_ses_sender$"
+required = true
+}
+"-R" = {
+value = "$notification_aws_ses_region$"
+set_if = {{ macro("$notification_aws_ses_region$") != false }}
+} 
+"--subject" = {
+value = "$notification_aws_ses_subject_template$"
+set_if = {{ macro("$notification_aws_ses_subject_template$") != false }}
+} 
+"--message-template-short" = {
+value = "$notification_aws_ses_message_template_short$"
+set_if = {{ macro("$notification_aws_ses_message_template_short$") != false }}
+} 
+"--message-template-additional" = {
+value = "$notification_aws_ses_message_template_additional$"
+set_if = {{ macro("$notification_aws_ses_message_template_additional$") != false }}
+} 
+"-r" = {
+value = "$notification_aws_ses_recipients$"
+set_if = {{ macro("$notification_aws_ses_recipients$") != false }}
+repeat_key = true
+}
