@@ -67,8 +67,7 @@ class MemoryCommand(SNMPCommand):
       set_if = {{ macro("$command_memory_critical_total$") != false }}
     }
     "--ignore-total" = {
-      value = "$command_memory_critical_total$"
-      set_if = {{ macro("$command_memory_critical_total$") != false }}
+      set_if = {{ macro("$command_memory_ignore_total$") != false }}
     }
     "--warning-swap" = {
       value = "$command_memory_warning_swap$"
@@ -79,8 +78,7 @@ class MemoryCommand(SNMPCommand):
       set_if = {{ macro("$command_memory_critical_swap$") != false }}
     }
     "--ignore-swap" = {
-      value = "$command_memory_critical_swap$"
-      set_if = {{ macro("$command_memory_critical_swap$") != false }}
+      set_if = {{ macro("$command_memory_ignore_swap$") != false }}
     }
     "--warning-swap-txt" = {
       value = "$command_memory_warning_swap_txt$"
@@ -91,8 +89,7 @@ class MemoryCommand(SNMPCommand):
       set_if = {{ macro("$command_memory_critical_swap_txt$") != false }}
     }
     "--ignore-swap-txt" = {
-      value = "$command_memory_critical_swap_txt$"
-      set_if = {{ macro("$command_memory_critical_swap_txt$") != false }}
+      set_if = {{ macro("$command_memory_ignore_swap_txt$") != false }}
     }
     "--warning-real" = {
       value = "$command_memory_warning_real$"
@@ -103,8 +100,7 @@ class MemoryCommand(SNMPCommand):
       set_if = {{ macro("$command_memory_critical_real$") != false }}
     }
     "--ignore-real" = {
-      value = "$command_memory_critical_real$"
-      set_if = {{ macro("$command_memory_critical_real$") != false }}
+      set_if = {{ macro("$command_memory_ignore_real$") != false }}
     }
     "--warning-real-txt" = {
       value = "$command_memory_warning_real_txt$"
@@ -115,8 +111,7 @@ class MemoryCommand(SNMPCommand):
       set_if = {{ macro("$command_memory_critical_real_txt$") != false }}
     }
     "--ignore-real-txt" = {
-      value = "$command_memory_critical_real_txt$"
-      set_if = {{ macro("$command_memory_critical_real_txt$") != false }}
+      set_if = {{ macro("$command_memory_ignore_real_txt$") != false }}
     }
     "--warning-shared" = {
       value = "$command_memory_warning_shared$"
@@ -127,8 +122,7 @@ class MemoryCommand(SNMPCommand):
       set_if = {{ macro("$command_memory_critical_shared$") != false }}
     }
     "--ignore-shared" = {
-      value = "$command_memory_critical_shared$"
-      set_if = {{ macro("$command_memory_critical_shared$") != false }}
+      set_if = {{ macro("$command_memory_ignore_shared$") != false }}
     }
     "--warning-buffer" = {
       value = "$command_memory_warning_buffer$"
@@ -139,8 +133,7 @@ class MemoryCommand(SNMPCommand):
       set_if = {{ macro("$command_memory_critical_buffer$") != false }}
     }
     "--ignore-buffer" = {
-      value = "$command_memory_critical_buffer$"
-      set_if = {{ macro("$command_memory_critical_buffer$") != false }}
+      set_if = {{ macro("$command_memory_ignore_buffer$") != false }}
     }
     "--warning-cache" = {
       value = "$command_memory_warning_cache$"
@@ -151,8 +144,7 @@ class MemoryCommand(SNMPCommand):
       set_if = {{ macro("$command_memory_critical_cache$") != false }}
     }
     "--ignore-cache" = {
-      value = "$command_memory_critical_cache$"
-      set_if = {{ macro("$command_memory_critical_cache$") != false }}
+      set_if = {{ macro("$command_memory_ignore_cache$") != false }}
     }
     "--warning-min-swap" = {
       value = "$command_memory_warning_min_swap$"
@@ -163,7 +155,6 @@ class MemoryCommand(SNMPCommand):
       set_if = {{ macro("$command_memory_critical_min_swap$") != false }}
     }
     "--ignore-min-swap" = {
-      value = "$command_memory_critical_min_swap$"
-      set_if = {{ macro("$command_memory_critical_min_swap$") != false }}
+      set_if = {{ macro("$command_memory_ignore_min_swap$") != false }}
     }
 """

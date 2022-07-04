@@ -379,7 +379,7 @@ class SynologySNMPChecks(RemoteCheckManager):
                             .set_username(username) \
                             .set_password(password) \
                             .set_disk(disk) \
-                            .set_display_name(check.get_display_name() + ' Disk ' + str(volume))
+                            .set_display_name(check.get_display_name() + ' Disk ' + str(disk))
                         self.apply_check(check, server, checkserver)
 
                 if self.__check_service_used:
@@ -414,7 +414,7 @@ class SynologySNMPChecks(RemoteCheckManager):
                             .set_username(username) \
                             .set_password(password) \
                             .set_disks(disk) \
-                            .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
+                            .set_display_name(check.get_display_name() + ' Disk ' + str(disk))
 
                         self.apply_check(check, server, checkserver)
 
@@ -428,11 +428,11 @@ class SynologySNMPChecks(RemoteCheckManager):
                     self.apply_check(check, server, checkserver)
 
                 if self.__check_memory:
-                    check = CheckMemory.create(f'synology_memory_{base_id}')
-                    check.set_host(ip) \
-                        .set_username(username) \
-                        .set_password(password) \
-                        .set_memory(memory_count) \
-                        .set_display_name(check.get_display_name() + ' ' + server.get_display_name())
-
-                    self.apply_check(check, server, checkserver)
+                    for memory_id in range(0, memory_count):
+                        check = CheckMemory.create(f'synology_memory_{base_id}_{memory_id}')
+                        check.set_host(ip) \
+                            .set_username(username) \
+                            .set_password(password) \
+                            .set_memory(memory_id) \
+                            .set_display_name(check.get_display_name() + ' Memory ' + str(memory_id))
+                        self.apply_check(check, server, checkserver)
