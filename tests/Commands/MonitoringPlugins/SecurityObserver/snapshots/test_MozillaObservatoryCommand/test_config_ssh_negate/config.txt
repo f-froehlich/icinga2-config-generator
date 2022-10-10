@@ -1,0 +1,131 @@
+object CheckCommand "command_instance_ssh_negate" {
+vars.realcmd = [ "$monitoring_plugin_dir$" + "/check_mozilla_observatory.py"]
+vars.realargs = {
+"--ignore-hidden" = {
+set_if = {{ macro("$command_mozilla_observatory_ignore_hidden$") != false }}
+}
+"--ignore-rescan" = {
+set_if = {{ macro("$command_mozilla_observatory_ignore_rescan$") != false }}
+}
+"--warning" = {
+value = "$command_mozilla_observatory_warning_score$"
+set_if = {{ macro("$command_mozilla_observatory_warning_score$") != false }}
+}
+"--warning-grade" = {
+value = "$command_mozilla_observatory_warning_grade$"
+set_if = {{ macro("$command_mozilla_observatory_warning_grade$") != false }}
+}
+"--critical" = {
+value = "$command_mozilla_observatory_critical_score$"
+set_if = {{ macro("$command_mozilla_observatory_critical_score$") != false }}
+}
+"--critical-grade" = {
+value = "$command_mozilla_observatory_critical_grade$"
+set_if = {{ macro("$command_mozilla_observatory_critical_grade$") != false }}
+}
+"--config" = {
+value = "$command_mozilla_observatory_config$"
+set_if = {{ macro("$command_mozilla_observatory_config$") != false }}
+repeat_key = true
+}
+"--host" = {
+value = "$command_mozilla_observatory_host$"
+required = true
+}
+ 
+"--header" = {
+value = "$command_mozilla_observatory_header$"
+set_if = {{ macro("$command_mozilla_observatory_header$") != false }}
+repeat_key = true
+}
+"--uri" = {
+value = "$command_mozilla_observatory_uri$"
+set_if = {{ macro("$command_mozilla_observatory_uri$") != false }}
+}
+"--domain" = {
+value = "$command_mozilla_observatory_domain$"
+required = true
+}
+"--port" = {
+value = "$command_mozilla_observatory_port$"
+set_if = {{ macro("$command_mozilla_observatory_port$") != false }}
+}
+"--ssl" = {
+set_if = "$command_mozilla_observatory_ssl$"
+}
+"--client-cert" = {
+value = "$command_mozilla_observatory_client_cert$"
+set_if = {{ macro("$command_mozilla_observatory_client_cert$") != false }}
+}
+"--client-key" = {
+value = "$command_mozilla_observatory_client_key$"
+set_if = {{ macro("$command_mozilla_observatory_client_key$") != false }}
+}
+}
+
+vars.sshargs = {
+"-t" = {
+value = "$negation_timeout$"
+set_if = {{ macro("$negation_timeout$") != false }}
+}
+"-o" = {
+value = "$negation_ok_status$"
+set_if = {{ macro("$negation_ok_status$") != false }}
+}
+"-w" = {
+value = "$negation_warning_status$"
+set_if = {{ macro("$negation_warning_status$") != false }}
+}
+"-c" = {
+value = "$negation_critical_status$"
+set_if = {{ macro("$negation_critical_status$") != false }}
+}
+"-u" = {
+value = "$negation_unknown_status$"
+set_if = {{ macro("$negation_unknown_status$") != false }}
+}
+"-s" = {
+set_if = {{ macro("$negation_substitute$") != false && "$negation_substitute$" }}
+}
+"--command" = {
+value = {{
+var command = macro("$realcmd$")
+var arguments = macro("$realargs$")
+if (typeof(command) == String && !arguments) {
+return command
+}
+var escaped_args = []
+for (arg in resolve_arguments(command, arguments)) {
+escaped_args.add(arg.replace(" ", "\\"))
+}
+return escaped_args.join(" ")
+}}
+skip_key = true
+required = true
+order = 99
+}
+}
+
+vars.sshcmd = ["$nagios_plugin_dir$" + "/negate"]
+command = [ "$command_overssh_nagios_plugin_dir$" + "/check_by_ssh"]
+arguments = {
+"-i" = "$command_overssh_identityfile$"
+"-l" = "$command_overssh_user$"
+"-p" = "$command_overssh_port$"
+"-H" = "$command_overssh_host$"
+"--timeout" = "$command_overssh_timeout$"
+"-C" = {{
+var command = macro("$sshcmd$")
+var arguments = macro("$sshargs$")
+if (typeof(command) == String && !arguments) {
+return command
+}
+var escaped_args = []
+for (arg in resolve_arguments(command, arguments)) {
+escaped_args.add(escape_shell_arg(arg))
+}
+return escaped_args.join(" ")
+}}
+}
+
+}

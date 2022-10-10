@@ -29,43 +29,60 @@ from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
 
 
-class PageContentCommand(WebrequestCommand):
+class MozillaObservatoryCommand(WebrequestCommand):
 
     def __init__(self, id: str):
-        WebrequestCommand.__init__(self, id, 'page_content')
+        WebrequestCommand.__init__(self, id, 'mozilla_observatory')
 
     @staticmethod
     def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
         command = None if force_create else ConfigBuilder.get_command(id)
         if None is command:
-            command = PageContentCommand(id)
+            command = MozillaObservatoryCommand(id)
             ConfigBuilder.add_command(id, command)
-        elif not isinstance(command, PageContentCommand):
-            raise Exception('Id must be for an instance of PageContentCommand but other instance is returned')
+        elif not isinstance(command, MozillaObservatoryCommand):
+            raise Exception('Id must be for an instance of MozillaObservatoryCommand but other instance is returned')
 
         return command
 
     def get_command(self) -> str:
-        return 'check_page_content.py'
+        return 'check_mozilla_observatory.py'
 
     def get_arguments(self) -> str:
         config = """{
-    "--ok-content" = {
-      value = "$command_page_content_ok$"
-      set_if = {{ macro("$command_page_content_ok$") != false }}
+    "--ignore-hidden" = {
+      set_if = {{ macro("$command_mozilla_observatory_ignore_hidden$") != false }}
+    }
+    "--ignore-rescan" = {
+      set_if = {{ macro("$command_mozilla_observatory_ignore_rescan$") != false }}
+    }
+    "--warning" = {
+      value = "$command_mozilla_observatory_warning_score$"
+      set_if = {{ macro("$command_mozilla_observatory_warning_score$") != false }}
+    }
+    "--warning-grade" = {
+      value = "$command_mozilla_observatory_warning_grade$"
+      set_if = {{ macro("$command_mozilla_observatory_warning_grade$") != false }}
+    }
+    "--critical" = {
+      value = "$command_mozilla_observatory_critical_score$"
+      set_if = {{ macro("$command_mozilla_observatory_critical_score$") != false }}
+    }
+    "--critical-grade" = {
+      value = "$command_mozilla_observatory_critical_grade$"
+      set_if = {{ macro("$command_mozilla_observatory_critical_grade$") != false }}
+    }
+    "--config" = {
+      value = "$command_mozilla_observatory_config$"
+      set_if = {{ macro("$command_mozilla_observatory_config$") != false }}
       repeat_key = true
     }
-    "--warning-content" = {
-      value = "$command_page_content_warning$"
-      set_if = {{ macro("$command_page_content_warning$") != false }}
-      repeat_key = true
+    "--host" = {
+      value = "$command_mozilla_observatory_host$"
+      required = true
     }
-    "--critical-content" = {
-      value = "$command_page_content_critical$"
-      set_if = {{ macro("$command_page_content_critical$") != false }}
-      repeat_key = true
-    }"""
+   """
         config += WebrequestCommand.get_arguments(self)
         config += """  }
 """

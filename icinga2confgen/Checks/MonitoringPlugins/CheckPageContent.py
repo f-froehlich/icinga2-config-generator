@@ -22,29 +22,21 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-
 from icinga2confgen.Checks.Check import Check
+from icinga2confgen.Helpers.Webrequest import Webrequest
 from icinga2confgen.Commands.MonitoringPlugins.PageContentCommand import PageContentCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.ValueChecker import ValueChecker
 
 
-class CheckPageContent(Check):
+class CheckPageContent(Webrequest):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckPageContent', 'monitoring_plugins_page_content')
+        Webrequest.__init__(self, id, 'CheckPageContent', 'page_content', 'monitoring_plugins')
         self.__ok = None
         self.__warning = None
         self.__critical = None
-        self.__header = None
-        self.__uri = None
-        self.__domain = None
-        self.__port = None
-        self.__ssl = False
-        self.__client_cert = None
-        self.__client_key = None
-        self.add_service_group(ServiceGroup.create('webserver'))
 
     def set_ok(self, ok):
         ValueChecker.is_string(ok)
@@ -76,64 +68,6 @@ class CheckPageContent(Check):
     def get_critical(self):
         return self.__critical
 
-    def set_header(self, header):
-        ValueChecker.is_string(header)
-        if None is self.__header:
-            self.__header = []
-        self.__header.append(header)
-        return self
-
-    def get_header(self):
-        return self.__header
-
-    def set_uri(self, uri):
-        ValueChecker.is_string(uri)
-        self.__uri = uri
-        return self
-
-    def get_uri(self):
-        return self.__uri
-
-    def set_domain(self, domain):
-        ValueChecker.is_string(domain)
-        self.__domain = domain
-        return self
-
-    def get_domain(self):
-        return self.__domain
-
-    def set_port(self, port):
-        ValueChecker.is_number(port)
-        self.__port = port
-        return self
-
-    def get_port(self):
-        return self.__port
-
-    def set_ssl(self, ssl):
-        ValueChecker.is_bool(ssl)
-        self.__ssl = ssl
-        return self
-
-    def get_ssl(self):
-        return self.__ssl
-
-    def set_client_cert(self, client_cert):
-        ValueChecker.is_string(client_cert)
-        self.__client_cert = client_cert
-        return self
-
-    def get_client_cert(self):
-        return self.__client_cert
-
-    def set_client_key(self, client_key):
-        ValueChecker.is_string(client_key)
-        self.__client_key = client_key
-        return self
-
-    def get_client_key(self):
-        return self.__client_key
-
     @staticmethod
     def create(id: str, force_create: bool = False):
         ValueChecker.validate_id(id)
@@ -150,5 +84,13 @@ class CheckPageContent(Check):
         return check
 
     def validate(self):
-        if None is self.__domain:
-            raise Exception('You have to specify a domain for ' + self.get_id())
+        Webrequest.validate(self)
+
+    def get_config(self) -> str:
+        return Webrequest.get_config(self)
+
+    def get_custom_config(self) -> str:
+        # config = ValueMapper.parse_var('vars.allowed_ports', self.__allowed_ports)
+        config = Webrequest.get_custom_config(self)
+
+        return config
