@@ -55,7 +55,7 @@ class WebrequestCommand(MonitoringPluginCommand):
     }
     "--domain" = {
       value = "$command_""" + self.__command_name + """_domain$"
-      required = true
+      set_if = {{ macro("$command_""" + self.__command_name + """_domain$") != false }}
     }
     "--port" = {
       value = "$command_""" + self.__command_name + """_port$"
@@ -71,6 +71,10 @@ class WebrequestCommand(MonitoringPluginCommand):
     "--client-key" = {
       value = "$command_""" + self.__command_name + """_client_key$"
       set_if = {{ macro("$command_""" + self.__command_name + """_client_key$") != false }}
+    }
+    "--timeout" = {
+      value = "$command_""" + self.__command_name + """_timeout$"
+      set_if = {{ macro("$command_""" + self.__command_name + """_timeout$") != false }}
     }
 """
         return config

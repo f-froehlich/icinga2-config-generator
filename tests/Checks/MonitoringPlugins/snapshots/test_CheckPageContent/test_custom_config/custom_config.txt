@@ -1,2 +1,3 @@
 vars.command_page_content_domain = "domain"
 vars.command_page_content_ssl = false
+vars.command_page_content_timeout = 60

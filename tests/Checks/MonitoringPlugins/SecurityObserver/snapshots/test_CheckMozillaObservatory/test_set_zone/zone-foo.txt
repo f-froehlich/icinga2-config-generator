@@ -1,0 +1,24 @@
+apply Service "instance" {
+check_command = "command_monitoring_plugins_mozilla_observatory_local"
+vars.command_mozilla_observatory_critical_grade = "C"
+vars.command_mozilla_observatory_critical_score = -10
+vars.command_mozilla_observatory_host = "domain"
+vars.command_mozilla_observatory_ignore_hidden = false
+vars.command_mozilla_observatory_ignore_rescan = false
+vars.command_mozilla_observatory_warning_grade = "B"
+vars.command_mozilla_observatory_warning_score = -1
+vars.command_mozilla_observatory_ssl = true
+vars.command_mozilla_observatory_timeout = 60
+vars.groups += [
+"servicegroup_webserver",
+]
+display_name = "mozilla observatory"
+zone = "foo_zone"
+command_endpoint = host.vars.endpoint_name
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 90
+assign where "instance" in host.vars.checks
+}

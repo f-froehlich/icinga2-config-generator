@@ -27,7 +27,7 @@ set_if = {{ macro("$command_page_content_uri$") != false }}
 }
 "--domain" = {
 value = "$command_page_content_domain$"
-required = true
+set_if = {{ macro("$command_page_content_domain$") != false }}
 }
 "--port" = {
 value = "$command_page_content_port$"
@@ -43,6 +43,10 @@ set_if = {{ macro("$command_page_content_client_cert$") != false }}
 "--client-key" = {
 value = "$command_page_content_client_key$"
 set_if = {{ macro("$command_page_content_client_key$") != false }}
+}
+"--timeout" = {
+value = "$command_page_content_timeout$"
+set_if = {{ macro("$command_page_content_timeout$") != false }}
 }
 }
 

@@ -2,6 +2,7 @@ apply Service "instance" {
 check_command = "command_monitoring_plugins_page_content_local_negate"
 vars.command_page_content_domain = "domain"
 vars.command_page_content_ssl = false
+vars.command_page_content_timeout = 60
 vars.groups += [
 "servicegroup_webserver",
 ]
@@ -12,7 +13,7 @@ check_interval = 1m
 retry_interval = 15s
 max_check_attempts = 3
 enable_perfdata = true
-check_timeout = 30
+check_timeout = 90
 vars.negation_ok_status = "OK"
 vars.negation_warning_status = "WARNING"
 vars.negation_unknown_status = "UNKNOWN"

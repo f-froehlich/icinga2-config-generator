@@ -85,6 +85,8 @@ class CheckPageContent(Webrequest):
 
     def validate(self):
         Webrequest.validate(self)
+        if None is self.get_domain():
+            raise Exception('You have to specify a domain in ' + self.get_id())
 
     def get_config(self) -> str:
         return Webrequest.get_config(self)

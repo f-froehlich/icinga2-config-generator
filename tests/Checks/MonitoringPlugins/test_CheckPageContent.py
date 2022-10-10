@@ -17,6 +17,9 @@ class TestCheckPageContent(BaseCheckTest):
             ServiceGroup.create('webserver'),
         ]
 
+    def get_default_check_timeout(self) -> int:
+        return 90
+
     def create_instance(self, force=False):
         instance = BaseCheckTest.create_instance(self, force)
         instance.set_domain('domain')

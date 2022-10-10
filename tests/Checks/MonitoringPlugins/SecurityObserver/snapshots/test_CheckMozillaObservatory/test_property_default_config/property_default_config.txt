@@ -1,0 +1,7 @@
+vars.command_mozilla_observatory_critical_grade = "C"
+vars.command_mozilla_observatory_critical_score = -10
+vars.command_mozilla_observatory_host = "domain"
+vars.command_mozilla_observatory_ignore_hidden = false
+vars.command_mozilla_observatory_ignore_rescan = false
+vars.command_mozilla_observatory_warning_grade = "B"
+vars.command_mozilla_observatory_warning_score = -1

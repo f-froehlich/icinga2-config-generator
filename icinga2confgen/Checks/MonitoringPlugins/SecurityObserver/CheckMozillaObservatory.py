@@ -44,8 +44,10 @@ class CheckMozillaObservatory(Webrequest):
         self.__critical_grade = 'C'
         self.__config = []
         self.__host = None
-        self.__allowed_grades = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'E+',
+        self._allowed_grades = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'E+',
                                  'E', 'E-', 'F+', 'F', 'F-']
+
+        self.set_ssl(True)
 
     def set_ignore_hidden(self, ignore_hidden):
         ValueChecker.is_bool(ignore_hidden)

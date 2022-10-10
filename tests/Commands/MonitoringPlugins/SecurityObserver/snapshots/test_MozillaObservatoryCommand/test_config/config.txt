@@ -44,7 +44,7 @@ set_if = {{ macro("$command_mozilla_observatory_uri$") != false }}
 }
 "--domain" = {
 value = "$command_mozilla_observatory_domain$"
-required = true
+set_if = {{ macro("$command_mozilla_observatory_domain$") != false }}
 }
 "--port" = {
 value = "$command_mozilla_observatory_port$"
@@ -60,6 +60,10 @@ set_if = {{ macro("$command_mozilla_observatory_client_cert$") != false }}
 "--client-key" = {
 value = "$command_mozilla_observatory_client_key$"
 set_if = {{ macro("$command_mozilla_observatory_client_key$") != false }}
+}
+"--timeout" = {
+value = "$command_mozilla_observatory_timeout$"
+set_if = {{ macro("$command_mozilla_observatory_timeout$") != false }}
 }
 }
 
@@ -110,7 +114,7 @@ set_if = {{ macro("$command_mozilla_observatory_uri$") != false }}
 }
 "--domain" = {
 value = "$command_mozilla_observatory_domain$"
-required = true
+set_if = {{ macro("$command_mozilla_observatory_domain$") != false }}
 }
 "--port" = {
 value = "$command_mozilla_observatory_port$"
@@ -126,6 +130,10 @@ set_if = {{ macro("$command_mozilla_observatory_client_cert$") != false }}
 "--client-key" = {
 value = "$command_mozilla_observatory_client_key$"
 set_if = {{ macro("$command_mozilla_observatory_client_key$") != false }}
+}
+"--timeout" = {
+value = "$command_mozilla_observatory_timeout$"
+set_if = {{ macro("$command_mozilla_observatory_timeout$") != false }}
 }
 }
 
@@ -220,7 +228,7 @@ set_if = {{ macro("$command_mozilla_observatory_uri$") != false }}
 }
 "--domain" = {
 value = "$command_mozilla_observatory_domain$"
-required = true
+set_if = {{ macro("$command_mozilla_observatory_domain$") != false }}
 }
 "--port" = {
 value = "$command_mozilla_observatory_port$"
@@ -236,6 +244,10 @@ set_if = {{ macro("$command_mozilla_observatory_client_cert$") != false }}
 "--client-key" = {
 value = "$command_mozilla_observatory_client_key$"
 set_if = {{ macro("$command_mozilla_observatory_client_key$") != false }}
+}
+"--timeout" = {
+value = "$command_mozilla_observatory_timeout$"
+set_if = {{ macro("$command_mozilla_observatory_timeout$") != false }}
 }
 }
 
@@ -307,7 +319,7 @@ set_if = {{ macro("$command_mozilla_observatory_uri$") != false }}
 }
 "--domain" = {
 value = "$command_mozilla_observatory_domain$"
-required = true
+set_if = {{ macro("$command_mozilla_observatory_domain$") != false }}
 }
 "--port" = {
 value = "$command_mozilla_observatory_port$"
@@ -323,6 +335,10 @@ set_if = {{ macro("$command_mozilla_observatory_client_cert$") != false }}
 "--client-key" = {
 value = "$command_mozilla_observatory_client_key$"
 set_if = {{ macro("$command_mozilla_observatory_client_key$") != false }}
+}
+"--timeout" = {
+value = "$command_mozilla_observatory_timeout$"
+set_if = {{ macro("$command_mozilla_observatory_timeout$") != false }}
 }
 }
 

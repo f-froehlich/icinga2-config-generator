@@ -41,7 +41,17 @@ class Webrequest(Check):
         self.__ssl = False
         self.__client_cert = None
         self.__client_key = None
+        self.__timeout = 60
+        self.set_check_timeout(90)
         self.add_service_group(ServiceGroup.create('webserver'))
+
+    def set_timeout(self, timeout):
+        ValueChecker.is_number(timeout)
+        self.__timeout = timeout
+        return self
+
+    def get_timeout(self):
+        return self.__timeout
 
     def set_header(self, header):
         ValueChecker.is_string(header)
