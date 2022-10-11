@@ -78,8 +78,8 @@ class CheckMozillaObservatory(Webrequest):
 
     def set_warning_grade(self, warning_grade):
         ValueChecker.is_string(warning_grade)
-        if warning_grade not in self.__allowed_grades:
-            raise Exception("Grade dos not exist. Choose from " + ', '.join(self.__allowed_grades))
+        if warning_grade not in self._allowed_grades:
+            raise Exception("Grade dos not exist. Choose from " + ', '.join(self._allowed_grades))
         self.__warning_grade = warning_grade
 
         return self
@@ -98,8 +98,8 @@ class CheckMozillaObservatory(Webrequest):
 
     def set_critical_grade(self, critical_grade):
         ValueChecker.is_string(critical_grade)
-        if critical_grade not in self.__allowed_grades:
-            raise Exception("Grade dos not exist. Choose from " + ', '.join(self.__allowed_grades))
+        if critical_grade not in self._allowed_grades:
+            raise Exception("Grade dos not exist. Choose from " + ', '.join(self._allowed_grades))
         self.__critical_grade = critical_grade
 
         return self
@@ -113,7 +113,7 @@ class CheckMozillaObservatory(Webrequest):
             raise Exception('If warning is set to - you have to set critical also to - to ignore the test')
         elif '-' != warning and '-' == critical:
             raise Exception('If critical is set to - you have to set warning also to - to ignore the test')
-        else:
+        elif not '-' == warning == critical:
             ValueChecker.is_number(warning)
             ValueChecker.is_number(critical)
         self.__config.append(f"{name}:{warning}:{critical}")
