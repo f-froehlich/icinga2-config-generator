@@ -227,11 +227,11 @@ value = "$host.display_name$"
 required = true
 }
 "-o" = {
-value = "$service.output$"
+value = "host.output$"
 required = true
 }
 "-s" = {
-value = "$service.state$"
+value = "host.state$"
 required = true
 }
 "-4" = {
@@ -319,11 +319,11 @@ value = "$host.display_name$"
 required = true
 }
 "-o" = {
-value = "$service.output$"
+value = "host.output$"
 required = true
 }
 "-s" = {
-value = "$service.state$"
+value = "host.state$"
 required = true
 }
 "-4" = {
