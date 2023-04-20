@@ -1,0 +1,86 @@
+apply Service "instance" {
+check_command = "command_ssl_cert_local"
+vars.command_ssl_cert_all = false
+vars.command_ssl_cert_all_local = false
+vars.command_ssl_cert_allow_empty_scan = false
+vars.command_ssl_cert_check_chain = false
+vars.command_ssl_cert_check_ciphers_warnings = false
+vars.command_ssl_cert_check_http_headers = false
+vars.command_ssl_cert_crl = false
+vars.command_ssl_cert_debug = false
+vars.command_ssl_cert_debug_cert = false
+vars.command_ssl_cert_debug_headers = false
+vars.command_ssl_cert_debug_time = false
+vars.command_ssl_cert_default_format = false
+vars.command_ssl_cert_dtls = false
+vars.command_ssl_cert_dtls1 = false
+vars.command_ssl_cert_dtls1_2 = false
+vars.command_ssl_cert_ecdsa = false
+vars.command_ssl_cert_first_element_only = false
+vars.command_ssl_cert_force_dconv_date = false
+vars.command_ssl_cert_force_perl_date = false
+vars.command_ssl_cert_host = "host"
+vars.command_ssl_cert_http_use_get = false
+vars.command_ssl_cert_ignore_altnames = false
+vars.command_ssl_cert_ignore_connection_problems = false
+vars.command_ssl_cert_ignore_exp = false
+vars.command_ssl_cert_ignore_host_cn = false
+vars.command_ssl_cert_ignore_http_headers = false
+vars.command_ssl_cert_ignore_incomplete_chain = false
+vars.command_ssl_cert_ignore_maximum_validity = false
+vars.command_ssl_cert_ignore_ocsp = false
+vars.command_ssl_cert_ignore_ocsp_errors = false
+vars.command_ssl_cert_ignore_ocsp_timeout = false
+vars.command_ssl_cert_ignore_sct = false
+vars.command_ssl_cert_ignore_sig_alg = false
+vars.command_ssl_cert_ignore_ssl_labs_cache = false
+vars.command_ssl_cert_ignore_ssl_labs_errors = false
+vars.command_ssl_cert_ignore_tls_renegotiation = false
+vars.command_ssl_cert_info = false
+vars.command_ssl_cert_init_host_cache = false
+vars.command_ssl_cert_ipv4 = false
+vars.command_ssl_cert_ipv6 = false
+vars.command_ssl_cert_no_perf = false
+vars.command_ssl_cert_no_proxy = false
+vars.command_ssl_cert_no_proxy_curl = false
+vars.command_ssl_cert_no_proxy_s_client = false
+vars.command_ssl_cert_no_ssl2 = false
+vars.command_ssl_cert_no_ssl3 = false
+vars.command_ssl_cert_no_tls1 = false
+vars.command_ssl_cert_no_tls1_1 = false
+vars.command_ssl_cert_no_tls1_2 = false
+vars.command_ssl_cert_no_tls1_3 = false
+vars.command_ssl_cert_noauth = false
+vars.command_ssl_cert_require_no_ssl2 = false
+vars.command_ssl_cert_require_no_ssl3 = false
+vars.command_ssl_cert_require_no_tls1 = false
+vars.command_ssl_cert_require_no_tls1_1 = false
+vars.command_ssl_cert_require_ocsp_stapling = false
+vars.command_ssl_cert_require_purpose_critical = false
+vars.command_ssl_cert_rootcert_file = "TestValue2"
+vars.command_ssl_cert_rsa = false
+vars.command_ssl_cert_selfsigned = false
+vars.command_ssl_cert_ssl2 = false
+vars.command_ssl_cert_ssl3 = false
+vars.command_ssl_cert_terse = false
+vars.command_ssl_cert_tls1 = false
+vars.command_ssl_cert_tls1_1 = false
+vars.command_ssl_cert_tls1_2 = false
+vars.command_ssl_cert_tls1_3 = false
+vars.command_ssl_cert_verbose = false
+vars.groups += [
+"servicegroup_security",
+"servicegroup_webserver",
+"servicegroup_tls",
+"servicegroup_certificate_check",
+]
+display_name = "ssl cert"
+zone = host.vars.zone_name
+command_endpoint = host.vars.endpoint_name
+check_interval = 1m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+assign where "instance" in host.vars.checks
+}
