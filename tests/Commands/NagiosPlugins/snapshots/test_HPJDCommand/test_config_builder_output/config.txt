@@ -328,6 +328,6 @@ return escaped_args.join(" ")
 
 
 
-// This is an example file, which ist placed in master zone
 // This is an example file, which ist placed in global-templates zone
+// This is an example file, which ist placed in master zone
 // This is an example file, which ist placed in foo zone

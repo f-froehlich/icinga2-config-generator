@@ -38,6 +38,7 @@ class PluginDirs:
             self.__harik_sekhon_plugin_dir = '/usr/local/monitoring/harik_sekhon/'
             self.__claudio_kuenzler_plugin_dir = '/usr/local/monitoring/claudiokuenzler/'
             self.__other_plugin_dir = '/opt/monitoring/'
+            self.__matteocorti_plugin_dir = '/opt/matteocorti/'
 
         else:
             self.__nagios_plugin_dir = None
@@ -45,6 +46,7 @@ class PluginDirs:
             self.__harik_sekhon_plugin_dir = None
             self.__claudio_kuenzler_plugin_dir = None
             self.__other_plugin_dir = None
+            self.__matteocorti_plugin_dir = None
 
     def set_nagios_plugindir(self, dir: str) -> PluginDirs:
         self.__nagios_plugin_dir = dir
@@ -80,6 +82,12 @@ class PluginDirs:
 
     def get_harik_sekhon_plugindir(self) -> Union[str, None]:
         return self.__harik_sekhon_plugin_dir
+    def set_matteocorti_plugin_dir_plugindir(self, dir: str) -> PluginDirs:
+        self.__matteocorti_plugin_dir = dir
+        return self
+
+    def get_matteocorti_plugindir(self) -> Union[str, None]:
+        return self.__matteocorti_plugin_dir
 
     def get_config(self) -> str:
         config = ValueMapper.parse_var('vars.nagios_plugin_dir', self.__nagios_plugin_dir)
@@ -87,4 +95,5 @@ class PluginDirs:
         config += ValueMapper.parse_var('vars.harik_sekhon_plugin_dir', self.__harik_sekhon_plugin_dir)
         config += ValueMapper.parse_var('vars.other_plugin_dir', self.__other_plugin_dir)
         config += ValueMapper.parse_var('vars.claudio_kuenzler_plugin_dir', self.__claudio_kuenzler_plugin_dir)
+        config += ValueMapper.parse_var('vars.matteocorti_plugin_dir', self.__matteocorti_plugin_dir)
         return config

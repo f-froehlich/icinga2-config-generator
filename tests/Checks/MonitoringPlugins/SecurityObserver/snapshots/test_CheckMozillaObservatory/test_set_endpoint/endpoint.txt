@@ -12,7 +12,7 @@ vars.command_mozilla_observatory_timeout = 60
 vars.groups += [
 "servicegroup_webserver",
 ]
-display_name = "mozilla observatory"
+display_name = "Mozilla observatory"
 zone = host.vars.zone_name
 command_endpoint = "endpoint"
 check_interval = 1m
