@@ -50,13 +50,11 @@ class UserGroup(Group, NotificationFunctions):
 
         return usergroup
 
-    def get_custom_config(self: T) -> str:
-        return NotificationFunctions.get_config(self)
-
     def get_config(self: T) -> str:
         config = Group.get_config(self)
         config += 'object User "user_group_notification_sender_' + self.get_id() + '" {\n'
-        config += '  display_name = "Notification sender of group ' + self.get_display_name() + '"'
+        config += '  display_name = "Notification sender of group ' + self.get_display_name() + '"\n'
+        config += NotificationFunctions.get_config(self)
         config += '}\n'
 
         return config

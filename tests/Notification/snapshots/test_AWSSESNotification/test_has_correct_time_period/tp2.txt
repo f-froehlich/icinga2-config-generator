@@ -52,14 +52,15 @@ ranges = {
 }
 object UserGroup "usergroup_BaseTestUserGroup" {
 display_name = "BaseTestUserGroup"
+assign where "usergroup_BaseTestUserGroup" in user.vars.groups
+}
+object User "user_group_notification_sender_BaseTestUserGroup" {
+display_name = "Notification sender of group BaseTestUserGroup"
 vars.email_addresses += [
 "group1@mail1",
 "group1@mail2",
 ]
-assign where "usergroup_BaseTestUserGroup" in user.vars.groups
 }
-object User "user_group_notification_sender_BaseTestUserGroup" {
-display_name = "Notification sender of group BaseTestUserGroup"}
 object User "user_BaseTestUser" {
 vars.email_addresses += [
 "user1@mail1",
