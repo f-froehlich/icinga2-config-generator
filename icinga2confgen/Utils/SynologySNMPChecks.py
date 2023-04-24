@@ -40,7 +40,6 @@ from icinga2confgen.Checks.MonitoringPlugins.SNMP.Synology.CheckUpgrade import C
 from icinga2confgen.Checks.MonitoringPlugins.SNMP.UCD_DISKIO_MIB.CheckLoad import CheckLoad as DiskLoad
 from icinga2confgen.Checks.MonitoringPlugins.SNMP.UCD_SNMP_MIB.CheckLoad import CheckLoad as CPULoad
 from icinga2confgen.Checks.MonitoringPlugins.SNMP.UCD_SNMP_MIB.CheckMemory import CheckMemory
-from icinga2confgen.Checks.MatteocortiPlugins.CheckSSLCert import CheckSSLCert
 from icinga2confgen.Helpers.RemoteCheckManager import RemoteCheckManager
 from icinga2confgen.Notification.Notification import Notification
 from icinga2confgen.Servers.Server import Server
@@ -277,7 +276,7 @@ class SynologySNMPChecks(RemoteCheckManager):
                 base_id = 'synology_checks_' + server.get_id() + '_' + checkserver.get_id()
 
                 if self.__check_general_status:
-                    check = CheckSSLCert.create('synology_status_' + base_id)
+                    check = CheckSystemStatus.create('synology_status_' + base_id)
                     check.set_host(ip) \
                         .set_user(username) \
                         .set_password(password) \
