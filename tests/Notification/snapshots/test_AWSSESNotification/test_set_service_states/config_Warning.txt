@@ -219,11 +219,11 @@ value = "$host.display_name$"
 required = true
 }
 "-o" = {
-value = "host.output$"
+value = "$host.output$"
 required = true
 }
 "-s" = {
-value = "host.state$"
+value = "$host.state$"
 required = true
 }
 "-4" = {
@@ -311,11 +311,11 @@ value = "$host.display_name$"
 required = true
 }
 "-o" = {
-value = "host.output$"
+value = "$host.output$"
 required = true
 }
 "-s" = {
-value = "host.state$"
+value = "$host.state$"
 required = true
 }
 "-4" = {
@@ -467,6 +467,6 @@ repeat_key = true
 
 
 
-// This is an example file, which ist placed in global-templates zone
 // This is an example file, which ist placed in master zone
+// This is an example file, which ist placed in global-templates zone
 // This is an example file, which ist placed in foo zone

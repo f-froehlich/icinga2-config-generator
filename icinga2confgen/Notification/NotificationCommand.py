@@ -90,11 +90,11 @@ class NotificationCommand:
       required = true
     }
     "-o" = {
-      value = "host.output$"
+      value = "$host.output$"
       required = true
     }
     "-s" = {
-      value = "host.state$"
+      value = "$host.state$"
       required = true
     }
     "-4" = {

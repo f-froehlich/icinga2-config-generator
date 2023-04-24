@@ -433,6 +433,6 @@ assign where "instance" in host.vars.checks
 
 
 
-// This is an example file, which ist placed in global-templates zone
 // This is an example file, which ist placed in master zone
+// This is an example file, which ist placed in global-templates zone
 // This is an example file, which ist placed in foo zone
