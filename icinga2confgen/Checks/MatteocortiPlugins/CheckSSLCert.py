@@ -40,7 +40,7 @@ T = typing.TypeVar('T', bound='CheckSSLCert')
 class CheckSSLCert(Check):
 
     def __init__(self, id: str):
-        Check.__init__(self, id, 'CheckSSLCert', 'ssl_cert')
+        Check.__init__(self, id, 'CheckSSLCert', 'matteocorti_ssl_cert')
         self.add_service_group(ServiceGroup.create('security'))
         self.add_service_group(ServiceGroup.create('webserver'))
         self.add_service_group(ServiceGroup.create('tls'))

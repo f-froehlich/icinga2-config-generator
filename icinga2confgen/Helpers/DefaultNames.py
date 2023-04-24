@@ -174,6 +174,7 @@ def get_default_check_name(id: str, command_name: str) -> str:
         'load': 'Load',
         'log': 'Log',
         'mailq': 'Mail queue',
+        'matteocorti_ssl_cert': 'SSL Certificate',
         'mozilla_observatory': 'Mozilla observatory',
         'mrt_gtraf': 'MRT gtraf',
         'mysql': 'MySQL',
