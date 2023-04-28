@@ -1557,29 +1557,29 @@ class TestCheckSSLCert(BaseCheckTest):
         assert False is instance.get_all_local()
         snapshot.assert_match(instance.get_config().replace('  ', ''), 'all_local-false.txt')
 
-    def test_allow_empty_scan_default_value(self):
+    def test_allow_empty_san_default_value(self):
         instance = self.create_instance()
-        assert False is instance.get_allow_empty_scan()
+        assert False is instance.get_allow_empty_san()
 
-    def test_allow_empty_scan_set_correct(self):
+    def test_allow_empty_san_set_correct(self):
         instance = self.create_instance()
-        assert False is instance.get_allow_empty_scan()
-        instance.set_allow_empty_scan(True)
-        assert True is instance.get_allow_empty_scan()
-        instance.set_allow_empty_scan(False)
-        assert False is instance.get_allow_empty_scan()
+        assert False is instance.get_allow_empty_san()
+        instance.set_allow_empty_san(True)
+        assert True is instance.get_allow_empty_san()
+        instance.set_allow_empty_san(False)
+        assert False is instance.get_allow_empty_san()
 
-    def test_allow_empty_scan_true(self, snapshot):
+    def test_allow_empty_san_true(self, snapshot):
         instance = self.create_instance()
-        instance.set_allow_empty_scan(True)
-        assert True is instance.get_allow_empty_scan()
-        snapshot.assert_match(instance.get_config().replace('  ', ''), 'allow_empty_scan-false.txt')
+        instance.set_allow_empty_san(True)
+        assert True is instance.get_allow_empty_san()
+        snapshot.assert_match(instance.get_config().replace('  ', ''), 'allow_empty_san-false.txt')
 
-    def test_allow_empty_scan_false(self, snapshot):
+    def test_allow_empty_san_false(self, snapshot):
         instance = self.create_instance()
-        instance.set_allow_empty_scan(False)
-        assert False is instance.get_allow_empty_scan()
-        snapshot.assert_match(instance.get_config().replace('  ', ''), 'allow_empty_scan-false.txt')
+        instance.set_allow_empty_san(False)
+        assert False is instance.get_allow_empty_san()
+        snapshot.assert_match(instance.get_config().replace('  ', ''), 'allow_empty_san-false.txt')
 
     def test_ipv4_default_value(self):
         instance = self.create_instance()

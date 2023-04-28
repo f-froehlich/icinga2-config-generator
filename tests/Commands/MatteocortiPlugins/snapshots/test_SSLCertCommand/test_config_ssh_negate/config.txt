@@ -446,8 +446,8 @@ set_if = "$command_matteocorti_ssl_cert_all$"
 "--all-local" = {
 set_if = "$command_matteocorti_ssl_cert_all_local$"
 }
-"--allow-empty-scan" = {
-set_if = "$command_matteocorti_ssl_cert_allow_empty_scan$"
+"--allow-empty-san" = {
+set_if = "$command_matteocorti_ssl_cert_allow_empty_san$"
 }
 "-4" = {
 set_if = "$command_matteocorti_ssl_cert_ipv4$"

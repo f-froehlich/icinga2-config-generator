@@ -109,7 +109,7 @@ class CheckSSLCert(Check):
         self.__noauth: bool = False
         self.__all: bool = False
         self.__all_local: bool = False
-        self.__allow_empty_scan: bool = False
+        self.__allow_empty_san: bool = False
         self.__ipv4: bool = False
         self.__ipv6: bool = False
 
@@ -789,12 +789,12 @@ class CheckSSLCert(Check):
     def get_all_local(self: T) -> bool:
         return self.__all_local
 
-    def set_allow_empty_scan(self: T, allow_empty_scan: bool) -> T:
-        self.__allow_empty_scan = allow_empty_scan
+    def set_allow_empty_san(self: T, allow_empty_san: bool) -> T:
+        self.__allow_empty_san = allow_empty_san
         return self
 
-    def get_allow_empty_scan(self: T) -> bool:
-        return self.__allow_empty_scan
+    def get_allow_empty_san(self: T) -> bool:
+        return self.__allow_empty_san
 
     def set_ipv4(self: T, ipv4: bool) -> T:
         self.__ipv4 = ipv4

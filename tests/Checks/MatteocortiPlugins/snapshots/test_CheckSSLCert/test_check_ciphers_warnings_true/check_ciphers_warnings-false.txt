@@ -2,7 +2,7 @@ apply Service "instance" {
 check_command = "command_matteocorti_ssl_cert_local"
 vars.command_matteocorti_ssl_cert_all = false
 vars.command_matteocorti_ssl_cert_all_local = false
-vars.command_matteocorti_ssl_cert_allow_empty_scan = false
+vars.command_matteocorti_ssl_cert_allow_empty_san = false
 vars.command_matteocorti_ssl_cert_check_chain = false
 vars.command_matteocorti_ssl_cert_check_ciphers_warnings = true
 vars.command_matteocorti_ssl_cert_check_http_headers = false
