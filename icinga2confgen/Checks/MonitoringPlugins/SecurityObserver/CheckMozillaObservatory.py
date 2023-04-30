@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
 
+from __future__ import annotations
+
+from ctypes import Union
+
 #  Icinga2 configuration generator
 #
 #  Icinga2 configuration file generator for hosts, commands, checks, ... in python
@@ -22,13 +26,10 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.MonitoringPlugins.SecurityObserver.MozillaObservatoryCommand import \
     MozillaObservatoryCommand
-from icinga2confgen.Helpers.Webrequest import Webrequest
-from icinga2confgen.Commands.MonitoringPlugins.PageContentCommand import PageContentCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.Helpers.Webrequest import Webrequest
 from icinga2confgen.ValueChecker import ValueChecker
 
 
@@ -45,50 +46,43 @@ class CheckMozillaObservatory(Webrequest):
         self.__config = []
         self.__host = None
         self._allowed_grades = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'E+',
-                                 'E', 'E-', 'F+', 'F', 'F-']
+                                'E', 'E-', 'F+', 'F', 'F-']
 
         self.set_ssl(True)
 
-    def set_ignore_hidden(self, ignore_hidden):
-        ValueChecker.is_bool(ignore_hidden)
-
+    def set_ignore_hidden(self, ignore_hidden: bool) -> CheckMozillaObservatory:
         self.__ignore_hidden = ignore_hidden
         return self
 
-    def get_ignore_hidden(self):
+    def get_ignore_hidden(self) -> bool:
         return self.__ignore_hidden
 
-    def set_ignore_rescan(self, ignore_rescan):
-        ValueChecker.is_bool(ignore_rescan)
-
+    def set_ignore_rescan(self, ignore_rescan: bool) -> CheckMozillaObservatory:
         self.__ignore_rescan = ignore_rescan
         return self
 
-    def get_ignore_rescan(self):
+    def get_ignore_rescan(self) -> bool:
         return self.__ignore_rescan
 
-    def set_warning_score(self, warning_score):
-        ValueChecker.is_number(warning_score)
+    def set_warning_score(self, warning_score: int) -> CheckMozillaObservatory:
         self.__warning_score = warning_score
 
         return self
 
-    def get_warning_score(self):
+    def get_warning_score(self) -> int:
         return self.__warning_score
 
-    def set_warning_grade(self, warning_grade):
-        ValueChecker.is_string(warning_grade)
+    def set_warning_grade(self, warning_grade: str) -> CheckMozillaObservatory:
         if warning_grade not in self._allowed_grades:
             raise Exception("Grade dos not exist. Choose from " + ', '.join(self._allowed_grades))
         self.__warning_grade = warning_grade
 
         return self
 
-    def get_warning_grade(self):
+    def get_warning_grade(self) -> str:
         return self.__warning_grade
 
-    def set_critical_score(self, critical_score):
-        ValueChecker.is_number(critical_score)
+    def set_critical_score(self, critical_score: int) -> CheckMozillaObservatory:
         self.__critical_score = critical_score
 
         return self
@@ -96,8 +90,7 @@ class CheckMozillaObservatory(Webrequest):
     def get_critical_score(self):
         return self.__critical_score
 
-    def set_critical_grade(self, critical_grade):
-        ValueChecker.is_string(critical_grade)
+    def set_critical_grade(self, critical_grade: str) -> CheckMozillaObservatory:
         if critical_grade not in self._allowed_grades:
             raise Exception("Grade dos not exist. Choose from " + ', '.join(self._allowed_grades))
         self.__critical_grade = critical_grade
@@ -107,7 +100,7 @@ class CheckMozillaObservatory(Webrequest):
     def get_critical_grade(self):
         return self.__critical_grade
 
-    def add_config(self, name, warning, critical):
+    def add_config(self, name: str, warning: str, critical: str) -> CheckMozillaObservatory:
         ValueChecker.is_string(name)
         if '-' == warning and '-' != critical:
             raise Exception('If warning is set to - you have to set critical also to - to ignore the test')
@@ -120,26 +113,26 @@ class CheckMozillaObservatory(Webrequest):
 
         return self
 
-    def remove_config(self, name):
+    def remove_config(self, name: str) -> CheckMozillaObservatory:
         ValueChecker.is_string(name)
         configs = []
         for config in self.__config:
-            if not config.startswith(name):
+            if not config.startswith(name + ":"):
                 configs.append(config)
         self.__config = configs
         return self
 
-    def set_host(self, host):
+    def set_host(self, host: str) -> CheckMozillaObservatory:
         ValueChecker.is_string(host)
         self.__host = host
 
         return self
 
-    def get_host(self):
+    def get_host(self) -> Union[str, None]:
         return self.__host
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False)-> CheckMozillaObservatory:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

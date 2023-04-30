@@ -30,7 +30,7 @@ from icinga2confgen.Notification.TimePeriod import TimePeriod
 class DefaultTimePeriods:
 
     @staticmethod
-    def weekday_nine_to_five(id='mo_fr_9_17', display_name='Mo-Fr, 9am - 5pm'):
+    def weekday_nine_to_five(id='mo_fr_9_17', display_name='Mo-Fr, 9am - 5pm') -> TimePeriod:
         return TimePeriod.create(id) \
             .set_display_name(display_name) \
             .add_period("monday", "09:00-17:00") \
@@ -40,7 +40,7 @@ class DefaultTimePeriods:
             .add_period("friday", "09:00-17:00")
 
     @staticmethod
-    def continuously(id='24_7', display_name='24/7'):
+    def continuously(id='24_7', display_name='24/7') -> TimePeriod:
         period = ConfigBuilder.get_time_period(id)
         if None != period:
             return period

@@ -1,5 +1,18 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+from __future__ import annotations
+
+from ctypes import Union
+from typing import List
+
+from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Groups.UserGroup import UserGroup
+from icinga2confgen.Notification.AWSSESNotificationCommand import AWSSESNotificationCommand
+from icinga2confgen.Notification.Notification import Notification
+from icinga2confgen.User.User import User
+from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.ValueMapper import ValueMapper
+
 
 #  Icinga2 configuration generator
 #
@@ -23,13 +36,6 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Notification.Notification import Notification
-from icinga2confgen.Notification.AWSSESNotificationCommand import AWSSESNotificationCommand
-from icinga2confgen.ValueChecker import ValueChecker
-from icinga2confgen.ValueMapper import ValueMapper
-
-
 class AWSSESNotification(Notification):
 
     def __init__(self, id: str):
@@ -42,26 +48,23 @@ class AWSSESNotification(Notification):
         self.__message_template_short = None
         self.__message_template_additional = None
 
-    def set_key_id(self, key_id):
-        ValueChecker.is_string(key_id)
+    def set_key_id(self, key_id: Union[str, None]) -> AWSSESNotification:
         self.__key_id = key_id
 
         return self
 
-    def get_key_id(self):
+    def get_key_id(self) -> Union[str, None]:
         return self.__key_id
 
-    def set_secret(self, secret):
-        ValueChecker.is_string(secret)
+    def set_secret(self, secret: Union[str, None]) -> AWSSESNotification:
         self.__secret = secret
 
         return self
 
-    def get_secret(self):
+    def get_secret(self) -> Union[str, None]:
         return self.__secret
 
-    def set_sender(self, sender):
-        ValueChecker.is_string(sender)
+    def set_sender(self, sender: Union[str, None]) -> AWSSESNotification:
         self.__sender = sender
 
         return self
@@ -69,44 +72,40 @@ class AWSSESNotification(Notification):
     def get_sender(self):
         return self.__sender
 
-    def set_region(self, region):
-        ValueChecker.is_string(region)
+    def set_region(self, region: Union[str, None]) -> AWSSESNotification:
         self.__region = region
 
         return self
 
-    def get_region(self):
+    def get_region(self) -> Union[str, None]:
         return self.__region
 
-    def set_subject_template(self, subject_template):
-        ValueChecker.is_string(subject_template)
+    def set_subject_template(self, subject_template: Union[str, None]) -> AWSSESNotification:
         self.__subject_template = subject_template
 
         return self
 
-    def get_subject_template(self):
+    def get_subject_template(self) -> Union[str, None]:
         return self.__subject_template
 
-    def set_message_template_short(self, message_template_short):
-        ValueChecker.is_string(message_template_short)
+    def set_message_template_short(self, message_template_short:  Union[str, None]) -> AWSSESNotification:
         self.__message_template_short = message_template_short
 
         return self
 
-    def get_message_template_short(self):
+    def get_message_template_short(self) ->  Union[str, None]:
         return self.__message_template_short
 
-    def set_message_template_additional(self, message_template_additional):
-        ValueChecker.is_string(message_template_additional)
+    def set_message_template_additional(self, message_template_additional:  Union[str, None]) -> AWSSESNotification:
         self.__message_template_additional = message_template_additional
 
         return self
 
-    def get_message_template_additional(self):
+    def get_message_template_additional(self) ->  Union[str, None]:
         return self.__message_template_additional
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> AWSSESNotification:
         ValueChecker.validate_id(id)
 
         notification = None if force_create else ConfigBuilder.get_notification(id)
@@ -116,10 +115,10 @@ class AWSSESNotification(Notification):
 
         return notification
 
-    def get_command_config(self):
+    def get_command_config(self) -> AWSSESNotificationCommand:
         return AWSSESNotificationCommand.create('aws_ses')
 
-    def aws_ses_config_function(self, emails):
+    def aws_ses_config_function(self, emails: List[str]) -> List[str]:
 
         if None is self.__key_id:
             raise Exception('AWS SES key id not set in ' + self.get_id())
@@ -143,13 +142,13 @@ class AWSSESNotification(Notification):
         ]
         return config
 
-    def user_config_function(self, user):
+    def user_config_function(self, user: User) -> List[str]:
         if 0 == len(user.get_email()):
             return []
 
         return self.aws_ses_config_function(user.get_email())
 
-    def group_config_function(self, group):
+    def group_config_function(self, group: UserGroup) -> List[str]:
         if 0 == len(group.get_email()):
             return []
 

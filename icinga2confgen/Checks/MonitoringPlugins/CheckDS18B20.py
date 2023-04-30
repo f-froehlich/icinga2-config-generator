@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+import typing
 
 #  Icinga2 configuration generator
 #
@@ -29,6 +30,8 @@ from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.ValueChecker import ValueChecker
 
+T = typing.TypeVar('T', bound='CheckDS18B20')
+
 
 class CheckDS18B20(Check):
 
@@ -41,48 +44,43 @@ class CheckDS18B20(Check):
         self.__critical = None
         self.add_service_group(ServiceGroup.create('temperature'))
 
-    def set_device(self, device):
-        ValueChecker.is_string(device)
+    def set_device(self, device: str) -> T:
         self.__device = device
         return self
 
-    def get_device(self):
+    def get_device(self) ->typing.Union[str, None]:
         return self.__device
 
-    def set_path(self, path):
-        ValueChecker.is_string(path)
+    def set_path(self, path: str) -> T:
         self.__path = path
         return self
 
-    def get_path(self):
+    def get_path(self) -> typing.Union[str, None]:
         return self.__path
 
-    def set_name(self, name):
-        ValueChecker.is_string(name)
+    def set_name(self, name: str) -> T:
         self.__name = name
         return self
 
-    def get_name(self):
+    def get_name(self) -> typing.Union[str, None]:
         return self.__name
 
-    def set_warning(self, warning):
-        ValueChecker.is_number(warning)
+    def set_warning(self, warning: int) -> T:
         self.__warning = warning
         return self
 
-    def get_warning(self):
+    def get_warning(self) -> int:
         return self.__warning
 
-    def set_critical(self, critical):
-        ValueChecker.is_number(critical)
+    def set_critical(self, critical: int) -> T:
         self.__critical = critical
         return self
 
-    def get_critical(self):
+    def get_critical(self) -> int:
         return self.__critical
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:
@@ -97,5 +95,5 @@ class CheckDS18B20(Check):
         return check
 
     def validate(self):
-        if None == self.__device:
+        if None is self.__device:
             raise Exception("You have to set up a device")

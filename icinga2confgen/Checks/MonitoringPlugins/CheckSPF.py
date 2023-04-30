@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+import typing
 
 #  Icinga2 configuration generator
 #
@@ -29,6 +30,7 @@ from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.ValueChecker import ValueChecker
 
+T = typing.TypeVar('T', bound='CheckSPF')
 
 class CheckSPF(Check):
 
@@ -43,40 +45,36 @@ class CheckSPF(Check):
         self.add_service_group(ServiceGroup.create('dns'))
         self.add_service_group(ServiceGroup.create('spf'))
 
-    def set_timeout(self, timeout):
-        ValueChecker.is_number(timeout)
+    def set_timeout(self, timeout:int) -> T:
         self.__timeout = timeout
         return self
 
-    def get_timeout(self):
+    def get_timeout(self) -> int:
         return self.__timeout
 
-    def set_resolver(self, resolver):
-        ValueChecker.is_string(resolver)
+    def set_resolver(self, resolver: str) -> T:
         self.__resolver = resolver
         return self
 
-    def get_resolver(self):
+    def get_resolver(self) -> str:
         return self.__resolver
 
-    def set_expected(self, expected):
-        ValueChecker.is_string(expected)
+    def set_expected(self, expected: str) -> T:
         self.__expected = expected
         return self
 
-    def get_expected(self):
+    def get_expected(self) -> typing.Union[str, None]:
         return self.__expected
 
-    def set_domain(self, domain):
-        ValueChecker.is_string(domain)
+    def set_domain(self, domain: str) -> T:
         self.__domain = domain
         return self
 
-    def get_domain(self):
+    def get_domain(self) -> typing.Union[str, None]:
         return self.__domain
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:
@@ -91,7 +89,7 @@ class CheckSPF(Check):
         return check
 
     def validate(self):
-        if None == self.__expected:
+        if None is self.__expected:
             raise Exception('You have to set expected SPF policy in ' + self.get_id())
-        if None == self.__domain:
+        if None is self.__domain:
             raise Exception('You have to set a domain in ' + self.get_id())

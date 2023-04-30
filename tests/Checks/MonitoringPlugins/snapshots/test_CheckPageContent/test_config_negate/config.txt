@@ -1,5 +1,8 @@
 apply Service "instance" {
 check_command = "command_monitoring_plugins_page_content_local_negate"
+vars.command_page_content_ok += [
+"ok",
+]
 vars.command_page_content_domain = "domain"
 vars.command_page_content_ssl = false
 vars.command_page_content_timeout = 60

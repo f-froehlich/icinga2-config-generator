@@ -1,5 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+import typing
+
+from icinga2confgen.Checks.Check import Check
+from icinga2confgen.Commands.MonitoringPlugins.PathExistsCommand import PathExistsCommand
+from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 #  Icinga2 configuration generator
 #
@@ -23,11 +30,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Checks.Check import Check
-from icinga2confgen.Commands.MonitoringPlugins.PathExistsCommand import PathExistsCommand
-from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.ValueChecker import ValueChecker
+T = typing.TypeVar('T', bound='CheckPathExists')
 
 
 class CheckPathExists(Check):
@@ -39,32 +42,29 @@ class CheckPathExists(Check):
         self.__invert = False
         self.add_service_group(ServiceGroup.create('path_exists'))
 
-    def set_file(self, file):
-        ValueChecker.is_string(file)
+    def set_file(self, file: str) -> T:
         self.__file = file
         return self
 
-    def get_file(self):
+    def get_file(self) -> typing.Union[str, None]:
         return self.__file
 
-    def set_dir(self, dir):
-        ValueChecker.is_string(dir)
+    def set_dir(self, dir: str) -> T:
         self.__dir = dir
         return self
 
-    def get_dir(self):
+    def get_dir(self) -> typing.Union[str, None]:
         return self.__dir
 
-    def set_invert(self, invert):
-        ValueChecker.is_bool(invert)
+    def set_invert(self, invert: bool) -> T:
         self.__invert = invert
         return self
 
-    def get_invert(self):
+    def get_invert(self) -> bool:
         return self.__invert
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

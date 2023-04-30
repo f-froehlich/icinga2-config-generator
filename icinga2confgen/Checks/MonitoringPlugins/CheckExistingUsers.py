@@ -1,5 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+import typing
+
+from icinga2confgen.Checks.Check import Check
+from icinga2confgen.Commands.MonitoringPlugins.ExistingUsersCommand import ExistingUsersCommand
+from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 #  Icinga2 configuration generator
 #
@@ -23,11 +30,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Checks.Check import Check
-from icinga2confgen.Commands.MonitoringPlugins.ExistingUsersCommand import ExistingUsersCommand
-from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.ValueChecker import ValueChecker
+T = typing.TypeVar('T', bound='CheckExistingUsers')
 
 
 class CheckExistingUsers(Check):
@@ -42,48 +45,48 @@ class CheckExistingUsers(Check):
         self.add_service_group(ServiceGroup.create('security'))
         self.add_service_group(ServiceGroup.create('existing_user'))
 
-    def set_uid_min(self, uid_min):
-        ValueChecker.is_string(uid_min)
+    def set_uid_min(self, uid_min: typing.Union[int, None]) -> T:
         self.__uid_min = uid_min
         return self
 
-    def get_uid_min(self):
+    def get_uid_min(self) -> typing.Union[int, None]:
         return self.__uid_min
 
-    def set_uid_max(self, uid_max):
-        ValueChecker.is_string(uid_max)
+    def set_uid_max(self, uid_max: typing.Union[int, None]) -> T:
         self.__uid_max = uid_max
         return self
 
-    def get_uid_max(self):
+    def get_uid_max(self) -> typing.Union[int, None]:
         return self.__uid_max
 
-    def append_existing_users(self, user):
-        ValueChecker.is_string(user)
-        self.__users.append(user)
+    def append_existing_users(self, user: str) -> T:
+        if user not in self.__users:
+            self.__users.append(user)
         return self
 
-    def remove_existing_users(self, user):
-        self.__users.remove(user)
+    def remove_existing_users(self, user: str) -> T:
+        if user in self.__users:
+            self.__users.remove(user)
         return self
 
-    def get_existing_users(self):
+    def get_existing_users(self) -> typing.List[str]:
         return self.__users
 
-    def append_shell_filter(self, shell):
-        ValueChecker.is_string(shell)
-        self.__shell_filter.append(shell)
+    def append_shell_filter(self, shell:str) -> T:
+        if shell not in self.__shell_filter:
+            self.__shell_filter.append(shell)
         return self
 
-    def remove_shell_filter(self, shell):
-        self.__shell_filter.remove(shell)
+    def remove_shell_filter(self, shell: str) -> T:
+        if shell in self.__shell_filter:
+            self.__shell_filter.remove(shell)
         return self
 
-    def get_shell_filter(self):
+    def get_shell_filter(self) -> typing.List[str]:
         return self.__shell_filter
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

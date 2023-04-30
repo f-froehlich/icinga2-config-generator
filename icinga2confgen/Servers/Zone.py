@@ -23,6 +23,8 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from __future__ import annotations
+
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
 
@@ -36,7 +38,7 @@ class Zone:
         return self.__id
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> Zone:
         ValueChecker.validate_id(id)
 
         zone = None if force_create else ConfigBuilder.get_zone(id)

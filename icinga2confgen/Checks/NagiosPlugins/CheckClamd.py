@@ -1,5 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+import typing
+
+from icinga2confgen.Checks.Check import Check
+from icinga2confgen.Commands.NagiosPlugins.ClamdCommand import ClamdCommand
+from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 #  Icinga2 configuration generator
 #
@@ -23,11 +30,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Checks.Check import Check
-from icinga2confgen.Commands.NagiosPlugins.ClamdCommand import ClamdCommand
-from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.ValueChecker import ValueChecker
+T = typing.TypeVar('T', bound='CheckClamd')
 
 
 class CheckClamd(Check):
@@ -58,184 +61,162 @@ class CheckClamd(Check):
         self.__timeout = 10
         self.add_service_group(ServiceGroup.create('clamd'))
 
-    def set_host(self, host):
-        ValueChecker.is_string(host)
+    def set_host(self, host: str) -> T:
         self.__host = host
         return self
 
-    def get_host(self):
+    def get_host(self) -> typing.Union[str, None]:
         return self.__host
 
-    def set_port(self, port):
-        ValueChecker.is_number(port)
+    def set_port(self, port: int) -> T:
         self.__port = port
         return self
 
-    def get_port(self):
+    def get_port(self) -> typing.Union[int, None]:
         return self.__port
 
-    def set_ipv4(self, ipv4):
-        ValueChecker.is_bool(ipv4)
+    def set_ipv4(self, ipv4: bool) -> T:
         self.__ipv4 = ipv4
         return self
 
-    def get_ipv4(self):
+    def get_ipv4(self) -> bool:
         return self.__ipv4
 
-    def set_ipv6(self, ipv6):
-        ValueChecker.is_bool(ipv6)
+    def set_ipv6(self, ipv6: bool) -> T:
         self.__ipv6 = ipv6
         return self
 
-    def get_ipv6(self):
+    def get_ipv6(self) -> bool:
         return self.__ipv6
 
-    def set_escape(self, escape):
-        ValueChecker.is_bool(escape)
+    def set_escape(self, escape: bool) -> T:
         self.__escape = escape
         return self
 
-    def get_escape(self):
+    def get_escape(self) -> bool:
         return self.__escape
 
-    def set_send(self, send):
-        ValueChecker.is_string(send)
+    def set_send(self, send: typing.Union[str, None]) -> T:
         self.__send = send
         return self
 
-    def get_send(self):
+    def get_send(self) -> typing.Union[str, None]:
         return self.__send
 
-    def set_expect(self, expect):
-        ValueChecker.is_string(expect)
+    def set_expect(self, expect: typing.Union[str, None]) -> T:
         self.__expect = expect
         return self
 
-    def get_expect(self):
+    def get_expect(self) -> typing.Union[str, None]:
         return self.__expect
 
-    def set_all(self, all):
-        ValueChecker.is_bool(all)
+    def set_all(self, all: bool) -> T:
         self.__all = all
         return self
 
-    def get_all(self):
+    def get_all(self) -> bool:
         return self.__all
 
-    def set_quit(self, quit):
-        ValueChecker.is_string(quit)
+    def set_quit(self, quit: typing.Union[str, None]) -> T:
         self.__quit = quit
         return self
 
-    def get_quit(self):
+    def get_quit(self) -> typing.Union[str, None]:
         return self.__quit
 
-    def set_refuse_state(self, refuse_state):
-        ValueChecker.is_string(refuse_state)
+    def set_refuse_state(self, refuse_state: typing.Union[str, None]) -> T:
         self.__refuse_state = refuse_state
         return self
 
-    def get_refuse_state(self):
+    def get_refuse_state(self) -> typing.Union[str, None]:
         return self.__refuse_state
 
-    def set_mismatch_state(self, mismatch_state):
-        ValueChecker.is_string(mismatch_state)
+    def set_mismatch_state(self, mismatch_state: typing.Union[str, None]) -> T:
         self.__mismatch_state = mismatch_state
         return self
 
-    def get_mismatch_state(self):
+    def get_mismatch_state(self) -> typing.Union[str, None]:
         return self.__mismatch_state
 
-    def set_jail(self, jail):
-        ValueChecker.is_bool(jail)
+    def set_jail(self, jail: bool) -> T:
         self.__jail = jail
         return self
 
-    def get_jail(self):
+    def get_jail(self) -> bool:
         return self.__jail
 
-    def set_maxbytes(self, maxbytes):
-        ValueChecker.is_number(maxbytes)
+    def set_maxbytes(self, maxbytes: typing.Union[int, None]) -> T:
         self.__maxbytes = maxbytes
         return self
 
-    def get_maxbytes(self):
+    def get_maxbytes(self) -> typing.Union[int, None]:
         return self.__maxbytes
 
-    def set_delay(self, delay):
-        ValueChecker.is_number(delay)
+    def set_delay(self, delay: typing.Union[int, None]) -> T:
         self.__delay = delay
         return self
 
-    def get_delay(self):
+    def get_delay(self) -> typing.Union[int, None]:
         return self.__delay
 
-    def set_cert_warning(self, cert_warning):
-        ValueChecker.is_number(cert_warning)
+    def set_cert_warning(self, cert_warning: int) -> T:
         self.__cert_warning = cert_warning
         return self
 
-    def get_cert_warning(self):
+    def get_cert_warning(self) -> int:
         return self.__cert_warning
 
-    def set_cert_critical(self, cert_critical):
-        ValueChecker.is_number(cert_critical)
+    def set_cert_critical(self, cert_critical: int) -> T:
         self.__cert_critical = cert_critical
         return self
 
-    def get_cert_critical(self):
+    def get_cert_critical(self) -> int:
         return self.__cert_critical
 
-    def set_cert(self, cert):
-        ValueChecker.is_bool(cert)
+    def set_cert(self, cert: bool) -> T:
         self.__cert = cert
         return self
 
-    def get_cert(self):
+    def get_cert(self) -> bool:
         return self.__cert
 
-    def set_use_ssl(self, use_ssl):
-        ValueChecker.is_bool(use_ssl)
+    def set_use_ssl(self, use_ssl: bool) -> T:
         self.__use_ssl = use_ssl
         return self
 
-    def get_use_ssl(self):
+    def get_use_ssl(self) -> bool:
         return self.__use_ssl
 
-    def set_sni(self, sni):
-        ValueChecker.is_string(sni)
+    def set_sni(self, sni: typing.Union[str, None]) -> T:
         self.__sni = sni
         return self
 
-    def get_sni(self):
+    def get_sni(self) -> T:
         return self.__sni
 
-    def set_warning_time(self, warning_time):
-        ValueChecker.is_number(warning_time)
+    def set_warning_time(self, warning_time: typing.Union[int, None]) -> T:
         self.__warning_time = warning_time
         return self
 
-    def get_warning_time(self):
+    def get_warning_time(self) -> typing.Union[int, None]:
         return self.__warning_time
 
-    def set_critical_time(self, critical_time):
-        ValueChecker.is_number(critical_time)
+    def set_critical_time(self, critical_time: typing.Union[int, None]) -> T:
         self.__critical_time = critical_time
         return self
 
-    def get_critical_time(self):
+    def get_critical_time(self) -> typing.Union[int, None]:
         return self.__critical_time
 
-    def set_timeout(self, timeout):
-        ValueChecker.is_number(timeout)
+    def set_timeout(self, timeout: int) -> T:
         self.__timeout = timeout
         return self
 
-    def get_timeout(self):
+    def get_timeout(self) -> int:
         return self.__timeout
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

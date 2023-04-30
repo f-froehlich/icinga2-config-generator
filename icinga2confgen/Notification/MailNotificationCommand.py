@@ -23,6 +23,8 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from __future__ import annotations
+
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Notification.NotificationCommand import NotificationCommand
 from icinga2confgen.ValueChecker import ValueChecker
@@ -34,7 +36,7 @@ class MailNotificationCommand(NotificationCommand):
         NotificationCommand.__init__(self, id)
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> MailNotificationCommand:
         ValueChecker.validate_id(id)
         command = None if force_create else ConfigBuilder.get_notification_command(id)
         if None is command:

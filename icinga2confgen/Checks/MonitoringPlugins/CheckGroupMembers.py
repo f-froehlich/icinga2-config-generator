@@ -1,5 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+import typing
+
+from icinga2confgen.Checks.Check import Check
+from icinga2confgen.Commands.MonitoringPlugins.GroupMembersCommand import GroupMembersCommand
+from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 #  Icinga2 configuration generator
 #
@@ -23,11 +30,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Checks.Check import Check
-from icinga2confgen.Commands.MonitoringPlugins.GroupMembersCommand import GroupMembersCommand
-from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.ValueChecker import ValueChecker
+T = typing.TypeVar('T', bound='CheckGroupMembers')
 
 
 class CheckGroupMembers(Check):
@@ -40,28 +43,28 @@ class CheckGroupMembers(Check):
         self.add_service_group(ServiceGroup.create('security'))
         self.add_service_group(ServiceGroup.create('group_members'))
 
-    def set_group(self, group):
-        ValueChecker.is_string(group)
+    def set_group(self, group: str) -> T:
         self.__group = group
         return self
 
-    def get_group(self):
+    def get_group(self) -> str:
         return self.__group
 
-    def append_user(self, user):
-        ValueChecker.is_string(user)
-        self.__users.append(user)
+    def append_user(self, user: str) -> T:
+        if user not in self.__users:
+            self.__users.append(user)
         return self
 
-    def remove_user(self, user):
-        self.__users.remove(user)
+    def remove_user(self, user: str) -> T:
+        if user in self.__users:
+            self.__users.remove(user)
         return self
 
-    def get_user(self):
+    def get_user(self) -> typing.List[str]:
         return self.__users
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

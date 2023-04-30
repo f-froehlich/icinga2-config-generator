@@ -1,27 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
-
-#  Icinga2 configuration generator
-#
-#  Icinga2 configuration file generator for hosts, commands, checks, ... in python
-#
-#  Copyright (c) 2020 Fabian Fröhlich <mail@icinga2.confgen.org> https://icinga2.confgen.org
-#
-#
-#  This program is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU Affero General Public License as
-#  published by the Free Software Foundation, either version 3 of the
-#  License, or (at your option) any later version.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU Affero General Public License for more details.
-#
-#  You should have received a copy of the GNU Affero General Public License
-#  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-#  For all license terms see README.md and LICENSE Files in root directory of this Project.
+import typing
 
 from icinga2confgen.Commands.MonitoringPlugins.OpenPortsCommand import OpenPortsCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
@@ -53,6 +32,30 @@ from icinga2confgen.Helpers.Nmap import NmapBase, \
     NmapUnprivileged
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
+
+#  Icinga2 configuration generator
+#
+#  Icinga2 configuration file generator for hosts, commands, checks, ... in python
+#
+#  Copyright (c) 2020 Fabian Fröhlich <mail@icinga2.confgen.org> https://icinga2.confgen.org
+#
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU Affero General Public License as
+#  published by the Free Software Foundation, either version 3 of the
+#  License, or (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU Affero General Public License for more details.
+#
+#  You should have received a copy of the GNU Affero General Public License
+#  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+#  For all license terms see README.md and LICENSE Files in root directory of this Project.
+
+T = typing.TypeVar('T', bound='CheckOpenPorts')
 
 
 class CheckOpenPorts(NmapBase, NmapScanUDP, NmapScanTCP, NmapN, NmapSystemDns, NmapTraceroute, NmapF, Nmapr, NmapR,
@@ -89,9 +92,7 @@ class CheckOpenPorts(NmapBase, NmapScanUDP, NmapScanTCP, NmapN, NmapSystemDns, N
         self.add_service_group(ServiceGroup.create('open_ports'))
         self.__allowed_ports = []
 
-    def add_allowed_port(self, port, protocol):
-        ValueChecker.is_number(port)
-        ValueChecker.is_string(protocol)
+    def add_allowed_port(self, port:int, protocol:str) -> T:
         protocol = protocol.lower()
 
         if protocol not in ['udp', 'tcp']:
@@ -103,24 +104,23 @@ class CheckOpenPorts(NmapBase, NmapScanUDP, NmapScanTCP, NmapN, NmapSystemDns, N
 
         return self
 
-    def remove_allowed_port(self, port, protocol):
-        ValueChecker.is_number(port)
-        ValueChecker.is_string(protocol)
+    def remove_allowed_port(self, port:int, protocol:str) -> T:
         protocol = protocol.lower()
 
         if protocol not in ['udp', 'tcp']:
             raise Exception('Protocol must be UDP or TCP in ' + self.get_id())
 
         config = str(port) + '/' + protocol
-        self.__allowed_ports.remove(config)
+        if config in self.__allowed_ports:
+            self.__allowed_ports.remove(config)
 
         return self
 
-    def get_allowed_ports(self):
+    def get_allowed_ports(self) -> typing.List[str]:
         return self.__allowed_ports
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

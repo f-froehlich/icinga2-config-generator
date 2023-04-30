@@ -1,5 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+import typing
+
+from icinga2confgen.Checks.Check import Check
+from icinga2confgen.Commands.MonitoringPlugins.DNSSECExpireCommand import DNSSECExpireCommand
+from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 #  Icinga2 configuration generator
 #
@@ -23,11 +30,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Checks.Check import Check
-from icinga2confgen.Commands.MonitoringPlugins.DNSSECExpireCommand import DNSSECExpireCommand
-from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.ValueChecker import ValueChecker
+T = typing.TypeVar('T', bound='CheckDNSSECExpire')
 
 
 class CheckDNSSECExpire(Check):
@@ -46,70 +49,63 @@ class CheckDNSSECExpire(Check):
         self.add_service_group(ServiceGroup.create('dns'))
         self.add_service_group(ServiceGroup.create('dnssec'))
 
-    def set_warning(self, warning):
-        ValueChecker.is_number(warning)
+    def set_warning(self, warning:int) -> T:
         self.__warning = warning
         return self
 
-    def get_warning(self):
+    def get_warning(self) -> int:
         return self.__warning
 
-    def set_critical(self, critical):
-        ValueChecker.is_number(critical)
+    def set_critical(self, critical : int) -> T:
         self.__critical = critical
         return self
 
-    def get_critical(self):
+    def get_critical(self) -> int:
         return self.__critical
 
-    def set_timeout(self, timeout):
-        ValueChecker.is_number(timeout)
+    def set_timeout(self, timeout: int) -> T:
         self.__timeout = timeout
         return self
 
-    def get_timeout(self):
+    def get_timeout(self) -> int:
         return self.__timeout
 
-    def add_dns_domain(self, domain):
-        ValueChecker.is_string(domain)
+    def add_dns_domain(self, domain: str) -> T:
         if domain not in self.__dns_domains:
             self.__dns_domains.append(domain)
         return self
 
-    def remove_dns_domain(self, domain):
-        ValueChecker.is_string(domain)
-        self.__dns_domains.remove(domain)
+    def remove_dns_domain(self, domain: str) -> T:
+        if domain in self.__dns_domains:
+            self.__dns_domains.remove(domain)
         return self
 
-    def get_dns_domains(self):
+    def get_dns_domains(self) -> typing.List[str]:
         return self.__dns_domains
 
-    def set_resolver(self, resolver):
-        ValueChecker.is_string(resolver)
+    def set_resolver(self, resolver: str) -> T:
         self.__resolver = resolver
         return self
 
-    def get_resolver(self):
+    def get_resolver(self) -> str:
         return self.__resolver
 
-    def set_ignore_root(self, ignore_root):
-        ValueChecker.is_bool(ignore_root)
+    def set_ignore_root(self, ignore_root:bool) -> T:
         self.__ignore_root = ignore_root
         return self
 
-    def get_ignore_root(self):
+    def get_ignore_root(self) -> bool:
         return self.__ignore_root
 
-    def set_ignore_tld(self, ignore_tld):
-        ValueChecker.is_bool(ignore_tld)
+    def set_ignore_tld(self, ignore_tld:bool) -> T:
         self.__ignore_tld = ignore_tld
         return self
 
-    def get_ignore_tld(self):
+    def get_ignore_tld(self) -> bool:
         return self.__ignore_tld
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

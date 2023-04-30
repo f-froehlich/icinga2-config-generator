@@ -1,0 +1,3 @@
+vars.command_page_content_ok += [
+"ok",
+]

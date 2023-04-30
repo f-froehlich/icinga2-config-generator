@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+import typing
 
 #  Icinga2 configuration generator
 #
@@ -29,6 +30,8 @@ from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.ValueChecker import ValueChecker
 
+T = typing.TypeVar('T', bound='CheckDHCP')
+
 
 class CheckDHCP(Check):
 
@@ -43,56 +46,50 @@ class CheckDHCP(Check):
         self.add_service_group(ServiceGroup.create('dhcp'))
         self.add_service_group(ServiceGroup.create('network'))
 
-    def set_server(self, server):
-        ValueChecker.is_string(server)
+    def set_server(self, server: typing.Union[str, None]) -> T:
         self.__server = server
         return self
 
-    def get_server(self):
+    def get_server(self) -> typing.Union[str, None]:
         return self.__server
 
-    def set_requested_ip(self, requested_ip):
-        ValueChecker.is_string(requested_ip)
+    def set_requested_ip(self, requested_ip: typing.Union[str, None]) -> T:
         self.__requested_ip = requested_ip
         return self
 
-    def get_requested_ip(self):
+    def get_requested_ip(self) -> typing.Union[str, None]:
         return self.__requested_ip
 
-    def set_timeout(self, timeout):
-        ValueChecker.is_number(timeout)
+    def set_timeout(self, timeout: typing.Union[int, None]) -> T:
         self.__timeout = timeout
         return self
 
-    def get_timeout(self):
+    def get_timeout(self) -> typing.Union[int, None]:
         return self.__timeout
 
-    def set_interface(self, interface):
-        ValueChecker.is_string(interface)
+    def set_interface(self, interface: typing.Union[str, None]) -> T:
         self.__interface = interface
         return self
 
-    def get_interface(self):
+    def get_interface(self) -> typing.Union[str, None]:
         return self.__interface
 
-    def set_mac(self, mac):
-        ValueChecker.is_string(mac)
+    def set_mac(self, mac: typing.Union[str, None]) -> T:
         self.__mac = mac
         return self
 
-    def get_mac(self):
+    def get_mac(self) -> typing.Union[str, None]:
         return self.__mac
 
-    def set_unicast(self, unicast):
-        ValueChecker.is_bool(unicast)
+    def set_unicast(self, unicast: bool) -> T:
         self.__unicast = unicast
         return self
 
-    def get_unicast(self):
+    def get_unicast(self) -> bool:
         return self.__unicast
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

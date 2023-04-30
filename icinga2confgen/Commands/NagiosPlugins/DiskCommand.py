@@ -66,9 +66,6 @@ class DiskCommand(Command):
       value = "$command_disk_inode_critical$%"
       required = true
     }
-    "--combined-thresholds" = {
-      set_if = "$command_disk_combined_thresholds$"
-    }
     "--path" = {
       value = "$command_disk_path$"
       set_if = {{ macro("$command_disk_path$") != false }}
@@ -164,14 +161,11 @@ class DiskCommand(Command):
       value = "$command_disk_exclude_type$"
       set_if = {{ macro("$command_disk_exclude_type$") != false }}
       repeat_key = true
-  }
+    }
     "--include-type" = {
       value = "$command_disk_include_type$"
       set_if = {{ macro("$command_disk_include_type$") != false }}
       repeat_key = true
-    }
-    "--newlines" = {
-      set_if = "$command_disk_newlines$"
     }
   }
 """

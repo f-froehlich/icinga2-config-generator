@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+from __future__ import annotations
+
+from typing import List, Tuple, Dict
 
 #  Icinga2 configuration generator
 #
@@ -29,13 +32,15 @@ from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.HostGroup import HostGroup
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.Helpers.RemoteCheckManager import RemoteCheckManager
-from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.Notification.Notification import Notification
+from icinga2confgen.Servers.Server import Server
 from icinga2confgen.ValueMapper import ValueMapper
 
 
 class DefaultWebserverChecks(RemoteCheckManager):
 
-    def __init__(self, vhostconfig=[], servers=[], checkserver=[], notifications=[]):
+    def __init__(self, vhostconfig: List[Tuple[str, str, str]] = [], servers: List[Server] = [],
+                 checkserver: List[Server] = [], notifications: List[Notification] = []):
         RemoteCheckManager.__init__(self, servers=servers, checkserver=checkserver, notifications=notifications)
         self.__vhostconfigs = vhostconfig
         self.__validate_certificate = True
@@ -51,118 +56,118 @@ class DefaultWebserverChecks(RemoteCheckManager):
         self.__validate_deny_tls1_3 = False
         self.__sni = True
 
-    def get_vhostconfigs(self):
+    def get_vhostconfigs(self) -> List[Tuple[str, str, str]]:
         return self.__vhostconfigs
 
-    def validate_certificate(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_certificate(self, enabled: bool) -> DefaultWebserverChecks:
+
         self.__validate_certificate = enabled
 
         return self
 
-    def is_validating_certificate(self):
+    def is_validating_certificate(self) -> bool:
         return self.__validate_certificate
 
-    def validate_http_redirect(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_http_redirect(self, enabled: bool) -> DefaultWebserverChecks:
+
         self.__validate_http_redirect = enabled
 
         return self
 
-    def is_validating_http_redirect(self):
+    def is_validating_http_redirect(self) -> bool:
         return self.__validate_http_redirect
 
-    def warn_no_http_redirect(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def warn_no_http_redirect(self, enabled: bool) -> DefaultWebserverChecks:
+
         self.__warn_no_http_redirect = enabled
 
         return self
 
-    def is_warn_no_http_redirect(self):
+    def is_warn_no_http_redirect(self) -> bool:
         return self.__warn_no_http_redirect
 
-    def validate_allow_tls1(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_allow_tls1(self, enabled: bool) -> DefaultWebserverChecks:
+
         self.__validate_allow_tls1 = enabled
 
         return self
 
-    def is_validating_allow_tls1(self):
+    def is_validating_allow_tls1(self) -> bool:
         return self.__validate_allow_tls1
 
-    def validate_deny_tls1(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_tls1(self, enabled: bool) -> DefaultWebserverChecks:
+
         self.__validate_deny_tls1 = enabled
 
         return self
 
-    def is_validating_deny_tls1(self):
+    def is_validating_deny_tls1(self) -> bool:
         return self.__validate_deny_tls1
 
-    def validate_allow_tls1_1(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_allow_tls1_1(self, enabled: bool) -> DefaultWebserverChecks:
+
         self.__validate_allow_tls1_1 = enabled
 
         return self
 
-    def is_validating_allow_tls1_1(self):
+    def is_validating_allow_tls1_1(self) -> bool:
         return self.__validate_allow_tls1_1
 
-    def validate_deny_tls1_1(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_tls1_1(self, enabled: bool) -> DefaultWebserverChecks:
+
         self.__validate_deny_tls1_1 = enabled
 
         return self
 
-    def is_validating_deny_tls1_1(self):
+    def is_validating_deny_tls1_1(self) -> bool:
         return self.__validate_deny_tls1_1
 
-    def validate_allow_tls1_2(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_allow_tls1_2(self, enabled: bool) -> DefaultWebserverChecks:
+
         self.__validate_allow_tls1_2 = enabled
 
         return self
 
-    def is_validating_allow_tls1_2(self):
+    def is_validating_allow_tls1_2(self) -> bool:
         return self.__validate_allow_tls1_2
 
-    def validate_deny_tls1_2(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_tls1_2(self, enabled: bool) -> DefaultWebserverChecks:
+
         self.__validate_deny_tls1_2 = enabled
 
         return self
 
-    def is_validating_deny_tls1_2(self):
+    def is_validating_deny_tls1_2(self) -> bool:
         return self.__validate_deny_tls1_2
 
-    def validate_allow_tls1_3(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_allow_tls1_3(self, enabled: bool) -> DefaultWebserverChecks:
+
         self.__validate_allow_tls1_3 = enabled
 
         return self
 
-    def is_validating_allow_tls1_3(self):
+    def is_validating_allow_tls1_3(self) -> bool:
         return self.__validate_allow_tls1_3
 
-    def validate_deny_tls1_3(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_tls1_3(self, enabled: bool) -> DefaultWebserverChecks:
+
         self.__validate_deny_tls1_3 = enabled
 
         return self
 
-    def is_validating_deny_tls1_3(self):
+    def is_validating_deny_tls1_3(self) -> bool:
         return self.__validate_deny_tls1_3
 
-    def set_sni(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def set_sni(self, enabled: bool) -> DefaultWebserverChecks:
+
         self.__sni = enabled
 
         return self
 
-    def get_sni(self):
+    def get_sni(self) -> bool:
         return self.__sni
 
-    def get_default_access_check(self, service_baseid, server, domain):
+    def get_default_access_check(self, service_baseid: str, server: Server, domain: str) -> Dict[str, CheckHttp]:
         base_id = service_baseid + '_' + server.get_id() + '_' + ValueMapper.canonicalize_for_id(domain)
         return {
             'ipv4': ConfigBuilder.get_check('web_access_default_ipv4_' + base_id),
@@ -210,7 +215,7 @@ class DefaultWebserverChecks(RemoteCheckManager):
                             .set_display_name(default_ipv6_http_check.get_display_name() + ' ' + domain)
                         self.apply_check(default_ipv6_http_check, server, checkserver)
 
-                    if None == default_ipv4_http_check and None == default_ipv6_http_check:
+                    if None is default_ipv4_http_check and None == default_ipv6_http_check:
                         raise Exception('Server "' + server.get_id()
                                         + '" has no IPv4 and no IPv6 address set. Can\'t go further right now.')
 
@@ -296,24 +301,25 @@ class DefaultWebserverChecks(RemoteCheckManager):
                     else:
                         server.add_hostgroup(HostGroup.create('http_redirect_unchecked'))
 
-                    self.add_tls_check(base_id, default_ipv4_http_check, default_ipv6_http_check, domain,
-                                       server, checkserver, server_ipv4, server_ipv6, uri, '1.0',
-                                       self.__validate_allow_tls1, self.__validate_deny_tls1, True)
+                    self._add_tls_check(base_id, default_ipv4_http_check, default_ipv6_http_check, domain,
+                                        server, checkserver, server_ipv4, server_ipv6, uri, '1.0',
+                                        self.__validate_allow_tls1, self.__validate_deny_tls1, True)
 
-                    self.add_tls_check(base_id, default_ipv4_http_check, default_ipv6_http_check, domain,
-                                       server, checkserver, server_ipv4, server_ipv6, uri, '1.1',
-                                       self.__validate_allow_tls1_1, self.__validate_deny_tls1_1, True)
+                    self._add_tls_check(base_id, default_ipv4_http_check, default_ipv6_http_check, domain,
+                                        server, checkserver, server_ipv4, server_ipv6, uri, '1.1',
+                                        self.__validate_allow_tls1_1, self.__validate_deny_tls1_1, True)
 
-                    self.add_tls_check(base_id, default_ipv4_http_check, default_ipv6_http_check, domain,
-                                       server, checkserver, server_ipv4, server_ipv6, uri, '1.2',
-                                       self.__validate_allow_tls1_2, self.__validate_deny_tls1_2, False)
+                    self._add_tls_check(base_id, default_ipv4_http_check, default_ipv6_http_check, domain,
+                                        server, checkserver, server_ipv4, server_ipv6, uri, '1.2',
+                                        self.__validate_allow_tls1_2, self.__validate_deny_tls1_2, False)
 
-                    self.add_tls_check(base_id, default_ipv4_http_check, default_ipv6_http_check, domain,
-                                       server, checkserver, server_ipv4, server_ipv6, uri, '1.3',
-                                       self.__validate_allow_tls1_3, self.__validate_deny_tls1_3, False)
+                    self._add_tls_check(base_id, default_ipv4_http_check, default_ipv6_http_check, domain,
+                                        server, checkserver, server_ipv4, server_ipv6, uri, '1.3',
+                                        self.__validate_allow_tls1_3, self.__validate_deny_tls1_3, False)
 
-    def add_tls_check(self, base_id, default_ipv4_http_check, default_ipv6_http_check, domain, server,
-                      checkserver, server_ipv4, server_ipv6, uri, protocol, allow, deny, insecure):
+    def _add_tls_check(self, base_id: str, default_ipv4_http_check: CheckHttp, default_ipv6_http_check: CheckHttp,
+                       domain: str, server: Server, checkserver: Server, server_ipv4: str, server_ipv6: str, uri: str,
+                       protocol: str, allow: bool, deny: bool, insecure: bool):
         protocol_id = protocol.replace('.', '_')
 
         if insecure:

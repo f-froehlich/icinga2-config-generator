@@ -28,7 +28,7 @@ import inspect
 class ValueMapper:
 
     @staticmethod
-    def get_property_default_config(instance, class_name, command_name, prefix):
+    def get_property_default_config(instance, class_name: str, command_name: str, prefix: str) -> str:
 
         attributes = inspect.getmembers(instance, lambda a: not (inspect.isroutine(a)))
         properties = [a for a in attributes if (a[0].startswith('_' + class_name + '__'))]
@@ -42,7 +42,7 @@ class ValueMapper:
         return config
 
     @staticmethod
-    def parse_var(key, value, ignore_none_value=True, value_prefix=''):
+    def parse_var(key: str, value: any, ignore_none_value: bool = True, value_prefix: str = '') -> str:
         if ignore_none_value and None is value:
             return ''
         if isinstance(value, list):
@@ -53,7 +53,7 @@ class ValueMapper:
         return '  ' + key + ' = ' + ValueMapper.parse_value_for_var(value, value_prefix) + '\n'
 
     @staticmethod
-    def parse_value_for_var(value, value_prefix=''):
+    def parse_value_for_var(value: any, value_prefix: str = '') -> str:
         if True is value:
             return 'true'
         elif False is value:
@@ -77,12 +77,12 @@ class ValueMapper:
         raise Exception('Cannot parse value ' + value)
 
     @staticmethod
-    def canonicalize_for_id(raw):
+    def canonicalize_for_id(raw: str) -> str:
         allowed_chars = ['.', '_', '-']
         return ''.join(e for e in raw if e.isalnum() or e in allowed_chars)
 
     @staticmethod
-    def replace_command_prefixes(name: str):
+    def replace_command_prefixes(name: str) -> str:
         return name.replace('claudio_kuenzler_', '') \
             .replace('hari_sekhon_nagios_plugins_', '') \
             .replace('monitoring_plugins_snmp_powernet_mib_', '') \

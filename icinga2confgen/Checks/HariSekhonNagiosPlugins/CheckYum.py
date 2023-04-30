@@ -23,6 +23,10 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from __future__ import annotations
+
+from ctypes import Union
+
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Commands.HariSekhonNagiosPlugins.YumCommand import YumCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
@@ -47,80 +51,72 @@ class CheckYum(Check):
         self.add_service_group(ServiceGroup.create('updates'))
         self.add_service_group(ServiceGroup.create('yum'))
 
-    def set_timeout(self, seconds):
+    def set_timeout(self, seconds) -> CheckYum:
         ValueChecker.is_number(seconds)
         self.__timeout = seconds
         return self
 
-    def get_timeout(self):
+    def get_timeout(self) -> int:
         return self.__timeout
 
-    def set_all_updates(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def set_all_updates(self, enabled: bool) -> CheckYum:
         self.__all_updates = enabled
         return self
 
-    def get_all_updates(self):
+    def get_all_updates(self) -> bool:
         return self.__all_updates
 
-    def set_cache_only(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def set_cache_only(self, enabled: bool) -> CheckYum:
         self.__cache_only = enabled
         return self
 
-    def get_cache_only(self):
+    def get_cache_only(self) -> bool:
         return self.__cache_only
 
-    def set_no_warn_on_lock(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def set_no_warn_on_lock(self, enabled: bool) -> CheckYum:
         self.__no_warn_on_lock = enabled
         return self
 
-    def get_no_warn_on_lock(self):
+    def get_no_warn_on_lock(self) -> bool:
         return self.__no_warn_on_lock
 
-    def set_warn_any_update(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def set_warn_any_update(self, enabled: bool) -> CheckYum:
         self.__warn_any_update = enabled
         return self
 
-    def get_warn_any_update(self):
+    def get_warn_any_update(self) -> bool:
         return self.__warn_any_update
 
-    def set_yum_config(self, config):
-        ValueChecker.is_string(config)
+    def set_yum_config(self, config: Union[str, None]) -> CheckYum:
         self.__config = config
         return self
 
-    def get_yum_config(self):
+    def get_yum_config(self) -> Union[str, None]:
         return self.__config
 
-    def set_repo_enabled(self, repo_enabled):
-        ValueChecker.is_string(repo_enabled)
+    def set_repo_enabled(self, repo_enabled: Union[str, None]) -> CheckYum:
         self.__repo_enabled = repo_enabled
         return self
 
-    def get_repo_enabled(self):
+    def get_repo_enabled(self) -> Union[str, None]:
         return self.__repo_enabled
 
-    def set_repo_disabled(self, repo_disabled):
-        ValueChecker.is_string(repo_disabled)
+    def set_repo_disabled(self, repo_disabled: Union[str, None]) -> CheckYum:
         self.__repo_disabled = repo_disabled
         return self
 
-    def get_repo_disabled(self):
+    def get_repo_disabled(self) -> Union[str, None]:
         return self.__repo_disabled
 
-    def set_plugin_disabled(self, plugin_disabled):
-        ValueChecker.is_string(plugin_disabled)
+    def set_plugin_disabled(self, plugin_disabled: Union[str, None]) -> CheckYum:
         self.__plugin_disabled = plugin_disabled
         return self
 
-    def get_plugin_disabled(self):
+    def get_plugin_disabled(self) -> Union[str, None]:
         return self.__plugin_disabled
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> CheckYum:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

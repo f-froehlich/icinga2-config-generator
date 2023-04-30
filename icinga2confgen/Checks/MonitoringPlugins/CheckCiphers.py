@@ -1,27 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
-
-#  Icinga2 configuration generator
-#
-#  Icinga2 configuration file generator for hosts, commands, checks, ... in python
-#
-#  Copyright (c) 2020 Fabian Fröhlich <mail@icinga2.confgen.org> https://icinga2.confgen.org
-#
-#
-#  This program is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU Affero General Public License as
-#  published by the Free Software Foundation, either version 3 of the
-#  License, or (at your option) any later version.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU Affero General Public License for more details.
-#
-#  You should have received a copy of the GNU Affero General Public License
-#  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-#  For all license terms see README.md and LICENSE Files in root directory of this Project.
+import typing
 
 from icinga2confgen.Commands.MonitoringPlugins.CiphersCommand import CiphersCommand
 from icinga2confgen.ConfigBuilder import ConfigBuilder
@@ -54,13 +33,37 @@ from icinga2confgen.Helpers.Nmap import NmapBase, \
     NmapScriptExecutor
 from icinga2confgen.ValueChecker import ValueChecker
 
+#  Icinga2 configuration generator
+#
+#  Icinga2 configuration file generator for hosts, commands, checks, ... in python
+#
+#  Copyright (c) 2020 Fabian Fröhlich <mail@icinga2.confgen.org> https://icinga2.confgen.org
+#
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU Affero General Public License as
+#  published by the Free Software Foundation, either version 3 of the
+#  License, or (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU Affero General Public License for more details.
+#
+#  You should have received a copy of the GNU Affero General Public License
+#  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+#  For all license terms see README.md and LICENSE Files in root directory of this Project.
+
+T = typing.TypeVar('T', bound='CheckCiphers')
+
 
 class CheckCiphers(NmapBase, NmapScriptExecutor, NmapNotScanUDP, NmapScanTCP, NmapN, NmapR, Nmapr, NmapSystemDns,
                    NmapTraceroute, NmapF, NmapSV, NmapVersionLight, NmapVersionAll, NmapVersionTrace, NmapSC,
                    NmapScriptTrace, NmapO, NmapOsscanGuess, NmapBadsum, Nmap6, NmapA, NmapSendEth, NmapSendIp,
                    NmapPrivileged, NmapPn, NmapUnprivileged):
 
-    def __init__(self, id: str):
+    def __init__(self: T, id: str):
         NmapBase.__init__(self, id, 'CheckCiphers', 'monitoring_plugins_ciphers')
         NmapNotScanUDP.__init__(self, 'ciphers')
         NmapScanTCP.__init__(self, 'ciphers')
@@ -97,42 +100,32 @@ class CheckCiphers(NmapBase, NmapScriptExecutor, NmapNotScanUDP, NmapScanTCP, Nm
         self.__ignore_protocol_strength = False
         self.__ignore_strength = False
 
-    def add_allowed_cipher(self, ip, port, protocol, cipher_names):
-        ValueChecker.is_number(port)
-        ValueChecker.is_string(ip)
-        ValueChecker.is_string(protocol)
-        ValueChecker.is_array(cipher_names)
-
+    def add_allowed_cipher(self, ip: str, port: int, protocol: str, cipher_names: typing.List[str]) -> T:
         config = ip + '/' + str(port) + '/' + protocol + '/' + ','.join(cipher_names)
         if config not in self.__allowed_ciphers:
             self.__allowed_ciphers.append(config)
 
         return self
 
-    def remove_allowed_cipher(self, ip, port, protocol, cipher_names):
-        ValueChecker.is_number(port)
-        ValueChecker.is_string(protocol)
-        ValueChecker.is_string(ip)
-        ValueChecker.is_array(cipher_names)
+    def remove_allowed_cipher(self, ip: str, port: int, protocol: str, cipher_names: typing.List[str]) -> T:
 
         config = ip + '/' + str(port) + '/' + protocol + '/' + ','.join(cipher_names)
         self.__allowed_ciphers.remove(config)
 
         return self
 
-    def get_allowed_ciphers(self):
+    def get_allowed_ciphers(self) -> typing.List[str]:
         return self.__allowed_ciphers
 
-    def validate_strength(self, strength):
+    def validate_strength(self, strength: str) -> T:
         ValueChecker.is_string(strength)
         strength = strength.upper()
         if strength not in ['A', 'B', 'C', 'D', 'E', 'F']:
             raise Exception('Invalid strength "' + strength + '" detected in ' + self.get_id())
 
-    def add_least_protocol_strength(self, ip, port, protocol, strength):
-        ValueChecker.is_number(port)
-        ValueChecker.is_string(protocol)
-        ValueChecker.is_string(ip)
+        return self
+
+    def add_least_protocol_strength(self, ip: str, port: int, protocol: str, strength: str) -> T:
         self.validate_strength(strength)
 
         config = ip + '/' + str(port) + '/' + protocol + '/' + strength
@@ -141,10 +134,7 @@ class CheckCiphers(NmapBase, NmapScriptExecutor, NmapNotScanUDP, NmapScanTCP, Nm
 
         return self
 
-    def remove_least_protocol_strength(self, ip, port, protocol, strength):
-        ValueChecker.is_number(port)
-        ValueChecker.is_string(protocol)
-        ValueChecker.is_string(ip)
+    def remove_least_protocol_strength(self, ip: str, port: int, protocol: str, strength: str) -> T:
         self.validate_strength(strength)
 
         config = ip + '/' + str(port) + '/' + protocol + '/' + strength
@@ -152,12 +142,10 @@ class CheckCiphers(NmapBase, NmapScriptExecutor, NmapNotScanUDP, NmapScanTCP, Nm
 
         return self
 
-    def get_least_protocol_strength(self):
+    def get_least_protocol_strength(self) -> typing.List[str]:
         return self.__least_protocol_strength
 
-    def add_least_port_strength(self, ip, port, strength):
-        ValueChecker.is_number(port)
-        ValueChecker.is_string(ip)
+    def add_least_port_strength(self, ip: str, port: int, strength: str) -> T:
         self.validate_strength(strength)
 
         config = ip + '/' + str(port) + '/' + strength
@@ -166,9 +154,7 @@ class CheckCiphers(NmapBase, NmapScriptExecutor, NmapNotScanUDP, NmapScanTCP, Nm
 
         return self
 
-    def remove_least_port_strength(self, ip, port, strength):
-        ValueChecker.is_number(port)
-        ValueChecker.is_string(ip)
+    def remove_least_port_strength(self, ip: str, port: int, strength: str) -> T:
         self.validate_strength(strength)
 
         config = ip + '/' + str(port) + '/' + '/' + strength
@@ -176,38 +162,35 @@ class CheckCiphers(NmapBase, NmapScriptExecutor, NmapNotScanUDP, NmapScanTCP, Nm
 
         return self
 
-    def get_least_port_strength(self):
+    def get_least_port_strength(self) -> typing.List[str]:
         return self.__least_port_strength
 
-    def set_ignore_cipher_name(self, ignore):
-        ValueChecker.is_bool(ignore)
+    def set_ignore_cipher_name(self, ignore:bool) -> T:
         self.__ignore_cipher_name = ignore
 
         return self
 
-    def get_ignore_cipher_name(self):
+    def get_ignore_cipher_name(self) -> bool:
         return self.__ignore_cipher_name
 
-    def set_ignore_protocol_strength(self, ignore):
-        ValueChecker.is_bool(ignore)
+    def set_ignore_protocol_strength(self, ignore:bool) -> T:
         self.__ignore_protocol_strength = ignore
 
         return self
 
-    def get_ignore_protocol_strength(self):
+    def get_ignore_protocol_strength(self) -> bool:
         return self.__ignore_protocol_strength
 
-    def set_ignore_strength(self, ignore):
-        ValueChecker.is_bool(ignore)
+    def set_ignore_strength(self, ignore:bool) -> T:
         self.__ignore_strength = ignore
 
         return self
 
-    def get_ignore_strength(self):
+    def get_ignore_strength(self) -> bool:
         return self.__ignore_strength
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) ->T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

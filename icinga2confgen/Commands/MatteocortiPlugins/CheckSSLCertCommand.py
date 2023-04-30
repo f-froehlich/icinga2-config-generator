@@ -2,6 +2,10 @@
 # -*- coding: utf-8
 import typing
 
+from icinga2confgen.Commands.Command import Command
+from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.ValueChecker import ValueChecker
+
 #  Icinga2 configuration generator
 #
 #  Icinga2 configuration file generator for hosts, commands, checks, ... in python
@@ -24,11 +28,9 @@ import typing
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Commands.Command import Command
-from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.ValueChecker import ValueChecker
-
 T = typing.TypeVar('T', bound='CheckSSLCertCommand')
+
+
 class CheckSSLCertCommand(Command):
 
     def __init__(self: T, id: str):

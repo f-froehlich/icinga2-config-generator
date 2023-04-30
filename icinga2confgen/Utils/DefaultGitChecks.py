@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
 
+from __future__ import annotations
+
+from typing import Tuple, List
+
 #  Icinga2 configuration generator
 #
 #  Icinga2 configuration file generator for hosts, commands, checks, ... in python
@@ -23,43 +27,44 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 from icinga2confgen.Checks.NagiosPlugins.CheckHttp import CheckHttp
+from icinga2confgen.Notification.Notification import Notification
+from icinga2confgen.Servers.Server import Server
 from icinga2confgen.Utils.DefaultWebserverChecks import DefaultWebserverChecks
 from icinga2confgen.ValueChecker import ValueChecker
 
 
 class DefaultGitChecks(DefaultWebserverChecks):
 
-    def __init__(self, vhostconfig=[], servers=[], checkserver=[], notifications=[]):
+    def __init__(self, vhostconfig: List[Tuple[str, str, str]] = [], servers: List[Server] = [],
+                 checkserver: List[Server] = [], notifications: List[Notification] = []):
         DefaultWebserverChecks.__init__(self, vhostconfig, servers, checkserver, notifications)
         self.__validate_deny_git = True
         self.__validate_deny_gitignore = True
         self.__inherit = True
 
-    def set_inherit(self, enabled):
+    def set_inherit(self, enabled: bool) -> DefaultGitChecks:
         ValueChecker.is_bool(enabled)
         self.__inherit = enabled
 
         return self
 
-    def is_inherit(self):
+    def is_inherit(self) -> bool:
         return self.__inherit
 
-    def validate_deny_git(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_git(self, enabled: bool) -> DefaultGitChecks:
         self.__validate_deny_git = enabled
 
         return self
 
-    def is_validating_deny_git(self):
+    def is_validating_deny_git(self) -> bool:
         return self.__validate_deny_git
 
-    def validate_deny_gitignore(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_gitignore(self, enabled: bool) -> DefaultGitChecks:
         self.__validate_deny_gitignore = enabled
 
         return self
 
-    def is_validating_deny_gitignore(self):
+    def is_validating_deny_gitignore(self) -> bool:
         return self.__validate_deny_gitignore
 
     def apply(self):
@@ -81,7 +86,8 @@ class DefaultGitChecks(DefaultWebserverChecks):
                         self.create_git_check('gitignore', service_baseid, base_id, domain, server, checkserver,
                                               '/.gitignore')
 
-    def create_git_check(self, name, base_id, service_baseid, domain, server, checkserver, uri):
+    def create_git_check(self, name: str, base_id: str, service_baseid: str, domain: str, server: Server,
+                         checkserver: Server, uri: str):
 
         if None is server.get_ipv4() and None is server.get_ipv6():
             raise Exception('It is required to set the ipv4 or ipv6 on the server with id "' +

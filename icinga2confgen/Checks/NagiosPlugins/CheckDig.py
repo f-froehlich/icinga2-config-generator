@@ -1,5 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+import typing
+
+from icinga2confgen.Checks.Check import Check
+from icinga2confgen.Commands.NagiosPlugins.DigCommand import DigCommand
+from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 #  Icinga2 configuration generator
 #
@@ -23,11 +30,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Checks.Check import Check
-from icinga2confgen.Commands.NagiosPlugins.DigCommand import DigCommand
-from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.ValueChecker import ValueChecker
+T = typing.TypeVar('T', bound='CheckDig')
 
 
 class CheckDig(Check):
@@ -50,96 +53,85 @@ class CheckDig(Check):
         self.add_service_group(ServiceGroup.create('dig'))
         self.add_service_group(ServiceGroup.create('network'))
 
-    def set_warning_time(self, seconds):
-        ValueChecker.is_number(seconds)
+    def set_warning_time(self, seconds: int) -> T:
         self.__warning_time = seconds
         return self
 
-    def get_warning_time(self):
+    def get_warning_time(self) -> int:
         return self.__warning_time
 
-    def set_critical_time(self, seconds):
-        ValueChecker.is_number(seconds)
+    def set_critical_time(self, seconds: int) -> T:
         self.__critical_time = seconds
         return self
 
-    def get_critical_time(self):
+    def get_critical_time(self) -> int:
         return self.__critical_time
 
-    def set_timeout(self, seconds):
-        ValueChecker.is_number(seconds)
+    def set_timeout(self, seconds: int) -> T:
         self.__timeout = seconds
         return self
 
-    def get_timeout(self):
+    def get_timeout(self) -> int:
         return self.__timeout
 
-    def set_question_arguments(self, arguments):
-        ValueChecker.is_string(arguments)
+    def set_question_arguments(self, arguments: typing.Union[str, None]) -> T:
         self.__question_arguments = arguments
         return self
 
-    def get_question_arguments(self):
+    def get_question_arguments(self) -> typing.Union[str, None]:
         return self.__question_arguments
 
-    def set_expected_address(self, address):
-        ValueChecker.is_string(address)
+    def set_expected_address(self, address: str) -> T:
         self.__expected_address = address
         return self
 
-    def get_expected_address(self):
+    def get_expected_address(self) -> typing.Union[str, None]:
         return self.__expected_address
 
-    def set_record_type(self, type):
-        ValueChecker.is_string(type)
+    def set_record_type(self, type: str) -> T:
         self.__record_type = type
         return self
 
-    def get_record_type(self):
+    def get_record_type(self) -> str:
         return self.__record_type
 
-    def set_question(self, address):
-        ValueChecker.is_string(address)
+    def set_question(self, address: str) -> T:
         self.__question = address
         return self
 
-    def get_question(self):
+    def get_question(self) -> typing.Union[str, None]:
         return self.__question
 
-    def set_dnsserver_hostname(self, hostname):
-        ValueChecker.is_string(hostname)
+    def set_dnsserver_hostname(self, hostname: typing.Union[str, None]) -> T:
         self.__dnsserver_hostname = hostname
         return self
 
-    def get_dnsserver_hostname(self):
+    def get_dnsserver_hostname(self) -> typing.Union[str, None]:
         return self.__dnsserver_hostname
 
-    def set_dnsserver_port(self, port):
-        ValueChecker.is_number(port)
+    def set_dnsserver_port(self, port: typing.Union[int, None]) -> T:
         self.__dnsserver_port = port
         return self
 
-    def get_dnsserver_port(self):
+    def get_dnsserver_port(self) -> typing.Union[int, None]:
         return self.__dnsserver_port
 
-    def set_only_ipv4(self, enabled):
-        ValueChecker.is_number(enabled)
+    def set_only_ipv4(self, enabled: bool) -> T:
         self.__only_ipv4 = enabled
         return self
 
-    def get_only_ipv4(self):
+    def get_only_ipv4(self) -> bool:
         return self.__only_ipv4
 
-    def set_only_ipv6(self, enabled):
-        ValueChecker.is_number(enabled)
+    def set_only_ipv6(self, enabled: bool) -> T:
         self.__only_ipv6 = enabled
         return self
 
-    def get_only_ipv6(self):
+    def get_only_ipv6(self) -> bool:
         return self.__only_ipv6
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

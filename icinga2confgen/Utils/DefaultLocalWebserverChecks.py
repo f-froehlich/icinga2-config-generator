@@ -25,6 +25,8 @@
 import typing
 
 from icinga2confgen.Checks.MonitoringPlugins.Webserver.Apache2.CheckProxyRequests import CheckProxyRequests
+from icinga2confgen.Notification.Notification import Notification
+from icinga2confgen.Servers.Server import Server
 from icinga2confgen.Utils.DefaultLocalChecks import DefaultLocalChecks
 from icinga2confgen.ValueChecker import ValueChecker
 
@@ -33,7 +35,8 @@ T = typing.TypeVar('T', bound='DefaultLocalWebserverChecks')
 
 class DefaultLocalWebserverChecks(DefaultLocalChecks):
 
-    def __init__(self: T, servers=[], notifications=[], sudoers=[], additional_users=[]):
+    def __init__(self, servers: typing.List[Server] = [], notifications: typing.List[Notification] = [], sudoers: typing.List[str] = [],
+                 additional_users: typing.List[str] = []):
         DefaultLocalChecks.__init__(self, servers, notifications, sudoers, additional_users)
         self.__inherit = True
 

@@ -23,6 +23,8 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from __future__ import annotations
+
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
@@ -33,20 +35,20 @@ class ScriptDirs:
         self.__icinga_script_dir = '/etc/icinga2/scripts/'
         self.__monitoring_script_dir = '/usr/local/monitoring/monitoring_scripts/'
 
-    def set_icinga_scriptdir(self, dir):
+    def set_icinga_scriptdir(self, dir: str) -> ScriptDirs:
         ValueChecker.is_string(dir)
         self.__icinga_script_dir = dir
         return self
 
-    def get_icinga_scriptdir(self):
+    def get_icinga_scriptdir(self) -> str:
         return self.__icinga_script_dir
 
-    def set_monitoring_scriptdir(self, dir):
+    def set_monitoring_scriptdir(self, dir: str) -> ScriptDirs:
         ValueChecker.is_string(dir)
         self.__icinga_script_dir = dir
         return self
 
-    def get_monitoring_scriptdir(self):
+    def get_monitoring_scriptdir(self) -> str:
         return self.__monitoring_script_dir
 
     def get_config(self) -> str:

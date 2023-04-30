@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
 
+from __future__ import annotations
+
 #  Icinga2 configuration generator
 #
 #  Icinga2 configuration file generator for hosts, commands, checks, ... in python
@@ -72,7 +74,7 @@ class SynologySNMPChecks(RemoteCheckManager):
         self.__check_memory: bool = True
         self.__services: List[Tuple[str, int, int]] = []
 
-    def check_general_status(self, enabled: bool):
+    def check_general_status(self, enabled: bool) -> SynologySNMPChecks:
         self.__check_general_status = enabled
 
         return self
@@ -80,7 +82,7 @@ class SynologySNMPChecks(RemoteCheckManager):
     def is_checking_general_status(self) -> bool:
         return self.__check_general_status
 
-    def check_system_status(self, enabled: bool):
+    def check_system_status(self, enabled: bool) -> SynologySNMPChecks:
         self.__check_system_status = enabled
 
         return self
@@ -88,7 +90,7 @@ class SynologySNMPChecks(RemoteCheckManager):
     def is_checking_system_status(self) -> bool:
         return self.__check_system_status
 
-    def check_temperature(self, enabled: bool):
+    def check_temperature(self, enabled: bool) -> SynologySNMPChecks:
         self.__check_temperature = enabled
 
         return self
@@ -96,7 +98,7 @@ class SynologySNMPChecks(RemoteCheckManager):
     def is_checking_temperature(self) -> bool:
         return self.__check_temperature
 
-    def check_upgrade(self, enabled: bool):
+    def check_upgrade(self, enabled: bool) -> SynologySNMPChecks:
         self.__check_upgrade = enabled
 
         return self
@@ -104,121 +106,121 @@ class SynologySNMPChecks(RemoteCheckManager):
     def is_checking_upgrade(self) -> bool:
         return self.__check_upgrade
 
-    def check_cpu_fan_status(self, enabled: bool):
+    def check_cpu_fan_status(self, enabled: bool) -> SynologySNMPChecks:
         ValueChecker.is_bool(enabled)
         self.__check_cpu_fan_status = enabled
 
         return self
 
-    def is_checking_cpu_fan_status(self):
+    def is_checking_cpu_fan_status(self) -> bool:
         return self.__check_cpu_fan_status
 
-    def check_raid_status(self, enabled: bool):
+    def check_raid_status(self, enabled: bool) -> SynologySNMPChecks:
         ValueChecker.is_bool(enabled)
         self.__check_raid_status = enabled
 
         return self
 
-    def is_checking_raid_status(self):
+    def is_checking_raid_status(self) -> bool:
         return self.__check_raid_status
 
-    def check_power_status(self, enabled: bool):
+    def check_power_status(self, enabled: bool) -> SynologySNMPChecks:
         ValueChecker.is_bool(enabled)
         self.__check_power_status = enabled
 
         return self
 
-    def is_checking_power_status(self):
+    def is_checking_power_status(self) -> bool:
         return self.__check_power_status
 
-    def check_disk_temperature(self, enabled: bool):
+    def check_disk_temperature(self, enabled: bool) -> SynologySNMPChecks:
         ValueChecker.is_bool(enabled)
         self.__check_disk_temperature = enabled
 
         return self
 
-    def is_checking_disk_temperature(self):
+    def is_checking_disk_temperature(self) -> bool:
         return self.__check_disk_temperature
 
-    def check_gpu_info(self, enabled: bool):
+    def check_gpu_info(self, enabled: bool) -> SynologySNMPChecks:
         ValueChecker.is_bool(enabled)
         self.__check_gpu_info = enabled
 
         return self
 
-    def is_checking_gpu_info(self):
+    def is_checking_gpu_info(self) -> bool:
         return self.__check_gpu_info
 
-    def check_smart(self, enabled: bool):
+    def check_smart(self, enabled: bool) -> SynologySNMPChecks:
         ValueChecker.is_bool(enabled)
         self.__check_smart = enabled
 
         return self
 
-    def is_checking_smart(self):
+    def is_checking_smart(self) -> bool:
         return self.__check_smart
 
-    def check_space_io(self, enabled: bool):
+    def check_space_io(self, enabled: bool) -> SynologySNMPChecks:
         ValueChecker.is_bool(enabled)
         self.__check_space_io = enabled
 
         return self
 
-    def is_checking_space_io(self):
+    def is_checking_space_io(self) -> bool:
         return self.__check_space_io
 
-    def check_storage_io(self, enabled: bool):
+    def check_storage_io(self, enabled: bool) -> SynologySNMPChecks:
         ValueChecker.is_bool(enabled)
         self.__check_storage_io = enabled
 
         return self
 
-    def is_checking_storage_io(self):
+    def is_checking_storage_io(self) -> bool:
         return self.__check_storage_io
 
-    def check_service_used(self, enabled: bool):
+    def check_service_used(self, enabled: bool) -> SynologySNMPChecks:
         ValueChecker.is_bool(enabled)
         self.__check_service_used = enabled
 
         return self
 
-    def is_checking_service_used(self):
+    def is_checking_service_used(self) -> bool:
         return self.__check_service_used
 
-    def check_service_running(self, enabled: bool):
+    def check_service_running(self, enabled: bool) -> SynologySNMPChecks:
         ValueChecker.is_bool(enabled)
         self.__check_service_running = enabled
 
         return self
 
-    def is_checking_service_running(self):
+    def is_checking_service_running(self) -> bool:
         return self.__check_service_running
 
-    def check_disk_load(self, enabled: bool):
+    def check_disk_load(self, enabled: bool) -> SynologySNMPChecks:
         ValueChecker.is_bool(enabled)
         self.__check_disk_load = enabled
 
         return self
 
-    def is_checking_disk_load(self):
+    def is_checking_disk_load(self) -> bool:
         return self.__check_disk_load
 
-    def check_cpu_load(self, enabled: bool):
+    def check_cpu_load(self, enabled: bool) -> SynologySNMPChecks:
         ValueChecker.is_bool(enabled)
         self.__check_cpu_load = enabled
 
         return self
 
-    def is_checking_cpu_load(self):
+    def is_checking_cpu_load(self) -> bool:
         return self.__check_cpu_load
 
-    def check_memory(self, enabled: bool):
+    def check_memory(self, enabled: bool) -> SynologySNMPChecks:
         ValueChecker.is_bool(enabled)
         self.__check_memory = enabled
 
         return self
 
-    def is_checking_memory(self):
+    def is_checking_memory(self) -> bool:
         return self.__check_memory
 
     def add_service(self, service: str, warning: int, critical: int):
@@ -384,7 +386,8 @@ class SynologySNMPChecks(RemoteCheckManager):
 
                 if self.__check_service_used:
                     for service in self.__services:
-                        check = CheckServiceUsed.create(f'synology_service_used_{ValueMapper.canonicalize_for_id(service[0])}_{base_id}')
+                        check = CheckServiceUsed.create(
+                            f'synology_service_used_{ValueMapper.canonicalize_for_id(service[0])}_{base_id}')
                         check.set_host(ip) \
                             .set_username(username) \
                             .set_password(password) \

@@ -23,4 +23,5 @@ class TestCheckPageContent(BaseCheckTest):
     def create_instance(self, force=False):
         instance = BaseCheckTest.create_instance(self, force)
         instance.set_domain('domain')
+        instance.set_ok('ok')
         return instance

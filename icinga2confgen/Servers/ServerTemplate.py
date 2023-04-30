@@ -23,6 +23,10 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from __future__ import annotations
+
+from typing import Union, List
+
 from icinga2confgen.Checks.Check import Check
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.HostGroup import HostGroup
@@ -59,7 +63,7 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable, CustomVars):
         self.__execution_endpoint = None
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> ServerTemplate:
         ValueChecker.validate_id(id)
 
         template = None if force_create else ConfigBuilder.get_template(id)
@@ -72,211 +76,140 @@ class ServerTemplate(PluginDirs, ScriptDirs, Checkable, CustomVars):
     def get_id(self) -> str:
         return self.__id
 
-    def set_execution_zone(self, zone):
-        if isinstance(zone, Zone):
-            self.__execution_zone = zone
-
-        elif isinstance(zone, str):
-            zone = ConfigBuilder.get_zone(zone)
-            if None is zone:
-                raise Exception('Zone does not exist yet!')
-            self.__execution_zone = zone
-        else:
-            raise Exception('Can only add Zone or id of Zone!')
+    def set_execution_zone(self, zone: Zone) -> ServerTemplate:
+        self.__execution_zone = zone
 
         return self
 
-    def get_execution_zone(self):
+    def get_execution_zone(self) -> Zone:
         return self.__execution_zone
 
-    def set_execution_endpoint(self, endpoint):
-        ValueChecker.is_string(endpoint)
+    def set_execution_endpoint(self, endpoint: Union[str, None]) -> ServerTemplate:
         self.__execution_endpoint = endpoint
         return self
 
-    def get_execution_endpoint(self):
+    def get_execution_endpoint(self) -> Union[str, None]:
         return self.__execution_endpoint
 
-    def set_ipv4(self, ip):
-        ValueChecker.is_string(ip)
+    def set_ipv4(self, ip: Union[str, None]) -> ServerTemplate:
         self.__ipv4 = ip
         return self
 
-    def get_ipv4(self):
+    def get_ipv4(self) -> Union[str, None]:
         return self.__ipv4
 
-    def set_ipv6(self, ip):
+    def set_ipv6(self, ip: Union[str, None]) -> ServerTemplate:
         ValueChecker.is_string(ip)
         self.__ipv6 = ip
         return self
 
-    def get_ipv6(self):
+    def get_ipv6(self) -> Union[str, None]:
         return self.__ipv6
 
-    def set_ssh_template(self, ssh_template):
+    def set_ssh_template(self, ssh_template: Union[SSHTemplate, None]) -> ServerTemplate:
 
-        if isinstance(ssh_template, SSHTemplate):
-            self.__ssh_template = ssh_template
-
-        elif isinstance(ssh_template, str):
-            ssh_template = ConfigBuilder.get_ssh_template(ssh_template)
-            if None is ssh_template:
-                raise Exception('SSHTemplate does not exist yet!')
-            self.__ssh_template = ssh_template
-        else:
-            raise Exception('Can only add SSHTemplate or id of SSHTemplate!')
+        self.__ssh_template = ssh_template
 
         return self
 
-    def get_ssh_template(self):
+    def get_ssh_template(self) -> Union[SSHTemplate, None]:
 
         return self.__ssh_template
 
-    def set_os(self, os):
-
-        if isinstance(os, OS):
-            self.__os = os
-
-        elif isinstance(os, str):
-            os = ConfigBuilder.get_os(os)
-            if None is os:
-                raise Exception('OS does not exist yet!')
-            self.__os = os
-        else:
-            raise Exception('Can only add OS or id of OS!')
+    def set_os(self, os: Union[OS, None]) -> ServerTemplate:
+        self.__os = os
 
         return self
 
-    def get_os(self):
+    def get_os(self) -> Union[OS, None]:
 
         return self.__os
 
-    def add_check(self, check):
-        if isinstance(check, Check):
-            if check not in self.__checks:
-                self.__checks.append(check)
-
-        elif isinstance(check, str):
-            check = ConfigBuilder.get_check(check)
-            if None is check:
-                raise Exception('Check does not exist yet!')
-            self.add_check(check)
-        else:
-            raise Exception('Can only add Check or id of Check!')
+    def add_check(self, check: Check) -> ServerTemplate:
+        if check not in self.__checks:
+            self.__checks.append(check)
 
         return self
 
-    def get_checks(self):
+    def get_checks(self) -> List[Check]:
 
         return self.__checks
 
-    def get_all_checks(self):
+    def get_all_checks(self) -> List[Check]:
         checks = self.get_checks()
         for template in self.get_templates():
             checks += template.get_all_checks()
 
         return checks
 
-    def remove_check(self, check):
-        if isinstance(check, Check):
-            self.__checks.remove(check)
-
-        elif isinstance(check, str):
-            check = ConfigBuilder.get_check(check)
+    def remove_check(self, check: Check):
+        if check in self.__checks:
             self.__checks.remove(check)
 
         return self
 
-    def add_template(self, template):
-        if isinstance(template, ServerTemplate):
-            if template not in self.__templates:
-                self.__templates.append(template)
-
-        elif isinstance(template, str):
-            template = ConfigBuilder.get_template(template)
-            if None is template:
-                raise Exception('ServerTemplate does not exist yet!')
-            self.add_template(template)
-        else:
-            raise Exception('Can only add ServerTemplate or id of ServerTemplate!')
+    def add_template(self, template: ServerTemplate) -> ServerTemplate:
+        if template not in self.__templates:
+            self.__templates.append(template)
 
         return self
 
-    def remove_template(self, template):
-        if isinstance(template, ServerTemplate):
+    def remove_template(self, template: ServerTemplate) -> ServerTemplate:
+        if template in self.__templates:
             self.__templates.remove(template.get_id())
-        elif isinstance(template, str):
-            template = ConfigBuilder.get_template(template)
-            self.__templates.remove(template)
 
         return self
 
-    def get_templates(self):
+    def get_templates(self) -> List[ServerTemplate]:
 
         return self.__templates
 
-    def add_hostgroup(self, group):
-        if isinstance(group, HostGroup):
-            if group not in self.__groups:
-                self.__groups.append(group)
-        elif isinstance(group, str):
-            group = ConfigBuilder.get_hostgroup(group)
-            if None is group:
-                raise Exception('HostGroup does not exist yet!')
-            self.add_hostgroup(group)
-        else:
-            raise Exception('Can only add HostGroup or id of HostGroup!')
+    def add_hostgroup(self, group: HostGroup) -> ServerTemplate:
+        if group not in self.__groups:
+            self.__groups.append(group)
 
         return self
 
-    def get_hostgroups(self):
+    def get_hostgroups(self) -> List[HostGroup]:
         return self.__groups
 
-    def get_hostgroups_recursive(self):
+    def get_hostgroups_recursive(self) -> List[HostGroup]:
         groups = self.__groups
         for template in self.__templates:
-            groups += template.get_hostgroups()
+            groups += template.get_hostgroups_recursive()
 
         return groups
 
-    def remove_hostgroup(self, group):
-        if isinstance(group, HostGroup):
-            self.__groups.remove(group)
-        elif isinstance(group, str):
-            group = ConfigBuilder.get_hostgroup(group)
+    def remove_hostgroup(self, group: HostGroup) -> ServerTemplate:
+        if group in self.__groups:
             self.__groups.remove(group)
 
         return self
 
-    def add_package_manager(self, package_manager):
+    def add_package_manager(self, package_manager: PackageManager) -> ServerTemplate:
 
-        if isinstance(package_manager, PackageManager):
-            if package_manager not in self.__package_manager:
-                self.__package_manager.append(package_manager)
-
-        elif isinstance(package_manager, str):
-            package_manager = ConfigBuilder.get_package_manager(package_manager)
-            if None is package_manager:
-                raise Exception('PackageManager does not exist yet!')
-            self.add_package_manager(package_manager)
-        else:
-            raise Exception('Can only add PackageManager or id of PackageManager!')
+        if package_manager not in self.__package_manager:
+            self.__package_manager.append(package_manager)
 
         return self
 
-    def remove_package_manager(self, package_manager):
+    def remove_package_manager(self, package_manager: PackageManager) -> ServerTemplate:
 
-        if isinstance(package_manager, PackageManager):
-            self.__package_manager.remove(package_manager)
-
-        elif isinstance(package_manager, str):
-            package_manager = ConfigBuilder.get_package_manager(package_manager)
+        if package_manager in self.__package_manager:
             self.__package_manager.remove(package_manager)
 
         return self
 
-    def get_package_managers(self):
+    def get_package_managers(self) -> List[PackageManager]:
         return self.__package_manager
+
+
+    def get_package_manager_recursive(self) -> List[PackageManager]:
+        package_managers = self.__package_manager
+        for template in self.__templates:
+            package_managers += template.get_package_manager_recursive()
+
+        return package_managers
 
     def get_config(self) -> str:
         config = 'template Host "servertemplate_' + self.__id + '" {\n'

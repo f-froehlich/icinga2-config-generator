@@ -26,33 +26,33 @@ from icinga2confgen.OS.OS import OS
 from icinga2confgen.PackageManager.PackageManager import rpm
 
 
-def os_rhel_1(): return OS.create('rhel_1').set_distro('rhel').set_version('1').set_os(
+def os_rhel_1() -> OS: return OS.create('rhel_1').set_distro('rhel').set_version('1').set_os(
     'Red Hat Enterprise Linux 1').add_package_manager(rpm())
 
 
-def os_rhel_2(): return OS.create('rhel_2').set_distro('rhel').set_version('2').set_os(
+def os_rhel_2() -> OS: return OS.create('rhel_2').set_distro('rhel').set_version('2').set_os(
     'Red Hat Enterprise Linux 2').add_package_manager(rpm())
 
 
-def os_rhel_3(): return OS.create('rhel_3').set_distro('rhel').set_version('3').set_os(
+def os_rhel_3() -> OS: return OS.create('rhel_3').set_distro('rhel').set_version('3').set_os(
     'Red Hat Enterprise Linux 3').add_package_manager(rpm())
 
 
-def os_rhel_4(): return OS.create('rhel_4').set_distro('rhel').set_version('4').set_os(
+def os_rhel_4() -> OS: return OS.create('rhel_4').set_distro('rhel').set_version('4').set_os(
     'Red Hat Enterprise Linux 4').add_package_manager(rpm())
 
 
-def os_rhel_5(): return OS.create('rhel_5').set_distro('rhel').set_version('5').set_os(
+def os_rhel_5() -> OS: return OS.create('rhel_5').set_distro('rhel').set_version('5').set_os(
     'Red Hat Enterprise Linux 5').add_package_manager(rpm())
 
 
-def os_rhel_6(): return OS.create('rhel_6').set_distro('rhel').set_version('6').set_os(
+def os_rhel_6() -> OS: return OS.create('rhel_6').set_distro('rhel').set_version('6').set_os(
     'Red Hat Enterprise Linux 6').add_package_manager(rpm())
 
 
-def os_rhel_7(): return OS.create('rhel_7').set_distro('rhel').set_version('7').set_os(
+def os_rhel_7() -> OS: return OS.create('rhel_7').set_distro('rhel').set_version('7').set_os(
     'Red Hat Enterprise Linux 7').add_package_manager(rpm())
 
 
-def os_rhel_8(): return OS.create('rhel_8').set_distro('rhel').set_version('8').set_os(
+def os_rhel_8() -> OS: return OS.create('rhel_8').set_distro('rhel').set_version('8').set_os(
     'Red Hat Enterprise Linux 8').add_package_manager(rpm())

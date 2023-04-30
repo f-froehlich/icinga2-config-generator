@@ -27,6 +27,7 @@ from __future__ import annotations
 import typing
 from typing import List
 
+from icinga2confgen.Checks.Check import Check
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Dependency.Dependency import Dependency
 from icinga2confgen.ValueChecker import ValueChecker
@@ -60,23 +61,15 @@ class CheckDependency(Dependency):
 
     def validate(self: T):
         Dependency.validate(self)
-        if None == self.__parent_service_name:
+        if None is self.__parent_service_name:
             raise Exception('You have to set a check to depends on on dependency with id "' + self.get_id() + '"')
 
-    def set_check(self: T, check):
-        if isinstance(check, str):
-            check = ConfigBuilder.get_check(check)
-            if None is check:
-                raise Exception('Check does not exist yet!')
-            self.__parent_service_name = check
-        elif callable(getattr(check, 'get_id', None)):
-            return self.set_check(check.get_id())
-        else:
-            raise Exception('Can only add Check or id of Check!')
+    def set_check(self: T, check: Check) -> T:
+        self.__parent_service_name = check
 
         return self
 
-    def get_check(self: T):
+    def get_check(self: T) -> typing.Union[Check, None]:
         return self.__parent_service_name
 
     def get_config(self: T) -> str:
@@ -85,7 +78,7 @@ class CheckDependency(Dependency):
         config = Dependency.get_config(self)
         config += 'apply Dependency "servicedependency_' + self.get_id() + '" to Service {\n'
         config += '  import "dependency_' + self.get_id() + '"\n'
-        config += ValueMapper.parse_var('parent_service_name', self.__parent_service_name)
+        config += ValueMapper.parse_var('parent_service_name', self.__parent_service_name.get_id())
         config += '  assign where "dependency_' + self.get_id() + '" in service.vars.dependencies\n'
         config += '}\n'
 

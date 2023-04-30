@@ -1,5 +1,14 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+from __future__ import annotations
+
+from typing import List
+
+from icinga2confgen.Notification.Notification import Notification
+from icinga2confgen.Servers.Server import Server
+from icinga2confgen.Utils.DefaultLocalChecks import DefaultLocalChecks
+from icinga2confgen.ValueChecker import ValueChecker
+
 
 #  Icinga2 configuration generator
 #
@@ -23,13 +32,10 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Utils.DefaultLocalChecks import DefaultLocalChecks
-from icinga2confgen.ValueChecker import ValueChecker
-
-
 class DefaultLocalMailserverChecks(DefaultLocalChecks):
 
-    def __init__(self, servers=[], notifications=[], sudoers=[], additional_users=[]):
+    def __init__(self, servers: List[Server] = [], notifications: List[Notification] = [], sudoers: List[str] = [],
+                 additional_users: List[str] = []):
         DefaultLocalChecks.__init__(self, servers, notifications, sudoers, additional_users)
         self.__check_amavisd_running = True
         self.__check_dovecot_running = True
@@ -40,49 +46,49 @@ class DefaultLocalMailserverChecks(DefaultLocalChecks):
         DefaultLocalChecks.check_clamd_running(self, True)
         DefaultLocalChecks.check_postfix_running(self, True)
 
-    def set_inherit(self, enabled):
+    def set_inherit(self, enabled: bool) -> DefaultLocalMailserverChecks:
         ValueChecker.is_bool(enabled)
         self.__inherit = enabled
 
         return self
 
-    def is_inherit(self):
+    def is_inherit(self) -> bool:
         return self.__inherit
 
-    def check_amavisd_running(self, enabled):
+    def check_amavisd_running(self, enabled: bool) -> DefaultLocalMailserverChecks:
         ValueChecker.is_bool(enabled)
         self.__check_amavisd_running = enabled
 
         return self
 
-    def is_checking_amavisd_running(self):
+    def is_checking_amavisd_running(self) -> bool:
         return self.__check_amavisd_running
 
-    def check_dovecot_running(self, enabled):
+    def check_dovecot_running(self, enabled: bool) -> DefaultLocalMailserverChecks:
         ValueChecker.is_bool(enabled)
         self.__check_dovecot_running = enabled
 
         return self
 
-    def is_checking_dovecot_running(self):
+    def is_checking_dovecot_running(self) -> bool:
         return self.__check_dovecot_running
 
-    def check_postgrey_running(self, enabled):
+    def check_postgrey_running(self, enabled: bool) -> DefaultLocalMailserverChecks:
         ValueChecker.is_bool(enabled)
         self.__check_postgrey_running = enabled
 
         return self
 
-    def is_checking_postgrey_running(self):
+    def is_checking_postgrey_running(self) -> bool:
         return self.__check_postgrey_running
 
-    def check_opendkim_running(self, enabled):
+    def check_opendkim_running(self, enabled: bool) -> DefaultLocalMailserverChecks:
         ValueChecker.is_bool(enabled)
         self.__check_opendkim_running = enabled
 
         return self
 
-    def is_checking_opendkim_running(self):
+    def is_checking_opendkim_running(self) -> bool:
         return self.__check_opendkim_running
 
     def apply(self):

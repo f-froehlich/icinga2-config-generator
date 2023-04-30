@@ -1,5 +1,29 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+from __future__ import annotations
+
+from typing import List
+
+from icinga2confgen.Checks.HariSekhonNagiosPlugins.CheckYum import CheckYum
+from icinga2confgen.Checks.MonitoringPlugins.CheckExistingUsers import CheckExistingUsers
+from icinga2confgen.Checks.MonitoringPlugins.CheckGroupMembers import CheckGroupMembers
+from icinga2confgen.Checks.MonitoringPlugins.CheckRebootRequired import CheckRebootRequired
+from icinga2confgen.Checks.MonitoringPlugins.CheckSSHDSecurity import CheckSSHDSecurity
+from icinga2confgen.Checks.MonitoringPlugins.CheckUFWStatus import CheckUFWStatus
+from icinga2confgen.Checks.NagiosPlugins.CheckApt import CheckApt
+from icinga2confgen.Checks.NagiosPlugins.CheckDisk import CheckDisk
+from icinga2confgen.Checks.NagiosPlugins.CheckLoad import CheckLoad
+from icinga2confgen.Checks.NagiosPlugins.CheckNTPTime import CheckNTPTime
+from icinga2confgen.Checks.NagiosPlugins.CheckProcs import CheckProcs
+from icinga2confgen.Checks.NagiosPlugins.CheckSWAP import CheckSWAP
+from icinga2confgen.Checks.NagiosPlugins.CheckSensors import CheckSensors
+from icinga2confgen.Checks.NagiosPlugins.CheckUsers import CheckUsers
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.Helpers.LocalCheckManager import LocalCheckManager
+from icinga2confgen.Notification.Notification import Notification
+from icinga2confgen.Servers.Server import Server
+from icinga2confgen.ValueChecker import ValueChecker
+
 
 #  Icinga2 configuration generator
 #
@@ -23,28 +47,11 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Checks.HariSekhonNagiosPlugins.CheckYum import CheckYum
-from icinga2confgen.Checks.MonitoringPlugins.CheckExistingUsers import CheckExistingUsers
-from icinga2confgen.Checks.MonitoringPlugins.CheckGroupMembers import CheckGroupMembers
-from icinga2confgen.Checks.MonitoringPlugins.CheckRebootRequired import CheckRebootRequired
-from icinga2confgen.Checks.MonitoringPlugins.CheckSSHDSecurity import CheckSSHDSecurity
-from icinga2confgen.Checks.MonitoringPlugins.CheckUFWStatus import CheckUFWStatus
-from icinga2confgen.Checks.NagiosPlugins.CheckApt import CheckApt
-from icinga2confgen.Checks.NagiosPlugins.CheckDisk import CheckDisk
-from icinga2confgen.Checks.NagiosPlugins.CheckLoad import CheckLoad
-from icinga2confgen.Checks.NagiosPlugins.CheckNTPTime import CheckNTPTime
-from icinga2confgen.Checks.NagiosPlugins.CheckProcs import CheckProcs
-from icinga2confgen.Checks.NagiosPlugins.CheckSWAP import CheckSWAP
-from icinga2confgen.Checks.NagiosPlugins.CheckSensors import CheckSensors
-from icinga2confgen.Checks.NagiosPlugins.CheckUsers import CheckUsers
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.Helpers.LocalCheckManager import LocalCheckManager
-from icinga2confgen.ValueChecker import ValueChecker
-
 
 class DefaultLocalChecks(LocalCheckManager):
 
-    def __init__(self, servers=[], notifications=[], sudoers=[], additional_users=[]):
+    def __init__(self, servers: List[Server] = [], notifications: List[Notification] = [], sudoers: List[str] = [],
+                 additional_users: List[str] = []):
         LocalCheckManager.__init__(self, servers=servers, notifications=notifications)
         self.__additional_users = additional_users
         self.__check_load = True
@@ -81,241 +88,241 @@ class DefaultLocalChecks(LocalCheckManager):
         self.__ufw_rules = []
         self.__ufw_defaults = ('deny', 'allow', 'deny')
 
-    def check_load(self, enabled):
+    def check_load(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_load = enabled
 
         return self
 
-    def is_checking_load(self):
+    def is_checking_load(self) -> bool:
         return self.__check_load
 
-    def check_reboot_required(self, enabled):
+    def check_reboot_required(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_reboot_required = enabled
 
         return self
 
-    def is_checking_reboot_required(self):
+    def is_checking_reboot_required(self) -> bool:
         return self.__check_reboot_required
 
-    def check_procs(self, enabled):
+    def check_procs(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_procs = enabled
 
         return self
 
-    def is_checking_procs(self):
+    def is_checking_procs(self) -> bool:
         return self.__check_procs
 
-    def check_sensors(self, enabled):
+    def check_sensors(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_sensors = enabled
 
         return self
 
-    def is_checking_sensors(self):
+    def is_checking_sensors(self) -> bool:
         return self.__check_sensors
 
-    def check_apt(self, enabled):
+    def check_apt(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_apt = enabled
 
         return self
 
-    def is_checking_apt(self):
+    def is_checking_apt(self) -> bool:
         return self.__check_apt
 
-    def check_yum(self, enabled):
+    def check_yum(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_yum = enabled
 
         return self
 
-    def is_checking_yum(self):
+    def is_checking_yum(self) -> bool:
         return self.__check_yum
 
-    def check_users(self, enabled):
+    def check_users(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_users = enabled
 
         return self
 
-    def is_checking_users(self):
+    def is_checking_users(self) -> bool:
         return self.__check_users
 
-    def check_swap(self, enabled):
+    def check_swap(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_swap = enabled
 
         return self
 
-    def is_checking_swap(self):
+    def is_checking_swap(self) -> bool:
         return self.__check_swap
 
-    def check_ntp_time(self, enabled):
+    def check_ntp_time(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_ntp_time = enabled
 
         return self
 
-    def is_checking_ntp_time(self):
+    def is_checking_ntp_time(self) -> bool:
         return self.__check_ntp_time
 
-    def check_disk(self, enabled):
+    def check_disk(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_disk = enabled
 
         return self
 
-    def is_checking_disk(self):
+    def is_checking_disk(self) -> bool:
         return self.__check_disk
 
-    def check_sshd_security(self, enabled):
+    def check_sshd_security(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_sshd_security = enabled
 
         return self
 
-    def is_checking_sshd_security(self):
+    def is_checking_sshd_security(self) -> bool:
         return self.__check_sshd_security
 
-    def check_sshd_running(self, enabled):
+    def check_sshd_running(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_sshd_running = enabled
 
         return self
 
-    def is_checking_sshd_running(self):
+    def is_checking_sshd_running(self) -> bool:
         return self.__check_sshd_running
 
-    def check_freshclam_running(self, enabled):
+    def check_freshclam_running(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_freshclam_running = enabled
 
         return self
 
-    def is_checking_freshclam_running(self):
+    def is_checking_freshclam_running(self) -> bool:
         return self.__check_freshclam_running
 
-    def check_clamd_running(self, enabled):
+    def check_clamd_running(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_clamd_running = enabled
 
         return self
 
-    def is_checking_clamd_running(self):
+    def is_checking_clamd_running(self) -> bool:
         return self.__check_clamd_running
 
-    def check_postfix_running(self, enabled):
+    def check_postfix_running(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_postfix_running = enabled
 
         return self
 
-    def is_checking_postfix_running(self):
+    def is_checking_postfix_running(self) -> bool:
         return self.__check_postfix_running
 
-    def check_mysqld_running(self, enabled):
+    def check_mysqld_running(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_mysqld_running = enabled
 
         return self
 
-    def is_checking_mysqld_running(self):
+    def is_checking_mysqld_running(self) -> bool:
         return self.__check_mysqld_running
 
-    def check_postgres_running(self, enabled):
+    def check_postgres_running(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_postgres_running = enabled
 
         return self
 
-    def is_checking_postgres_running(self):
+    def is_checking_postgres_running(self) -> bool:
         return self.__check_postgres_running
 
-    def check_cron_running(self, enabled):
+    def check_cron_running(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_cron_running = enabled
 
         return self
 
-    def is_checking_cron_running(self):
+    def is_checking_cron_running(self) -> bool:
         return self.__check_cron_running
 
-    def check_crond_running(self, enabled):
+    def check_crond_running(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_crond_running = enabled
 
         return self
 
-    def is_checking_crond_running(self):
+    def is_checking_crond_running(self) -> bool:
         return self.__check_crond_running
 
-    def check_rsyslogd_running(self, enabled):
+    def check_rsyslogd_running(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_rsyslogd_running = enabled
 
         return self
 
-    def is_checking_rsyslogd_running(self):
+    def is_checking_rsyslogd_running(self) -> bool:
         return self.__check_rsyslogd_running
 
-    def check_nginx_running(self, enabled):
+    def check_nginx_running(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_nginx_running = enabled
 
         return self
 
-    def is_checking_nginx_running(self):
+    def is_checking_nginx_running(self) -> bool:
         return self.__check_nginx_running
 
-    def check_apache_running(self, enabled):
+    def check_apache_running(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_apache_running = enabled
 
         return self
 
-    def is_checking_apache_running(self):
+    def is_checking_apache_running(self) -> bool:
         return self.__check_apache_running
 
-    def check_httpd_running(self, enabled):
+    def check_httpd_running(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_httpd_running = enabled
 
         return self
 
-    def is_checking_httpd_running(self):
+    def is_checking_httpd_running(self) -> bool:
         return self.__check_httpd_running
 
-    def check_tomcat_running(self, enabled):
+    def check_tomcat_running(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_tomcat_running = enabled
 
         return self
 
-    def is_checking_tomcat_running(self):
+    def is_checking_tomcat_running(self) -> bool:
         return self.__check_tomcat_running
 
-    def check_php_fpm_running(self, enabled):
+    def check_php_fpm_running(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_php_fpm_running = enabled
 
         return self
 
-    def is_checking_php_fpm_running(self):
+    def is_checking_php_fpm_running(self) -> bool:
         return self.__check_php_fpm_running
 
-    def check_ufw(self, enabled):
+    def check_ufw(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_ufw = enabled
 
         return self
 
-    def is_checking_ufw(self):
+    def is_checking_ufw(self) -> bool:
         return self.__check_ufw
 
-    def add_ufw_rule(self, policy_from, policy_to, policy_action):
+    def add_ufw_rule(self, policy_from: str, policy_to: str, policy_action: str) -> DefaultLocalChecks:
         ValueChecker.is_string(policy_from)
         ValueChecker.is_string(policy_to)
         ValueChecker.is_string(policy_action)
@@ -323,64 +330,59 @@ class DefaultLocalChecks(LocalCheckManager):
             (policy_from.replace(' ', '-'), policy_to.replace(' ', '-'), policy_action.replace(' ', '-')))
         return self
 
-    def set_ufw_defaults(self, incoming, outgoing, routing):
+    def set_ufw_defaults(self, incoming: str, outgoing: str, routing: str) -> DefaultLocalChecks:
         self.__ufw_defaults = tuple((incoming, outgoing, routing))
         return self
 
-    def add_partition(self, id, path, warning_percent, critical_percent):
-        ValueChecker.is_string(id)
-        ValueChecker.is_string(path)
-        ValueChecker.is_number(warning_percent)
-        ValueChecker.is_number(critical_percent)
+    def add_partition(self, id: str, path: str, warning_percent: int, critical_percent: int) -> DefaultLocalChecks:
         self.__check_partitions.append((id, path, warning_percent, critical_percent))
 
         return self
 
-    def check_sudoers(self, enabled):
+    def check_sudoers(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_sudoers = enabled
 
         return self
 
-    def is_checking_sudoers(self):
+    def is_checking_sudoers(self) -> bool:
         return self.__check_sudoers
 
-    def check_normal_users(self, enabled):
+    def check_normal_users(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_normal_users = enabled
 
         return self
 
-    def is_checking_normal_users(self):
+    def is_checking_normal_users(self) -> bool:
         return self.__check_normal_users
 
-    def check_wheel(self, enabled):
+    def check_wheel(self, enabled: bool) -> DefaultLocalChecks:
         ValueChecker.is_bool(enabled)
         self.__check_wheel = enabled
 
         return self
 
-    def is_checking_wheel(self):
+    def is_checking_wheel(self) -> bool:
         return self.__check_wheel
 
-    def add_sudoers(self, username):
+    def add_sudoers(self, username: str) -> DefaultLocalChecks:
         ValueChecker.is_string(username)
         self.__sudoers.append(username)
 
         return self
 
-    def add_normal_user(self, username):
+    def add_normal_user(self, username: str) -> DefaultLocalChecks:
         ValueChecker.is_string(username)
         self.__additional_users.append(username)
 
         return self
 
-    def add_notification(self, notification):
-        # todo type check
+    def add_notification(self, notification: Notification) -> DefaultLocalChecks:
         self.__notifications.append(notification)
         return self
 
-    def get_notification(self):
+    def get_notification(self) -> List[Notification]:
         return self.__notifications
 
     def apply(self):

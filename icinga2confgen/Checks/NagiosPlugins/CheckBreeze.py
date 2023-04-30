@@ -1,5 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+import typing
+
+from icinga2confgen.Checks.Check import Check
+from icinga2confgen.Commands.NagiosPlugins.BreezeCommand import BreezeCommand
+from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 #  Icinga2 configuration generator
 #
@@ -23,11 +30,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Checks.Check import Check
-from icinga2confgen.Commands.NagiosPlugins.BreezeCommand import BreezeCommand
-from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.ValueChecker import ValueChecker
+T = typing.TypeVar('T', bound='CheckBreeze')
 
 
 class CheckBreeze(Check):
@@ -40,40 +43,36 @@ class CheckBreeze(Check):
         self.__community = None
         self.add_service_group(ServiceGroup.create('breeze'))
 
-    def set_host(self, host):
-        ValueChecker.is_string(host)
+    def set_host(self, host: str) -> T:
         self.__host = host
         return self
 
-    def get_host(self):
+    def get_host(self) -> typing.Union[str, None]:
         return self.__host
 
-    def set_warning(self, warning):
-        ValueChecker.is_string(warning)
+    def set_warning(self, warning: str) -> T:
         self.__warning = warning
         return self
 
-    def get_warning(self):
+    def get_warning(self) -> typing.Union[str, None]:
         return self.__warning
 
-    def set_critical(self, critical):
-        ValueChecker.is_string(critical)
+    def set_critical(self, critical: str) -> T:
         self.__critical = critical
         return self
 
-    def get_critical(self):
+    def get_critical(self) -> typing.Union[str, None]:
         return self.__critical
 
-    def set_community(self, community):
-        ValueChecker.is_string(community)
+    def set_community(self, community: typing.Union[str, None]) -> T:
         self.__community = community
         return self
 
-    def get_community(self):
+    def get_community(self) -> typing.Union[str, None]:
         return self.__community
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

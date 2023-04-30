@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
 
+from __future__ import annotations
+
+from typing import List, Tuple
+
 #  Icinga2 configuration generator
 #
 #  Icinga2 configuration file generator for hosts, commands, checks, ... in python
@@ -27,12 +31,15 @@ from icinga2confgen.Checks.NagiosPlugins.CheckPing4 import CheckPing4
 from icinga2confgen.Checks.NagiosPlugins.CheckPing6 import CheckPing6
 from icinga2confgen.Checks.NagiosPlugins.CheckSSH import CheckSSH
 from icinga2confgen.Helpers.RemoteCheckManager import RemoteCheckManager
+from icinga2confgen.Notification.Notification import Notification
+from icinga2confgen.Servers.Server import Server
 from icinga2confgen.ValueChecker import ValueChecker
 
 
 class DefaultRemoteChecks(RemoteCheckManager):
 
-    def __init__(self, servers=[], checkserver=[], notifications=[]):
+    def __init__(self, servers: List[Server] = [], checkserver: List[Server] = [],
+                 notifications: List[Notification] = []):
         RemoteCheckManager.__init__(self, servers=servers, checkserver=checkserver, notifications=notifications)
         self.__check_ping = True
         self.__check_open_ports = False
@@ -40,45 +47,41 @@ class DefaultRemoteChecks(RemoteCheckManager):
         self.__check_ssh = True
         self.__check_ssh_port = 22
 
-    def check_ping(self, enabled):
+    def check_ping(self, enabled: bool) -> DefaultRemoteChecks:
         ValueChecker.is_bool(enabled)
         self.__check_ping = enabled
 
         return self
 
-    def is_checking_ping(self):
+    def is_checking_ping(self) -> bool:
         return self.__check_ping
 
-    def check_ssh(self, enabled):
+    def check_ssh(self, enabled: bool) -> DefaultRemoteChecks:
         ValueChecker.is_bool(enabled)
         self.__check_ssh = enabled
 
         return self
 
-    def is_checking_ssh(self):
+    def is_checking_ssh(self) -> bool:
         return self.__check_ssh
 
-    def check_ssh_port(self, port):
-        ValueChecker.is_number(port)
+    def check_ssh_port(self, port: int) -> DefaultRemoteChecks:
         self.__check_ssh_port = port
 
         return self
 
-    def is_checking_ssh_port(self):
-        return self.__check_ssh_port
+    def is_checking_ssh_port(self) -> bool:
+        return self.__check_ssh
 
-    def check_open_ports(self, port):
-        ValueChecker.is_number(port)
+    def check_open_ports(self, port: int) -> DefaultRemoteChecks:
         self.__check_open_ports = port
 
         return self
 
-    def is_checking_open_ports(self):
+    def is_checking_open_ports(self) -> bool:
         return self.__check_open_ports
 
-    def add_allowed_port(self, port, protocol):
-        ValueChecker.is_number(port)
-        ValueChecker.is_string(protocol)
+    def add_allowed_port(self, port: int, protocol: str) -> DefaultRemoteChecks:
         protocol = protocol.lower()
 
         config = (port, protocol)
@@ -87,9 +90,7 @@ class DefaultRemoteChecks(RemoteCheckManager):
 
         return self
 
-    def remove_allowed_port(self, port, protocol):
-        ValueChecker.is_number(port)
-        ValueChecker.is_string(protocol)
+    def remove_allowed_port(self, port: int, protocol: str) -> DefaultRemoteChecks:
         protocol = protocol.lower()
 
         config = (port, protocol)
@@ -97,7 +98,7 @@ class DefaultRemoteChecks(RemoteCheckManager):
 
         return self
 
-    def get_allowed_ports(self):
+    def get_allowed_ports(self) -> List[Tuple[int, str]]:
         return self.__open_ports
 
     def apply(self):

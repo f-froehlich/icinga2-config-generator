@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
 
+from __future__ import annotations
+
 #  Icinga2 configuration generator
 #
 #  Icinga2 configuration file generator for hosts, commands, checks, ... in python
@@ -54,7 +56,7 @@ class User(NotificationFunctions, Nameable):
         self.__vars = []
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> User:
         ValueChecker.validate_id(id)
 
         user = None if force_create else ConfigBuilder.get_user(id)
@@ -67,17 +69,17 @@ class User(NotificationFunctions, Nameable):
     def get_id(self) -> str:
         return self.__id
 
-    def set_types(self, types):
+    def set_types(self, types: List[str]) -> User:
         for type in types:
             if type not in self.__allowed_types:
                 raise Exception('Type ' + type + ' is not allowed')
         self.__types = types
         return self
 
-    def get_types(self):
+    def get_types(self) -> List[str]:
         return self.__types
 
-    def set_states(self, states: List[str]):
+    def set_states(self, states: List[str]) -> User:
         for state in states:
             if state not in self.__allowed_states:
                 raise Exception('State ' + state + ' is not allowed')
@@ -87,67 +89,50 @@ class User(NotificationFunctions, Nameable):
     def get_states(self) -> List[str]:
         return self.__states
 
-    def add_group(self, group):
+    def add_group(self, group: UserGroup) -> User:
 
-        if isinstance(group, UserGroup):
+        if group not in self.__groups:
             self.__groups.append(group)
-
-        elif isinstance(group, str):
-            group = ConfigBuilder.get_usergroup(group)
-            if None is group:
-                raise Exception('UserGroup does not exist yet!')
-            self.__groups.append(group)
-        else:
-            raise Exception('Can only add UserGroup or id of UserGroup!')
-
         return self
 
-    def remove_group(self, group):
+    def remove_group(self, group: UserGroup) -> User:
 
-        if isinstance(group, UserGroup):
+        if group in self.__groups:
             self.__groups.remove(group)
-
-        elif isinstance(group, str):
-            group = ConfigBuilder.get_usergroup(group)
-            self.__groups.remove(group)
-
         return self
 
-    def get_groups(self):
+    def get_groups(self) -> List[UserGroup]:
 
         return self.__groups
 
-    def add_var(self, key, value):
+    def add_var(self, key: str, value: any) -> User:
 
-        ValueChecker.is_string(key)
         self.__vars.append((key, value))
 
         return self
 
-    def get_var(self, key):
+    def get_var(self, key: str) -> any:
 
-        ValueChecker.is_string(key)
         for var in self.__vars:
             if var[0] == key:
                 return var[0]
 
         return None
 
-    def remove_var(self, key):
+    def remove_var(self, key: str) -> User:
 
         ValueChecker.is_string(key)
         var = self.get_var(key)
-        if None != var:
+        if None is not var:
             self.__vars.remove((key, var))
 
         return self
 
-    def set_enable_notifications(self, enable_notifications):
-        ValueChecker.is_bool(enable_notifications)
+    def set_enable_notifications(self, enable_notifications: bool) -> User:
         self.__enable_notifications = enable_notifications
         return self
 
-    def get_enable_notifications(self):
+    def get_enable_notifications(self) -> bool:
         return self.__enable_notifications
 
     def validate(self):

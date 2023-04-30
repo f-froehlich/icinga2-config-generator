@@ -1,4 +1,14 @@
+vars.command_disk_all = false
+vars.command_disk_clear_thresholds = false
 vars.command_disk_critical = "10%"
+vars.command_disk_display_mountpoint = false
+vars.command_disk_errors_only = false
+vars.command_disk_exact_match = false
+vars.command_disk_freespace_ignore_reserved = false
 vars.command_disk_inode_critical = 10
+vars.command_disk_inode_perfdata = false
 vars.command_disk_inode_warning = 20
+vars.command_disk_local = false
+vars.command_disk_skip_fake_fs = false
+vars.command_disk_stat_remote_fs = false
 vars.command_disk_warning = "20%"

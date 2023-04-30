@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+from __future__ import annotations
+
+from typing import List, Tuple
 
 #  Icinga2 configuration generator
 #
@@ -25,14 +28,16 @@
 from icinga2confgen.Checks.NagiosPlugins.CheckHttp import CheckHttp
 from icinga2confgen.Groups.HostGroup import HostGroup
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.Notification.Notification import Notification
+from icinga2confgen.Servers.Server import Server
 from icinga2confgen.Utils.DefaultWebserverChecks import DefaultWebserverChecks
-from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
 
 
 class DefaultWordpressChecks(DefaultWebserverChecks):
 
-    def __init__(self, vhostconfig=[], servers=[], checkserver=[], notifications=[]):
+    def __init__(self, vhostconfig: List[Tuple[str, str, str]] = [], servers: List[Server] = [],
+                 checkserver: List[Server] = [], notifications: List[Notification] = []):
         DefaultWebserverChecks.__init__(self, vhostconfig, servers, checkserver, notifications)
         self.__validate_deny_license = True
         self.__validate_deny_readme = True
@@ -54,175 +59,175 @@ class DefaultWordpressChecks(DefaultWebserverChecks):
         self.__validate_deny_wp_links_opml = True
         self.__inherit = True
 
-    def set_inherit(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def set_inherit(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__inherit = enabled
 
         return self
 
-    def is_inherit(self):
+    def is_inherit(self) -> bool:
         return self.__inherit
 
-    def validate_deny_license(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_license(self, enabled: bool) -> DefaultWordpressChecks:
+        
         self.__validate_deny_license = enabled
 
         return self
 
-    def is_validating_deny_license(self):
+    def is_validating_deny_license(self) -> bool:
         return self.__validate_deny_license
 
-    def validate_deny_readme(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_readme(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__validate_deny_readme = enabled
 
         return self
 
-    def is_validating_deny_readme(self):
+    def is_validating_deny_readme(self) -> bool:
         return self.__validate_deny_readme
 
-    def validate_deny_wp_admin(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_wp_admin(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__validate_deny_wp_admin = enabled
 
         return self
 
-    def is_validating_deny_wp_admin(self):
+    def is_validating_deny_wp_admin(self) -> bool:
         return self.__validate_deny_wp_admin
 
-    def validate_deny_wp_includes(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_wp_includes(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__validate_deny_wp_includes = enabled
 
         return self
 
-    def is_validating_deny_wp_includes(self):
+    def is_validating_deny_wp_includes(self) -> bool:
         return self.__validate_deny_wp_includes
 
-    def validate_deny_wp_content(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_wp_content(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__validate_deny_wp_content = enabled
 
         return self
 
-    def is_validating_deny_wp_content(self):
+    def is_validating_deny_wp_content(self) -> bool:
         return self.__validate_deny_wp_content
 
-    def validate_deny_wp_login(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_wp_login(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__validate_deny_wp_login = enabled
 
         return self
 
-    def is_validating_deny_wp_login(self):
+    def is_validating_deny_wp_login(self) -> bool:
         return self.__validate_deny_wp_login
 
-    def validate_deny_wp_cron(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_wp_cron(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__validate_deny_wp_cron = enabled
 
         return self
 
-    def is_validating_deny_wp_cron(self):
+    def is_validating_deny_wp_cron(self) -> bool:
         return self.__validate_deny_wp_cron
 
-    def validate_deny_wp_load(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_wp_load(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__validate_deny_wp_load = enabled
 
         return self
 
-    def is_validating_deny_wp_load(self):
+    def is_validating_deny_wp_load(self) -> bool:
         return self.__validate_deny_wp_load
 
-    def validate_deny_wp_mail(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_wp_mail(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__validate_deny_wp_mail = enabled
 
         return self
 
-    def is_validating_deny_wp_mail(self):
+    def is_validating_deny_wp_mail(self) -> bool:
         return self.__validate_deny_wp_mail
 
-    def validate_deny_wp_settings(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_wp_settings(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__validate_deny_wp_settings = enabled
 
         return self
 
-    def is_validating_deny_wp_settings(self):
+    def is_validating_deny_wp_settings(self) -> bool:
         return self.__validate_deny_wp_settings
 
-    def validate_deny_wp_signup(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_wp_signup(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__validate_deny_wp_signup = enabled
 
         return self
 
-    def is_validating_deny_wp_signup(self):
+    def is_validating_deny_wp_signup(self) -> bool:
         return self.__validate_deny_wp_signup
 
-    def validate_deny_wp_trackback(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_wp_trackback(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__validate_deny_wp_trackback = enabled
 
         return self
 
-    def is_validating_deny_wp_trackback(self):
+    def is_validating_deny_wp_trackback(self) -> bool:
         return self.__validate_deny_wp_trackback
 
-    def validate_deny_wp_xmlrpc(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_wp_xmlrpc(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__validate_deny_wp_xmlrpc = enabled
 
         return self
 
-    def is_validating_deny_wp_xmlrpc(self):
+    def is_validating_deny_wp_xmlrpc(self) -> bool:
         return self.__validate_deny_wp_xmlrpc
 
-    def validate_deny_wp_config(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_wp_config(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__validate_deny_wp_config = enabled
 
         return self
 
-    def is_validating_deny_wp_config(self):
+    def is_validating_deny_wp_config(self) -> bool:
         return self.__validate_deny_wp_config
 
-    def validate_deny_wp_config_sample(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_wp_config_sample(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__validate_deny_wp_config_sample = enabled
 
         return self
 
-    def is_validating_deny_wp_config_sample(self):
+    def is_validating_deny_wp_config_sample(self) -> bool:
         return self.__validate_deny_wp_config_sample
 
-    def validate_deny_wp_blog_header(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_wp_blog_header(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__validate_deny_wp_blog_header = enabled
 
         return self
 
-    def is_validating_deny_wp_blog_header(self):
+    def is_validating_deny_wp_blog_header(self) -> bool:
         return self.__validate_deny_wp_blog_header
 
-    def validate_deny_wp_activate(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_wp_activate(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__validate_deny_wp_activate = enabled
 
         return self
 
-    def is_validating_deny_wp_activate(self):
+    def is_validating_deny_wp_activate(self) -> bool:
         return self.__validate_deny_wp_activate
 
-    def validate_deny_wp_links_opml(self, enabled):
-        ValueChecker.is_bool(enabled)
+    def validate_deny_wp_links_opml(self, enabled: bool) -> DefaultWordpressChecks:
+
         self.__validate_deny_wp_links_opml = enabled
 
         return self
 
-    def is_validating_deny_wp_links_opml(self):
+    def is_validating_deny_wp_links_opml(self) -> bool:
         return self.__validate_deny_wp_links_opml
 
     def create_wp_check(self, name, service_baseid, base_id, server, checkserver, domain, uri):

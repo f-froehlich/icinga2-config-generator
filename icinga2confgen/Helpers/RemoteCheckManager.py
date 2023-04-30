@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+from __future__ import annotations
 
+from typing import List, Union
+
+from icinga2confgen.Checks.Check import Check
 #  Icinga2 configuration generator
 #
 #  Icinga2 configuration file generator for hosts, commands, checks, ... in python
@@ -23,21 +27,26 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 from icinga2confgen.Helpers.LocalCheckManager import LocalCheckManager
+from icinga2confgen.Notification.Notification import Notification
+from icinga2confgen.Servers.Server import Server
 
 
 class RemoteCheckManager(LocalCheckManager):
 
-    def __init__(self, checkserver=[], servers=[], notifications=[]):
+    def __init__(self, checkserver: List[Server] = [], servers: List[Server] = [],
+                 notifications: List[Notification] = []):
         LocalCheckManager.__init__(self, servers=servers, notifications=notifications)
         self.__checkserver = checkserver
 
-    def get_checkservers(self):
+    def get_checkservers(self) -> List[Server]:
         return self.__checkserver
 
-    def add_checkserver(self, checkserver):
+    def add_checkserver(self, checkserver: Server) -> RemoteCheckManager:
         self.__checkserver.append(checkserver)
+        return self
 
-    def apply_check(self, check, server, checkserver, depends_on=None):
+    def apply_check(self, check: Check, server: Server, checkserver: Server,
+                    depends_on: Union[Check, None] = None) -> RemoteCheckManager:
         self.apply_notification_to_check(check)
         check.set_check_type(self.get_check_type())
         check.set_generated(True)

@@ -1,5 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+import typing
+
+from icinga2confgen.Checks.Check import Check
+from icinga2confgen.Commands.MonitoringPlugins.RebootRequiredCommand import RebootRequiredCommand
+from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 #  Icinga2 configuration generator
 #
@@ -22,12 +29,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-
-from icinga2confgen.Checks.Check import Check
-from icinga2confgen.Commands.MonitoringPlugins.RebootRequiredCommand import RebootRequiredCommand
-from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.ValueChecker import ValueChecker
+T = typing.TypeVar('T', bound='CheckRebootRequired')
 
 
 class CheckRebootRequired(Check):
@@ -40,24 +42,22 @@ class CheckRebootRequired(Check):
         self.add_service_group(ServiceGroup.create('reboot'))
         self.add_service_group(ServiceGroup.create('system_health'))
 
-    def set_exit_critical(self, exit_critical):
-        ValueChecker.is_bool(exit_critical)
+    def set_exit_critical(self, exit_critical: bool) -> T:
         self.__exit_critical = exit_critical
         return self
 
-    def get_exit_critical(self):
+    def get_exit_critical(self) -> bool:
         return self.__exit_critical
 
-    def set_ignore_scheduled(self, ignore_scheduled):
-        ValueChecker.is_bool(ignore_scheduled)
+    def set_ignore_scheduled(self, ignore_scheduled: bool) -> T:
         self.__ignore_scheduled = ignore_scheduled
         return self
 
-    def get_ignore_scheduled(self):
+    def get_ignore_scheduled(self) -> bool:
         return self.__ignore_scheduled
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

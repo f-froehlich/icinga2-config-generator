@@ -23,6 +23,8 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from __future__ import annotations
+
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Servers.ServerTemplate import ServerTemplate
 from icinga2confgen.ValueChecker import ValueChecker
@@ -38,7 +40,7 @@ class Server(ServerTemplate):
         return self.__id
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> Server:
         ValueChecker.validate_id(id)
 
         server = None if force_create else ConfigBuilder.get_server(id)

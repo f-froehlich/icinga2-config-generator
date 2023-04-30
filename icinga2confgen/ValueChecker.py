@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+from typing import List
 
 #  Icinga2 configuration generator
 #
@@ -27,7 +28,7 @@ from icinga2confgen.ValueMapper import ValueMapper
 class ValueChecker:
 
     @staticmethod
-    def get_prefixes():
+    def get_prefixes() -> List[str]:
 
         return [
             'server',
@@ -51,7 +52,7 @@ class ValueChecker:
         ]
 
     @staticmethod
-    def validate_id(id):
+    def validate_id(id: str):
         prefixes = ValueChecker.get_prefixes()
 
         for prefix in prefixes:

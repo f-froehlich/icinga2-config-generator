@@ -1,5 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+import typing
+
+from icinga2confgen.Checks.Check import Check
+from icinga2confgen.Commands.MonitoringPlugins.DenyTlsVersionCommand import DenyTlsVersionCommand
+from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 #  Icinga2 configuration generator
 #
@@ -23,11 +30,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Checks.Check import Check
-from icinga2confgen.Commands.MonitoringPlugins.DenyTlsVersionCommand import DenyTlsVersionCommand
-from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.ValueChecker import ValueChecker
+T = typing.TypeVar('T', bound='CheckDenyTlsVersion')
 
 
 class CheckDenyTlsVersion(Check):
@@ -42,34 +45,32 @@ class CheckDenyTlsVersion(Check):
         self.add_service_group(ServiceGroup.create('webserver'))
         self.add_service_group(ServiceGroup.create('tls'))
 
-    def set_protocol(self, number):
+    def set_protocol(self, number: str) -> T:
         ValueChecker.is_string(number)
         if number not in ['1.0', '1.1', '1.2', '1.3']:
             raise Exception('Protocol must be 1.0 | 1.1 | 1.2 | 1.3')
         self.__protocol = number
         return self
 
-    def get_protocol(self):
+    def get_protocol(self) -> typing.Union[str, None]:
         return self.__protocol
 
-    def set_address(self, address):
-        ValueChecker.is_string(address)
+    def set_address(self, address: str) -> T:
         self.__address = address
         return self
 
-    def get_address(self):
+    def get_address(self) -> typing.Union[str, None]:
         return self.__address
 
-    def set_domain(self, number):
-        ValueChecker.is_string(number)
-        self.__domain = number
+    def set_domain(self, domain: str) -> T:
+        self.__domain = domain
         return self
 
-    def get_domain(self):
+    def get_domain(self) -> typing.Union[str, None]:
         return self.__domain
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

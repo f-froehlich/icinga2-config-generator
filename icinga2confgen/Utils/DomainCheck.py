@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+from __future__ import annotations
+
+from typing import List, Tuple
 
 #  Icinga2 configuration generator
 #
@@ -23,16 +26,20 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 from icinga2confgen.Helpers.RemoteCheckManager import RemoteCheckManager
+from icinga2confgen.Notification.Notification import Notification
+from icinga2confgen.Servers.Server import Server
 
 
 class DomainCheck(RemoteCheckManager):
 
-    def __init__(self, domain_configs=[], checkserver=[], notifications=[]):
+    def __init__(self, domain_configs: List[Tuple[str, str, str, bool]] = [], checkserver: List[Server] = [],
+                 notifications: List[Notification] = []):
         RemoteCheckManager.__init__(self, servers=[], checkserver=checkserver, notifications=notifications)
         self.__domain_configs = domain_configs
 
-    def add_domainconfig(self, config):
+    def add_domainconfig(self, config: Tuple[str, str, str, bool]) -> DomainCheck:
         self.__domain_configs.append(config)
+        return self
 
     def apply(self):
 

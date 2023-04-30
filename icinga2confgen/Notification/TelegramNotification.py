@@ -1,5 +1,17 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+from __future__ import annotations
+
+from typing import Union, List
+
+from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Groups.UserGroup import UserGroup
+from icinga2confgen.Notification.Notification import Notification
+from icinga2confgen.Notification.TelegramNotificationCommand import TelegramNotificationCommand
+from icinga2confgen.User.User import User
+from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.ValueMapper import ValueMapper
+
 
 #  Icinga2 configuration generator
 #
@@ -23,12 +35,6 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Notification.Notification import Notification
-from icinga2confgen.Notification.TelegramNotificationCommand import TelegramNotificationCommand
-from icinga2confgen.ValueChecker import ValueChecker
-from icinga2confgen.ValueMapper import ValueMapper
-
 
 class TelegramNotification(Notification):
 
@@ -36,17 +42,16 @@ class TelegramNotification(Notification):
         Notification.__init__(self, id)
         self.__api_token = None
 
-    def set_api_token(self, token):
-        ValueChecker.is_string(token)
+    def set_api_token(self, token: Union[str, None]) -> TelegramNotification:
         self.__api_token = token
 
         return self
 
-    def get_api_token(self):
+    def get_api_token(self) -> Union[str, None]:
         return self.__api_token
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> TelegramNotification:
         ValueChecker.validate_id(id)
 
         notification = None if force_create else ConfigBuilder.get_notification(id)
@@ -56,10 +61,10 @@ class TelegramNotification(Notification):
 
         return notification
 
-    def get_command_config(self):
+    def get_command_config(self) -> TelegramNotificationCommand:
         return TelegramNotificationCommand.create('telegram')
 
-    def user_config_function(self, user):
+    def user_config_function(self, user: User) -> List[str]:
         if 0 == len(user.get_telegram_id()):
             return []
 
@@ -71,7 +76,7 @@ class TelegramNotification(Notification):
         ]
         return config
 
-    def group_config_function(self, group):
+    def group_config_function(self, group: UserGroup) -> List[str]:
         if 0 == len(group.get_telegram_id()):
             return []
 

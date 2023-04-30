@@ -1,5 +1,17 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+from __future__ import annotations
+
+from typing import List
+
+from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Groups.UserGroup import UserGroup
+from icinga2confgen.Notification.MailNotificationCommand import MailNotificationCommand
+from icinga2confgen.Notification.Notification import Notification
+from icinga2confgen.User.User import User
+from icinga2confgen.ValueChecker import ValueChecker
+from icinga2confgen.ValueMapper import ValueMapper
+
 
 #  Icinga2 configuration generator
 #
@@ -23,17 +35,11 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Notification.MailNotificationCommand import MailNotificationCommand
-from icinga2confgen.Notification.Notification import Notification
-from icinga2confgen.ValueChecker import ValueChecker
-from icinga2confgen.ValueMapper import ValueMapper
-
 
 class MailNotification(Notification):
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> MailNotification:
         ValueChecker.validate_id(id)
 
         notification = None if force_create else ConfigBuilder.get_notification(id)
@@ -43,14 +49,17 @@ class MailNotification(Notification):
 
         return notification
 
-    def get_command_config(self):
+    def get_command_config(self) -> MailNotificationCommand:
         return MailNotificationCommand.create('mail')
 
-    def user_config_function(self, user):
+    def user_config_function(self, user: User) -> List[str]:
         email_config = []
         for email in user.get_email():
             email_config.append(ValueMapper.parse_var('vars.notification_email', email))
         return email_config
 
-    def group_config_function(self, group):
-        return self.user_config_function(group)
+    def group_config_function(self, group: UserGroup) -> List[str]:
+        email_config = []
+        for email in group.get_email():
+            email_config.append(ValueMapper.parse_var('vars.notification_email', email))
+        return email_config

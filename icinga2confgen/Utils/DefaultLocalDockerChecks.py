@@ -23,43 +23,50 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from __future__ import annotations
+
+from typing import List
+
+from icinga2confgen.Notification.Notification import Notification
+from icinga2confgen.Servers.Server import Server
 from icinga2confgen.Utils.DefaultLocalChecks import DefaultLocalChecks
 from icinga2confgen.ValueChecker import ValueChecker
 
 
 class DefaultLocalDockerChecks(DefaultLocalChecks):
 
-    def __init__(self, servers=[], notifications=[], sudoers=[], additional_users=[]):
+    def __init__(self, servers: List[Server] = [], notifications: List[Notification] = [], sudoers: List[str] = [],
+                 additional_users: List[str] = []):
         DefaultLocalChecks.__init__(self, servers, notifications, sudoers, additional_users)
         self.__check_docker_running = True
         self.__check_containerd_running = True
         self.__inherit = True
 
-    def set_inherit(self, enabled):
+    def set_inherit(self, enabled: bool) -> DefaultLocalDockerChecks:
         ValueChecker.is_bool(enabled)
         self.__inherit = enabled
 
         return self
 
-    def is_inherit(self):
+    def is_inherit(self) -> bool:
         return self.__inherit
 
-    def check_docker_running(self, enabled):
+    def check_docker_running(self, enabled: bool) -> DefaultLocalDockerChecks:
         ValueChecker.is_bool(enabled)
         self.__check_docker_running = enabled
 
         return self
 
-    def is_checking_docker_running(self):
+    def is_checking_docker_running(self) -> bool:
         return self.__check_docker_running
 
-    def check_containerd_running(self, enabled):
+    def check_containerd_running(self, enabled: bool) -> DefaultLocalDockerChecks:
         ValueChecker.is_bool(enabled)
         self.__check_containerd_running = enabled
 
         return self
 
-    def is_checking_containerd_running(self):
+    def is_checking_containerd_running(self) -> bool:
         return self.__check_containerd_running
 
     def apply(self):

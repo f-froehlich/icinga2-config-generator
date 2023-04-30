@@ -4,6 +4,7 @@ import pytest
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.UserGroup import UserGroup
+from icinga2confgen.Notification.Notification import Notification
 from icinga2confgen.Notification.TimePeriod import TimePeriod
 from icinga2confgen.User.User import User
 from tests.BaseTest import BaseTest
@@ -50,20 +51,14 @@ class BaseNotificationTest(BaseTest):
         snapshot.assert_match(ConfigBuilder.get_config_as_string().replace('  ', ''), 'no_period.txt')
 
         tp1 = TimePeriod.create('tp1')
-        instance.set_time_period('tp1')
-        assert 'tp1' == instance.get_time_period()
+        instance.set_time_period(tp1)
+        assert tp1 == instance.get_time_period()
         snapshot.assert_match(ConfigBuilder.get_config_as_string().replace('  ', ''), 'tp1.txt')
 
         tp2 = TimePeriod.create('tp2')
         instance.set_time_period(tp2)
-        assert 'tp2' == instance.get_time_period()
+        assert tp2 == instance.get_time_period()
         snapshot.assert_match(ConfigBuilder.get_config_as_string().replace('  ', ''), 'tp2.txt')
-
-        with pytest.raises(Exception) as excinfo:
-            instance.set_time_period('tp3')
-
-        with pytest.raises(Exception) as excinfo:
-            instance.set_time_period(None)
 
     def test_have_correct_id(self):
         instance = self.create_instance()
@@ -164,16 +159,10 @@ class BaseNotificationTest(BaseTest):
         assert user in instance.get_users()
         snapshot.assert_match(ConfigBuilder.get_config_as_string().replace('  ', ''), 'config.txt')
 
-        instance.add_user('testUser')
+        instance.add_user(user)
         assert 2 == len(instance.get_users())
         assert user in instance.get_users()
         snapshot.assert_match(ConfigBuilder.get_config_as_string().replace('  ', ''), 'config.txt')
-
-        with pytest.raises(Exception) as excinfo:
-            instance.add_user('NotExisting')
-
-        with pytest.raises(Exception) as excinfo:
-            instance.add_user(None)
 
     def test_remove_user(self, snapshot):
         instance = self.create_instance()
@@ -188,15 +177,16 @@ class BaseNotificationTest(BaseTest):
         assert 1 == len(instance.get_users())
         assert user not in instance.get_users()
 
-        instance.add_user('testUser')
+        instance.add_user(user)
         assert 2 == len(instance.get_users())
         assert user in instance.get_users()
 
-        instance.remove_user('testUser')
+        instance.remove_user(user)
         assert 1 == len(instance.get_users())
         assert user not in instance.get_users()
 
-        instance.remove_user('notExisting')
+        not_existing = User.create('notExisting')
+        instance.remove_user(not_existing)
         assert 1 == len(instance.get_users())
 
     def test_add_user_group(self, snapshot):
@@ -214,16 +204,11 @@ class BaseNotificationTest(BaseTest):
         assert user_group in instance.get_user_groups()
         snapshot.assert_match(ConfigBuilder.get_config_as_string().replace('  ', ''), 'config.txt')
 
-        instance.add_user_group('testUserGroup')
+        instance.add_user_group(user_group)
         assert 2 == len(instance.get_user_groups())
         assert user_group in instance.get_user_groups()
         snapshot.assert_match(ConfigBuilder.get_config_as_string().replace('  ', ''), 'config.txt')
 
-        with pytest.raises(Exception) as excinfo:
-            instance.add_user_group('NotExisting')
-
-        with pytest.raises(Exception) as excinfo:
-            instance.add_user_group(None)
 
     def test_remove_user_group(self, snapshot):
         instance = self.create_instance()
@@ -238,13 +223,14 @@ class BaseNotificationTest(BaseTest):
         assert 1 == len(instance.get_user_groups())
         assert user_group not in instance.get_user_groups()
 
-        instance.add_user_group('testUserGroup')
+        instance.add_user_group(user_group)
         assert 2 == len(instance.get_user_groups())
         assert user_group in instance.get_user_groups()
 
-        instance.remove_user_group('testUserGroup')
+        instance.remove_user_group(user_group)
         assert 1 == len(instance.get_user_groups())
         assert user_group not in instance.get_user_groups()
 
-        instance.remove_user_group('notExisting')
+        not_existing = UserGroup.create('notExisting')
+        instance.remove_user_group(not_existing)
         assert 1 == len(instance.get_user_groups())

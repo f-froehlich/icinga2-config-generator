@@ -56,11 +56,11 @@ class ConfigBuilder:
     __utils = []
 
     @staticmethod
-    def set_check_for_existence(enabled):
+    def set_check_for_existence(enabled: bool):
         ConfigBuilder.__check_for_existence = enabled
 
     @staticmethod
-    def replace_prefixes(string):
+    def replace_prefixes(string: str) -> str:
 
         for prefix in ValueChecker.get_prefixes():
             if string.startswith(prefix + '_'):
@@ -75,7 +75,7 @@ class ConfigBuilder:
                 util_class.set_auto_applied(True)
 
     @staticmethod
-    def __file_header():
+    def __file_header() -> str:
         return """/*
  *  Icinga2 configuration generator
  *
@@ -123,7 +123,7 @@ class ConfigBuilder:
 """
 
     @staticmethod
-    def __legacy_file_header():
+    def __legacy_file_header() -> str:
         return ConfigBuilder.__file_header() + """/*
 
 

@@ -61,9 +61,6 @@ required = true
 value = "$command_disk_inode_critical$%"
 required = true
 }
-"--combined-thresholds" = {
-set_if = "$command_disk_combined_thresholds$"
-}
 "--path" = {
 value = "$command_disk_path$"
 set_if = {{ macro("$command_disk_path$") != false }}
@@ -164,9 +161,6 @@ repeat_key = true
 value = "$command_disk_include_type$"
 set_if = {{ macro("$command_disk_include_type$") != false }}
 repeat_key = true
-}
-"--newlines" = {
-set_if = "$command_disk_newlines$"
 }
 }
 
@@ -190,9 +184,6 @@ required = true
 value = "$command_disk_inode_critical$%"
 required = true
 }
-"--combined-thresholds" = {
-set_if = "$command_disk_combined_thresholds$"
-}
 "--path" = {
 value = "$command_disk_path$"
 set_if = {{ macro("$command_disk_path$") != false }}
@@ -293,9 +284,6 @@ repeat_key = true
 value = "$command_disk_include_type$"
 set_if = {{ macro("$command_disk_include_type$") != false }}
 repeat_key = true
-}
-"--newlines" = {
-set_if = "$command_disk_newlines$"
 }
 }
 
@@ -363,9 +351,6 @@ required = true
 value = "$command_disk_inode_critical$%"
 required = true
 }
-"--combined-thresholds" = {
-set_if = "$command_disk_combined_thresholds$"
-}
 "--path" = {
 value = "$command_disk_path$"
 set_if = {{ macro("$command_disk_path$") != false }}
@@ -466,9 +451,6 @@ repeat_key = true
 value = "$command_disk_include_type$"
 set_if = {{ macro("$command_disk_include_type$") != false }}
 repeat_key = true
-}
-"--newlines" = {
-set_if = "$command_disk_newlines$"
 }
 }
 
@@ -513,9 +495,6 @@ required = true
 value = "$command_disk_inode_critical$%"
 required = true
 }
-"--combined-thresholds" = {
-set_if = "$command_disk_combined_thresholds$"
-}
 "--path" = {
 value = "$command_disk_path$"
 set_if = {{ macro("$command_disk_path$") != false }}
@@ -616,9 +595,6 @@ repeat_key = true
 value = "$command_disk_include_type$"
 set_if = {{ macro("$command_disk_include_type$") != false }}
 repeat_key = true
-}
-"--newlines" = {
-set_if = "$command_disk_newlines$"
 }
 }
 
@@ -694,9 +670,19 @@ assign where "servicegroup_disk" in service.vars.groups
 }
 apply Service "instance" {
 check_command = "command_nagios_plugins_disk_local"
+vars.command_disk_all = false
+vars.command_disk_clear_thresholds = false
 vars.command_disk_critical = "10%"
+vars.command_disk_display_mountpoint = false
+vars.command_disk_errors_only = false
+vars.command_disk_exact_match = false
+vars.command_disk_freespace_ignore_reserved = false
 vars.command_disk_inode_critical = 10
+vars.command_disk_inode_perfdata = false
 vars.command_disk_inode_warning = 20
+vars.command_disk_local = false
+vars.command_disk_skip_fake_fs = false
+vars.command_disk_stat_remote_fs = false
 vars.command_disk_warning = "20%"
 vars.groups += [
 "servicegroup_disk",

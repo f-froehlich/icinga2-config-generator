@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+import typing
 
+from icinga2confgen.Commands.MonitoringPlugins.PageContentCommand import PageContentCommand
+from icinga2confgen.ConfigBuilder import ConfigBuilder
 #  Icinga2 configuration generator
 #
 #  Icinga2 configuration file generator for hosts, commands, checks, ... in python
@@ -22,54 +25,61 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
-from icinga2confgen.Checks.Check import Check
 from icinga2confgen.Helpers.Webrequest import Webrequest
-from icinga2confgen.Commands.MonitoringPlugins.PageContentCommand import PageContentCommand
-from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.ValueChecker import ValueChecker
+
+T = typing.TypeVar('T', bound='CheckPageContent')
 
 
 class CheckPageContent(Webrequest):
 
     def __init__(self, id: str):
         Webrequest.__init__(self, id, 'CheckPageContent', 'page_content', 'monitoring_plugins')
-        self.__ok = None
-        self.__warning = None
-        self.__critical = None
+        self.__ok = []
+        self.__warning = []
+        self.__critical = []
 
-    def set_ok(self, ok):
-        ValueChecker.is_string(ok)
-        if None is self.__ok:
-            self.__ok = []
-        self.__ok.append(ok)
+    def set_ok(self, ok: str) -> T:
+        if ok not in self.__ok:
+            self.__ok.append(ok)
         return self
 
-    def get_ok(self):
+    def remove_ok(self, ok: str) -> T:
+        if ok in self.__ok:
+            self.__ok.remove(ok)
+        return self
+
+    def get_ok(self) -> typing.List[str]:
         return self.__ok
 
-    def set_warning(self, warning):
-        ValueChecker.is_string(warning)
-        if None is self.__warning:
-            self.__warning = []
-        self.__warning.append(warning)
+    def set_warning(self, warning: str) -> T:
+        if warning not in self.__warning:
+            self.__warning.append(warning)
         return self
 
-    def get_warning(self):
+    def remove_warning(self, warning: str) -> T:
+        if warning in self.__warning:
+            self.__warning.remove(warning)
+        return self
+
+    def get_warning(self) -> typing.List[str]:
         return self.__warning
 
-    def set_critical(self, critical):
-        ValueChecker.is_string(critical)
-        if None is self.__critical:
-            self.__critical = []
-        self.__critical.append(critical)
+    def set_critical(self, critical: str) -> T:
+        if critical not in self.__critical:
+            self.__critical.append(critical)
+        return self
+
+    def remove_critical(self, critical: str) -> T:
+        if critical in self.__critical:
+            self.__critical.remove(critical)
         return self
 
     def get_critical(self):
         return self.__critical
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:
@@ -87,6 +97,9 @@ class CheckPageContent(Webrequest):
         Webrequest.validate(self)
         if None is self.get_domain():
             raise Exception('You have to specify a domain in ' + self.get_id())
+        if 0 == len(self.__ok):
+            raise Exception('You have to specify at least one ok content in ' + self.get_id())
+
 
     def get_config(self) -> str:
         return Webrequest.get_config(self)

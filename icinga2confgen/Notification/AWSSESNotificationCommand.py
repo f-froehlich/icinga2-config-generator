@@ -43,16 +43,16 @@ class AWSSESNotificationCommand(NotificationCommand):
 
         return command
 
-    def get_command_executable_host(self):
+    def get_command_executable_host(self) -> str:
         return 'aws_ses_notification_host.py'
 
-    def get_command_executable_service(self):
+    def get_command_executable_service(self) -> str:
         return 'aws_ses_notification_service.py'
 
     def validate(self):
         pass
 
-    def get_aws_ses_args(self):
+    def get_aws_ses_args(self) -> str:
         return """
     "-k" = {
       value = "$notification_aws_ses_key_id$"
@@ -89,13 +89,13 @@ class AWSSESNotificationCommand(NotificationCommand):
     }
 """
 
-    def get_arguments_host(self):
+    def get_arguments_host(self) -> str:
         config = '{\n' + self.get_default_arguments_host() + self.get_aws_ses_args() + '}\n'
         config += self.get_default_vars_host()
 
         return config
 
-    def get_arguments_service(self):
+    def get_arguments_service(self) -> str:
         config = '{\n' + self.get_default_arguments_service() + self.get_aws_ses_args() + '}\n'
 
         config += self.get_default_vars_service()

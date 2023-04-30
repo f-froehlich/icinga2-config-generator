@@ -61,7 +61,7 @@ class Dependency:
         raise Exception("You have to override get_default_states!")
 
     def validate(self: T):
-        if None == self.__parent_host_name:
+        if None is self.__parent_host_name:
             raise Exception('You have to set a Server for the Dependency with id "' + self.__id + '"')
 
     def set_states(self: T, states: List[str]) -> T:
@@ -134,7 +134,7 @@ class Dependency:
         self.validate()
 
         config = 'template Dependency "dependency_' + self.__id + '" {\n'
-        config += ValueMapper.parse_var('parent_host_name', self.__parent_host_name)
+        config += ValueMapper.parse_var('parent_host_name', self.__parent_host_name.get_id())
         config += ValueMapper.parse_var('disable_checks', self.__disable_checks)
         config += ValueMapper.parse_var('disable_notifications', self.__disable_notifications)
         config += ValueMapper.parse_var('ignore_soft_states', self.__ignore_soft_states)

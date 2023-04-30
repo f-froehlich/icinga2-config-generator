@@ -1,5 +1,6 @@
 apply Service "instance" {
 check_command = "command_nagios_plugins_apt_local_negate"
+vars.command_apt_only_critical = false
 vars.command_apt_timeout = 10
 vars.groups += [
 "servicegroup_updates",

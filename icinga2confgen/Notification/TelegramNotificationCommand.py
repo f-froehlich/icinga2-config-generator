@@ -23,6 +23,8 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from __future__ import annotations
+
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Notification.NotificationCommand import NotificationCommand
 from icinga2confgen.ValueChecker import ValueChecker
@@ -34,7 +36,7 @@ class TelegramNotificationCommand(NotificationCommand):
         NotificationCommand.__init__(self, id)
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> TelegramNotificationCommand:
         ValueChecker.validate_id(id)
         command = None if force_create else ConfigBuilder.get_notification_command(id)
         if None is command:
@@ -43,16 +45,16 @@ class TelegramNotificationCommand(NotificationCommand):
 
         return command
 
-    def get_command_executable_host(self):
+    def get_command_executable_host(self) -> str:
         return 'telegram_notification_host.py'
 
-    def get_command_executable_service(self):
+    def get_command_executable_service(self) -> str:
         return 'telegram_notification_service.py'
 
     def validate(self):
         pass
 
-    def get_telegram_args(self):
+    def get_telegram_args(self) -> str:
         return """
    "-T" = {
       value = "$notification_telegram_token$"
@@ -70,13 +72,13 @@ class TelegramNotificationCommand(NotificationCommand):
     }
 """
 
-    def get_arguments_host(self):
+    def get_arguments_host(self) -> str:
         config = '{\n' + self.get_default_arguments_host() + self.get_telegram_args() + '}\n'
         config += self.get_default_vars_host()
 
         return config
 
-    def get_arguments_service(self):
+    def get_arguments_service(self) -> str:
         config = '{\n' + self.get_default_arguments_service() + self.get_telegram_args() + '}\n'
 
         config += self.get_default_vars_service()

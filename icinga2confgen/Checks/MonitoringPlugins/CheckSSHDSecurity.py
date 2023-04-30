@@ -1,5 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+import typing
+
+from icinga2confgen.Checks.Check import Check
+from icinga2confgen.Commands.MonitoringPlugins.SSHDSecurityCommand import SSHDSecurityCommand
+from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 #  Icinga2 configuration generator
 #
@@ -23,11 +30,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Checks.Check import Check
-from icinga2confgen.Commands.MonitoringPlugins.SSHDSecurityCommand import SSHDSecurityCommand
-from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.ValueChecker import ValueChecker
+T = typing.TypeVar('T', bound='CheckSSHDSecurity')
 
 
 class CheckSSHDSecurity(Check):
@@ -47,79 +50,72 @@ class CheckSSHDSecurity(Check):
         self.add_service_group(ServiceGroup.create('sshd'))
         self.add_service_group(ServiceGroup.create('sshd_security'))
 
-    def set_permit_root_login(self, permit_root_login):
-        ValueChecker.is_string(permit_root_login)
+    def set_permit_root_login(self, permit_root_login: typing.Union[str, None]) -> T:
         self.__permit_root_login = permit_root_login
         return self
 
-    def get_permit_root_login(self):
+    def get_permit_root_login(self) -> typing.Union[str, None]:
         return self.__permit_root_login
 
-    def set_public_key_auth(self, public_key_auth):
-        ValueChecker.is_string(public_key_auth)
+    def set_public_key_auth(self, public_key_auth: typing.Union[str, None]) -> T:
         self.__public_key_auth = public_key_auth
         return self
 
-    def get_public_key_auth(self):
+    def get_public_key_auth(self) -> typing.Union[str, None]:
         return self.__public_key_auth
 
-    def set_password_auth(self, password_auth):
-        ValueChecker.is_string(password_auth)
+    def set_password_auth(self, password_auth: typing.Union[str, None]) -> T:
         self.__password_auth = password_auth
         return self
 
-    def get_password_auth(self):
+    def get_password_auth(self) -> typing.Union[str, None]:
         return self.__password_auth
 
-    def set_permit_empty_passwords(self, permit_empty_passwords):
-        ValueChecker.is_string(permit_empty_passwords)
+    def set_permit_empty_passwords(self, permit_empty_passwords: typing.Union[str, None]) -> T:
         self.__permit_empty_passwords = permit_empty_passwords
         return self
 
-    def get_permit_empty_passwords(self):
+    def get_permit_empty_passwords(self) -> typing.Union[str, None]:
         return self.__permit_empty_passwords
 
-    def set_fingerprint_hash(self, fingerprint_hash):
-        ValueChecker.is_string(fingerprint_hash)
+    def set_fingerprint_hash(self, fingerprint_hash: typing.Union[str, None]) -> T:
         self.__fingerprint_hash = fingerprint_hash
         return self
 
-    def get_fingerprint_hash(self):
+    def get_fingerprint_hash(self) -> typing.Union[str, None]:
         return self.__fingerprint_hash
 
-    def set_port(self, port):
-        ValueChecker.is_number(port)
+    def set_port(self, port: typing.Union[int, None]) -> T:
         self.__port = port
         return self
 
-    def get_port(self):
+    def get_port(self) -> typing.Union[str, None]:
         return self.__port
 
-    def set_challenge_response_authentication(self, challenge_response_authentication):
-        ValueChecker.is_string(challenge_response_authentication)
+    def set_challenge_response_authentication(self, challenge_response_authentication: typing.Union[str, None]) -> T:
         self.__challenge_response_authentication = challenge_response_authentication
         return self
 
-    def get_challenge_response_authentication(self):
+    def get_challenge_response_authentication(self) -> typing.Union[str, None]:
         return self.__challenge_response_authentication
 
-    def append_config_params(self, key, value):
-        ValueChecker.is_string(key)
-        ValueChecker.is_string(value)
-        self.__config.append(key + "=" + value)
+    def append_config_params(self, key: str, value: typing.Union[str, int]) -> T:
+        config = key + "=" + str(value)
+        if config not in self.__config:
+            self.__config.append(config)
         return self
 
-    def remove_config_params(self, key, value):
-        ValueChecker.is_string(key)
-        ValueChecker.is_string(value)
-        self.__config.remove(key + "=" + value)
+    def remove_config_params(self, key: str, value: typing.Union[str, int]) -> T:
+        config = key + "=" + str(value)
+        if config in self.__config:
+            self.__config.remove(config)
         return self
 
-    def get_config_params(self):
+    def get_config_params(self) -> typing.List[str]:
         return self.__config
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

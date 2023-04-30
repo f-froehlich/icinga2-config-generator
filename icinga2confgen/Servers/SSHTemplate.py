@@ -23,6 +23,10 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from __future__ import annotations
+
+from typing import Union
+
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Helpers.PluginDirs import PluginDirs
 from icinga2confgen.ValueChecker import ValueChecker
@@ -41,7 +45,7 @@ class SSHTemplate(PluginDirs):
         self.__timeout = 30
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> SSHTemplate:
         ValueChecker.validate_id(id)
 
         template = None if force_create else ConfigBuilder.get_ssh_template(id)
@@ -54,40 +58,36 @@ class SSHTemplate(PluginDirs):
     def get_id(self) -> str:
         return self.__id
 
-    def set_hostname(self, hostname):
-        ValueChecker.is_string(hostname)
+    def set_hostname(self, hostname: str) -> SSHTemplate:
         self.__host = hostname
         return self
 
-    def get_hostname(self):
+    def get_hostname(self) -> Union[str, None]:
         return self.__host
 
-    def set_user(self, user):
-        ValueChecker.is_string(user)
+    def set_user(self, user: str) -> SSHTemplate:
         self.__user = user
         return self
 
-    def get_user(self):
+    def get_user(self) -> str:
         return self.__user
 
-    def set_identity_file(self, identity_file):
-        ValueChecker.is_string(identity_file)
+    def set_identity_file(self, identity_file: str) -> SSHTemplate:
         self.__identityfile = identity_file
         return self
 
-    def get_identity_file(self):
+    def get_identity_file(self) -> Union[str, None]:
         return self.__identityfile
 
-    def set_port(self, port):
-        ValueChecker.is_number(port)
+    def set_port(self, port: int) -> SSHTemplate:
         self.__port = port
         return self
 
-    def get_port(self):
+    def get_port(self) -> int:
         return self.__port
 
     def validate(self):
-        if None == self.__host:
+        if None is self.__host:
             raise Exception('You have to specify the host in SSHTemplate on ' + self.__id)
 
     def get_config(self) -> str:

@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+import typing
 
 #  Icinga2 configuration generator
 #
@@ -29,6 +30,7 @@ from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.ServiceGroup import ServiceGroup
 from icinga2confgen.ValueChecker import ValueChecker
 
+T = typing.TypeVar('T', bound='CheckDockerLogin')
 
 class CheckDockerLogin(Check):
 
@@ -41,48 +43,44 @@ class CheckDockerLogin(Check):
         self.__as_sudo = False
         self.add_service_group(ServiceGroup.create('docker'))
 
-    def set_as_sudo(self, as_sudo):
+    def set_as_sudo(self, as_sudo: bool) -> T:
         ValueChecker.is_bool(as_sudo)
         self.__as_sudo = as_sudo
         return self
 
-    def get_as_sudo(self):
+    def get_as_sudo(self)-> bool:
         return self.__as_sudo
 
-    def set_user(self, user):
-        ValueChecker.is_string(user)
+    def set_user(self, user: str) -> T:
         self.__user = user
         return self
 
-    def get_user(self):
+    def get_user(self) -> typing.Union[str, None]:
         return self.__user
 
-    def set_credentials(self, credentials):
-        ValueChecker.is_string(credentials)
+    def set_credentials(self, credentials: str) -> T:
         self.__credentials = credentials
         return self
 
-    def get_credentials(self):
+    def get_credentials(self) -> typing.Union[str, None]:
         return self.__credentials
 
-    def set_port(self, port):
-        ValueChecker.is_string(port)
+    def set_port(self, port:int) -> T:
         self.__port = port
         return self
 
-    def get_port(self):
+    def get_port(self) -> typing.Union[int, None]:
         return self.__port
 
-    def set_address(self, address):
-        ValueChecker.is_string(address)
+    def set_address(self, address: str) -> T:
         self.__address = address
         return self
 
-    def get_address(self):
+    def get_address(self) -> typing.Union[str, None]:
         return self.__address
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False)-> T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

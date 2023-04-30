@@ -23,6 +23,10 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from __future__ import annotations
+
+from typing import Union
+
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.ValueChecker import ValueChecker
 
@@ -34,7 +38,7 @@ class PackageManager:
         self.__manager = None
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> PackageManager:
         ValueChecker.validate_id(id)
 
         pm = None if force_create else ConfigBuilder.get_package_manager(id)
@@ -47,12 +51,11 @@ class PackageManager:
     def get_id(self) -> str:
         return self.__id
 
-    def set_manager(self, manager):
-        ValueChecker.is_string(manager)
+    def set_manager(self, manager: str) -> PackageManager:
         self.__manager = manager
         return self
 
-    def get_manager(self):
+    def get_manager(self) -> Union[str, None]:
         return self.__manager
 
     def validate(self):
@@ -69,16 +72,16 @@ class PackageManager:
         return config
 
 
-def apt(): return PackageManager.create('apt').set_manager('apt')
+def apt() -> PackageManager: return PackageManager.create('apt').set_manager('apt')
 
 
-def yum(): return PackageManager.create('yum').set_manager('yum')
+def yum() -> PackageManager: return PackageManager.create('yum').set_manager('yum')
 
 
-def apk(): return PackageManager.create('apk').set_manager('apk')
+def apk() -> PackageManager: return PackageManager.create('apk').set_manager('apk')
 
 
-def rpm(): return PackageManager.create('rpm').set_manager('rpm')
+def rpm() -> PackageManager: return PackageManager.create('rpm').set_manager('rpm')
 
 
-def dpkg(): return PackageManager.create('dpkg').set_manager('dpkg')
+def dpkg() -> PackageManager: return PackageManager.create('dpkg').set_manager('dpkg')

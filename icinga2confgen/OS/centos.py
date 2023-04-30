@@ -26,33 +26,33 @@ from icinga2confgen.OS.OS import OS
 from icinga2confgen.PackageManager.PackageManager import yum
 
 
-def os_centos_1(): return OS.create('centos_1').set_distro('centos').set_version('1').set_os(
+def os_centos_1() -> OS: return OS.create('centos_1').set_distro('centos').set_version('1').set_os(
     'CentOS Linux 1 (Core)').add_package_manager(yum())
 
 
-def os_centos_2(): return OS.create('centos_2').set_distro('centos').set_version('2').set_os(
+def os_centos_2() -> OS: return OS.create('centos_2').set_distro('centos').set_version('2').set_os(
     'CentOS Linux 2 (Core)').add_package_manager(yum())
 
 
-def os_centos_3(): return OS.create('centos_3').set_distro('centos').set_version('3').set_os(
+def os_centos_3() -> OS: return OS.create('centos_3').set_distro('centos').set_version('3').set_os(
     'CentOS Linux 3 (Core)').add_package_manager(yum())
 
 
-def os_centos_4(): return OS.create('centos_4').set_distro('centos').set_version('4').set_os(
+def os_centos_4() -> OS: return OS.create('centos_4').set_distro('centos').set_version('4').set_os(
     'CentOS Linux 4 (Core)').add_package_manager(yum())
 
 
-def os_centos_5(): return OS.create('centos_5').set_distro('centos').set_version('5').set_os(
+def os_centos_5() -> OS: return OS.create('centos_5').set_distro('centos').set_version('5').set_os(
     'CentOS Linux 5 (Core)').add_package_manager(yum())
 
 
-def os_centos_6(): return OS.create('centos_6').set_distro('centos').set_version('6').set_os(
+def os_centos_6() -> OS: return OS.create('centos_6').set_distro('centos').set_version('6').set_os(
     'CentOS Linux 6 (Core)').add_package_manager(yum())
 
 
-def os_centos_7(): return OS.create('centos_7').set_distro('centos').set_version('7').set_os(
+def os_centos_7() -> OS: return OS.create('centos_7').set_distro('centos').set_version('7').set_os(
     'CentOS Linux 7 (Core)').add_package_manager(yum())
 
 
-def os_centos_8(): return OS.create('centos_8').set_distro('centos').set_version('8').set_os(
+def os_centos_8() -> OS: return OS.create('centos_8').set_distro('centos').set_version('8').set_os(
     'CentOS Linux 8 (Core)').add_package_manager(yum())

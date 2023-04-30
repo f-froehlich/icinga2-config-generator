@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+import typing
 
 #  Icinga2 configuration generator
 #
@@ -30,6 +31,8 @@ from icinga2confgen.Notification.TimePeriod import TimePeriod
 from icinga2confgen.User.User import User
 from icinga2confgen.ValueChecker import ValueChecker
 from icinga2confgen.ValueMapper import ValueMapper
+from typing import List, Union
+T = typing.TypeVar('T', bound='Notification')
 
 
 class Notification:
@@ -55,162 +58,123 @@ class Notification:
         self.__allowed_service_states = ['Warning', 'Critical', 'Unknown', 'OK']
         self.__service_states = self.__allowed_service_states
 
-    def get_command_config(self):
+    def get_command_config(self) -> NotificationCommand:
         raise Exception('You must override get_command_config')
 
-    def user_config_function(self, user):
+    def user_config_function(self, user: User) -> typing.List[str]:
         raise Exception('You must override user_config_function')
 
-    def group_config_function(self, group):
+    def group_config_function(self, group: UserGroup) -> List[str]:
         raise Exception('You must override group_config_function')
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         raise Exception('Cannot create Notification, use child classes instead')
 
     def get_id(self) -> str:
         return self.__id
 
-    def set_interval(self, interval):
-        ValueChecker.is_string(interval)
+    def set_interval(self, interval: str) -> T:
         self.__interval = interval
         return self
 
-    def get_interval(self):
+    def get_interval(self) -> str:
         return self.__interval
 
-    def set_command(self, command):
-        if isinstance(command, NotificationCommand):
-            self.__command = command.get_id()
-        elif isinstance(command, str):
-            command = ConfigBuilder.get_notification_command(command)
-            if None is command:
-                raise Exception('NotificationCommand does not exist yet!')
-            self.__command = command.get_id()
+    def set_command(self, command: NotificationCommand) -> T:
+
+        self.__command = command
         return self
 
-    def get_command(self) -> str:
+    def get_command(self) -> NotificationCommand:
         return self.__command
 
-    def set_time_period(self, time_period):
-        if isinstance(time_period, TimePeriod):
-            self.__time_period = time_period.get_id()
+    def set_time_period(self, time_period: typing.Union[TimePeriod, None]) -> T:
+        self.__time_period = time_period
 
-        elif isinstance(time_period, str):
-            if None is ConfigBuilder.get_time_period(time_period):
-                raise Exception('Time Period does not exist yet!')
-            self.__time_period = time_period
-        else:
-            raise Exception('Can only add Time Period or id of Time Period!')
         return self
 
-    def get_time_period(self):
+    def get_time_period(self) -> Union[TimePeriod, None]:
         return self.__time_period
 
-    def set_escalation(self, begin, end):
-        ValueChecker.is_string(begin)
-        ValueChecker.is_string(end)
+    def set_escalation(self, begin: str, end: str) -> T:
         self.__escalation = (begin, end)
 
         return self
 
-    def get_escalation(self):
+    def get_escalation(self) -> Union[typing.Tuple[str, str], None]:
         return self.__escalation
 
-    def set_host_types(self, types):
+    def set_host_types(self, types: List[str]) -> T:
         for type in types:
             if type not in self.__allowed_host_types:
                 raise Exception('Type ' + type + ' is not allowed for host')
         self.__host_types = types
         return self
 
-    def get_host_types(self):
+    def get_host_types(self) -> List[str]:
         return self.__host_types
 
-    def set_host_states(self, states):
+    def set_host_states(self, states: List[str]) -> T:
         for state in states:
             if state not in self.__allowed_host_states:
                 raise Exception('State ' + state + ' is not allowed for host')
         self.__host_states = states
         return self
 
-    def get_host_states(self):
+    def get_host_states(self) -> List[str]:
         return self.__host_states
 
-    def set_service_types(self, types):
+    def set_service_types(self, types: List[str]) -> T:
         for type in types:
             if type not in self.__allowed_service_types:
                 raise Exception('Type ' + type + ' is not allowed for service')
         self.__service_types = types
         return self
 
-    def get_service_types(self):
+    def get_service_types(self) -> List[str]:
         return self.__service_types
 
-    def set_service_states(self, states):
+    def set_service_states(self, states: List[str]) -> T:
         for state in states:
             if state not in self.__allowed_service_states:
                 raise Exception('State ' + state + ' is not allowed for service')
         self.__service_states = states
         return self
 
-    def get_service_states(self):
+    def get_service_states(self) -> List[str]:
         return self.__service_states
 
-    def add_user(self, user):
-        if isinstance(user, User):
-            if user not in self.__users:
-                self.__users.append(user)
+    def add_user(self, user: User) -> T:
 
-        elif isinstance(user, str):
-            user = ConfigBuilder.get_user(user)
-            if None is user:
-                raise Exception('User does not exist yet!')
-            self.add_user(user)
-        else:
-            raise Exception('Can only add User or id of User!')
+        if user not in self.__users:
+            self.__users.append(user)
+
         return self
 
-    def remove_user(self, user):
-        if isinstance(user, User):
+    def remove_user(self, user: User) -> T:
+        if user in self.__users:
             self.__users.remove(user)
 
-        elif isinstance(user, str):
-            user = ConfigBuilder.get_user(user)
-            if user in self.__users:
-                self.__users.remove(user)
-
         return self
 
-    def get_users(self):
+    def get_users(self) -> List[User]:
         return self.__users
 
-    def add_user_group(self, user_group):
-        if isinstance(user_group, UserGroup):
-            if user_group not in self.__user_groups:
-                self.__user_groups.append(user_group)
+    def add_user_group(self, user_group: UserGroup) -> T:
 
-        elif isinstance(user_group, str):
-            user_group = ConfigBuilder.get_usergroup(user_group)
-            if None is user_group:
-                raise Exception('UserGroup does not exist yet!')
-            self.add_user_group(user_group)
-        else:
-            raise Exception('Can only add UserGroup or id of UserGroup!')
+        if user_group not in self.__user_groups:
+            self.__user_groups.append(user_group)
+
         return self
 
-    def remove_user_group(self, user_group):
-        if isinstance(user_group, UserGroup):
+    def remove_user_group(self, user_group: UserGroup) -> T:
+        if user_group in self.__user_groups:
             self.__user_groups.remove(user_group)
 
-        elif isinstance(user_group, str):
-            user_group = ConfigBuilder.get_usergroup(user_group)
-            if user_group in self.__user_groups:
-                self.__user_groups.remove(user_group)
-
         return self
 
-    def get_user_groups(self):
+    def get_user_groups(self) -> List[UserGroup]:
         return self.__user_groups
 
     def validate(self):
@@ -232,8 +196,9 @@ class Notification:
             config += '    end = ' + self.__escalation[1] + '\n'
             config += '  }\n'
 
-        config += ValueMapper.parse_var('command', self.__command, value_prefix='command_host_')
-        config += ValueMapper.parse_var('period', self.__time_period, value_prefix='time_period_')
+        config += ValueMapper.parse_var('command', self.__command.get_id(), value_prefix='command_host_')
+        if None is not self.__time_period:
+            config += ValueMapper.parse_var('period', self.__time_period.get_id(), value_prefix='time_period_')
         config += ValueMapper.parse_var('types', self.__host_types)
         config += ValueMapper.parse_var('states', self.__host_states)
         config += '}\n'
@@ -246,8 +211,9 @@ class Notification:
             config += '    end = ' + self.__escalation[1] + '\n'
             config += '  }\n'
 
-        config += ValueMapper.parse_var('command', self.__command, value_prefix='command_service_')
-        config += ValueMapper.parse_var('period', self.__time_period, value_prefix='time_period_')
+        config += ValueMapper.parse_var('command', self.__command.get_id(), value_prefix='command_service_')
+        if None is not self.__time_period:
+            config += ValueMapper.parse_var('period', self.__time_period, value_prefix='time_period_')
         config += ValueMapper.parse_var('types', self.__service_types)
         config += ValueMapper.parse_var('states', self.__service_states)
         config += '}\n'
@@ -255,7 +221,7 @@ class Notification:
 
         return config
 
-    def apply_for_all(self):
+    def apply_for_all(self) -> str:
 
         config_user = ''
         config_group = ''
@@ -285,7 +251,7 @@ class Notification:
 
         return config_user + config_group
 
-    def get_assign_config(self, custom_config, notification_id, users=None, groups=None):
+    def get_assign_config(self, custom_config, notification_id, users=None, groups=None) -> str:
         config = ''
         for type in ['Host', 'Service']:
             config += 'apply Notification "' + type.lower() + '_' + notification_id + '" to ' + type + ' {\n'

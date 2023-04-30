@@ -23,6 +23,10 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from __future__ import annotations
+
+from typing import List, Tuple
+
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Helpers.Nameable import Nameable
 from icinga2confgen.ValueChecker import ValueChecker
@@ -36,7 +40,7 @@ class TimePeriod(Nameable):
         self.__ranges = []
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> TimePeriod:
         ValueChecker.validate_id(id)
 
         period = None if force_create else ConfigBuilder.get_time_period(id)
@@ -49,19 +53,15 @@ class TimePeriod(Nameable):
     def get_id(self) -> str:
         return self.__id
 
-    def add_period(self, day, range):
-        ValueChecker.is_string(day)
-        ValueChecker.is_string(range)
+    def add_period(self, day: str, range: str) -> TimePeriod:
         self.__ranges.append((day, range))
         return self
 
-    def remove_period(self, day, range):
-        ValueChecker.is_string(day)
-        ValueChecker.is_string(range)
+    def remove_period(self, day: str, range: str) -> TimePeriod:
         self.__ranges.remove((day, range))
         return self
 
-    def get_period(self):
+    def get_period(self) -> List[Tuple[str, str]]:
         return self.__ranges
 
     def get_config(self) -> str:

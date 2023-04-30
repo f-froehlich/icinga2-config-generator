@@ -35,31 +35,31 @@ class NotificationCommand:
     def validate(self):
         raise Exception("validate must be overridden in " + self.__id)
 
-    def get_command_executable_host(self):
+    def get_command_executable_host(self) -> str:
         raise Exception("get_command_executable_path_host must return command executable for host in " + self.__id)
 
-    def get_command_executable_service(self):
+    def get_command_executable_service(self) -> str:
         raise Exception("get_command_executable_service must return command executable for service in " + self.__id)
 
-    def get_script_dir(self):
+    def get_script_dir(self) -> str:
         return "$monitoring_script_dir$"
 
-    def get_arguments_host(self):
+    def get_arguments_host(self) -> str:
         config = '{\n' + self.get_default_arguments_host() + '}\n'
         config += self.get_default_vars_host()
 
         return config
 
-    def get_arguments_service(self):
+    def get_arguments_service(self) -> str:
         config = '{\n' + self.get_default_arguments_service() + '}\n'
         config += self.get_default_vars_service()
 
         return config
 
-    def get_command_definition_host(self):
+    def get_command_definition_host(self) -> str:
         return '[ "' + self.get_script_dir() + '/' + self.get_command_executable_host() + '"]'
 
-    def get_command_definition_service(self):
+    def get_command_definition_service(self) -> str:
         return '[ "' + self.get_script_dir() + '/' + self.get_command_executable_service() + '"]'
 
     def get_config(self) -> str:
@@ -75,7 +75,7 @@ class NotificationCommand:
 
         return config
 
-    def get_default_arguments_host(self):
+    def get_default_arguments_host(self) -> str:
         return """
     "-d" = {
       value = "$icinga.long_date_time$"
@@ -130,10 +130,10 @@ class NotificationCommand:
     }
 """
 
-    def get_default_vars_host(self):
+    def get_default_vars_host(self) -> str:
         return ''
 
-    def get_default_arguments_service(self):
+    def get_default_arguments_service(self) -> str:
         config = self.get_default_arguments_host()
         config += """
     "-e" = {
@@ -147,6 +147,6 @@ class NotificationCommand:
 """
         return config
 
-    def get_default_vars_service(self):
+    def get_default_vars_service(self) -> str:
         config = self.get_default_vars_host()
         return config

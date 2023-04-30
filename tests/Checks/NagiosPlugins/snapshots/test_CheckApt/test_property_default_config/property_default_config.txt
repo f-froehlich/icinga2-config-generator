@@ -1,1 +1,2 @@
+vars.command_apt_only_critical = false
 vars.command_apt_timeout = 10

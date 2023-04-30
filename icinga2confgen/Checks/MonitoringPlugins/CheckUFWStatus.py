@@ -1,5 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8
+import typing
+
+from icinga2confgen.Checks.Check import Check
+from icinga2confgen.Commands.MonitoringPlugins.UFWStatusCommand import UFWStatusCommand
+from icinga2confgen.ConfigBuilder import ConfigBuilder
+from icinga2confgen.Groups.ServiceGroup import ServiceGroup
+from icinga2confgen.ValueChecker import ValueChecker
 
 #  Icinga2 configuration generator
 #
@@ -23,11 +30,7 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-from icinga2confgen.Checks.Check import Check
-from icinga2confgen.Commands.MonitoringPlugins.UFWStatusCommand import UFWStatusCommand
-from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Groups.ServiceGroup import ServiceGroup
-from icinga2confgen.ValueChecker import ValueChecker
+T = typing.TypeVar('T', bound='CheckUFWStatus')
 
 
 class CheckUFWStatus(Check):
@@ -47,73 +50,65 @@ class CheckUFWStatus(Check):
         self.add_service_group(ServiceGroup.create('ufw'))
         self.add_service_group(ServiceGroup.create('firewall'))
 
-    def set_status(self, status):
-        ValueChecker.is_string(status)
+    def set_status(self, status: typing.Union[str, None]) -> T:
         self.__status = status
         return self
 
-    def get_status(self):
+    def get_status(self) -> typing.Union[str, None]:
         return self.__status
 
-    def set_warninactive(self, warninactive):
-        ValueChecker.is_bool(warninactive)
+    def set_warninactive(self, warninactive: bool) -> T:
         self.__warninactive = 'on' if warninactive else 'off'
         return self
 
-    def get_warninactive(self):
+    def get_warninactive(self) -> bool:
         return True if 'on' == self.__warninactive else False
 
-    def set_logging(self, logging):
-        ValueChecker.is_string(logging)
+    def set_logging(self, logging: typing.Union[str, None]) -> T:
         self.__logging = logging
         return self
 
-    def get_logging(self):
+    def get_logging(self) -> typing.Union[str, None]:
         return self.__logging
 
-    def set_incoming(self, incoming):
-        ValueChecker.is_string(incoming)
+    def set_incoming(self, incoming: typing.Union[str, None]) -> T:
         self.__incoming = incoming
         return self
 
-    def get_incoming(self):
+    def get_incoming(self) -> typing.Union[str, None]:
         return self.__incoming
 
-    def set_outgoing(self, outgoing):
-        ValueChecker.is_string(outgoing)
+    def set_outgoing(self, outgoing: typing.Union[str, None]) -> T:
         self.__outgoing = outgoing
         return self
 
-    def get_outgoing(self):
+    def get_outgoing(self) -> typing.Union[str, None]:
         return self.__outgoing
 
-    def set_routing(self, routing):
-        ValueChecker.is_string(routing)
+    def set_routing(self, routing: typing.Union[str, None]) -> T:
         self.__routing = routing
         return self
 
-    def get_routing(self):
+    def get_routing(self) -> typing.Union[str, None]:
         return self.__routing
 
-    def add_rule(self, policy_from, policy_to, policy_action):
-        ValueChecker.is_string(policy_from)
-        ValueChecker.is_string(policy_to)
-        ValueChecker.is_string(policy_action)
-        self.__rule.append(policy_from + "," + policy_to + ',' + policy_action)
+    def add_rule(self, policy_from: str, policy_to: str, policy_action: str) -> T:
+        rule = policy_from + "," + policy_to + ',' + policy_action
+        if rule not in self.__rule:
+            self.__rule.append(rule)
         return self
 
-    def remove_rule(self, policy_from, policy_to, policy_action):
-        ValueChecker.is_string(policy_from)
-        ValueChecker.is_string(policy_to)
-        ValueChecker.is_string(policy_action)
-        self.__rule.remove(policy_from + "," + policy_to + ',' + policy_action)
+    def remove_rule(self, policy_from: str, policy_to: str, policy_action: str) -> T:
+        rule = policy_from + "," + policy_to + ',' + policy_action
+        if rule in self.__rule:
+            self.__rule.remove(rule)
         return self
 
-    def get_rule(self):
+    def get_rule(self) -> typing.List[str]:
         return self.__rule
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> T:
         ValueChecker.validate_id(id)
         check = None if force_create else ConfigBuilder.get_check(id)
         if None is check:

@@ -23,6 +23,10 @@
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
+from __future__ import annotations
+
+from typing import Union, List
+
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Groups.HostGroup import HostGroup
 from icinga2confgen.PackageManager.PackageManager import PackageManager
@@ -39,7 +43,7 @@ class OS:
         self.__package_manager = []
 
     @staticmethod
-    def create(id: str, force_create: bool = False):
+    def create(id: str, force_create: bool = False) -> OS:
         ValueChecker.validate_id(id)
 
         os = None if force_create else ConfigBuilder.get_os(id)
@@ -52,60 +56,45 @@ class OS:
     def get_id(self) -> str:
         return self.__id
 
-    def set_os(self, os):
+    def set_os(self, os: str) -> OS:
         ValueChecker.is_string(os)
         HostGroup.create('hg_os_' + self.__id).set_display_name(os.capitalize())
         self.__os = os
         return self
 
-    def get_os(self):
+    def get_os(self) -> Union[str, None]:
         return self.__os
 
-    def add_package_manager(self, package_manager):
+    def add_package_manager(self, package_manager: PackageManager) -> OS:
 
-        if isinstance(package_manager, PackageManager):
-            if package_manager not in self.__package_manager:
-                self.__package_manager.append(package_manager)
-
-        elif isinstance(package_manager, str):
-            package_manager = ConfigBuilder.get_package_manager(package_manager)
-            if None is package_manager:
-                raise Exception('PackageManager does not exist yet!')
-
-            return self.add_package_manager(package_manager)
-        else:
-            raise Exception('Can only add PackageManager or id of PackageManager!')
+        if package_manager not in self.__package_manager:
+            self.__package_manager.append(package_manager)
 
         return self
 
-    def remove_package_manager(self, package_manager):
+    def remove_package_manager(self, package_manager: PackageManager) -> OS:
 
-        if isinstance(package_manager, PackageManager):
-            self.__package_manager.remove(package_manager.get_id())
-
-        elif isinstance(package_manager, str):
+        if package_manager in self.__package_manager:
             self.__package_manager.remove(package_manager)
 
         return self
 
-    def get_package_manager(self):
+    def get_package_manager(self) -> List[PackageManager]:
         return self.__package_manager
 
-    def set_version(self, version):
-        ValueChecker.is_string(version)
+    def set_version(self, version: str) -> OS:
         self.__version = version
         return self
 
-    def get_version(self):
+    def get_version(self) -> Union[str, None]:
         return self.__version
 
-    def set_distro(self, distro):
-        ValueChecker.is_string(distro)
+    def set_distro(self, distro: str) -> OS:
         HostGroup.create('hg_distro_' + distro).set_display_name(distro.capitalize())
         self.__distro = distro
         return self
 
-    def get_distro(self):
+    def get_distro(self) -> Union[str, None]:
         return self.__distro
 
     def validate(self):
