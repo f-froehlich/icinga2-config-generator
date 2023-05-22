@@ -24,7 +24,6 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
 from __future__ import annotations
-
 from icinga2confgen.ConfigBuilder import ConfigBuilder
 from icinga2confgen.Notification.NotificationCommand import NotificationCommand
 from icinga2confgen.ValueChecker import ValueChecker
@@ -45,36 +44,71 @@ class MailNotificationCommand(NotificationCommand):
 
         return command
 
-    def get_command_executable_host(self):
-        return 'mail-host-notification.sh'
+    def get_command_executable_host(self) -> str:
+        return 'mail_smtp_notification_host.py'
 
-    def get_command_executable_service(self):
-        return 'mail-service-notification.sh'
-
-    def get_script_dir(self):
-        return "$icinga_script_dir$"
+    def get_command_executable_service(self) -> str:
+        return 'mail_smtp_notification_service.py'
 
     def validate(self):
         pass
 
-    def get_arguments_host(self):
-        config = '{\n' + self.get_default_arguments_host() + """
-   "-r" = {
-      value = "$notification_email$"
+    def get_mail_smtp_args(self) -> str:
+        return """
+    "-U" = {
+      value = "$notification_mail_smtp_user$"
+      set_if = {{ macro("$notification_mail_smtp_user$") != false }}
+    }
+    "-S" = {
+      value = "$notification_mail_smtp_secret$"
+      set_if = {{ macro("$notification_mail_smtp_secret$") != false }}
+    }
+    "-H" = {
+      value = "$notification_mail_smtp_host$"
       required = true
-    }       
-}"""
+    }
+    "-p" = {
+      value = "$notification_mail_smtp_port$"
+      required = true
+    }
+    "--use-ssl" = {
+      set_if = "$notification_mail_smtp_use_ssl$"
+    }
+    "--use-starttls" = {
+      set_if = "$notification_mail_smtp_use_starttls$"
+    }
+    "-F" = {
+      value = "$notification_mail_smtp_sender$"
+      required = true
+    }
+    "--subject" = {
+      value = "$notification_mail_smtp_subject_template$"
+      set_if = {{ macro("$notification_mail_smtp_subject_template$") != false }}
+    } 
+    "--message-template-short" = {
+      value = "$notification_mail_smtp_message_template_short$"
+      set_if = {{ macro("$notification_mail_smtp_message_template_short$") != false }}
+    } 
+    "--message-template-additional" = {
+      value = "$notification_mail_smtp_message_template_additional$"
+      set_if = {{ macro("$notification_mail_smtp_message_template_additional$") != false }}
+    } 
+    "-r" = {
+      value = "$notification_mail_smtp_recipients$"
+      set_if = {{ macro("$notification_mail_smtp_recipients$") != false }}
+      repeat_key = true
+    }
+"""
+
+    def get_arguments_host(self) -> str:
+        config = '{\n' + self.get_default_arguments_host() + self.get_mail_smtp_args() + '}\n'
         config += self.get_default_vars_host()
 
         return config
 
-    def get_arguments_service(self):
-        config = '{\n' + self.get_default_arguments_service() + """
-   "-r" = {
-      value = "$notification_email$"
-      required = true
-    }       
-}"""
+    def get_arguments_service(self) -> str:
+        config = '{\n' + self.get_default_arguments_service() + self.get_mail_smtp_args() + '}\n'
+
         config += self.get_default_vars_service()
 
         return config

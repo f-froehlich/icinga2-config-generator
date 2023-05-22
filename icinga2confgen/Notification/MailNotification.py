@@ -2,6 +2,7 @@
 # -*- coding: utf-8
 from __future__ import annotations
 
+from ctypes import Union
 from typing import List
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
@@ -35,8 +36,101 @@ from icinga2confgen.ValueMapper import ValueMapper
 #
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 
-
 class MailNotification(Notification):
+
+    def __init__(self, id: str):
+        Notification.__init__(self, id)
+        self.__user = None
+        self.__secret = None
+        self.__sender = None
+        self.__host = "localhost"
+        self.__port = 25
+        self.__use_ssl = False
+        self.__use_starttls = False
+
+        self.__subject_template = None
+        self.__message_template_short = None
+        self.__message_template_additional = None
+
+    def set_user(self, user: Union[str, None]) -> MailNotification:
+        self.__user = user
+
+        return self
+
+    def get_user(self) -> Union[str, None]:
+        return self.__user
+
+    def set_secret(self, secret: Union[str, None]) -> MailNotification:
+        self.__secret = secret
+
+        return self
+
+    def get_secret(self) -> Union[str, None]:
+        return self.__secret
+
+    def set_sender(self, sender: Union[str, None]) -> MailNotification:
+        self.__sender = sender
+
+        return self
+
+    def get_sender(self):
+        return self.__sender
+
+    def set_host(self, host: str) -> MailNotification:
+        self.__host = host
+
+        return self
+
+    def get_host(self) -> str:
+        return self.__host
+
+    def set_port(self, port: int) -> MailNotification:
+        self.__port = port
+
+        return self
+
+    def get_port(self) -> int:
+        return self.__port
+
+    def set_use_ssl(self, use_ssl: bool) -> MailNotification:
+        self.__use_ssl = use_ssl
+
+        return self
+
+    def get_use_ssl(self) -> bool:
+        return self.__use_ssl
+
+    def set_use_starttls(self, use_starttls: bool) -> MailNotification:
+        self.__use_starttls = use_starttls
+
+        return self
+
+    def get_use_starttls(self) -> bool:
+        return self.__use_starttls
+
+    def set_subject_template(self, subject_template: Union[str, None]) -> MailNotification:
+        self.__subject_template = subject_template
+
+        return self
+
+    def get_subject_template(self) -> Union[str, None]:
+        return self.__subject_template
+
+    def set_message_template_short(self, message_template_short: Union[str, None]) -> MailNotification:
+        self.__message_template_short = message_template_short
+
+        return self
+
+    def get_message_template_short(self) -> Union[str, None]:
+        return self.__message_template_short
+
+    def set_message_template_additional(self, message_template_additional: Union[str, None]) -> MailNotification:
+        self.__message_template_additional = message_template_additional
+
+        return self
+
+    def get_message_template_additional(self) -> Union[str, None]:
+        return self.__message_template_additional
 
     @staticmethod
     def create(id: str, force_create: bool = False) -> MailNotification:
@@ -50,16 +144,40 @@ class MailNotification(Notification):
         return notification
 
     def get_command_config(self) -> MailNotificationCommand:
-        return MailNotificationCommand.create('mail')
+        return MailNotificationCommand.create('mail_smtp')
+
+    def mail_smtp_config_function(self, emails: List[str]) -> List[str]:
+
+        if None is not self.__user and None is self.__secret:
+            raise Exception('If user is set you have to set secret as well in ' + self.get_id())
+        if None is self.__user and None is not self.__secret:
+            raise Exception('If secret is set you have to set user as well in ' + self.get_id())
+
+        if None is self.__sender:
+            raise Exception('Sender not set in ' + self.get_id())
+
+        config = [
+            ValueMapper.parse_var('vars.notification_mail_smtp_recipients', emails) + '\n' +
+            ValueMapper.parse_var('vars.notification_mail_smtp_user', self.__user) + '\n' +
+            ValueMapper.parse_var('vars.notification_mail_smtp_secret', self.__secret) + '\n' +
+            ValueMapper.parse_var('vars.notification_mail_smtp_sender', self.__sender) + '\n' +
+            ValueMapper.parse_var('vars.notification_mail_smtp_host', self.__host) + '\n' +
+            ValueMapper.parse_var('vars.notification_mail_smtp_subject_template', self.__subject_template) + '\n' +
+            ValueMapper.parse_var('vars.notification_mail_smtp_message_template_short',
+                                  self.__message_template_short) + '\n' +
+            ValueMapper.parse_var('vars.notification_mail_smtp_message_template_additional',
+                                  self.__message_template_additional) + '\n'
+        ]
+        return config
 
     def user_config_function(self, user: User) -> List[str]:
-        email_config = []
-        for email in user.get_email():
-            email_config.append(ValueMapper.parse_var('vars.notification_email', email))
-        return email_config
+        if 0 == len(user.get_email()):
+            return []
+
+        return self.mail_smtp_config_function(user.get_email())
 
     def group_config_function(self, group: UserGroup) -> List[str]:
-        email_config = []
-        for email in group.get_email():
-            email_config.append(ValueMapper.parse_var('vars.notification_email', email))
-        return email_config
+        if 0 == len(group.get_email()):
+            return []
+
+        return self.mail_smtp_config_function(group.get_email())
