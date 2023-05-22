@@ -228,6 +228,20 @@ class Notification:
         all_users = ConfigBuilder.get_instance('users')
 
         configured_users = []
+
+        # configure users set in this notification
+        for user in self.__users:
+            if user in configured_users:
+                continue
+
+            # write config for user
+            configured_users.append(user)
+            user_data_config = enumerate(self.user_config_function(user))
+            for key, config in user_data_config:
+                notification_id = 'notification_' + self.get_id() + '_user_' + user.get_id() + '_' + str(key)
+                config_user += self.get_assign_config(config, notification_id, users=[user])
+
+        # configure groups set in this notification
         for group in self.__user_groups:
             for user in all_users:
                 # do not send multiple notifications to a user and only send, if user should receive notification
