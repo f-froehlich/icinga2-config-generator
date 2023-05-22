@@ -76,11 +76,7 @@ class NotificationCommand:
         return config
 
     def get_default_arguments_host(self) -> str:
-        return """
-    "-d" = {
-      value = "$icinga.long_date_time$"
-      required = true
-    }
+        return self.get_default_arguments() + """
     "-l" = {
       value = "$host.name$"
       required = true
@@ -95,6 +91,15 @@ class NotificationCommand:
     }
     "-s" = {
       value = "$host.state$"
+      required = true
+    }
+"""
+
+    def get_default_arguments(self) -> str:
+
+        return """
+    "-d" = {
+      value = "$icinga.long_date_time$"
       required = true
     }
     "-4" = {
@@ -134,8 +139,24 @@ class NotificationCommand:
         return ''
 
     def get_default_arguments_service(self) -> str:
-        config = self.get_default_arguments_host()
+        config = self.get_default_arguments()
         config += """
+    "-l" = {
+      value = "$service.name$"
+      required = true
+    }
+    "-n" = {
+      value = "$service.display_name$"
+      required = true
+    }
+    "-o" = {
+      value = "$service.output$"
+      required = true
+    }
+    "-s" = {
+      value = "$service.state$"
+      required = true
+    }
     "-e" = {
       value = "$service.name$"
       required = true
