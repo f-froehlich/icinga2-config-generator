@@ -162,6 +162,10 @@ class MailNotification(Notification):
             ValueMapper.parse_var('vars.notification_mail_smtp_secret', self.__secret) + '\n' +
             ValueMapper.parse_var('vars.notification_mail_smtp_sender', self.__sender) + '\n' +
             ValueMapper.parse_var('vars.notification_mail_smtp_host', self.__host) + '\n' +
+            ValueMapper.parse_var('vars.notification_mail_smtp_port', self.__port) + '\n' +
+            ValueMapper.parse_var('vars.notification_mail_smtp_port', self.__port) + '\n' +
+            ValueMapper.parse_var('vars.notification_mail_smtp_use_ssl', self.__use_ssl) + '\n' +
+            ValueMapper.parse_var('vars.notification_mail_smtp_use_starttls', self.__use_starttls) + '\n' +
             ValueMapper.parse_var('vars.notification_mail_smtp_subject_template', self.__subject_template) + '\n' +
             ValueMapper.parse_var('vars.notification_mail_smtp_message_template_short',
                                   self.__message_template_short) + '\n' +
