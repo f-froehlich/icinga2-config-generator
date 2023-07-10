@@ -157,5 +157,5 @@ def os_ubuntu_20_04() -> OS: return OS.create('ubuntu_20_04').set_distro('ubuntu
 def os_ubuntu_20_10() -> OS: return OS.create('ubuntu_20_10').set_distro('ubuntu').set_version('20.10').set_os(
     'Ubuntu 20.10 STS (Groovy Gorilla)').add_package_manager(apt())
 
-def os_ubuntu_2_04() -> OS: return OS.create('ubuntu_22_04').set_distro('ubuntu').set_version('22.04').set_os(
+def os_ubuntu_22_04() -> OS: return OS.create('ubuntu_22_04').set_distro('ubuntu').set_version('22.04').set_os(
     '22.04.2 LTS (Jammy Jellyfish)').add_package_manager(apt())
