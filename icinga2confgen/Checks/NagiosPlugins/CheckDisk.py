@@ -204,6 +204,7 @@ class CheckDisk(Check):
         return self.__path
 
     def set_exclude_device(self, exclude_device: typing.Union[str, None]) -> T:
+        # TODO this is repeatable
         self.__exclude_device = exclude_device
         return self
 
