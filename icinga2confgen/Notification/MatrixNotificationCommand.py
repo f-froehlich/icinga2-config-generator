@@ -46,10 +46,10 @@ class MatrixNotificationCommand(NotificationCommand):
         return notification
 
     def get_command_executable_host(self) -> str:
-        return 'http_post_notification_host.py'
+        return 'matrix_notification_host.py'
 
     def get_command_executable_service(self) -> str:
-        return 'http_post_notification_service.py'
+        return 'matrix_notification_service.py'
 
     def validate(self):
         pass
