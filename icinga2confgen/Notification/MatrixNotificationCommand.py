@@ -26,21 +26,21 @@
 from __future__ import annotations
 
 from icinga2confgen.ConfigBuilder import ConfigBuilder
-from icinga2confgen.Notification.NotificationNotification import NotificationNotification
+from icinga2confgen.Notification.NotificationCommand import NotificationCommand
 from icinga2confgen.ValueChecker import ValueChecker
 
 
-class MatrixNotificationNotification(NotificationNotification):
+class MatrixNotificationCommand(NotificationCommand):
 
     def __init__(self, id: str):
-        NotificationNotification.__init__(self, id)
+        NotificationCommand.__init__(self, id)
 
     @staticmethod
-    def create(id: str, force_create: bool = False) -> MatrixNotificationNotification:
+    def create(id: str, force_create: bool = False) -> MatrixNotificationCommand:
         ValueChecker.validate_id(id)
         notification = None if force_create else ConfigBuilder.get_notification_command(id)
         if None is notification:
-            notification = MatrixNotificationNotification(id)
+            notification = MatrixNotificationCommand(id)
             ConfigBuilder.add_notification_command(id, notification)
 
         return notification
@@ -92,6 +92,14 @@ class MatrixNotificationNotification(NotificationNotification):
       value = "$notification_matrix_timeout$"
       set_if = {{ macro("$notification_matrix_timeout$") != false }}
     }
+    "--message-template-short" = {
+      value = "$notification_matrix_message_template_short$"
+      set_if = {{ macro("$notification_matrix_message_template_short$") != false }}
+    } 
+    "--message-template-additional" = {
+      value = "$notification_matrix_message_template_additional$"
+      set_if = {{ macro("$notification_matrix_message_template_additional$") != false }}
+    } 
 """
 
     def get_arguments_host(self) -> str:
