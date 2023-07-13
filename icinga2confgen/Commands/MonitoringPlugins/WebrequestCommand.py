@@ -40,7 +40,7 @@ class WebrequestCommand(MonitoringPluginCommand):
 
 
     def get_command(self) -> str:
-        return 'check_""" + self.__command_name + """.py'
+        return 'check_' + self.__command_name + '.py'
 
     def get_arguments(self) -> str:
         config = """

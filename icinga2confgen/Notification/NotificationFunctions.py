@@ -36,6 +36,7 @@ class NotificationFunctions:
         self.__phone: List[str] = []
         self.__pager: List[str] = []
         self.__telegram: List[int] = []
+        self.__matrix_users: List[str] = []
 
     def add_email(self, email: str) -> NotificationFunctions:
         if email not in self.__email:
@@ -49,6 +50,21 @@ class NotificationFunctions:
 
     def get_email(self) -> List[str]:
         return self.__email
+
+    def add_matrix_user(self, user: str) -> NotificationFunctions:
+        if user not in self.__matrix_users:
+            self.__matrix_users.append(user)
+
+        return self
+
+    def remove_matrix_user(self, user: str) -> NotificationFunctions:
+        if user in self.__matrix_users:
+            self.__matrix_users.remove(user)
+
+        return self
+
+    def get_matrix_users(self) -> List[str]:
+        return self.__matrix_users
 
     def add_telegram_id(self, telegram_id: int) -> NotificationFunctions:
         if telegram_id not in self.__telegram:

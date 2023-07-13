@@ -98,7 +98,7 @@ class NotificationCommand:
       value = "$host.display_name$"
       required = true
     }
-    "-d" = {
+    "-D" = {
       value = "$icinga.long_date_time$"
       required = true
     }
@@ -145,7 +145,7 @@ class NotificationCommand:
       value = "$service.output$"
       required = true
     }
-    "-s" = {
+    "-a" = {
       value = "$service.state$"
       required = true
     }
@@ -153,7 +153,7 @@ class NotificationCommand:
       value = "$service.name$"
       required = true
     }
-    "-u" = {
+    "-E" = {
       value = "$service.display_name$"
       required = true
     }
