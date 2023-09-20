@@ -62,4 +62,8 @@ class TemperatureCommand(SNMPCommand):
       value = "$command_temperature_critical$"
       set_if = {{ macro("$command_temperature_critical$") != false }}
     }
+    "--spare" = {
+      value = "$command_temperature_spare$"
+      repeat_key = true
+    }
 """
