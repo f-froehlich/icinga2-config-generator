@@ -44,7 +44,6 @@ class CheckTemperature(CheckSNMP):
 
         self.__warning: int = 35
         self.__critical: int = 45
-        self.__spare: typing.List[int]
 
     def set_warning(self: T, warning: int) -> T:
         self.__warning = warning
@@ -59,19 +58,6 @@ class CheckTemperature(CheckSNMP):
 
     def get_critical(self: T) -> int:
         return self.__critical
-
-    def add_spare(self:T, disk:int) -> T:
-        if disk not in self.__spare:
-            self.__spare.append(disk)
-        return self
-    def remove_spare(self:T, disk:int) -> T:
-        if disk in self.__spare:
-            self.__spare.remove(disk)
-        return self
-
-    def get_spare(self:T) -> typing.List[int]:
-
-        return self.__spare
 
     @staticmethod
     def create(id: str, force_create: bool = False) -> T:

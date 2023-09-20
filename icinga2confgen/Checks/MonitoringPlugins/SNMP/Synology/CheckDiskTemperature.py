@@ -47,6 +47,7 @@ class CheckDiskTemperature(CheckSNMP):
         self.__disks: Union[int, None] = None
         self.__warning: Union[int, None] = 30
         self.__critical: Union[int, None] = 40
+        self.__spare: typing.List[int]
 
     def set_disks(self: T, number: int) -> T:
         self.__disks = number
@@ -68,6 +69,19 @@ class CheckDiskTemperature(CheckSNMP):
 
     def get_critical(self: T) -> Union[int, None]:
         return self.__critical
+
+    def add_spare(self:T, disk:int) -> T:
+        if disk not in self.__spare:
+            self.__spare.append(disk)
+        return self
+    def remove_spare(self:T, disk:int) -> T:
+        if disk in self.__spare:
+            self.__spare.remove(disk)
+        return self
+
+    def get_spare(self:T) -> typing.List[int]:
+
+        return self.__spare
 
     def validate(self: T):
         CheckSNMP.validate(self)
