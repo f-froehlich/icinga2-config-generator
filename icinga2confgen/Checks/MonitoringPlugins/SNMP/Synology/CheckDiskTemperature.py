@@ -47,7 +47,7 @@ class CheckDiskTemperature(CheckSNMP):
         self.__disks: Union[int, None] = None
         self.__warning: Union[int, None] = 30
         self.__critical: Union[int, None] = 40
-        self.__spare: typing.List[int]
+        self.__spare: typing.List[int] = []
 
     def set_disks(self: T, number: int) -> T:
         self.__disks = number
