@@ -58,6 +58,13 @@ class SSHTemplate(PluginDirs):
     def get_id(self) -> str:
         return self.__id
 
+    def set_timeout(self, timeout: int) -> SSHTemplate:
+        self.__timeout = timeout
+        return self
+
+    def get_timeout(self) -> int:
+        return self.__timeout
+
     def set_hostname(self, hostname: str) -> SSHTemplate:
         self.__host = hostname
         return self
