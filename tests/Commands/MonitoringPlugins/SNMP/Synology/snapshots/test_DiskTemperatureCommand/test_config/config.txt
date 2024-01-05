@@ -38,6 +38,10 @@ set_if = {{ macro("$command_disk_temperature_warning$") != false }}
 value = "$command_disk_temperature_critical$"
 set_if = {{ macro("$command_disk_temperature_critical$") != false }}
 }
+"--spare" = {
+value = "$command_disk_temperature_spare$"
+repeat_key = true
+}
 
 }
 
@@ -81,6 +85,10 @@ set_if = {{ macro("$command_disk_temperature_warning$") != false }}
 "-c" = {
 value = "$command_disk_temperature_critical$"
 set_if = {{ macro("$command_disk_temperature_critical$") != false }}
+}
+"--spare" = {
+value = "$command_disk_temperature_spare$"
+repeat_key = true
 }
 
 }
@@ -170,6 +178,10 @@ set_if = {{ macro("$command_disk_temperature_warning$") != false }}
 value = "$command_disk_temperature_critical$"
 set_if = {{ macro("$command_disk_temperature_critical$") != false }}
 }
+"--spare" = {
+value = "$command_disk_temperature_spare$"
+repeat_key = true
+}
 
 }
 
@@ -234,6 +246,10 @@ set_if = {{ macro("$command_disk_temperature_warning$") != false }}
 "-c" = {
 value = "$command_disk_temperature_critical$"
 set_if = {{ macro("$command_disk_temperature_critical$") != false }}
+}
+"--spare" = {
+value = "$command_disk_temperature_spare$"
+repeat_key = true
 }
 
 }

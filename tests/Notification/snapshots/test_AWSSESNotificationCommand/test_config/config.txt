@@ -2,10 +2,6 @@ object NotificationCommand "command_host_instance" {
 command = [ "$monitoring_script_dir$/aws_ses_notification_host.py"]
 arguments = {
 
-"-d" = {
-value = "$icinga.long_date_time$"
-required = true
-}
 "-l" = {
 value = "$host.name$"
 required = true
@@ -14,12 +10,8 @@ required = true
 value = "$host.display_name$"
 required = true
 }
-"-o" = {
-value = "$host.output$"
-required = true
-}
-"-s" = {
-value = "$host.state$"
+"-D" = {
+value = "$icinga.long_date_time$"
 required = true
 }
 "-4" = {
@@ -52,6 +44,15 @@ required = true
 }
 "-v" = {
 set_if = "$notification_logtosyslog$"
+}
+
+"-o" = {
+value = "$host.output$"
+required = true
+}
+"-s" = {
+value = "$host.state$"
+required = true
 }
 
 "-k" = {
@@ -94,10 +95,6 @@ object NotificationCommand "command_service_instance" {
 command = [ "$monitoring_script_dir$/aws_ses_notification_service.py"]
 arguments = {
 
-"-d" = {
-value = "$icinga.long_date_time$"
-required = true
-}
 "-l" = {
 value = "$host.name$"
 required = true
@@ -106,12 +103,8 @@ required = true
 value = "$host.display_name$"
 required = true
 }
-"-o" = {
-value = "$host.output$"
-required = true
-}
-"-s" = {
-value = "$host.state$"
+"-D" = {
+value = "$icinga.long_date_time$"
 required = true
 }
 "-4" = {
@@ -146,11 +139,19 @@ required = true
 set_if = "$notification_logtosyslog$"
 }
 
+"-o" = {
+value = "$service.output$"
+required = true
+}
+"-a" = {
+value = "$service.state$"
+required = true
+}
 "-e" = {
 value = "$service.name$"
 required = true
 }
-"-u" = {
+"-E" = {
 value = "$service.display_name$"
 required = true
 }

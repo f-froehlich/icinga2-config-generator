@@ -1,9 +1,5 @@
 {
 
-"-d" = {
-value = "$icinga.long_date_time$"
-required = true
-}
 "-l" = {
 value = "$host.name$"
 required = true
@@ -12,12 +8,8 @@ required = true
 value = "$host.display_name$"
 required = true
 }
-"-o" = {
-value = "$host.output$"
-required = true
-}
-"-s" = {
-value = "$host.state$"
+"-D" = {
+value = "$icinga.long_date_time$"
 required = true
 }
 "-4" = {
@@ -52,11 +44,19 @@ required = true
 set_if = "$notification_logtosyslog$"
 }
 
+"-o" = {
+value = "$service.output$"
+required = true
+}
+"-a" = {
+value = "$service.state$"
+required = true
+}
 "-e" = {
 value = "$service.name$"
 required = true
 }
-"-u" = {
+"-E" = {
 value = "$service.display_name$"
 required = true
 }

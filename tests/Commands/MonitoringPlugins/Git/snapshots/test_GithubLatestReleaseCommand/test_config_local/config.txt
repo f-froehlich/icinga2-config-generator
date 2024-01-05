@@ -1,0 +1,18 @@
+object CheckCommand "command_instance_local" {
+  command = [ "$monitoring_plugin_dir$" + "/check_github_latest_release.py"]
+  arguments = {
+    "-r" = {
+      value = "$command_GithubLatestRelease_repository$"
+      required = true
+    }
+    "-e" = {
+      value = "$command_GithubLatestRelease_expected$"
+      required = true
+    }
+    "--timeout" = {
+      value = "$command_GithubLatestRelease_timeout$"
+      set_if = {{ macro("$command_GithubLatestRelease_timeout$") != false }}
+    }
+  }
+
+}

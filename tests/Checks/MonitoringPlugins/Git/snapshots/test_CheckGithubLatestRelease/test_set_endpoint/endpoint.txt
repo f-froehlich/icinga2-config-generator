@@ -1,0 +1,15 @@
+apply Service "instance" {
+check_command = "command_monitoring_plugins_GithubLatestRelease_local"
+vars.command_GithubLatestRelease_expected = "expected"
+vars.command_GithubLatestRelease_repository = "repository"
+vars.command_GithubLatestRelease_timeout = 10
+display_name = "Github latest release"
+zone = host.vars.zone_name
+command_endpoint = "endpoint"
+check_interval = 15m
+retry_interval = 15s
+max_check_attempts = 3
+enable_perfdata = true
+check_timeout = 30
+assign where "instance" in host.vars.checks
+}

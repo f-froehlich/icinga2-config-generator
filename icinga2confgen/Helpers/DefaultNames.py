@@ -160,6 +160,7 @@ def get_default_check_name(id: str, command_name: str) -> str:
         'file_age': 'File age',
         'flexlm': 'Flexlm',
         'ftp': 'FTP',
+        'GithubLatestRelease': 'Github latest release',
         'group_members': 'Group members',
         'hpjd': 'HP JD',
         'http': 'Http',

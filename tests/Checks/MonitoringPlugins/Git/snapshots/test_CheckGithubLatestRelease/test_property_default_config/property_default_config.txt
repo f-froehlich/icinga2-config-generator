@@ -1,0 +1,3 @@
+vars.command_GithubLatestRelease_expected = "expected"
+vars.command_GithubLatestRelease_repository = "repository"
+vars.command_GithubLatestRelease_timeout = 10
