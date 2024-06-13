@@ -53,18 +53,22 @@ class DiskCommand(Command):
     "--warning" = {
       value = "$command_disk_warning$"
       required = true
+      order = 0
     }
     "--critical" = {
       value = "$command_disk_critical$"
       required = true
+      order = 0
     }
     "--iwarning" = {
       value = "$command_disk_inode_warning$%"
       required = true
+      order = 0
     }
     "--icritical" = {
       value = "$command_disk_inode_critical$%"
       required = true
+      order = 0
     }
     "--path" = {
       value = "$command_disk_path$"
