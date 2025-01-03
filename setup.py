@@ -48,6 +48,7 @@ setup_args = dict(
 
 install_requires = [
     'tqdm',
+    'sha256',
     # 'pytest',
     # 'pytest-cov',
     # 'pytest-snapshot',
