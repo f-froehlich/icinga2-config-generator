@@ -24,7 +24,7 @@
 #  For all license terms see README.md and LICENSE Files in root directory of this Project.
 import os
 import shutil
-from _sha256 import sha256
+from sha256 import sha256
 from pathlib import Path
 
 from tqdm import tqdm

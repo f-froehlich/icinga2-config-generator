@@ -82,6 +82,7 @@ class DiskCommand(Command):
     "--exclude_device" = {
       value = "$command_disk_exclude_device$"
       set_if = {{ macro("$command_disk_exclude_device$") != false }}
+      repeat_key = true
     }
     "--clear" = {
       set_if = "$command_disk_clear_thresholds$"

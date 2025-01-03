@@ -43,7 +43,7 @@ class CheckDisk(Check):
         self.__inode_critical = 10
         self.__path = []
         self.__partition = None
-        self.__exclude_device = None
+        self.__exclude_device = []
         self.__clear_thresholds = False
         self.__exact_match = False
         self.__errors_only = False
@@ -203,12 +203,21 @@ class CheckDisk(Check):
     def get_path(self) -> typing.List[str]:
         return self.__path
 
-    def set_exclude_device(self, exclude_device: typing.Union[str, None]) -> T:
-        # TODO this is repeatable
+    def set_exclude_device(self, exclude_device: typing.List[str]) -> T:
         self.__exclude_device = exclude_device
         return self
 
-    def get_exclude_device(self) -> typing.Union[str, None]:
+    def add_exclude_device(self, exclude_device: str) -> T:
+        if exclude_device not in self.__exclude_device:
+            self.__exclude_device.append(exclude_device)
+        return self
+
+    def remove_exclude_device(self, exclude_device: str) -> T:
+        if exclude_device in self.__exclude_device:
+            self.__exclude_device.remove(exclude_device)
+        return self
+
+    def get_exclude_device(self) -> typing.List[str]:
         return self.__exclude_device
 
     def set_partition(self, partition: typing.Union[str, None]) -> T:

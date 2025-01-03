@@ -10,12 +10,10 @@ object CheckCommand "command_instance_local" {
       set_if = {{ macro("$command_dig_dnsserver_port$") != false }}
     }
     "--use-ipv4" = {
-      value = "$command_dig_only_ipv4$"
-      set_if = {{ macro("$command_dig_only_ipv4$") != false }}
+      set_if = "$command_dig_only_ipv4$"
     }
     "--use-ipv6" = {
-      value = "$command_dig_only_ipv6$"
-      set_if = {{ macro("$command_dig_0nly_ipv6$") != false }}
+      set_if = "$command_dig_only_ipv6$"
     }
     "--query_address" = {
       value = "$command_dig_question$"
